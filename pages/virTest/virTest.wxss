@@ -1,0 +1,23 @@
+/* pages/virTest/virTest.wxss */
+page{
+    background: #fff;
+}
+.vir-top-wrapper{
+    width: 750rpx;
+    border-top: 1rpx solid #cecece;
+    padding:27rpx 30rpx ;
+    display: flex;
+    
+}
+#gl1{
+    text-align: center;
+    width: 15rpx;
+    height: 15rpx;
+    position: absolute;
+    top: 50%;
+    right: 22rpx;
+    border-left: 1rpx solid #CCCCCC;
+    border-bottom: 1rpx solid #cccccc;
+    -webkit-transform: translate(0,-50%) rotate(-135deg);
+    transform: translate(0,-50%) rotate(-135deg);
+}

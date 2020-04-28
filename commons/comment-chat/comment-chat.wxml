@@ -1,0 +1,23 @@
+<view class="form">
+    <view class="form-content">
+        <form bindsubmit="submit" reportSubmit="true">
+            <view class="flex-inner">
+                <image bindtap="chooseImg" class="chooseimg" src="https://we7.zhouhaovip.com/icon-add-img2.png" wx:if="{{img_list.length<5}}"></image>
+                <textarea bindblur="input" bindconfirm="input" bindinput="input" class="we-chat-box" focus="{{focus}}" name="content" placeholder="{{name}}" placeholderStyle="color:#eee;" showConfirmBar="false" value="{{content}}"></textarea>
+                <view class="img-block flex-row">
+                    <image bindtap="deleteImg" data-index="{{index}}" src="{{item}}" wx:if="{{img_list.length>0}}" wx:for="{{img_list}}"></image>
+                </view>
+                <image bindtap="showpop" class="reward-icon" src="/images/back-icon-reward.png"></image>
+                <view class="form-block flex-y-center">
+                    <view class="flex-row" style="width:100%;">
+                        <view class="flex-grow-1"></view>
+                        <view class="flex-grow-0 flex-row flex-y-center">
+                            <block wx:if="{{img_list.length<5}}"></block>
+                            <button class="submit flex-grow-1 {{content!=''||img_list.length>0?'active':''}}" formType="submit">发送</button>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </form>
+    </view>
+</view>

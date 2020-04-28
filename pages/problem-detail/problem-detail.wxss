@@ -1,0 +1,42 @@
+/* pages/problem-detail/problem-detail.wxss */
+page{
+    background:#fff
+}
+.titleOftop{
+    display: block;
+    margin-top: 43rpx;
+    margin-left: 40rpx;
+    font-size: 32rpx;
+    color: #333333;
+    font-weight: Medium;
+    letter-spacing: 2rpx;
+    font-family: 'PingFang-SC-Medium';
+}
+.top-title{
+    width: 750rpx;
+    height: 100rpx;
+    border:1rpx solid rgba(238,238,238,1);
+    padding-left: 40rpx;
+    color:rgba(25,159,255,1);
+    font-size:32rpx;
+    font-family:PingFang SC;
+    font-weight:bold;
+    display: flex;
+    justify-content: flex-start;
+   align-items: center;
+}
+.content{
+    margin-left: 40rpx;
+    display: flex;
+    flex-direction:column;
+    margin-right: 41rpx;
+
+}
+.content-detail{
+    margin-top: 45rpx;
+    font-weight: Medium;
+    letter-spacing: 2rpx;
+    font-size: 30rpx;
+    color: #333333;
+    font-family: 'PingFang-SC-Medium';
+}

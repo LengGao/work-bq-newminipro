@@ -1,0 +1,159 @@
+ .logo {
+    width: 128rpx;
+    height: 128rpx;
+    margin: 0 auto;
+    border: 2rpx solid #ccc;
+    border-radius: 100%;
+}
+
+.logo image {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.button0 {
+    width: 60%;
+    margin: 100rpx auto;
+    background-color: #50c750;
+    color: #fff;
+}
+
+.container {
+    margin-top: 110px;
+}
+
+.btn-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.btn-box button {
+    width: 260rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin: 80rpx 20rpx;
+}
+
+.login_logo {
+    padding:30rpx;
+}
+.login_logo image {
+    width:690rpx;
+    height:690rpx;
+    border-radius: 10rpx;
+}
+.login_btn {
+    text-align: center;
+    width:550rpx;
+    height:88rpx;
+    line-height: 88rpx;
+    margin:80rpx auto;
+    background: #00b164;
+    color:#fff;
+    font-size: 36rpx;
+}
+.login_cover {
+    position: fixed;
+    left:0;
+    top:0;
+    right:0;
+    bottom: 0;
+    background:rgba(0,0,0,0.6);
+    z-index:100;
+}
+.login_cover .login_phone {
+    width:530rpx;
+    height:550rpx;
+    border-radius: 10rpx;
+    background:#fff;
+    position: absolute;
+    left:calc(50% - 265rpx);
+    top:calc(50% - 275rpx);
+    overflow: hidden;
+}
+.login_cover .login_phone .login_title {
+    height:90rpx;
+    line-height: 90rpx;
+    box-sizing: border-box;
+    border-bottom: 1px solid #c9c9c9;   
+    font-size: 35rpx;
+    text-align: center;
+    font-weight: 600;
+}
+.login_cover .login_phone .login_btn_box {
+    height:90rpx;
+    line-height: 90rpx;
+    border-top: 1px solid #c9c9c9;
+    font-size: 30rpx;
+    text-align: center;
+}
+.login_cover .login_phone .login_btn_box button {
+    float: left;
+    width:50%;
+    box-sizing: border-box;
+    background:#fff;
+    border:0;
+    border-radius: 0;
+    font-size: 32rpx;
+    padding:4rpx 0;
+    color:#00b164;
+}
+.login_cover .login_phone .login_btn_box button:first-child {border-right:1px solid #c9c9c9;color:#000;}
+.login_cover .login_content_phone {
+    height:378rpx;
+    text-align: center;
+}
+.login_cover .login_content_phone icon {
+    margin:36rpx 0 30rpx;
+}
+.login_cover .login_content_phone > view {
+    font-size: 30rpx;
+    margin-bottom: 20rpx;
+    font-weight: 600;
+}
+.login_cover .login_content_phone .login_content_v {
+    color: #676767;
+    font-size: 28rpx;
+    padding-top: 10rpx;
+    border-top:1px solid #c9c9c9;
+    width:410rpx;
+    margin:0 auto;
+    font-weight: 500;
+}
+
+.login_get_phone {
+  margin-top: 10rpx;
+  font-weight: bold;
+  font-size: 34rpx;
+
+} 
+page{
+    background:#FFFFFF
+}
+.top-image-auth {
+    width:280rpx;
+    height: 81rpx;
+    margin: 61rpx 235rpx 0 235rpx;
+}
+.middle-image-auth{
+    width: 670rpx;
+    height: 622rpx;
+    margin: 100rpx 40rpx 0 40rpx;
+}
+.denglu{
+    margin-top: 80rpx;
+    margin-left: 125rpx;
+    width:500rpx;
+    height:80rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:2rpx solid rgba(25,159,255,1);
+    border-radius:40rpx;
+    font-size:36rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(25,159,255,1);
+}

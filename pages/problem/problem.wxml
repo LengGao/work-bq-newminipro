@@ -1,0 +1,12 @@
+
+<view class="top-wrapper">
+ <view>  <image src="../../images/fankuizhongxin.png" mode="widthFix"  class="top-container"/> </view>
+    <text class="title">常见问题</text>
+    <navigator class="totalPro" url="{{item.url}}"  wx:for="{{ commonPro }}" wx:key="index" hover-class="none">
+      <view class="everyPro">
+         <text class="proText">{{ item.name }}</text>
+         <text id="gl2"></text>
+      </view>
+    </navigator>
+   <view class="fankui" bindtap="toquestion">我要反馈</view>
+</view>

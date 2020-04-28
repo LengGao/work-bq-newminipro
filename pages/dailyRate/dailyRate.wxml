@@ -1,0 +1,19 @@
+<view class="top-wrapper-daily-share">
+    <view style="width:356rpx;display:flex;">
+        <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">
+            打卡时间:
+        </view>
+        <view style="margin-left:10rpx;font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">
+            {{time}}
+        </view>
+    </view>
+    <view style="display:flex;align-items:center;vertical-align:middle">
+        <image style="width:24rpx;height:24rpx" src="../../images/shareImg (1).PNG" />
+        <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:#199FFF;margin-left:5rpx">
+            分享
+        </view>
+    </view>
+</view>
+<view style="">
+ <image style="" src="../../images/circle@2x.png" />
+</view>

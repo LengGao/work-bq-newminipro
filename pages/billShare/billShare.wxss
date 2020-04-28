@@ -1,0 +1,63 @@
+/* pages/billShare/billShare.wxss */
+page{
+    background: #199FFF;
+}
+.only-img{
+    width: 690rpx;
+    margin-left:30rpx ;
+    height: 1114rpx;
+    margin-top: 52rpx;
+    position: relative;
+}
+.myimg{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.biaoji{
+    width: 260rpx;
+    height: 260rpx;
+    position: absolute;
+    left: 215rpx;
+    top: 50rpx;
+}
+.pingjia{
+  font-size: 42rpx;
+  font-family: PingFang 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 800;
+  color: #FD6002;
+  position: absolute;
+  top: 360rpx;
+  left:202rpx ;
+}
+.jieyu{
+  position: absolute;
+  top: 441rpx;
+  left:115rpx;
+  width: 459rpx;
+  height: 68rpx;
+  line-height: 40rpx;
+  font-size: 28rpx;
+  color: #333333;
+  font-family: PingFang-SC-Medium;
+  font-weight: 600;
+  vertical-align:middle;
+  text-align:center;
+}
+.all-wrapper-xingxing{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 547rpx;
+    left: 110rpx;
+}
+.biaotiSingle{
+    font-size: 30rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #666666;
+}
+.xingxing{
+    display: flex;
+    justify-content: center;
+}

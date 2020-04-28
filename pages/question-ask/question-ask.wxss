@@ -1,0 +1,116 @@
+page {
+    background: #fff;
+  }
+  .header{
+    font-size:28rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+  }
+  .header2{
+    font-size:28rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+    margin-top: 40rpx;
+  }
+  .question-form {
+    margin: 41rpx 40rpx 0rpx 40rpx;
+  }
+  
+  .question-input-area {
+    background-color: #fff;
+    border: 1rpx solid #f2f2f2;
+    border-radius: 4rpx;
+  }
+  
+  .question-title-wrap {
+    display: flex;
+    align-items: center;
+    border-bottom: 1rpx solid #ccc;
+    margin: 10rpx 30rpx;
+    padding: 20rpx 0;
+  }
+  .weui-cell__bd{
+    border:2rpx solid rgba(238,238,238,1);
+  }
+  .question-title {
+    flex: 1;
+  }
+  
+  .weui-textarea-counter {
+    color: #b3b3b3;
+    font-size: 14px;
+    padding-left: 10rpx;
+    text-align: right;
+  
+  }
+  .weui-textarea{
+    margin: 0 ;
+    padding: 0 ;
+  }
+  /* .weui-cell::before,
+  .weui-cells::before,
+  .weui-cell::after,
+  .weui-cells::after {
+    border: none;
+  } */
+  .weui-cells{
+    margin-top: 32rpx;
+  }
+  .question-images-area {
+    padding: 40rpx 0;
+  }
+  
+  .question-images-tool {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+  
+  }
+  .top-server{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .question-images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30rpx;
+   
+  }
+  
+  .q-image-wrap {
+    width: 190rpx;
+    height: 190rpx;
+    margin-right: 30rpx;
+  }
+  
+  .q-image {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .q-image-remover {
+    text-align: center;
+  }
+  .submitContent{
+    margin-top: 100rpx;
+    margin-left: 85rpx;
+    width:500rpx;
+    height:80rpx;
+    background:rgba(25,159,255,1);
+    border-radius:40rpx;
+    font-size:36rpx;
+    font-family:'PingFang SC';
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height: 80rpx;
+    text-align: center;
+  }
+  
+  

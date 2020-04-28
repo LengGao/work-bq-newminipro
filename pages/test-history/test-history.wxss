@@ -1,0 +1,97 @@
+page {
+    background: #fff;
+}
+
+.choose-flow {
+    height: 80rpx;
+    padding: 0 30rpx;
+    align-items: center;
+    background: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 100;
+    top: 0;
+}
+
+.choose-flow picker {
+    width: calc(100% - 140rpx);
+}
+
+.xiala {
+    display: inline-block;
+    width: 14rpx;
+    transform: rotate(90deg);
+    opacity: 0.7;
+}
+
+.flow-cont {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.flow-type {
+    display: inline-block;
+    text-align: center;
+    width: calc(100% - 30rpx);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chapter-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0 40rpx;
+    box-sizing: border-box;
+}
+
+.chapter-list .chapter-item {
+    width: 47%;
+    position: relative;
+    height: 420rpx;
+    border-radius: 10rpx;
+    background-color: rgb(255,255,255);
+    box-shadow: 0px 3px 8px 0px rgba(230,230,230,0.4);
+    margin: 20rpx 0;
+}
+
+.chapter-list .chapter-item:nth-child(odd) {
+    margin-right: 6%;
+}
+
+.chapter-item .t-icon {
+    width: 100%;
+}
+
+.chapter-item .title {
+    display: block;
+    margin-top: 12rpx;
+    padding: 0 12rpx;
+    text-align: center;
+    overflow: hidden;
+    white-space: pre-wrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+
+.chapter-item .test-btn {
+    width: 168rpx;
+    height: 60rpx;
+    color: #fff;
+    background: #47c88a;
+    font-size: 28rpx;
+    text-align: center;
+    line-height: 60rpx;
+    border-radius: 4rpx;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 60rpx;
+}

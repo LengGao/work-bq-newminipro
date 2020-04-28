@@ -1,0 +1,7 @@
+<navigator class="activity-list" hoverClass="none" url="../activity-details/activity-details?id={{item.id}}" wx:for="{{activity}}">
+    <image class="img-act" src="{{item.adspic}}"></image>
+    <view>
+        <text class="name">{{item.title}}</text>
+        <text class="time">活动时间：{{item.time}}</text>
+    </view>
+</navigator>

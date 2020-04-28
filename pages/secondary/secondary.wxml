@@ -1,0 +1,73 @@
+<view class="white-bg">
+    <swiper autoplay="true" circular="true" class="home-swiper" duration="1000" indicatorDots="true" interval="3000">
+        <navigator hoverClass="none" url="{{item.url}}" wx:for="{{banner}}" wx:key="index">
+            <swiper-item class="swiper-img">
+                <image class="slide-image" src="{{item.url}}"></image>
+            </swiper-item>
+        </navigator>
+    </swiper>
+</view>
+<view class="flex-between tacitly second-content">
+    <view class="flex">
+        <view class="toutiao">
+            <image class="images" mode="widthFix" src="../../images/logos.png" />
+        </view>
+        <view class="shugang"></view>
+        <view class="contents flex-column">
+            <view class="flex-between">
+                <view class="type-content">直播</view>
+                <view class="content">系统集成初级会计师正在直播中</view>
+            </view>
+            <view class="flex-between">
+                <view class="type-content2">试题</view>
+                <view class="content">系统集成初级会计师高级初级中级大师课正在直播中</view>
+            </view>
+        </view>
+    </view>
+    <view id="gl"></view>
+</view>
+<view class="fenge"></view>
+<view class="function-select flex-around">
+    <view wx:for="{{ funsel }}" wx:key="index" class="fun-sel flex-column">
+        <image mode="widthFix" class='function-select-image' src="{{ item.url }}" />
+        <text class="function-select-name">{{ item.name }}</text>
+    </view>
+</view>
+<view class="fenge2"></view>
+<view class="hotpoint tacitly">
+    <view class="hotpoint-top flex-between">
+        <text class="tuijian">热门推荐</text>
+        <text class="allin">查看全部</text>
+    </view>
+    <view class="hotpoint-content ">
+        <view class="hotpoint-container" wx:for="{{ hotpoint }}" wx:key="index">
+              <navigator hover-class="none" url="../course-detail/course-detail?video_id=19">
+              <view  class="hotpoint-image"><image  style="width:100%;height:100%" src="{{ item.Picture }}" /></view>
+            </navigator>
+            <view class="container-title" >{{ item.title }}</view>
+            <view class="container-detail ">
+                <text class="container-price">￥{{ item.onlinePrice }}</text>
+                <text class="container-personal">{{ item.buy_number }}人购买</text>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="fenge2"></view>
+<view class="hotpoint tacitly" style="margin-bottom:20rpx">
+    <view class="hotpoint-top flex-between">
+        <text class="tuijian">免费课程</text>
+        <text class="allin">查看全部</text>
+    </view>
+    <view class="hotpoint-content ">
+        <view class="hotpoint-container" wx:for="{{ freeCourse }}" wx:key="index">
+            <image  class="hotpoint-image" src="{{ item.Picture }}" />
+            <view class="container-title">{{ item.title }}</view>
+            <view class="container-detail ">
+                <text class="container-price">免费</text>
+                <text class="container-personal">{{ item.buy_number }}人购买</text>
+            </view>
+        </view>
+    </view>
+</view>
+<import src="../tab-bar/tab-bar.wxml"></import>
+<template is="tabBar" data="{{tabBar:bindData.tabBar}}"></template>

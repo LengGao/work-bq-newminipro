@@ -1,0 +1,8 @@
+<!--pages/problem-detail/problem-detail.wxml-->
+<view class="top-title">{{ biaoti  }}</view>
+<view class="">
+ <text class="titleOftop">同学你好,请按照以下步骤操作~ </text>
+ <view class="content">
+  <text class="content-detail"  wx:for="{{ content }}" wx:key="index"> {{ item.con }} </text>
+ </view>
+</view>

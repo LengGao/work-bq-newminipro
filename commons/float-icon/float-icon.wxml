@@ -1,0 +1,13 @@
+<template name="item">
+    <view class="float-icon" direction="all" style="{{a==2?'bottom:150rpx':''}}">
+        <view bindtap="backTop" class="float-icon-1 flex-y-center" wx:if="{{a==1}}">
+            <image class="w-100 h-100" src="{{store.top_icon?store.top_icon:'/images/icon-user-top2.png'}}"></image>
+        </view>
+        <view bindtap="backIndex" class="float-icon-1 flex-y-center" wx:if="{{a==2}}">
+            <image class="w-100 h-100" src="{{store.index_icon?store.index_icon:'/images/icon-video-index.png'}}"></image>
+        </view>
+        <button class="float-icon-btn" openType="contact" wx:if="{{store.show_customer_service==1}}">
+            <image src="../../images/icon-wx2.png"></image>
+        </button>
+    </view>
+</template>

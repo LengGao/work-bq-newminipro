@@ -1,0 +1,10 @@
+<view class="flex-y-center flex-x-center flex-col" style="padding: 20rpx" wx:if="{{store.copyright||store.copyright_pic_url}}">
+    <view wx:if="{{store.copyright_pic_url}}">
+        <navigator url="{{store.copyright_url}}">
+            <image mode="aspectFit" src="{{store.copyright_pic_url}}" style="height: 60rpx;width: 240rpx"></image>
+        </navigator>
+    </view>
+    <view style="color: rgba(0,0,0,.3);font-size: 9pt;" wx:if="{{store.copyright}}">
+        <navigator url="{{store.copyright_url}}">{{store.copyright}}</navigator>
+    </view>
+</view>

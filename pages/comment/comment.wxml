@@ -1,0 +1,62 @@
+<view class="user-evaluation {{tabArr.curBdIndex=='1'?'active':''}} right-item">
+    <navigator class="evaluation-title flex-be" hoverClass="none" url="">
+        <text>晒单精选（2）</text>
+        <image class="act-arr" mode="widthFix" src="../../images/arrow-detail.png"></image>
+    </navigator>
+    <view class="comment-list">
+        <view class="comment-item">
+            <view class="user-info flex-be">
+                <view class="avatar flex-st">
+                    <image mode="widthFix" src="../../images/13285.jpg"></image>
+                    <text>张富贵</text>
+                </view>
+                <text class="date">2018-10-11</text>
+            </view>
+            <view class="comment-words">
+                <text>商家发货速度很快，昨天下单，今天就收到了，货物跟图片上的一样哈，绝对值。</text>
+            </view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">
+                        <view class="weui-uploader">
+                            <view class="weui-uploader__bd">
+                                <view class="weui-uploader__files">
+                                    <view bindtap="previewImage" class="weui-uploader__file" data-current="{{item}}" wx:for="{{urls}}" wx:key="{{ index }}">
+                                        <image class="weui-uploader__img" src="{{item}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="comment-item">
+            <view class="user-info flex-be">
+                <view class="avatar flex-st">
+                    <image mode="widthFix" src="../../images/13285.jpg"></image>
+                    <text>张富贵</text>
+                </view>
+                <text class="date">2018-10-11</text>
+            </view>
+            <view class="comment-words">
+                <text>商家发货速度很快，昨天下单，今天就收到了，货物跟图片上的一样哈，绝对值。</text>
+            </view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">
+                        <view class="weui-uploader">
+                            <view class="weui-uploader__bd">
+                                <view class="weui-uploader__files">
+                                    <view bindtap="previewImage" class="weui-uploader__file" data-current="{{item}}" wx:for="{{urls}}" wx:key="{{ index }}">
+                                        <image class="weui-uploader__img" src="{{item}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

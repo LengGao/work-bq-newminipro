@@ -1,0 +1,15 @@
+<template name="tabBar">
+    <view class="tabBar" wx:if="{{tabBar.tabbar_show}}">
+        <view class="tabBar-item" wx:for="{{tabBar.list}}" wx:key="index">
+            <view bindtap="tabBarRedirect" data-key="{{index}}" data-url="{{item.url}}">
+                <view class="iconBox" wx:if="{{tabBar.current_key!=index}}">
+                    <image class="icon" src="{{item.img}}"></image>
+                </view>
+                <view class="iconBox" wx:if="{{tabBar.current_key==index}}">
+                    <image class="icon" src="{{item.act_img}}"></image>
+                </view>
+                <view class="{{tabBar.current_key==index?'tabBartext com_color':''}}">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+</template>

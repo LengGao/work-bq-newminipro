@@ -1,0 +1,55 @@
+<image class="img-act" src="{{activity.adspic}}"></image>
+<view class="avt-outer">
+    <view class="name">{{activity.title}}</view>
+    <view class="time">已报名 <text style="color:#2ec07a">{{activity.join_num}}</text> 人/限{{activity.max_num}}人报名</view>
+</view>
+<view class="end-time">
+    <text>距离活动报名截止还剩：</text>
+    <text class="remain-time">{{countDown}}</text>
+</view>
+<view class="divide"></view>
+<view class="table">
+    <view class="table-item flex-st">
+        <image class="imgact" mode="widthFix" src="../../images/ic-acttime.png"></image>
+        <text style="color:#666">{{activity.starttime}} 至 {{activity.endtime}}</text>
+    </view>
+    <view class="table-item flex-st">
+        <image class="imgact" mode="widthFix" src="../../images/ic-position.png"></image>
+        <view class="address flex-be">
+            <text style="color:#666">{{activity.address}}</text>
+        </view>
+    </view>
+    <view class="table-item flex-st">
+        <image class="imgact" mode="widthFix" src="../../images/ic-act-price.png"></image>
+        <text class="pr0001">￥</text>
+        <text class="pr0002">{{activity.price}}</text>
+    </view>
+</view>
+<view class="have-num">
+    <view class="existing flex-be">
+        <text class="title">已报名</text>
+        <navigator class="more-num flex-st" hoverClass="none" url="../entry-list/entry-list">
+            <text>查看更多</text>
+            <image class="imgact" mode="widthFix" src="../../images/ic-my-arrow.png"></image>
+        </navigator>
+    </view>
+    <view class="rel-person flex-st">
+        <view class="rel-per-img" wx:for="{{activity.join}}" wx:for-item="vo">
+            <image class="imgact" mode="widthFix" src="{{vo.user_info.avatar_url}}"></image>
+            <text>{{vo.user_info.nickname}}</text>
+        </view>
+    </view>
+</view>
+<import src="../../wxParse/wxParse.wxml"></import>
+<view class="detail-text">
+    <view class="head">详情</view>
+    <view class="det-pic">
+        <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+    </view>
+</view>
+<view style="height:120rpx;"></view>
+<view class="footer-btn flex-ce">
+    <navigator class="btn bt-left" hoverClass="none" url="../apply-activity/apply-activity?id={{activity.id}}" wx:if="{{test_time>0}}">立即报名</navigator>
+    <view class="btn bt-left" hoverClass="none" wx:if="{{test_time==0}}">已结束</view>
+    <button class="btn bt-right" hoverClass="none" openType="share">邀请好友</button>
+</view>

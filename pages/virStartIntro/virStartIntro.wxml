@@ -1,0 +1,52 @@
+<!-- pages/virStartIntro/virStartIntro.wxml -->
+<view class="topintros">
+    <image src="../../images/jieshao (1).png" mode="widthFix" class="topintrosimg" />
+    <view class="introProduct">
+        <view class="topNames">模拟考试卷一</view>
+        <view style="height:1rpx;background:#cecece;margin-top:20rpx"></view>
+        <view class="topTopic">
+            <view class="every-topTopic">
+                <image mode="widthFix" src="../../images/timeLonger.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    考试时长:
+                </view>
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-left:18rpx">
+                    90分钟
+                </view>
+            </view>
+            <view class="every-topTopic">
+                <image mode="widthFix" src="../../images/allTotal.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    考试总分:
+                </view>
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-left:18rpx">
+                    140分
+                </view>
+            </view>
+            <view class="every-topTopic">
+                <image mode="widthFix" src="../../images/jigefenshu.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    及格分数:
+                </view>
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-left:18rpx">
+                    84分
+                </view>
+            </view>
+            <view class="every-topTopic">
+                <image mode="widthFix" src="../../images/jigefenshu.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    题型分布:
+                </view>
+            </view>
+            <view class="every-topTopic" style="margin:0">
+                <image mode="widthFix" src="" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx;display:flex;flex-direction: column;">
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">单选题60题,一题1分</view>
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">多选题60题,一题2分</view>
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">案例分析题60题,一题2分</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view bindtap="startkaoshi" style="position:relative;top:260rpx;left:167rpx;width:420rpx;border-radius:40rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);background:rgba(25,159,255,1);display:flex;align-items:center;justify-content:center">开始考试</view>

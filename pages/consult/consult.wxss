@@ -1,0 +1,120 @@
+.talkitem::before,.talkitem::after {
+    content: "";
+    height: 0;
+    line-height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.talkitem:after {
+    clear: both;
+    display: block;
+    height: 0px;
+    visibility: hidden;
+    content: ".";
+}
+
+.talkitem {
+    margin-top: 50rpx;
+}
+
+page {
+    background: #f4f5f9;
+}
+
+.talk-box {
+    padding: 0 40rpx;
+    box-sizing: border-box;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 300rpx;
+    overflow-y: scroll;
+}
+
+.other-side {
+    float: left;
+}
+
+.our-side {
+    float: right;
+}
+
+.avatar {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 100%;
+}
+
+.avatar image {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.content {
+    padding: 16rpx 24rpx;
+    margin: 4rpx 30rpx 0 30rpx;
+    max-width: calc(100% - 180rpx);
+}
+
+.other-side .content {
+    border-radius: 0 16rpx 16rpx 16rpx;
+    background: #fff;
+    box-shadow: 0px 2px 6px 0px rgba(211,217,222,0.8);
+}
+
+.our-side .content {
+    border-radius: 16rpx 0 16rpx 16rpx;
+    background: #90ea9f;
+    box-shadow: 0px 2px 6px 0px rgba(161,220,211,0.8);
+}
+
+.other-side {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.our-side {
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.submit-box {
+    width: 100%;
+    height: 300rpx;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    background: #fff;
+}
+
+.inputtext {
+    width: 530rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 14rpx;
+    margin: 0 auto;
+    border: 2rpx solid #ddd;
+    padding: 0 30rpx;
+    box-sizing: border-box;
+}
+
+.sub-btn {
+    margin-top: 44rpx;
+    font-size: 32rpx;
+    width: 380rpx;
+    height: 80rpx;
+    text-align: center;
+    color: #fff;
+    line-height: 80rpx;
+    border-radius: 200rpx;
+    background-image: -webkit-linear-gradient(90deg,rgb(40,205,33) 0%,rgb(77,217,84) 47%,rgb(113,229,135) 100%);
+}

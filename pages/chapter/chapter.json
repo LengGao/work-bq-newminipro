@@ -1,0 +1,9 @@
+{
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#199FFF",
+    "navigationBarTitleText": "章节练习",
+    "navigationBarTextStyle": "white",
+    "usingComponents": {
+        "i-progress": "../../utils/iview/progress/index"
+    }
+}

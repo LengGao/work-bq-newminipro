@@ -1,0 +1,21 @@
+<view class="choose-flow flex-st">
+    <view class="flow-title">记录分类：</view>
+    <picker bindchange="flowChange" range="{{subject_list}}" rangeKey="name" value="{{index}}">
+        <view class="flow-cont flex-be">
+            <text class="flow-type">{{subject_list[index].name}}</text>
+            <image class="xiala" mode="widthFix" src="../../images/exam-arrow.png"></image>
+        </view>
+    </picker>
+</view>
+<view style="height:84rpx;"></view>
+<view class="chapter-list">
+    <navigator class="chapter-item" hoverClass="none" url="../test/test?paper_id={{item.paper_id}}" wx:for="{{paper_list}}">
+        <image class="t-icon" mode="widthFix" src="../../images/ic-chapter.png"></image>
+        <text class="title">{{item.title}}</text>
+        <button class="test-btn">继续做题</button>
+    </navigator>
+</view>
+<view class="page-nodata" wx:if="{{paper_list.length==0||subject_list.length==0}}">
+    <image class="leftimg" mode="widthFix" src="../../images/page-no-data.png"></image>
+    <view>暂无数据</view>
+</view>

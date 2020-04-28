@@ -1,0 +1,44 @@
+
+<view class="question-form">
+  <view class="header">选择反馈类型</view>
+  <view catchtap='selectTap'>
+    <i-cell title="{{ titles  }}" is-link></i-cell>
+  </view>
+  <view class="header2">填写反馈内容</view>
+  <view class="weui-cells">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入问题的正文内容。" maxlength="200" placeholder-style="color:#b3b3b3;font-size:14px;" style="height: 200rpx;width:670rpx;padding-top:30rpx;padding-left:30rpx;" bindinput="handleContentInput" />
+        <view class="weui-textarea-counter" style="padding-right:20rpx;padding-bottom:20rpx">
+          {{contentCount}}/200
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="question-images-area">
+    <!-- 添加图片按钮 -->
+    <view class="question-images-tool">
+      <!-- <button type="default" size="mini" > -->
+      <view style="">截图({{images.length}}/3)</view>
+      <view class="top-server">  
+        <view class="question-images" hidden="{{ !images.length }}">
+          <block wx:for="{{images}}" wx:key="*this">
+            <view class="q-image-wrap">
+              <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+              <!-- <view class="q-image-remover" data-idx="{{index}}" bindtap="removeImage">删除</view> -->
+            </view>
+          </block>
+        </view>
+        <image src="../../images/uploadjiahao.png" style="width:190rpx;height:190rpx;margin-top:30rpx" bindtap="chooseImage" wx:if="{{images.length < 3}}" />
+      </view>
+      <!-- </button> -->
+    </view>
+    <!-- 图片缩略图 -->
+  </view>
+  <!-- 提交表单按钮 -->
+  <!-- <button class="weui-btn" type="primary" bindtap="submitForm">提交</button> -->
+  <view  bindtap="submitForm"  class="submitContent"> 提交内容 </view>
+</view>
+<i-action-sheet visible="{{ visible1 }}" actions="{{ actions1 }}" show-cancel bind:cancel="handleCancel1" bind:click="handleClickItem1" />
+<i-message id="message" />
+<i-toast id="toast" />

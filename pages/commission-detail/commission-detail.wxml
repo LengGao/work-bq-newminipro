@@ -1,0 +1,12 @@
+<view class="commission-list">
+    <view class="commission" wx:for="{{commission_list}}">
+        <text class="comm-num">获取佣金：{{item.money}}元</text>
+        <text>消费用户：{{item.nickname}}</text>
+        <text>备注：{{item.msg}}</text>
+        <text>时间：{{item.addtime}}</text>
+    </view>
+</view>
+<view class="page-nodata flex-column-center" hidden="{{commission_list.length>0}}">
+    <image mode="widthFix" src="../../images/page-no-data.png"></image>
+    <text>没有相关数据</text>
+</view>

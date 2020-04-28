@@ -1,0 +1,23 @@
+<view class="only-img">
+    <image src="../../images/bottomCard.png" style="width:100%;height:100%" class="myimg" />
+    <image src="{{ biaoji }}" class="biaoji" />
+    <view class="pingjia">80分 {{pingjia}}</view>
+    <view class="jieyu">{{ jieyu }}</view>
+    <view class="all-wrapper-xingxing">
+        <view class="xingxing" wx:for="{{ allDatas }}" style="margin-bottom:30rpx">
+            <text class="biaotiSingle">{{ item.title }}</text>
+            <view style="margin-top:-10rpx;margin-left:38rpx;margin-right:38rpx">
+                <i-cell title="禁用点击和手势选择星">
+                    <i-rate disabled="{{true}}" value="{{ item.starIndex4}}"></i-rate>
+                </i-cell>
+            </view>
+            <text class="biaotiSingle">{{ item.hasdone }}/{{ item.alldone }}</text>
+        </view>
+    </view>
+
+    <view style="position:absolute;bottom:159rpx;left:40rpx;display:flex;justify-content:center"> 
+        <button style="background:#199FFF;width:290rpx;height:80rpx;color:#fff;border-radius:10rpx;font-size:32rpx" bindtap='saveImage'>保存到相册</button>
+        <button style="margin-left:30rpx;background:#199FFF;width:290rpx;height:80rpx;color:#fff;border-radius:10rpx;font-size:32rpx">分享到微信</button>
+    </view>
+    <view style="position:absolute;bottom:39rpx;left:40rpx;width:610rpx;height:80rpx;border:1rpx solid #199FFF;color:#199FFF;font-size:31rpx;display:flex;align-items:center;justify-content:center">查看试题解析</view>
+</view>

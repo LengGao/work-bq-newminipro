@@ -1,0 +1,18 @@
+<view class='help'>
+  <view class='help_item' wx:for='{{maskData}}' wx:key='index' wx:for-item="i">
+    <view class='title' data-index='{{index + 1}}' catchtap='panel'>
+      <view class='title_1'>{{i.categoryName}}</view>
+      <view class='title_2'>
+        <view class="{{showIndex == index + 1 ? 'up':'down'}}"></view>
+      </view>
+    </view>
+    <view class='detail' wx:if="{{showIndex == index + 1 ?true:false}}">
+      <view wx:for='{{i.child}}' wx:for-item="j" wx:key='keys' class="wrapper-items"  data-courseId='{{j.courseId}}' catchtap='insertCourse'>
+        {{ j.courseName }}
+      </view>
+      <view  class="none-items" wx:if="{{ i.child.length == 0?true:false}}">
+        当前分类还没有课程!
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,55 @@
+<!-- pages/dailyCard/dailyCard.wxml -->
+<view class='nav bg-white' style='height:408rpx'>
+    <image src="../../images/dailyCard (1).png" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:-1" />
+    <view class='nav-title'>
+        <view class="biaoti">每日打卡</view>
+        <view id="gl1" bindtap="goback"></view>
+    </view>
+    <view class="wrapper-dates">
+        <view class="riqi">{{time[0].time}}</view>
+        <view class="riqi">{{time[0].week}}</view>
+    </view>
+</view>
+<view class="wrapper-every">
+    <view class="wrapper-top-content">
+        <view wx:for="{{ everyDate }}" wx:key="index" class="wrapper-data-every">
+            <view style=" font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(25,159,255,1);">
+                <text class="wrapper-data-name">{{ item.name }}</text>
+                {{item.desc}}
+            </view>
+            <view>
+                <text class="wrapper-data-title">{{ item.title }}</text>
+            </view>
+        </view>
+    </view>
+    <view style="position:absolute;top:232rpx;left:235rpx;z-index:100;width:220rpx;height:220rpx;" hidden="{{true }}">
+        <view style="font-size:50rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);position:absolute;top:calc( 50% - 20px );left:calc( 50% - 25px )">
+            打卡
+        </view>
+        <image style="width:100%;height:100%" src="../../images/dakaanniu (1).png" mode="widthFix" />
+    </view>
+    <view style="position:absolute;top:232rpx;left:235rpx;z-index:100;width:220rpx;height:220rpx;" >
+        <view style="font-size:28rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);position:absolute;top:60rpx;left:70rpx">
+           正确率
+        </view>
+        <view style="font-size:50rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);position:absolute;top:107rpx;left:63rpx">
+           60%
+        </view>
+        <image style="width:100%;height:100%" src="../../images/dakaanniu (1).png" mode="widthFix" />
+    </view>
+    <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);width:100%;display:flex;justify-content:center;position:absolute;top:492rpx" wx:if="{{false}}">
+        东培学堂每天陪你进步一点点
+    </view>
+     <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:#199FFF;width:100%;display:flex;justify-content:center;position:absolute;top:492rpx;text-decoration:underline">
+    今日打卡成功，查看你解析报告
+    </view>
+</view>
+<view style="position:relative;top:527rpx;color:#999999;font-size:28rpx;left:169rpx">
+    ————    打卡说明    ————
+</view>
+<view style="position:relative;top:538rpx;color:#999999;left:40rpx;display:flex;flex-direction:column;align-items:flex-start;">
+    <view wx:for="{{directions}}" wx:key="index" style="margin-top:25rpx;display:flex;align-items:center;justify-content:flex-start;">
+        <view style="width:10rpx;height:10rpx;border-radius:100%;background:#999999"></view>
+        <view style="color:#999999;font-size:28rpx;margin-left:12rpx;">{{ item.name }}</view>
+    </view>
+</view>

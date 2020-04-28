@@ -1,0 +1,39 @@
+page {
+    background-color: #eee;
+    font-size: 28rpx;
+    color: #333;
+}
+
+.commission-list {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.commission {
+    background-color: #fff;
+    margin: 2rpx 0;
+    color: #999;
+    padding: 30rpx;
+}
+
+.commission .comm-num {
+    color: #333;
+    font-size: 32rpx;
+    margin-bottom: 12rpx;
+}
+
+.commission text {
+    display: block;
+    margin: 6rpx 0;
+}
+
+.page-nodata {
+    color: #999;
+    text-align: center;
+    margin-top: 24vh;
+}
+
+.page-nodata image {
+    width: 360rpx;
+    margin-bottom: 30rpx;
+}

@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/dailyShare/dailyShare",
+    "pages/dailyRate/dailyRate",
+    "pages/dailyCard/dailyCard",
+    "pages/addCourse/addCourse",
+    "pages/billShare/billShare",
+    "pages/usersq/usersq",
+    "pages/yearTestIntro/yearTestIntro",
+    "pages/yearTest/yearTest",
+    "pages/virStartIntro/virStartIntro",
+    "pages/virStart/virStart",
+    "pages/virTest/virTest",
+    "pages/test/test",  
+    "pages/chapter/chapter",
+    "pages/answerCard/answerCard",
+    "pages/course-class-detail/course-class-detail",
+    "pages/secondary/secondary",
+    "pages/chapter_topic/chapter_topic",
+    "pages/course-detail/course-detail",
+    "pages/personal-center/personal-center",
+    "pages/problem/problem",
+    "pages/problem-detail/problem-detail",
+    "pages/question-ask/question-ask",
+    "pages/live-class-room/live-class-room"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "usingComponents": {
+},
+  "sitemapLocation": "sitemap.json"
+}

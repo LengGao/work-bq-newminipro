@@ -1,0 +1,84 @@
+page {
+    background: #fff;
+}
+
+.choose-flow {
+    height: 80rpx;
+    padding: 0 30rpx;
+    align-items: center;
+    background: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 100;
+    top: 0;
+}
+
+.choose-flow picker {
+    width: calc(100% - 140rpx);
+}
+
+.xiala {
+    display: inline-block;
+    width: 14rpx;
+    transform: rotate(90deg);
+    opacity: 0.7;
+}
+
+.flow-cont {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.flow-type {
+    display: inline-block;
+    text-align: center;
+    width: calc(100% - 30rpx);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.all-collect {
+    padding: 0 30rpx;
+}
+
+.collect-cell {
+    height: 160rpx;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.collect-cell .subitem11 {
+    width: calc(100% - 90rpx);
+}
+
+.collect-cell .subitem11 text {
+    display: block;
+    width: calc(100% - 56rpx);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 34rpx;
+}
+
+.collect-cell .subitem33 {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 100%;
+    border: 2rpx solid #47c88a;
+    color: #47c88a;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 32rpx;
+}
+
+.collect-cell .subitem11 image {
+    width: 24rpx;
+    margin: 8rpx 0 0 0;
+}

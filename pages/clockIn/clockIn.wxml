@@ -1,0 +1,25 @@
+<!--pages/timetable/timetable.wxml-->
+
+<view style="border-top:1px solid #ccc;"></view>
+<view  class="calendar_bg">
+<calendar bindOnDayClick="onDayClick" daysStyle="{{selected}}" dotDays="{{selected2}}" bindOnMonthChange="doMonthChange" />
+</view>
+<!-- <calendar selected="{{selected}}" bindselect="bindselect" bindgetdate="bindgetdate" is-open="true"  /> -->
+<view class='courseTable' wx:for="{{info}}">
+  <view>
+    <text class='infoText'>上课签到时间：</text><input type="text" class='infoInput' value="{{item.sign_in_time}}" disabled></input>
+  </view>
+  <view>
+    <text class='infoText'>签到地点：</text><input type="text" class='infoInput' value="{{item.address}}" disabled></input>
+  </view>
+  <view>
+    <text class='infoText'>下课签到时间：</text><input type="text" class='infoInput' value="{{item.sign_out_time}}" disabled></input>
+  </view>
+  <button type='text' class = 'com_bgcolor' size="mini">{{item.is_late}}</button>
+</view>
+
+<view class="page-nodata" wx:if="{{info.length == 0}}">
+    <image class="leftimg" mode="widthFix" src="../../images/page-no-data.png"></image>
+    <view>暂无数据</view>
+</view>
+

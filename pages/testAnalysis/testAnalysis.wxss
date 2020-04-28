@@ -1,0 +1,370 @@
+page {
+    background: #fff;
+}
+
+.padding {
+    padding: 0 30rpx;
+    box-sizing: border-box;
+}
+
+.text-top {
+    height: 88rpx;
+    align-items: center;
+    border-top: 1px solid #f5f5f5;
+    padding: 0 30rpx;
+    box-sizing: border-box;
+    width: 100%;
+    background: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 200;
+}
+
+.left-side {
+    width: 43%;
+    align-items: center;
+}
+
+.fu-icon {
+    width: 80rpx;
+    height: 80rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fu-icon image {
+    display: block;
+    width: 28rpx;
+}
+
+.hand-in {
+    width: 120rpx;
+    padding: 0;
+    height: 44rpx;
+    line-height: 44rpx;
+    background: #0ecd7a;
+    color: #fff;
+    border-radius: 200rpx;
+    font-size: 24rpx;
+    text-align: center;
+}
+
+.time-count {
+    color: #666;
+}
+
+.questions-box {
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 100rpx;
+    bottom: 0;
+    overflow-y: scroll;
+}
+
+.text-type {
+    margin: 30rpx 0;
+    font-weight: 600;
+}
+
+.answer-show {
+    margin: 8rpx 0;
+}
+
+.home-swiper {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.swiper-img {
+    overflow-y: scroll;
+}
+
+.share-pop {
+    width: 210rpx;
+    height: 200rpx;
+    border-radius: 10rpx;
+    background: #fff;
+    box-shadow: 0px 0 8px 0 rgba(209,209,209,0.7);
+    position: fixed;
+    right: 20rpx;
+    top: 90rpx;
+    z-index: 100;
+}
+
+.pop-item {
+    align-items: center;
+    height: 100rpx;
+    padding-left: 30rpx;
+    box-sizing: border-box;
+}
+
+.pop-item image {
+    width: 40rpx;
+    margin-right: 30rpx;
+}
+
+.answer-card {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: #fff;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 200;
+}
+
+.tijiao-test {
+    font-size: 30rpx;
+    width: 100%;
+    height: 88rpx;
+    line-height: 88rpx;
+    background: #0ecd7a;
+    text-align: center;
+    color: #fff;
+    border-radius: 0;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.header0 {
+    align-items: center;
+    padding: 0 30rpx;
+    height: 88rpx;
+    background: #f2f2f2;
+}
+
+.describe0 {
+    align-items: center;
+}
+
+.describe0 .circle1,.describe0 .circle2 {
+    display: inline-block;
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 100%;
+    margin-right: 16rpx;
+}
+
+.describe0 .circle1 {
+    background: #1ec91e;
+}
+
+.describe0 .circle2 {
+    border: 1px solid #999;
+    margin-left: 60rpx;
+}
+
+.close0 {
+    width: 120rpx;
+    line-height: 88rpx;
+    height: 100%;
+    text-align: center;
+    margin-right: 30rpx;
+}
+
+.text-state {
+    max-height: calc(100vh - 180rpx);
+}
+
+.title00 {
+    text-align: center;
+    margin: 60rpx 0 40rpx;
+    font-size: 34rpx;
+}
+
+.answer-num {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0 80rpx;
+}
+
+.answer-num text {
+    display: block;
+    width: 80rpx;
+    height: 80rpx;
+    text-align: center;
+    line-height: 76rpx;
+    background: #eee;
+    border-radius: 100%;
+    margin-right: calc((100% - 400rpx)/4);
+    margin-bottom: 40rpx;
+}
+
+.answer-num text:nth-child(5n) {
+    margin-right: 0;
+}
+
+.answer-num .choosed {
+    background: #1ec91e;
+    color: #fff;
+}
+
+.checked {
+    margin-top: 50rpx;
+}
+
+.checkbox {
+    align-items: center;
+    height: 100%;
+    margin: 32rpx 0;
+}
+
+.checkbox text {
+    margin-top: 6rpx;
+    color: #333;
+}
+
+.checked radio .wx-radio-input {
+    border-radius: 50%;
+    width: 30rpx;
+    height: 30rpx;
+    border: 1px solid #ababab;
+    background: transparent;
+}
+
+.checked radio .wx-radio-input.wx-radio-input-checked {
+    background: #ff3c37!important;
+    border-color: #ff3c37!important;
+}
+
+.checked radio .wx-radio-input.wx-radio-input-checked::before {
+    border-radius: 50%;
+    width: 36rpx;
+    height: 36rpx;
+    line-height: 38rpx;
+    text-align: center;
+    font-size: 22rpx;
+    color: #fff;
+    background: transparent;
+    transform: translate(-50%,-50%) scale(1);
+}
+
+.letter {
+    display: inline-block;
+    width: 56rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+    border-radius: 100%;
+    background: #eee;
+    text-align: center;
+    margin-right: 24rpx;
+    color: #333;
+}
+
+.selected .letter {
+    background: #1ec91e;
+    color: #fff;
+}
+
+.right-answer {
+    margin: 60rpx 0;
+}
+
+.lower-title {
+    height: 130rpx;
+    align-items: center;
+    background: #f5f5f5;
+    margin: 30rpx 0;
+}
+
+.lower-sub {
+    width: 50%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #808080;
+}
+
+.lower-title .lower-sub:first-child {
+    border-right: 1px solid #ddd;
+}
+
+.lower-title .lower-sub text:nth-child(2) {
+    margin-top: 10rpx;
+}
+
+.analysis {
+    padding: 0 30rpx;
+    box-sizing: border-box;
+}
+
+.jiexi-title {
+    color: #999;
+    margin: 60rpx 0 40rpx;
+}
+
+.jiexi-tab {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+.jiexi-tab text {
+    border: 1px solid #ccc;
+    padding: 8rpx 24rpx;
+    border-radius: 6rpx;
+    margin: 0 24rpx 24rpx 0;
+}
+
+.next-button {
+    position: fixed;
+    bottom: 20rpx;
+    right: 20rpx;
+}
+
+.qd-button {
+    position: fixed;
+    bottom: 20rpx;
+    right: calc(50% - 60rpx);
+}
+
+.pre-button {
+    position: fixed;
+    bottom: 20rpx;
+    left: 20rpx;
+}
+
+.next-button .btn,.pre-button .btn , .qd-button .btn {
+    width: 120rpx;
+    padding: 0;
+    height: 56rpx;
+    line-height: 56rpx;
+    background: #0ecd7a;
+    color: #fff;
+    border-radius: 200rpx;
+    font-size: 26rpx;
+    text-align: center;
+}
+
+.share-box {
+    position: fixed;
+    right: 20rpx;
+    bottom: 100rpx;
+    z-index: 200;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+}
+
+.share-box image {
+    width: 68rpx;
+    height: 68rpx;
+    border-radius: 100%;
+    box-shadow: 0px 4px 12px 0px rgba(201,201,201,0.6);
+    margin-bottom: 14rpx;
+}
+
+.none {
+    color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,0);
+}

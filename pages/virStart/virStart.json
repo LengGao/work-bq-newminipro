@@ -1,0 +1,12 @@
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTitleText": "练习",
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "custom",
+  "usingComponents": {
+      "i-message": "../../utils/iview/message/index",
+      "i-count-down": "../../utils/iview/count-down/index",
+      "i-modal": "../../utils/iview/modal/index"
+  }
+}

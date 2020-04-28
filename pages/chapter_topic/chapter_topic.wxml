@@ -1,0 +1,18 @@
+<view class="chapter-list">
+    <navigator class="chapter-item" hoverClass="none" url="../test/test?id={{id}}&chapter_id={{item.id}}" wx:for="{{paper_list}}">
+        <image class="t-icon" mode="widthFix" src="../../images/ic-chapter.png"></image>
+        <text class="title">{{item.chapter_name}}</text>
+        <!-- <text class="title">限时{{item.limited_time}}分钟</text> -->
+        <button class="test-btn">开始做题</button>
+    </navigator>
+</view>
+<view class="page-nodata" wx:if="{{paper_list.length == 0}}">
+    <image class="leftimg" mode="widthFix" src="../../images/page-no-data.png"></image>
+    <view>暂无数据</view>
+</view>
+
+<!-- <button openType="share">
+    <view class="ic-share">
+        <image mode="widthFix" src="../../images/share-course2.png"></image>
+    </view>
+</button> -->

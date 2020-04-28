@@ -1,0 +1,4 @@
+<text class="countdown-class" style="height:20rpx">
+  {{time}}
+</text>
+

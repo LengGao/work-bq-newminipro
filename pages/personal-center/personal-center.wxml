@@ -1,0 +1,37 @@
+<view>
+    <view class='geli'></view>
+    <view class="top-center">
+        <image class="topimage" mode="widthFix" src="../../images/top.png" />
+        <view class="top-content flex">
+            <image class="top-center-ava" mode="widthFix" src="{{user_info.avatar_url?user_info.avatar_url:'../../images/avatar-def@2x.png'}}" style=""></image>
+            <view class="top-content-detail">
+                <text class="nick-name" wx:if="{{user_info.nickname}}">{{user_info.nickname}}</text>
+                <!-- <text class="nick-name">Night belongs bright</text> -->
+                <text class="nick-line">爱你所做，做你所爱</text>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="function-select flex-around">
+    <view wx:for="{{ funsel }}" wx:key="index" class="fun-sel flex-column">
+        <image mode="widthFix" class='function-select-image' src="{{ item.url }}" />
+        <text class="function-select-name">{{ item.name }}</text>
+    </view>
+</view>
+<view class="fenge2"></view>
+<view class="function-container">
+    <navigator class="function-list" wx:for="{{ funlist }}" wx:key="index" url="{{ item.tosome }}" hover-class="none">
+        <view class="function-list-left">
+            <image class="function-image" src="{{ item.url }}" mode="widthFix" />
+            <text class="function-name">{{ item.name }}</text>
+        </view>
+        <block wx:if="{{ item.option }}">
+            <view class="options-list">
+                <view class="options" wx:for="{{ item.option }}" wx:key="index">{{ item }}</view>
+            </view>
+        </block>
+        <view id="gl"></view>
+    </navigator>
+</view>
+<import src="../tab-bar/tab-bar.wxml"></import>
+<template is="tabBar" data="{{tabBar:bindData.tabBar}}"></template>

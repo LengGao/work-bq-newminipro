@@ -1,0 +1,36 @@
+<view class="talk-box">
+    <view class="talkitem">
+        <view class="other-side">
+            <view class="avatar">
+                <image src="../../images/13285.jpg"></image>
+            </view>
+            <view class="content">
+                <text>欢迎新同学</text>
+            </view>
+        </view>
+    </view>
+    <view class="talkitem">
+        <view class="our-side">
+            <view class="avatar">
+                <image src="../../images/13285.jpg"></image>
+            </view>
+            <view class="content">
+                <text>我要参加学习会计入门,我要参加学习会计入门，我要参加学习会计入门</text>
+            </view>
+        </view>
+    </view>
+    <view class="talkitem">
+        <view class="other-side">
+            <view class="avatar">
+                <image src="../../images/13285.jpg"></image>
+            </view>
+            <view class="content">
+                <text>现在报名有9折优惠，推荐朋友来报名还有返现哦</text>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="submit-box flex-column-center">
+    <input class="inputtext" placeholder="输入微信号" type="text" value=""></input>
+    <button class="sub-btn" openType="contact">提交</button>
+</view>

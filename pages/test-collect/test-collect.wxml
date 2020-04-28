@@ -1,0 +1,25 @@
+<view class="choose-flow flex-st">
+    <view class="flow-title">收藏分类：</view>
+    <picker bindchange="flowChange" range="{{subject_list}}" rangeKey="name" value="{{index}}">
+        <view class="flow-cont flex-be">
+            <text class="flow-type">{{subject_list[index].name}}</text>
+            <image class="xiala" mode="widthFix" src="../../images/exam-arrow.png"></image>
+        </view>
+    </picker>
+</view>
+<view style="height:84rpx;"></view>
+<view class="all-collect">
+    <navigator class="collect-cell flex-be" hoverClass="none" url="../test/test?paper_id={{item.paper_id}}" wx:for="{{paper_list}}">
+        <view class="subitem11 flex-be">
+            <image mode="widthFix" src="../../images/ic-text-collect.png"></image>
+            <text>{{item.title}}</text>
+        </view>
+        <view class="subitem33">
+            <text>查</text>
+        </view>
+    </navigator>
+</view>
+<view class="page-nodata" wx:if="{{paper_list.length==0||subject_list.length==0}}">
+    <image class="leftimg" mode="widthFix" src="../../images/page-no-data.png"></image>
+    <view>暂无数据</view>
+</view>
