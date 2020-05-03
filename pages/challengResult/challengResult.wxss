@@ -1,0 +1,109 @@
+/* pages/dailyChallenge/dailyChallenge.wxss */
+page {
+    background-color: #199FFF;
+}
+
+.nav {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.nav-title {
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    font-family: PingFang-SC-Medium;
+    font-size: 36rpx;
+    letter-spacing: 2px;
+}
+
+.biaoti {
+    font-size: 36rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+}
+
+.nav .back {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px 15px;
+}
+
+.bg-white {
+    background-color: #199FFF;
+}
+
+.bg-gray {
+    background-color: #f7f7f7;
+}
+
+.overflow {
+    overflow: auto;
+}
+
+.hidden {
+    overflow: hidden;
+}
+
+#gl1 {
+    text-align: center;
+    width: 20rpx;
+    height: 20rpx;
+    position: absolute;
+    top: 50%;
+    left: 22rpx;
+    border-left: 2rpx solid #FFFFFF;
+    border-bottom: 2rpx solid #FFFFFF;
+    -webkit-transform: translate(0, -50%) rotate(-135deg);
+    transform: translate(0, -50%) rotate(45deg);
+}
+
+#gl1::before {
+    content: "";
+    position: absolute;
+    top: -20rpx;
+    left: -20rpx;
+    bottom: -20rpx;
+    right: -20rpx;
+}
+
+.wrapper-top-content {
+    margin-top: 65rpx;
+    margin-left: 45rpx;
+    margin-right: 44rpx;
+    display: flex;
+    justify-content: space-around;
+}
+
+.wrapper-data-name {
+    font-size: 50rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgb(240, 243, 245);
+}
+
+.wrapper-data-title {
+    font-size: 24rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgb(253, 253, 253);
+}
+
+.wrapper-data-every {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

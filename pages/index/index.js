@@ -1,9 +1,7 @@
 require("../../utils/requestapi.js");
-
 let app = getApp();
 var api = require("../../api.js"), t = (require("../../utils/util.js"), require("../tab-bar/tab-bar.js"));
 import config from '../../config.js';
-
 Page({
   data: {
     isIOS: app.globalData.isIOS,
@@ -11,8 +9,8 @@ Page({
     banner: [],
     biaoti: '',
     actions1: [],
-    courseId:'',
-    menuTop:'',
+    courseId: '',
+    menuTop: '',
     course_list: [
       {
         name: '初级会计师',
@@ -58,6 +56,7 @@ Page({
         action: 'changll'
       },
     ],
+    defaultImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png',
     selectShow: false,//控制下拉列表的显示隐藏，false隐藏、true显示
     index: 0,//选择的下拉列表下标
     menustat: 0,
@@ -68,19 +67,30 @@ Page({
     s_id: 0,
     t_id: 0,
     type: 0,
-    noACtion:0
+    noACtion: 0,
+    myCourse: []
+  },
+  errorFunction(e) {
+    if (e.type == "error") {
+      let imgList = this.data.myCourse
+      imgList['teacherImage'] = this.data.defaultImg //错误图片替换为默认图片
+      this.setData({
+        myCourse: imgList
+      })
+    }
+
   },
   // 点击下拉显示框
   prictive() {
     let id = this.data.courseId
-    console.log(this.data.courseId)
     wx.navigateTo({
       url: `../chapter/chapter?courseId=${id}`
     })
   },
   yearText() {
+    let courseId = this.data.courseId
     wx.navigateTo({
-      url: '../yearTest/yearTest?video_id=79'
+      url: `../yearTest/yearTest?courseId=${courseId}`
     })
   },
   virText() {
@@ -90,10 +100,10 @@ Page({
     })
   },
   changll() {
-    console.log('点击了刷题挑战')
-    // wx.navigateTo({
-    //   url: '../live-class-room/live-class-room?video_id=79'
-    //  })
+    let courseId = this.data.courseId
+    wx.navigateTo({
+      url: `../dailyChallenge/dailyChallenge?courseId=${courseId}`
+    })
   },
   handleCancel1() {
     this.setData({
@@ -106,24 +116,24 @@ Page({
     })
   },
   toVideoroom() {
+    let video_id = this.data.myCourse['courseId']
     wx.navigateTo({
-      url: '../course-detail/course-detail?video_id=20'
+      url: `../course-detail/course-detail?video_id=${video_id}`
     })
   },
   handleClickItem1({ detail }) {
-    if(this.data.noACtion){
+    if (this.data.noACtion) {
       this.setData({
         visible1: false
       });
       return
     }
     const index = detail.index;
-    console.log(this.data.courseId)
     this.setData({
       courseId: this.data.actions1[index].name,
       biaoti: this.data.actions1[index].name,
       visible1: false,
-      courseId:this.data.actions1[index].courseId
+      courseId: this.data.actions1[index].courseId
     });
   },
   selectTap() {
@@ -146,24 +156,21 @@ Page({
       selectShow: !this.data.selectShow,
       triangle: !this.data.triangle
     });
-    console.log(this.data.index)
   },
   selectmenu: function (t) {
     let that = this
     let key = t.currentTarget.dataset.key;
-    let courseId =  t.currentTarget.dataset.key
+    let courseId = t.currentTarget.dataset.key
     this.setData({
-      menuTop:key.courseId,
-      biaoti:key.courseName,
-      courseId:courseId.courseId
+      menuTop: key.courseId,
+      biaoti: key.courseName,
+      courseId: courseId.courseId
     });
     that.getSubject()
- 
-    
   },
   addStory() {
     wx.redirectTo({
-      url:'../addCourse/addCourse'
+      url: '../addCourse/addCourse'
     })
     // wx.showToast({
     //   title: '暂未开放',//提示文字
@@ -181,83 +188,83 @@ Page({
       url: api.default.getCollectionCourses,
       method: "GET",
       success: function (res) {
-        console.log(res)
         for (let i = 0; i < res.length; i++) {
-          console.log(res[i].courseName)
           res[i].name = res[i].courseName
         }
-        console.log(res)
         that.setData({
           course_list: res,
-          menuTop:res[0].courseId,
-          courseId:res[0].courseId,
-          biaoti:res[0].courseName
+          menuTop: res[0].courseId,
+          courseId: res[0].courseId,
+          biaoti: res[0].courseName
         })
         that.getSubject()
-        return resolve()
+        return resolve('qqqqqq')
       },
       fail: function (t) {
-        return reject()
+        return reject
       },
       complete: function () {
-        
+
       }
     })
   },
-  getMycourse(resolve, reject) {
+  getMycourse() {
     let that = this
     let option = {
-      courseId: 18
+      courseId: that.data.courseId
     }
     app.encryption({
       url: api.default.getMyCourse,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
-        return resolve()
+        if (res.data == undefined) {
+          that.setData({
+            myCourse: res
+          })
+        } else {
+          that.setData({
+            myCourse: false
+          })
+        }
       },
       fail: function (t) {
-        return reject()
       },
       complete: function () {
-      
+
       }
     })
   },
-  getSubject(){
-    let that = this 
+  getSubject() {
+    let that = this
     let courseId = this.data.menuTop
     let option = {
       courseId: courseId
     }
-    console.log(option)
     app.encryption({
       url: api.default.getSubject,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
-        if(  res.data == undefined){
+        if (res.data == undefined) {
           for (let i = 0; i < res.length; i++) {
-            console.log(res[i].courseName)
             res[i].name = res[i].courseName
-        }
-        that.setData({
-          biaoti:res[0].courseName,
-          actions1: res,
-          courseId:res[0].courseId,
-          noACtion:0
-        })
-        }else{
+          }
+          that.setData({
+            biaoti: res[0].courseName,
+            actions1: res,
+            courseId: res[0].courseId,
+            noACtion: 0
+          })
+        } else {
           let action = [
             {
-              name:'该课程暂未设置科目'
+              name: '该课程暂未设置科目'
             }
           ]
           that.setData({
             actions1: action,
-            noACtion:1
+            noACtion: 1
           })
         }
       },
@@ -265,24 +272,59 @@ Page({
         return reject()
       },
       complete: function () {
-      
+
       }
     })
   },
   onLoad: function (e) {
+    let that = this
     wx.showLoading({
       title: '加载中',
       mask: true
     })
-    let that = this
-    let promise1 = new Promise((resolve, reject) => {
-      that.gettopINfor(resolve, reject)
+    let promise = new Promise((resolve, reject) => {
+      wx.login({ // 判断是否授权，，没有则授权
+        success: function (n) {
+          if (n.code) {
+            var t = n.code;
+            app.request({
+              url: api.user.newLogin,
+              data: { code: t },
+              method: 'POST',
+              dataType: '',
+              success: function (e) {
+                wx.setStorageSync("user_info", {
+                  nickname: e.data.param.nickname,
+                  avatar_url: e.data.param.user_img,
+                  uid: e.data.param.uid,
+                  uuid: e.data.param.uuid,
+                  token: e.data.param.token
+                });
+                return resolve()
+              },
+              fail: function (e) {
+                wx.showModal({
+                  title: "警告",
+                  content: e.msg,
+                  showCancel: !1
+                });
+              },
+              complete: function () {
+              }
+            })
+          }
+        }
+      })
+    })
+    promise.then(function (resolve, reject) {
+      let promise1 = new Promise((resolve, reject) => {
+        that.gettopINfor(resolve, reject)
+      })
+      promise1.then(function (resolve) {
+        that.getMycourse()
+      })
     });
-    let promise2 = new Promise((resolve, reject) => {
-      that.getMycourse(resolve, reject)
-    });
-    Promise.all([promise1, promise2]).then((result) => {
-      console.log('全部完成')
+    Promise.all([promise]).then((result) => {
       wx.hideLoading();               //['成功了', 'success']
     }).catch((error) => {
       console.log(error)
@@ -291,40 +333,6 @@ Page({
   },
   onReady: function () { },
   onShow: function () {
-    wx.login({ // 判断是否授权，，没有则授权
-      success: function (n) {
-        if (n.code) {
-          var t = n.code;
-          console.log(n)
-          app.request({
-            url: api.user.newLogin,
-            data: { code: t },
-            method: 'POST',
-            dataType: '',
-            success: function (e) {
-              console.log(e.data.param)
-              wx.setStorageSync("user_info", {
-                nickname: e.data.param.nickname,
-                avatar_url: e.data.param.user_img,
-                uid: e.data.param.uid,
-                uuid: e.data.param.uuid,
-                token: e.data.param.token
-              });
-            },
-            fail: function (e) {
-              wx.showModal({
-                title: "警告",
-                content: e.msg,
-                showCancel: !1
-              });
-            },
-            complete: function () {
-             
-            }
-          })
-        }
-      }
-    })
   },
   onHide: function () { },
   onUnload: function () { },

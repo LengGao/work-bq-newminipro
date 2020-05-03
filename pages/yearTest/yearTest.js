@@ -1,39 +1,63 @@
 // pages/virTest/virTest.js
+let app = getApp();
+let api = require("../../api.js")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-     history:[
-       {
-         name:'模拟考试卷三',
-         time:'中等',
-         marks:'300'
-       },
-       {
-        name:'模拟考试卷二',
-        time:'中等',
-        marks:'500'
-      },
-      {
-        name:'模拟考试卷一',
-        time:'中等',
-        marks:'200'
-      }
-     ],
-     datas:true
+    history: [],
+    datas: true,
+    courseId:''
   },
-  gointro(){
-    
-      wx.redirectTo({
-        url: '../yearTestIntro/yearTestIntro'
-     })
-  },  /**
-   * 生命周期函数--监听页面加载
-   */
+  gointro(e) {
+    console.log(e)
+    let chapterId = e.currentTarget.dataset.chapterid
+    let courseId = this.data.courseId
+    let chapterName =  e.currentTarget.dataset.chaptername
+    wx.redirectTo({
+      url: `../yearTestIntro/yearTestIntro?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
+    })
+  },
+  getyearTest(courseId) {
+    let option = {
+      course_id: courseId
+    }, that = this
+     app.encryption({
+      url: api.default.yearstruth,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        try {
+          that.setData({
+            history: res
+          })
+        } catch (err) {
+          wx.showToast({
+            title: '获取历年真题失败',//提示文字
+            duration: 1500,//显示时长
+            mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+            icon: 'none', //图标，支持"success"、"loading"  
+            success: function () { },//接口调用成功
+            fail: function () { },  //接口调用失败的回调函数  
+            complete: function () { } //接口调用结束的回调函数  
+          })
+        } 
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+  },
   onLoad: function (options) {
-
+    console.log(options)
+    this.setData({
+      courseId:options.courseId
+    })
+    this.getyearTest(options.courseId)//加载历年真题
   },
 
   /**

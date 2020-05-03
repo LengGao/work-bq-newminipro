@@ -1,6 +1,8 @@
-var e = require("api.js"), wxParse = require("./wxParse/wxParse.js"); import crypto from './utils/common.util'
+var api = require("api.js"), wxParse = require("./wxParse/wxParse.js"); import crypto from './utils/common.util'
+let app = getApp();
 App({
     onLaunch: function () {
+        let that = this
         var e = this, n = wx.getStorageSync("logs") || [];
         n.unshift(Date.now()), wx.setStorageSync("logs", n), wx.getSetting({
             success: function (n) {
@@ -13,15 +15,16 @@ App({
         });
         wx.getSystemInfo({
             success: res => {
-              //导航高度
-              this.globalData.navHeight = res.statusBarHeight + 46;
+                //导航高度
+                this.globalData.navHeight = res.statusBarHeight + 46;
             }, fail(err) {
-              console.log(err);
+                console.log(err);
             }
-          })
+        })
         // 缓存
         wx.setStorageSync('school_id', 1);
     },
+
     // 新增school_id
     globalData: {
         userInfo: null,
@@ -29,7 +32,6 @@ App({
         acct_id: 1,
         openid: "",
         localSocket: {},
-        // 新
         school_id: 1,
         isIOS: wx.getSystemInfoSync().system.includes('iOS'),
         navHeight: 0
@@ -61,12 +63,10 @@ App({
             dataType: e.dataType || "json",
             success: function (n) {
                 // 错误码不为200去授权
-             
-                if (200 != n.data.code){
-
+                if (200 != n.data.code) {
                     wx.setStorageSync("privateInfor", {
-                        openid:n.data.data.param.openid,
-                        session_key:n.data.data.param.session_key
+                        openid: n.data.data.param.openid,
+                        session_key: n.data.data.param.session_key
                     })
                     wx.navigateTo({
                         url: "/pages/usersq/usersq"
@@ -94,48 +94,47 @@ App({
         });
     },
     // 统一加密解密请求
-    encryption: function (e){  
-        let uuid = wx.getStorageSync("user_info").uuid
-        let token = wx.getStorageSync("user_info").token
+    encryption: function (e) {
+        let uuid = wx.getStorageSync('user_info').uuid
+        let token = wx.getStorageSync('user_info').token
         let key = 'c9ddd89b513f3385'
         let options = {}
-        if( e.data ){
-            e.data = crypto.encrypt(e.data,key,uuid);
+        if (e.data) {
+            e.data = crypto.encrypt(e.data, key, uuid);
             options = {
-                param : e.data 
+                param: e.data
             }
         }
-   
         wx.request({
             url: e.url,
             header: {
-                token:token,
-                uuid:uuid
-              },
-            data: options ,
+                token: token,
+                uuid: uuid
+            },
+            data: options,
             method: e.method || "GET",
             dataType: e.dataType || "json",
             success: function (n) {
-               
                 let data
-                if(n.data.data.length != undefined &&n.data.data.length == 0 && n.data.data){
-                
+                if (n.data.data.length != undefined && n.data.data.length == 0 && n.data.data) {
+
                     e.success && e.success(n);
-                }else{
-               
-                    data = crypto.decrypt(n.data.data['param'],key,uuid)
-                   
+                } else {
+
+                    data = crypto.decrypt(n.data.data['param'], key, uuid)
+
                     e.success && e.success(data);
                 }
             },
             fail: function (n) {
-               e.fail && e.fail(n);
+                e.fail && e.fail(n);
             },
             complete: function (n) {
                 e.complete && e.complete(n);
             }
         });
     },
+
     /***
     * 判断用户滑动
     * 左滑还是右滑

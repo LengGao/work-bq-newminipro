@@ -1,4 +1,7 @@
 /* pages/dailyRate/dailyRate.wxss */
+page{
+    background: #fff;
+}
 .top-wrapper-daily-share{
     width: 750rpx;
     margin-top:40rpx;
@@ -6,4 +9,75 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 39rpx;
+}
+.uprates{
+    position:absolute ;
+    height: 216rpx;
+    width: 243rpx;
+    left: 50%;
+    margin-left: -115rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.rates{
+    font-size:26rpx;
+    font-family:'PingFang SC';
+    font-weight:500;
+    color:rgba(25,159,255,1);
+    margin-top: 39rpx;
+}
+.percentages{
+    font-size:56rpx;
+    font-family:'DINPro';
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    margin-bottom:29rpx;
+}
+.wrapper-top-content{
+    margin-top:75rpx;
+    margin-left:45rpx;
+    margin-right:44rpx;
+    display: flex;
+    justify-content: space-around;
+}
+.wrapper-data-every{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.wrapper-data-name{
+    font-size:50rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(25,159,255,1);
+}
+.wrapper-data-title{
+    font-size:24rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+}
+.wrapper-single-option{
+    margin-left: 75rpx;
+    margin-right: 75rpx;
+    width:600rpx;
+    display: grid;
+    grid-column-gap:50rpx;
+    grid-template-columns: repeat(5,80rpx);
+    flex-wrap:wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.defaultOption{
+    width:80rpx;
+    height:80rpx;
+    background:#cecece;
+    border-radius:50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:40rpx ;
+    color: #fff;
 }

@@ -54,7 +54,7 @@
         <view class="clock" bindtap="clickin">马上打卡<text id="gl1"></text><text id="gl2"></text> </view>
     </view>
     <view class="middle-top-right">
-        <image mode="widthFix" class="jiaimg" src="../../images/bangong.png" ></image> 
+        <image mode="widthFix" class="jiaimg" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/bangong.png" ></image> 
     </view>
 </view>
 <view class="middle-bottom-area">
@@ -66,18 +66,17 @@
 <view class="myCourse" bindtap='toVideoroom'>
     <text class="myCourse-title">我的课程</text>
     <view class="myCourse-content">
-        <image mode="widthFix" class="img-myCourse" src="{{ item.img }}" ></image> 
+        <image mode="scaleToFill" class="img-myCourse" src="{{ myCourse.courseImage }}"   /> 
         <view class="myCourse-info">
             <text class="myCourse-content-title">2020年初级会计师</text>
-            <view><text class="myCourse-name">会计</text><text class="myCourse-time">30课时</text></view>
+            <view><text class="myCourse-name" style="display:none">会计</text><text class="myCourse-time">{{myCourse.classHou }}课时</text></view>
             <view class="myCourse-info-bottom">
-               <view class="personal-infor"><image mode="widthFix" class="personal-img-myCourse" src="{{ item.img }}" ></image> <text class="personal-name">龙龙龙</text></view> 
-               <text class="havelearn">200人已学习</text>
+               <view class="personal-infor"><image mode="widthFix" class="personal-img-myCourse" src="{{ myCourse.teacherImage }}" binderror="errorFunction"></image> <text class="personal-name">{{ myCourse.teacherName }}</text></view> 
+               <text class="havelearn">{{myCourse.number}}人已学习</text>
             </view>
         </view>
     </view>
 </view>
-
 <view class="myCourse" style="margin-bottom:20rpx" bindtap='toliveclass'>
     <view class="title-course"><text class="myCourse-title-live">班级直播</text><text class="course-data">查看课程表</text></view>
     <view class="myCourse-content">
@@ -90,7 +89,7 @@
                <view class="remindMes">
                    <text class="live-review">直播回顾</text>
                    <view class="repeat">
-                        <image mode="widthFix" class="img-remindMe" src="../../images/lishi.png" ></image> 
+                        <image mode="widthFix" class="img-remindMe" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png" ></image> 
                         <text class="remindMe">提醒我</text>
                    </view>
                </view>

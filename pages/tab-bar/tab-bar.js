@@ -81,7 +81,6 @@ module.exports = {
       let moduleselect = ['home', 'shoponline','usercenter'];
       let current_key = 0;
       moduleselect.forEach((val,index) => {
-        console.log(index,val)
         if (arg == val){
           current_key = index;
         }
@@ -94,24 +93,24 @@ module.exports = {
             current_key,
             list: [
               {
-                act_img: '../../images/12.png',
-                img: '../../images/11.png',
+                act_img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/12.png',
+                img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/11.png',
                 moduleselect: "home",
                 name: "我的课程",
                 sequence: "1",
                 url: "/pages/index/index",
               },
               {
-                act_img: '../../images/14.png',
-                img:'../../images/13.png',
+                act_img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/14.png',
+                img:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/13.png',
                 moduleselect: "shoponline",
                 name: "首页",
                 sequence: "2",
                 url: "/pages/secondary/secondary",
               },
               {
-                act_img: '../../images/16.png',
-                img: '../../images/15.png',
+                act_img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/16.png',
+                img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/15.png',
                 moduleselect: "usercenter",
                 name: "个人中心",
                 sequence: "3",

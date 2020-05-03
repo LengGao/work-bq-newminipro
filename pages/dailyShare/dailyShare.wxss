@@ -2,5 +2,4 @@
 .pages{
     width: 750rpx;
     height: 1106rpx;
-    position: absolute;
 }

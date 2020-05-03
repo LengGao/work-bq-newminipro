@@ -1,32 +1,3 @@
-<!-- <view class="container">
-    <view class="logo">
-        <image src="{{logo}}" wx:if="{{logo}}"></image>
-        <image src="{{imgUrl + 'login.png'}}" wx:else></image>
-    </view>
-    <view class="btn-box">
-        <button bindgetuserinfo="onGotUserInfo" class="com_bgcolor button0" lang="zh_CN" openType="getUserInfo">点击授权</button>
-        <button bindtap="notAuthorized">暂不授权</button>
-    </view>
-</view>
-
-<view class="login_cover" hidden='{{isphone}}'>
-    <view class="login_phone">
-        <view class="login_title">微信授权</view>
-        <view class="login_content_phone">
-            <icon type="success" size="60" ></icon>
-            <view>微信授权成功</view>
-            <view class="login_content_v">授权绑定你的手机号码</view>
-
-            <navigator url="/pages/userPhoneUpdate/userPhoneUpdate?userData={{userData}}&userDa={{userDa}}">
-              <view class="login_get_phone com_color">点击绑定其他手机号码</view>
-            </navigator>
-        </view>
-        <view class="login_btn_box">
-            <button bindtap="cancelPhone">取消</button>
-            <button class="com_color" bindgetphonenumber="getPhoneNumber" openType="getPhoneNumber">允许</button>
-        </view>
-    </view>
-</view> -->
 <view class="top-image-auth">
      <image mode="widthFix" src="../../images/LOGO.png" style="width:100%;height:100%" />
 </view>

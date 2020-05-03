@@ -25,32 +25,32 @@ Page({
     formId:'',
     tabItems: [
       {
-        icon: '../../images/cards (4).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
         name: '上一题',
         action: 'lastQU',
         class: ''
       },
       {
-        icon: '../../images/cards (1).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (1).png',
         name: '答题卡',
         action: 'cards',
         class: ''
       },
       {
-        icon: '../../images/weishoucang.png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
         name: '收藏',
         action: 'likes',
         class: ''
       },
       {
-        icon: '../../images/cards (3).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
         name: '下一题',
         action: 'nextQU',
         class: ''
       }
     ],
     ProblemType:'1',
-    answerImg:'../../images/hideAnswer.png',
+    answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     activeAnswer:'defaultAnswer',
     correctoption:'',
     multishowAny:true,
@@ -72,7 +72,7 @@ Page({
       let icon = 'tabItems[0].icon'
       this.setData({ 
         current_no: 1,
-        [icon]: '../../images/cards (4).png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
       })
       return
     }
@@ -81,14 +81,14 @@ Page({
     if(allRenders[current_no-1].isCollect && allRenders[current_no-1].isCollect == '1'){ //已收藏 
       that.setData({
         likes: true,
-        [icon]: '../../images/yishuangcang (1).png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
         [classes]: 'active',
         [name]: '已收藏'
       })
       }else{
         that.setData({
           likes: true,
-          [icon]: '../../images/weishoucang.png',
+          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
           [classes]: '',
           [name]: '收藏'
         })
@@ -106,11 +106,11 @@ Page({
     this.setData({
       randerTitle: allRenders[current_no-1],
       current_no: current_no,
-      answerImg:'../../images/hideAnswer.png',
+      answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer:'defaultAnswer',
       correctoption:'',
       multishowAny:true,
-      ProblemType:allRenders[current_no - 1].ProblemType,
+      ProblemType:allRenders[current_no - 1].ProblemType
     })
   },
   cards() {
@@ -145,7 +145,7 @@ Page({
             allRender[current_no-1].isCollect = 0
             that.setData({
               likes: false,//表示当前题目未收藏
-              [icon]: '../../images/weishoucang.png',
+              [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
               [classes]: '',
               [name]: '收藏',
               allRender: allRender//缓存即将需要渲染的数据
@@ -182,7 +182,7 @@ Page({
           allRender[current_no-1].isCollect = 1
           that.setData({
             likes: true,
-            [icon]: '../../images/yishuangcang (1).png',
+            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
             [classes]: 'active',
             [name]: '已收藏',
             allRender: allRender
@@ -227,13 +227,13 @@ Page({
       randerTitle = app.testWxParse(that, randerTitle)
       if (curReander.isCollect == '1') { //判断下一题是否已收藏 
         that.setData({
-          [icon]: '../../images/yishuangcang (1).png',
+          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
           [classes]: 'active',
           [name]: '已收藏'
         })
       } else {
         that.setData({
-          [icon]: '../../images/weishoucang.png',
+          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
           [classes]: '',
           [name]: '收藏'
         })
@@ -244,7 +244,7 @@ Page({
         allRender: allRender,//更新已经渲染的数据
         showAny: true,//隐藏答案
         ProblemType: randerTitle.ProblemType,//更新题目类型
-        answerImg: '../../images/hideAnswer.png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
         multishowAny: true//
@@ -260,14 +260,14 @@ Page({
       if (randerTitle.isCollect == '1') { //判断下一题是否已收藏 
         that.setData({
           likes: true,
-          [icon]: '../../images/yishuangcang (1).png',
+          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
           [classes]: 'active',
           [name]: '已收藏'
         })
       } else {
         that.setData({
           likes: true,
-          [icon]: '../../images/weishoucang.png',
+          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
           [classes]: '',
           [name]: '收藏'
         })
@@ -277,7 +277,7 @@ Page({
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
         ProblemType: randerTitle.ProblemType,//更新题目类型
-        answerImg: '../../images/hideAnswer.png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
         showAny:isShow,
@@ -287,7 +287,7 @@ Page({
     if (current_no > 0) {
       let icon = 'tabItems[0].icon'
       this.setData({
-        [icon]: '../../images/leftsing.png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
     if( randerTitle.ProblemType == '2' ){
@@ -402,14 +402,14 @@ Page({
   showAnswer(){
     if(this.data.activeAnswer == 'activeAnswer'){
       this.setData({
-        answerImg:'../../images/hideAnswer.png',
+        answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer:'defaultAnswer',
         correctoption:'',
         multishowAny:true
       })
     }else{
       this.setData({
-        answerImg:'../../images/showAnswer (1).png',
+        answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeAnswer:'activeAnswer',
         correctoption:'activeoption',
         multishowAny:false
@@ -450,7 +450,7 @@ Page({
         if (randerTitle.isCollect == 1) { //是否已收藏
           that.setData({
             likes: true,
-            [icon]: '../../images/yishuangcang (1).png',
+            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
             [classes]: 'active',
             [name]: '已收藏'
           })
@@ -485,7 +485,6 @@ Page({
     let direction = app.getTouchData(x, y, d.touchX, d.touchY);
     if (direction == 'left') {
       this.nextQU();
-
     } else if (direction == 'right') {
       this.lastQU();
     }

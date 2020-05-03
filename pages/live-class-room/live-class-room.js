@@ -16,9 +16,9 @@ Page({
     show_input_password: !0,
     showOrHidden: !1,
     clickevent: !1,
-    playIcon: "../../images/live-win01.png",
-    collectIcon: "../../images/ic-like00.png",
-    playPusher: "../../images/pusher-play.png",
+    playIcon: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/live-win01.png",
+    collectIcon: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ic-like00.png",
+    playPusher: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-play.png",
     pusher: !0,
     comment_data: "",
     comment_img: "",
@@ -50,7 +50,7 @@ Page({
     for_video_id: 0,
     // 新
     isIOS: app.globalData.isIOS,
-    chooseimg: '../../images/uploadimg.png',
+    chooseimg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadimg.png',
     comment_placeholder: '说点什么吧~',
     client_list: [],
     comment_bottom: 0,
@@ -59,9 +59,9 @@ Page({
   livePlayer: '',
   tapVoicePlay: function () {
     d ? this.setData({
-      playIcon: "../../images/live-win02.png"
+      playIcon: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/live-win02.png"
     }) : this.setData({
-      playIcon: "../../images/live-win01.png"
+      playIcon: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/live-win01.png"
     }), d = !d;
   },
   togglePusher: function () {
@@ -72,9 +72,9 @@ Page({
   },
   pusherPlay: function () {
     r ? this.setData({
-      playPusher: "../../images/pusher-pause.png"
+      playPusher: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-pause.png"
     }) : this.setData({
-      playPusher: "../../images/pusher-play.png"
+      playPusher: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-play.png"
     }), r = !r;
   },
   collect: function () {
@@ -347,7 +347,7 @@ Page({
     this.setData({
       isCover: 0,
       toClient: '',
-      chooseimg: '../../images/uploadimg.png',
+      chooseimg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadimg.png',
       comment_placeholder: '说点什么吧~'
     })
   },

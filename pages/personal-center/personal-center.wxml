@@ -1,9 +1,9 @@
 <view>
     <view class='geli'></view>
     <view class="top-center">
-        <image class="topimage" mode="widthFix" src="../../images/top.png" />
+        <image class="topimage" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/top.png" />
         <view class="top-content flex">
-            <image class="top-center-ava" mode="widthFix" src="{{user_info.avatar_url?user_info.avatar_url:'../../images/avatar-def@2x.png'}}" style=""></image>
+            <image class="top-center-ava" mode="widthFix" src="{{user_info.avatar_url?user_info.avatar_url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def@2x.png'}}" style=""></image>
             <view class="top-content-detail">
                 <text class="nick-name" wx:if="{{user_info.nickname}}">{{user_info.nickname}}</text>
                 <!-- <text class="nick-name">Night belongs bright</text> -->

@@ -35,7 +35,18 @@ var apiurl = {
     getMyCourse:e +'/api/v1/course/getMyCourse',
     getCourse:e +'/api/v1/course/getCourse',
     getSubject:e +'api/v1/course/getSubject',
-    insertCourse:e +'api/v1/course/insertCourse'
+    insertCourse:e +'api/v1/course/insertCourse',
+    yearstruth:e +'api/v1/answe/yearstruth',
+    gettruthinfo:e +'api/v1/answe/gettruthinfo',
+    gettruthquestion:e +'api/v1/answe/gettruthquestion',
+    answersave:e +'api/v1/answe/answersave',
+    brushGenerationChallenge:e +'api/v1/answe/brushGenerationChallenge',
+    generatingChallengesMark:e +'api/v1/answe/generatingChallengesMark',
+    getChallengesFacePlate:e +'api/v1/answe/getChallengesFacePlate',
+    recordingBrushProblem:e +'api/v1/answe/recordingBrushProblem',
+    getRankeEdition:e +'api/v1/answe/getRankeEdition',
+    MyRankeEdition:e +'api/v1/answe/MyRankeEdition'
+
   },
   index: {
     // banner: e + "index"
@@ -70,14 +81,9 @@ var apiurl = {
     addProblemOrder: bq + "index/course/addProblemOrder",
     vip_list: e + "viplist"
   },
-  activity: {
-    list: e + "activitylist",
-    detail: e + "activitydetail",
-    join: e + "joinactivity",
-    get_act_input: e + "getactinput"
-  },
   video: {
     listen: e +'api/v1/course/listen',
+    getvideoinfo: e +'api/v1/video/getvideoinfo',
     play: e +'api/v1/course/play',
     my_collect: e + "myvideocollect",
     // add_comment: e + "addcomment",

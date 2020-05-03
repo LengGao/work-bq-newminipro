@@ -3,10 +3,10 @@
   <view class="wrapper-video">
     <live-player autoplay="true" class="liveplay" id="video-livePlayer" src="{{videoUrl}}" bindstatechange="dostatechange" bindfullscreenchange="doFullScreen" bindtap="doPause">
         <!-- 暂停 -->
-        <cover-image src="../../images/pusher-play00.png" class="pause_cover" wx:if="{{isFullscreen && isPause}}"  bindtap="doPauseBtn"></cover-image>
-        <cover-image src="../../images/pusher-pause00.png" class="pause_cover" wx:if="{{isFullscreen && !isPause}}"  bindtap="doPauseBtn"></cover-image>
+        <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-play00.png" class="pause_cover" wx:if="{{isFullscreen && isPause}}"  bindtap="doPauseBtn"></cover-image>
+        <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-pause00.png" class="pause_cover" wx:if="{{isFullscreen && !isPause}}"  bindtap="doPauseBtn"></cover-image>
         <cover-view class="video-control" wx:if="{{isFullscreen}}" bindtap="doExitFull" >
-          <cover-image class="video_jt" src="../../images/left_jt.png"></cover-image>
+          <cover-image class="video_jt" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/left_jt.png"></cover-image>
           <cover-view class="video-title">{{video_title}}</cover-view>
             <cover-view class="video-titles">清晰度</cover-view>
         </cover-view>
@@ -14,7 +14,7 @@
     <view class="video-operator"  bindtap="onFullScreenClick">
             <text class="speed">倍速</text>
             <text class="articulation">高清</text>
-            <image mode="widthFix" src="../../images/full-screen.png" style="width:44rpx;height:100%" ></image>
+            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/full-screen.png" style="width:44rpx;height:100%" ></image>
     </view>
     </view>
     <view class="outer-menu flex-be">
@@ -25,7 +25,7 @@
             <!-- <view class="menu-item {{tabArr.curHdIndex==2?'priceactive':''}}" data-id="2" id="tab-hd03">打赏榜</view> -->
         </view>
         <!-- <view bindtap="onFullScreenClick" class="full-screen flex-column-center" >
-            <image mode="widthFix" src="../../images/full-screen.png"></image>
+            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/full-screen.png"></image>
             <text>全屏</text>
         </view> -->
     </view>
@@ -68,10 +68,10 @@
     <form bindsubmit="submitMsg">
       <view class="footer-bar" style="{{'bottom:'+inputHeight+'px'}}">
           <view class="send-box">
-              <!-- <image bindtap="chooseImg" class="chooseimg" mode="widthFix" src="../../images/up-loadimg.png" wx:if="{{img_list.length<5}}"></image> -->
+              <!-- <image bindtap="chooseImg" class="chooseimg" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/up-loadimg.png" wx:if="{{img_list.length<5}}"></image> -->
               <!-- <image bindtap="showCover" class="chooseimg" mode="widthFix" src="{{chooseimg}}" ></image> -->
               <input bindinput="getComment" adjust-position="{{false}}" class="input-words" placeholder="{{comment_placeholder}}" placeholderClass="input-place" type="text" value="{{comment_data}}" bindfocus="doInputFocus" bindblur="doInputBlur" name="txt" ></input>
-              <image clas="give-gift" mode="widthFix" src="../../images/dashang-icon.png"></image>
+              <image clas="give-gift" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/dashang-icon.png"></image>
               <button class="{{showOrHidden?'send-btn1':'send-btn0'}}" formType="submit">发送</button>
           </view>
       </view>
@@ -80,8 +80,8 @@
 </view>
 <!-- <cover-view class="pop-masks" hidden="{{flag}}">
     <cover-view class="sum-popup">
-        <cover-image bindtap="hidepop" class="close-sum-icon" mode="widthFix" src="../../images/close-pop-icon.png"></cover-image>
-        <cover-image class="top-red-bg" mode="widthFix" src="../../images/reward-pop-bg2.png"></cover-image>
+        <cover-image bindtap="hidepop" class="close-sum-icon" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/close-pop-icon.png"></cover-image>
+        <cover-image class="top-red-bg" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/reward-pop-bg2.png"></cover-image>
         <cover-view class="choose-sum">
             <cover-view bindtap="money" class="choose-sum-text" data-money="1">1元</cover-view>
             <cover-view bindtap="money" class="choose-sum-text" data-money="3">3元</cover-view>
@@ -124,13 +124,13 @@
     <block wx:key="index" wx:for="{{chapter}}">
       <view class="cata-title" bindtap="ifShow" data-index="{{index}}">
       {{item.title}}
-        <image src="../../images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
+        <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
       </view>
       <view class="cata-list" wx:if="{{item.isShow}}">
       <!-- bindtap="select_date" -->
           <view  class="cata-item flex-st {{lessonId == vitem.id ?'selected com_color':''}}" data-key="{{vitem.id}}" wx:for="{{item.list}}" wx:for-item="vitem">
-              <image class="cata-icon icon01" mode="widthFix" src="../../images/icon-catalog.png"></image>
-              <image class="cata-icon icon02" mode="widthFix" src="../../images/icon-catalog2.png"></image>
+              <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
+              <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image>
               <view class="cata-content twoline">
                   <text class="cata-name twoline">{{vitem.title}}</text>
                   <!-- <text class="cata-time">{{vitem.time}}</text> -->
@@ -149,15 +149,15 @@
     <view class="ranking-list">
         <view class="ranking-item" wx:if="{{reward_list.length>0}}" wx:for="{{reward_list}}">
             <view class="rank-part1" wx:if="{{index==0}}">
-                <image mode="widthFix" src="../../images/rank-num1.png"></image>
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/rank-num1.png"></image>
                 <text></text>
             </view>
             <view class="rank-part1" wx:elif="{{index==1}}">
-                <image mode="widthFix" src="../../images/rank-num2.png"></image>
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/rank-num2.png"></image>
                 <text></text>
             </view>
             <view class="rank-part1" wx:elif="{{index==2}}">
-                <image mode="widthFix" src="../../images/rank-num3.png"></image>
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/rank-num3.png"></image>
                 <text></text>
             </view>
             <view class="rank-part1" wx:else>

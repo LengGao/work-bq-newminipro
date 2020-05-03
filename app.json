@@ -1,8 +1,14 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/dailyShare/dailyShare",
+    "pages/challengPri/challengPri",
+    "pages/challengResult/challengResult",
+    "pages/yearTestStart/yearTestStart",
+    "pages/yearPriStart/yearPriStart",
+    "pages/challengRate/challengRate",
+    "pages/dailyChallenge/dailyChallenge",
     "pages/dailyRate/dailyRate",
+    "pages/dailyShare/dailyShare",
     "pages/dailyCard/dailyCard",
     "pages/addCourse/addCourse",
     "pages/billShare/billShare",

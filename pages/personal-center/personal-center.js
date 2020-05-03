@@ -8,52 +8,52 @@ Page({
     info: {},
     funsel:[
       {
-        url:'../../images/banji.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/banji.png',
         name:'我的班级'
       },
       {
-        url:'../../images/xuexibaogao.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xuexibaogao.png',
         name:'学习报告'
       },
       {
-        url:'../../images/xiazai.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiazai.png',
         name:'我的收藏'
       },
       {
-        url:'../../images/goumaijilu.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumaijilu.png',
         name:'购买记录'
       },
     ],
     funlist:[
       {
-        url:'../../images/xiugaiziliao.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiugaiziliao.png',
         tosome:'',
         name:'修改资料',
         option:['身份证、','毕业证']
       },
       {
-        url:'../../images/wodekaoshi.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/wodekaoshi.png',
         tosome:'',
         name:'我的考试',
         option:['考试时间、','地点、','科目']
       },
       {
-        url:'../../images/jifentongji.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jifentongji.png',
         tosome:'',
         name:'积分统计',
       },
       {
-        url:'../../images/xitongshezhi.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xitongshezhi.png',
         tosome:'',
         name:'系统设置',
       },
       {
-        url:'../../images/yijianfankui.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
         tosome:'../problem/problem',
         name:'意见反馈',
       },
       {
-        url:'../../images/lianxikefu.png',
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lianxikefu.png',
         tosome:'',
         name:'联系客服',
       }

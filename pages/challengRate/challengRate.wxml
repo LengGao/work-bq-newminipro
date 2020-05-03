@@ -1,0 +1,67 @@
+<!-- pages/challengRate/challengRate.wxml -->
+<view style="height:320rpx;width:100%;background:#199FFF;overflow:hidden;position:relative">
+    <view style="display:flex;flex-direction:column;align-itens:center;margin-top:76rpx;margin-left:50rpx">
+        <view style="font-size:76rpx;font-family:Source Han Sans SC;font-weight:bold;color:rgba(255,255,255,1);">
+            刷题挑战榜
+        </view>
+        <view style="font-size:26rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);margin-top:10rpx">
+            更新时间:       2020-04-27 00:00
+        </view>
+    </view>
+    <image style="width:445rpx;height:265rpx;position:absolute;bottom:0;right:0;" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/tiaozhanbang.png" />
+</view>
+<view style="background:rgba(255,255,255,1);border-radius:20rpx 20rpx 0px 0px;padding:37rpx 57rpx 48rpx 47rpx;position:relative;top:-20rpx">
+    <view class="top-wrapper-fun">
+        <view wx:for="{{ names }}" wx:key="index" style="font-size:28rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
+            {{item.name }}
+        </view>
+    </view>
+    <view style="display:flex;flex-direction:column">
+        <view wx:for="{{ infos }}" wx:key="index" class="wrapper-allnumber" style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);height:120rpx">
+            <view>
+                <view wx:if="{{ item.num == 1?false : item.num == 2?false:item.num == 3?false:true }}" style="margin-left:16rpx">{{ item.num }}</view> 
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/1.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ item.num == 1? true : false }}" />
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/2.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ item.num == 2? true : false }}" />
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/3.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ item.num == 3? true : false }}" />
+            </view>
+            <view style="display:flex;align-items:center;height:88rpx">
+                <image src="{{ item.userImage }}" style="width:80rpx;height:80rpx;border-radius:50%"/>
+                <view style="margin-left:20rpx;color:#333333;font-size:32rpx;overflow:hidden;white-space:nowrap;text-overflow: ellipsis;height:33rpx;display:flex;align-items:center;height:44rpx;flex:1">
+                    {{ item.nickname }}
+                </view>
+            </view>
+            <view style="color:#333333;font-size:32rpx">{{ item.mark }}</view>
+            <view style="color:#333333;font-size:32rpx">{{ item.consumeTime }}</view>
+        </view>
+    </view>
+</view>
+<view style="width:100%;font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);display:flex;justify-content:center">
+    挑战榜只显示前20位
+</view>
+<view style="position:fixed;bottom:0;left:0;width:750rpx;height:120rpx;background:rgba(255,255,255,1);box-shadow:0px -1px 0px 0px rgba(238,238,238,1);display:flex">
+    <view style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(25,159,255,1);width:64rpx;height:70rpx;margin-top:20rpx;margin-left:44rpx">
+        我的成绩
+    </view>
+    <image src="{{userInfo.userImage}}" style="width:80rpx;height:80rpx;margin-left:42rpx;margin-top:20rpx;border-radius:50%;" />
+    <view style="display:flex;margin-top:20rpx;flex-direction:column;align-items:space-between;margin-left:21rpx;overflow:hidden">
+        <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);overflow: hidden;white-space:nowrap;text-overflow: ellipsis; ">
+            {{userInfo.nickname}}
+        </view>
+        <view style="display:flex;margin-top:4rpx" wx:if="{{ userInfo.uid }}">
+            <view style="color:#999999;font-size:28rpx">
+                排名:
+                <text style="color:#199FFF;font-size:28rpx">{{ userInfo.num }}</text>
+            </view>
+            <view style="color:#999999;font-size:28rpx;margin-left:10rpx">
+                得分:
+                <text style="color:#199FFF;font-size:28rpx">{{ userInfo.mark }}</text>
+            </view>
+        </view>
+        <view style="display:flex;margin-top:4rpx" wx:if="!{{ userInfo.uid }}">
+            <view style="color:#999999;font-size:28rpx">今日还没任何成绩</view>
+        </view>
+    </view>
+    <view style="width:200rpx;height:60rpx;background:rgba(25,159,255,1);border-radius:30rpx;colorL:#FFFFFF;line-height:56rpx;text-align:center;color:#ffffff;margin-left:61rpx;margin-top:30rpx" bindtap='gochallengPri'>
+        继续挑战
+    </view>
+</view>

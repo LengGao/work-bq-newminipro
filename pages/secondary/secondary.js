@@ -5,37 +5,37 @@ Page({
     isIOS: app.globalData.isIOS,
     banner: [
       {
-        url:'../../images/01.jpg'
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/01.jpg'
       },
       {
-        url:'../../images/02.jpg'
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/02.jpg'
       },
       {
-        url:'../../images/03.jpg'
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg'
       },
       {
-        url:'../../images/04.jpg'
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg'
       }
   ],
   funsel: [
     {
-      url:'../../images/ruankaojisuanji.png',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ruankaojisuanji.png',
       name:'软考'
     },
     {
-      url:'../../images/jiaoshizigezheng.png',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiaoshizigezheng.png',
       name:'会计师'
     },
     {
-      url:'../../images/jingjishizhicheng.png',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jingjishizhicheng.png',
       name:'经济师'
     },
     {
-      url:'../../images/gongchengshizhicheng.png',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/gongchengshizhicheng.png',
       name:'特种作业'
     },
     {
-      url:'../../images/jiankangguanlishi.png',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiankangguanlishi.png',
       name:'健康管理师'
     }
    
@@ -44,26 +44,26 @@ Page({
   freeCourse:[],
   hotpoint:[
     {
-      url:'../../images/05.jpg',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/05.jpg',
       title:'系统集成项目管理工程师',
       price:'6666',
       personal:'2564',
       id:'123'
     },
     {
-      url:'../../images/06.jpg',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/06.jpg',
       title:'系统集成项目管理工程师',
       price:'5646',
       personal:'1654'
     },
     {
-      url:'../../images/04.jpg',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg',
       title:'系统集成项目管理工程师',
       price:'8947',
       personal:'56971'
     },
     {
-      url:'../../images/03.jpg',
+      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg',
       title:'系统集成项目管理工程师',
       price:'5612',
       personal:'89745'

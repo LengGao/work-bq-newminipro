@@ -7,13 +7,52 @@
             {{time}}
         </view>
     </view>
-    <view style="display:flex;align-items:center;vertical-align:middle">
-        <image style="width:24rpx;height:24rpx" src="../../images/shareImg (1).PNG" />
+    <view style="display:flex;align-items:center;vertical-align:middle" bindtap='goshare'>
+        <image style="width:24rpx;height:24rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/shareImg (1).png" />
         <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:#199FFF;margin-left:5rpx">
             分享
         </view>
     </view>
 </view>
-<view style="">
- <image style="" src="../../images/circle@2x.png" />
+<view style="width:266rpx;height:230rpx;margin-left:242rpx;margin-top:60rpx;">
+  <view class="uprates">  <text class="rates">正确率 </text> <text class="percentages">80%</text> </view>
+  <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/circle@2x.png" mode="widthFix"/>
+</view>
+<view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-top:50rpx;position:relative;display:flex;justify-content:center">继续努力，更上一层楼吧！
+</view>
+<view class="wrapper-top-content">
+        <view wx:for="{{ everyDate }}" wx:key="index" class="wrapper-data-every">
+            <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(25,159,255,1);">
+                <text class="wrapper-data-name">{{ item.name }}</text>
+                {{item.desc}}
+            </view>
+            <view>
+                <text class="wrapper-data-title">{{ item.title }}</text>
+            </view>
+        </view>
+</view>
+<view style="width:750rpx;height:20rpx;background:rgba(245,245,245,1);margin-top:63rpx"></view>
+<view style="margin-left:40rpx;display:flex;margin-top:35rpx">
+  <view style="display:flex;align-items:center">
+      <view style="width:32rpx;height:32rpx;background:rgba(89,210,52,1);border-radius:50%;"></view>
+      <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-left:19rpx">正确</view>
+  </view>
+   <view style="margin-left:81rpx;display:flex;align-items:center">
+      <view style="width:32rpx;height:32rpx;background:rgba(255,75,75,1);border-radius:50%;"></view>
+      <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-left:19rpx">错误</view>
+  </view>
+</view> 
+<view style="width:670rpx;height:1px;border:1rpx solid rgba(221,221,221,1);margin-left:40rpx;margin-top:34rpx"></view>
+<view class="wrapper-single-option">
+    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}}">
+        <text > {{index+1}} </text>
+    </view>
+</view>
+<view style="position:absolute;align-items:center;justify-content:space-around;bottom:0;left:0;display:flex;width:750rpx;height:100rpx;background:rgba(255,255,255,1);">
+  <button style="width:300rpx;height:60rpx;border:1px solid rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#199FFF;font-size:32rpx;">
+    再练一遍
+  </button>
+  <button style="width:300rpx;height:60rpx;background:rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#FFFFFF;font-size:32rpx;">
+   查看解析
+  </button>
 </view>

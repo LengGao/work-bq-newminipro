@@ -6,9 +6,31 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    everyDate:[
+      {
+        name:'12',
+        title:'累计打卡天数',
+        desc:'天'
+      },
+      {
+        name:'15:30',
+        title:'本次打卡时间',
+        desc:''
+      },
+      {
+       name:'68',
+       title:'今天打卡排行',
+       desc:''
+      }
+    ],
+    singleNum:10,
+    successOPtion:'defaultOption',
   },
-
+  goshare(){
+    wx.navigateTo({
+      url:'../dailyShare/dailyShare'
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

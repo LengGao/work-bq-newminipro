@@ -1,11 +1,13 @@
 // pages/yearTestIntro/yearTestIntro.js
+let app = getApp();
+let api = require("../../api.js")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    chapterName:''
   },
   goshuati(){
     wx.redirectTo({
@@ -13,15 +15,57 @@ Page({
    })
   },
   gokaoshi(){
+    let chapterId = this.data.chapterId;
+    let courseId = this.data.courseId;
+    let chapterName = this.data.chapterName
     wx.redirectTo({
-      url: '../virStart/virStart'
+      url: `../yearTestStart/yearTestStart?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
    })
+  },
+  gettruthinfo(options){
+    let that = this
+    let option = {
+      course_id: options.courseId,
+      chapter_id:options.chapterId
+    }
+     app.encryption({
+      url: api.default.gettruthinfo,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        try {
+          if(res.exam_length){
+            that.setData({
+              exam_length:res.exam_length,
+              pass_scores:res.pass_scores,
+              total_point:res.total_point,
+              judge:res.question_info.judge,
+              multi:res.question_info.multi,
+              radio:res.question_info.radio,
+              
+            })
+          }
+        } catch (err) {
+        } 
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(options)
+    this.setData({
+      chapterId:options.chapterId,
+      courseId:options.courseId,
+      chapterName:options.chapterName
+    })
+    this.gettruthinfo(options)
   },
 
   /**

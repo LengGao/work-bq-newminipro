@@ -26,7 +26,7 @@
             </cover-view>
         </cover-view>
     </video>
-    <view class="middle-box" hidden="{{isPay}}">
+    <view class="middle-box" hidden="{{isPay}}" wx:if="{{false}}">
         <view class="inner-box">
             <view class='countdown-contant' wx:if="{{countDown}}">
                 <!-- <view class='name_right'> -->
@@ -42,10 +42,10 @@
                 </view>
                 <!-- </view> -->
             </view>
-            <image mode='widthFix' src="../../images/countdown.jpg" class="countdown-image" />
+            <image mode='widthFix' src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/countdown.jpg" class="countdown-image" />
             <view class="psy-tips">
                 <text>本视频需要报名</text>
-                <!-- <image mode="widthFix" src="../../images/pay-line-tips.png"></image> -->
+                <!-- <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pay-line-tips.png"></image> -->
             </view>
         </view>
     </view>
@@ -67,12 +67,12 @@
     <block wx:key="index" wx:for="{{chapter}}" wx:key="index">
         <view class="cata-title" bindtap="ifShow" data-index="{{index}}">
             {{item.title}}
-            <image src="../../images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
+            <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
         </view>
         <view class="cata-list" wx:if="{{item.isShow}}">
             <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.id ?'selected com_color':''}}" data-key="{{vitem.id}}" wx:for="{{item.list}}" wx:for-item="vitem" wx:key="index">
-                <!-- <image class="cata-icon icon01" mode="widthFix" src="../../images/icon-catalog.png"></image>
-                <image class="cata-icon icon02" mode="widthFix" src="../../images/icon-catalog2.png"></image> -->
+                <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
+                <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                 <view class="cata-content twoline">
                     <text class="cata-name twoline">{{vitem.title}}</text>
                     <!-- <text class="cata-time">{{vitem.time}}</text> -->
@@ -120,19 +120,19 @@
                         <text class="line0"></text>
                         <text>拼购玩法</text>
                     </view>
-                    <image mode="widthFix" src="../../images/pintuan-rule.png"></image>
+                    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-rule.png"></image>
                 </view>
                 <view class="process0 flex-ce">
                     <view class="prce-text">
                         <text>1</text>
                         <text>开团/参团</text>
                     </view>
-                    <image mode="widthFix" src="../../images/pintuan-rule.png"></image>
+                    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-rule.png"></image>
                     <view class="prce-text">
                         <text>2</text>
                         <text>邀请好友</text>
                     </view>
-                    <image mode="widthFix" src="../../images/pintuan-rule.png"></image>
+                    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-rule.png"></image>
                     <view class="prce-text">
                         <text>3</text>
                         <text>满员发货</text>
@@ -171,7 +171,7 @@
             </view>
         </view>
         <view class="share-buttons">
-            <image class="" mode="widthFix" src="../../images/share.png" />
+            <image class="" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/share.png" />
             <text class="">分享</text>
         </view>
     </view>
@@ -267,9 +267,9 @@
 </view>
 <view class="pop-masks-other" hidden="{{buypop}}">
     <view class="pop-of-buy">
-        <image class="bgpic" mode="widthFix" src="../../images/icon-video-title.png"></image>
+        <image class="bgpic" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-video-title.png"></image>
         <view bindtap="ownbuyclose" class="close-buy">
-            <image mode="widthFix" src="../../images/close-pop-icon.png"></image>
+            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/close-pop-icon.png"></image>
         </view>
         <view class="tips-text">
             <text>此视频为付费视频</text>
@@ -288,7 +288,7 @@
     <view class="teams-pop">
         <view class="ct-head">选择参团规模</view>
         <view bindtap="hideteam" class="close-ct">
-            <image mode="widthFix" src="../../images/closepopicon.png"></image>
+            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/closepopicon.png"></image>
         </view>
         <view class="teams-box">
             <view bindtap="select_team" class="ct-menu {{state1==index?'selected':''}}" data-key="{{index}}" wx:for="{{team}}" wx:key="index">
@@ -303,7 +303,7 @@
                             <image mode="widthFix" src="{{jitem.avatar_url}}"></image>
                         </view>
                         <view class="mem-pic">
-                            <image mode="widthFix" src="../../images/pintuan-avatar.png"></image>
+                            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-avatar.png"></image>
                         </view>
                     </view>
                     <view class="cantuan-staus flex-column-center">
@@ -327,7 +327,7 @@
         <view class="teams-pop" style="position: static">
             <view class="ct-head">选择开团规模</view>
             <view bindtap="hidefund" class="close-ct">
-                <image mode="widthFix" src="../../images/closepopicon.png"></image>
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/closepopicon.png"></image>
             </view>
         </view>
         <scroll-view scrollY class="fd-scroll">
@@ -389,7 +389,7 @@
     </view>
     <view class="lunchYourcomm">发表评论</view>
     <view class="closings" catchtap='handleClose2'>
-        <image class="closing" src="../../images/closeing.png" />
+        <image class="closing" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/closeing.png" />
     </view>
 </i-modal>
 <view class="footer-bar flex-st">

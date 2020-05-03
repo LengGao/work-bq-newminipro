@@ -1,0 +1,21 @@
+/* pages/challengRate/challengRate.wxss */
+page{
+    background: #ffffff;
+}
+.top-wrapper-fun{
+    display: grid;
+    /* grid-column-gap:60rpx 242rpx 116rpx; */
+    grid-template-columns:112rpx 292rpx 170rpx 58rpx;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.wrapper-allnumber{
+    display: grid;
+    /* grid-column-gap:60rpx 242rpx 116rpx; */
+    grid-template-columns:101rpx 308rpx 156rpx 81rpx;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+    align-items: center;
+    
+}

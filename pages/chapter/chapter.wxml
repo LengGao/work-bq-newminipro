@@ -1,5 +1,5 @@
 <view class="chapter-list">
-    <image mode="widthFix" src="../../images/tops.png" style="height:100%;width:100%"/>
+    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/tops.png" style="height:100%;width:100%"/>
     <view class="chapter-list-img">
         <view class="process">
            <view > <text class="top">{{ title_list.chapterProgress }}</text></view> 
@@ -20,7 +20,7 @@
 <view class="card">
     <!-- <navigator class="chapter-item" hoverClass="none" url="../test/test?id=1&chapter_id=1"> -->
     <view wx:for="{{ reader }}" wx:key="index" class="wrapper-class" data-cid = '{{ item.chapterId}}' bindtap='gopri'>
-        <image mode="widthFix" src="../../images/reader.png" style="width:26rpx;height:26rpx;margin-top:8rpx"/>
+        <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/reader.png" style="width:26rpx;height:26rpx;margin-top:8rpx"/>
         <view class="card-items" class="wrapper-content">
             <text class="title-card">{{ item.chapterName }}</text>
             <view class="wrapper-bottom">
@@ -34,7 +34,7 @@
     <!-- </navigator> -->
 </view>
 <!-- <view class="page-nodata" wx:if="{{reader.length == 0}}">
-    <image class="leftimg" mode="widthFix" src="../../images/page-no-data.png"></image>
+    <image class="leftimg" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/page-no-data.png"></image>
     <view>暂无数据</view>
 </view> -->
 

@@ -27,28 +27,28 @@ Page({
     examLogId:'',
     tabItems: [
       {
-        icon: '../../images/cards (4).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(4).png',
         name: '上一题',
         action: 'lastQU',
         class: '',
         click: false
       },
       {
-        icon: '../../images/cards (1).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(1).png',
         name: '答题卡',
         action: 'cards',
         class: '',
         click: false
       },
       {
-        icon: '../../images/alerm.png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/alerm.png',
         name: '',
         action: 'likes',
         class: '',
         click: true
       },
       {
-        icon: '../../images/cards (3).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(3).png',
         name: '下一题',
         action: 'nextQU',
         class: '',
@@ -56,7 +56,7 @@ Page({
       }
     ],
     ProblemType:'1',
-    answerImg:'../../images/hideAnswer.png',
+    answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     activeAnswer:'defaultAnswer',
     correctoption:'',
     multishowAny:true,
@@ -80,7 +80,7 @@ Page({
       let icon = 'tabItems[0].icon'
       this.setData({ 
         current_no: 1,
-        [icon]: '../../images/cards (4).png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(4).png',
       })
       return
     }
@@ -101,7 +101,7 @@ Page({
       this.setData({
         randerTitle: allRenders[current_no-1],
         current_no: current_no,
-        answerImg:'../../images/hideAnswer.png',
+        answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer:'defaultAnswer',
         option:'',
         multishowAny:true,
@@ -200,7 +200,7 @@ Page({
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
         ProblemType: randerTitle.ProblemType,//更新题目类型
-        answerImg: '../../images/hideAnswer.png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         option: '',
         multishowAny: true//
@@ -216,7 +216,7 @@ Page({
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
         ProblemType: randerTitle.ProblemType,//更新题目类型
-        answerImg: '../../images/hideAnswer.png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
         showAny:isShow,
@@ -227,7 +227,7 @@ Page({
     if (current_no > 0) {
       let icon = 'tabItems[0].icon'
       this.setData({
-        [icon]: '../../images/leftsing.png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
     if( randerTitle.ProblemType == '2' ){
@@ -310,14 +310,14 @@ Page({
   showAnswer(){
     if(this.data.activeAnswer == 'activeAnswer'){
       this.setData({
-        answerImg:'../../images/hideAnswer.png',
+        answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/hideAnswer.png',
         activeAnswer:'defaultAnswer',
         correctoption:'',
         multishowAny:true
       })
     }else{
       this.setData({
-        answerImg:'../../images/showAnswer (1).png',
+        answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/showAnswer (1).png',
         activeAnswer:'activeAnswer',
         correctoption:'activeoption',
         multishowAny:false

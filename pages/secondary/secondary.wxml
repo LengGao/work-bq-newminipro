@@ -10,7 +10,7 @@
 <view class="flex-between tacitly second-content">
     <view class="flex">
         <view class="toutiao">
-            <image class="images" mode="widthFix" src="../../images/logos.png" />
+            <image class="images" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/logos.png" />
         </view>
         <view class="shugang"></view>
         <view class="contents flex-column">

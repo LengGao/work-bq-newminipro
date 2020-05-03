@@ -99,7 +99,6 @@
    margin-right: 44rpx;
    display: flex;
    justify-content: space-around;
-
  }
  .wrapper-data-name{
   font-size:50rpx;
@@ -117,5 +116,10 @@
    display: flex;
    flex-direction: column;
    align-items: center;
-
  }
+ .right{
+  background:rgba(89,210,52,1);
+}
+.false{
+  background:rgba(255,75,75,1);
+}

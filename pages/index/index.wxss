@@ -349,7 +349,6 @@ page {
 .img-myCourse{
     width: 200rpx;
     height: 130rpx;
-    border: 1rpx solid #cecece;
 }
 .myCourse-content{
     display: flex;
@@ -378,7 +377,6 @@ page {
 .personal-img-myCourse{
        width: 32rpx;
        height: 32rpx;
-       border: 1px solid #cecece;
 }
 .myCourse-name{
     height: 30rpx;

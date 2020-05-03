@@ -36,7 +36,7 @@ Page({
         method: 'GET',
         dataType: "json",
         success: function (res) {
-          console.log( typeof(res.data))
+          console.log( res)
           if( typeof(res.data) != 'undefined'){
             console.log('1')
             that.setData({
@@ -55,7 +55,6 @@ Page({
              }
             }
           }
-           
           for(let i  of  multipleNum )
           {
             for( let j of res)
