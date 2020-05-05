@@ -29,15 +29,16 @@ Page({
         title:options.name
       })
       let option = {
-        formId:options.formId
+        dailyId: parseInt(options.dailyId) 
       }//以上为初始化加载参数
+      console.log(option)
       app.encryption({//初始化加载函数获取所有题目
-        url: api.default.getFacePlatess,
+        url: api.default.getDailyPunchFacePlate,
         data: option,
         method: 'GET',
         dataType: "json",
         success: function (res) {
-          console.log( res)
+          console.log( res, typeof(res.data))
           if( typeof(res.data) != 'undefined'){
             console.log('1')
             that.setData({

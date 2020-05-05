@@ -9,7 +9,7 @@ page {
 }
 .home-swiper {
     width: 100%;
-    height: 320rpx;
+    height: 388rpx;
     position: relative;
     padding: 0 30rpx;
     box-sizing: border-box;
@@ -155,7 +155,7 @@ page {
 }
 .hotpoint-image{
     width: 330rpx;
-    height: 200rpx;
+    height: 186rpx;
     border-radius: 10rpx;
 }
 .hotpoint-content{

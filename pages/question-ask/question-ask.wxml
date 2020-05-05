@@ -29,7 +29,7 @@
             </view>
           </block>
         </view>
-        <image src="../../images/uploadjiahao.png" style="width:190rpx;height:190rpx;margin-top:30rpx" bindtap="chooseImage" wx:if="{{images.length < 3}}" />
+        <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadjiahao.png" style="width:190rpx;height:190rpx;margin-top:30rpx" bindtap="chooseImage" wx:if="{{images.length < 3}}" />
       </view>
       <!-- </button> -->
     </view>

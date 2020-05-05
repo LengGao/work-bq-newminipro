@@ -1,0 +1,53 @@
+<!-- pages/answerCard/answerCard.wxml -->
+<view class="topTitle">
+    <view>
+        <view style="width:32rpx;height:32rpx;background:rgba(89,210,52,1);border-radius:50%;margin-right: 16rpx;margin-left:10rpx"></view>
+        <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">
+            正确
+        </view>
+    </view>
+    <view>
+        <view style="width:32rpx;height:32rpx;background:#FF4B4B;border-radius:50%;margin-right: 16rpx;"></view>
+        <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">
+            错误
+        </view>
+    </view>
+    <view>
+        <view style="width:32rpx;height:32rpx;background:#DDDDDD;border-radius:50%;margin-right: 16rpx;"></view>
+        <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-right:10rpx">
+            未回答
+        </view>
+    </view>
+</view>
+<view class="top-wrapper-pri" wx:if="{{ radio.length }}">
+    <text class="top-wrapper-fenge"></text>
+    <text class="top-wrapper-title">单选题</text>
+</view>
+<view class="wrapper-single-option">
+    <view wx:for="{{ radio }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}}">
+        <text > {{index+1}} </text>
+    </view>
+</view>
+<view class="top-wrapper-pri" wx:if="{{ multi.length }}">
+    <text class="top-wrapper-fenge"></text>
+    <text class="top-wrapper-title">多选题</text>
+</view>
+<view class="wrapper-single-option">
+    <view wx:for="{{ multi }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} ">
+        <text > {{index+1}} </text>
+    </view>
+</view>
+<view class="top-wrapper-pri" wx:if="{{ judge.length }}">
+    <text class="top-wrapper-fenge"></text>
+    <text class="top-wrapper-title">判断题</text>
+</view>
+<view class="wrapper-single-option" style="margin-bottom:160rpx">
+    <view wx:for="{{ judge }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} ">
+        <text > {{index+1}} </text>
+    </view>
+</view>
+
+<!-- <view class="tabbottom">
+    <view class="checkAllAn" >查看全部解析</view>
+    <view class="goPri" bindtap='goToTest'>继续练习</view>
+</view> -->

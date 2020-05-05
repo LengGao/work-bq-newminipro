@@ -21,66 +21,29 @@ Page({
    */
   onLoad: function (options) {
     let that = this
-    let multipleNum = JSON.parse(options.multipleNum)
-    let singleNum = JSON.parse(options.singleNum)
-    let judgmentNum = JSON.parse(options.judgmentNum)
-    console.log(options)
+    let course_id = options.courseId
+    let chapter_id = options.chapter_id
+    let exam_identity = options.exam_identity
       wx.setNavigationBarTitle({
         title:options.name
       })
       let option = {
-        formId:options.formId
+        course_id:course_id,
+        chapter_id:chapter_id,
+        exam_identity:exam_identity
       }//以上为初始化加载参数
       app.encryption({//初始化加载函数获取所有题目
-        url: api.default.getFacePlatess,
+        url: api.default.answercard,
         data: option,
         method: 'GET',
         dataType: "json",
         success: function (res) {
-          console.log( res)
-          if( typeof(res.data) != 'undefined'){
-            console.log('1')
-            that.setData({
-              multipleNum:multipleNum,
-              singleNum:singleNum,
-              judgmentNum:judgmentNum 
-            })
-          }else {
-            console.log('2')
-          for(let i  of  singleNum )
-          {
-            for( let j of res)
-            {
-              if( i.problemId == j.problemId ){
-                i.correct = j.rightStatus
-             }
-            }
-          }
-          for(let i  of  multipleNum )
-          {
-            for( let j of res)
-            {
-              if( i.problemId == j.problemId){
-                i.correct = j.rightStatus
-            }
-            }
-          }
-          for(let i  of  judgmentNum )
-          {
-            for( let j of res)
-            {
-              if( i.problemId == j.problemId){
-                i.correct = j.rightStatus
-            }
-            }
-          }  
+          console.log(res)
           that.setData({
-            multipleNum:multipleNum,
-            singleNum:singleNum,
-            judgmentNum:judgmentNum 
+              radio:res.radio,
+              multi:res.multi,
+              judge:res.judge
           })
-        }
-          console.log(that.data.singleNum)
         },
         fail: function (n) {
           console.log('初始化失败')
@@ -114,8 +77,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+  onUnload: function (option) {
+   
   },
 
   /**

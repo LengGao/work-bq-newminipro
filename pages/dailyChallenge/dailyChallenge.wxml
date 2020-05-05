@@ -8,7 +8,7 @@
     <image mode="scaleToFill" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/challenge.png" style="width:688rpx;height:473rpx;margin-left:31rpx" />
 </view>
 <button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:79rpx;color:#ffffff;background:#199FFF;text-align:center"bindtap='gopaihang'>刷题挑战排行榜</button>
-<button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:50rpx;color:#199FFF">开始挑战赛</button>
+<button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:50rpx;color:#199FFF" bindtap='startChallenge'>开始挑战赛</button>
 <view style="color:#FFFFFF;font-size:28rpx;margin:70rpx 146rpx 0rpx 146rpx;display:flex;font-weight:500;"> ————<text style="margin-left:25rpx"></text>刷题挑战说明<text style="margin-right:25rpx"></text>    ————</view>
 <view style="color:#FFFFFF;display:flex;flex-direction:column;align-items:flex-start;margin-left:100rpx">
     <view wx:for="{{directions}}" wx:key="index" style="margin-top:25rpx;display:flex;align-items:center;justify-content:flex-start;">

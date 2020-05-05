@@ -245,6 +245,7 @@
     font-weight: 500;
     color: rgba(153, 153, 153, 1);
     margin-top: 10rpx;
+    height: 19rpx;
 }
 
 .other-infor {
@@ -698,7 +699,9 @@
     color: #fff;
     margin: 0 20rpx;
 }
-
+button{
+    line-height: '';
+}
 .video-btn .test {
     background: #575757;
 }

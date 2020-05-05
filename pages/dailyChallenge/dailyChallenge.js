@@ -30,6 +30,12 @@ Page({
       }
     })
   },
+  startChallenge(){
+    let id = this.data.courseId
+    wx.navigateTo({
+      url: `../challengPri/challengPri?courseId=${id}`
+    })
+  },
   gopaihang(){
     let courseId = this.data.courseId
     wx.navigateTo({

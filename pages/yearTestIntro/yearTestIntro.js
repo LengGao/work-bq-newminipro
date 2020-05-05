@@ -10,8 +10,11 @@ Page({
     chapterName:''
   },
   goshuati(){
+    let chapterId = this.data.chapterId;
+    let courseId = this.data.courseId;
+    let chapterName = this.data.chapterName
     wx.redirectTo({
-      url: '../test/test'
+      url: `../yearTestPir/yearTestPir?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
    })
   },
   gokaoshi(){

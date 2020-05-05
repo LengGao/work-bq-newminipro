@@ -37,6 +37,7 @@ Page({
         method: "GET",
         data:option,
         success: function(res) {
+          console.log(res)
           let data = that.data.userInfo
           if(res.data == undefined){
             that.setData({

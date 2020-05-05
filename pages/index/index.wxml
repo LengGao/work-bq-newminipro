@@ -2,44 +2,51 @@
     <view class="scrow-view">
         <scroll-view scroll-x="true">
             <view class="fenlei-menu">
-                <text bindtap="selectmenu" class="teamnum {{menuTop == item.courseId ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{course_list}}"  wx:key='index'>{{item.courseName}}</text>
+                <text bindtap="selectmenu" class="teamnum {{menuTop == item.courseId ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{course_list}}"wx:key='index'>{{item.courseName}}</text>
             </view>
         </scroll-view>
     </view>
-        <view class="imgs" bindtap="addStory">
-                <image mode="widthFix" class="jiaimg " src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiahao.png"></image>
-        </view>
+    <view class="imgs" bindtap="addStory">
+        <image mode="widthFix" class="jiaimg " src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiahao.png"></image>
+    </view>
 </view>
 <view class="top-container">
-    <view class="top-titles" catchtap='selectTap' wx:if="{{ biaoti }}"> <text class="top-title" >{{ biaoti || '初级会计师' }}</text><view id="{{triangle ? 'triangle-down' : 'triangle-up' }}" >
-    </view>
+    <view class="top-titles" catchtap='selectTap' wx:if="{{ biaoti }}">
+        <text class="top-title">{{ biaoti || '初级会计师' }}</text>
+        <view id="{{triangle ? 'triangle-down' : 'triangle-up' }}"></view>
         <view class='select_box'>
-                <view class='select'>
-                    <text class='select_text'></text>
-                    <image class='select_img {{selectShow&&"select_img_rotate"}}'   background-size="contain"></image> 
-                </view>
-                <view class='option_box' style='height:{{selectShow?216:0}}rpx;'>
-                    <text class='option' wx:for="{{course_list}}"  wx:key='index' data-index='{{index}}' catchtap='optionTap'>{{ item.name}}</text>
-                </view>
-        
+            <view class='select'>
+                <text class='select_text'></text>
+                <image class='select_img {{selectShow&&"select_img_rotate"}}' background-size="contain"></image>
+            </view>
+            <view class='option_box' style='height:{{selectShow?216:0}}rpx;'>
+                <text class='option' wx:for="{{course_list}}" wx:key='index' data-index='{{index}}' catchtap='optionTap'>
+                    {{ item.name}}
+                </text>
+            </view>
         </view>
     </view>
     <view class="top-content">
-        <view class="left-logo">  
-            <view class="uprates">  <text class="rates">正确率 </text> <text class="percentages">80%</text> </view>
-            <image mode="widthFix" class="jiaimg circles" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/circle@2x.png" ></image> 
+        <view class="left-logo">
+            <view class="uprates">
+                <text class="rates">正确率</text>
+                <text class="percentages">80%</text>
+            </view>
+            <image mode="widthFix" class="jiaimg circles" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/circle@2x.png"></image>
         </view>
         <view class="right-content">
             <view class="right-menu">
-                <view class="every-menu"  wx:for="{{topmenu}}"  wx:key="index">
-                    <view class="menu-img"><image mode="widthFix" class="jiaimg" src="{{ item.img }}"></image></view>
+                <view class="every-menu" wx:for="{{topmenu}}" wx:key="index">
+                    <view class="menu-img">
+                        <image mode="widthFix" class="jiaimg" src="{{ item.img }}"></image>
+                    </view>
                     <text class="menu-name">{{ item.name }}</text>
                 </view>
             </view>
-            <view class="right-number"  >
-                <view class="every-number" wx:for="{{topmenu}}"  wx:key="index">
+            <view class="right-number">
+                <view class="every-number" wx:for="{{topmenu}}" wx:key="index">
                     <text class="number">{{  item.number }}</text>
-                     <text id="gl"></text> 
+                    <text id="gl"></text>
                 </view>
             </view>
         </view>
@@ -48,51 +55,77 @@
 <i-action-sheet visible="{{ visible1 }}" actions="{{ actions1 }}" show-cancel bind:cancel="handleCancel1" bind:click="handleClickItem1" />
 <i-message id="message" />
 <view class="middle-top-area">
+    <view class="middle-top-right">
+        <image mode="widthFix" class="jiaimg" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/bangong.png"></image>
+    </view>
     <view class="middle-top-left">
         <text class="title-top-left">每天一个必懂知识点</text>
-        <view class="reminds"> <text class="remind">今日已有</text> <text class="warn">123</text> <text class="remind">位考友打卡</text></view>
-        <view class="clock" bindtap="clickin">马上打卡<text id="gl1"></text><text id="gl2"></text> </view>
-    </view>
-    <view class="middle-top-right">
-        <image mode="widthFix" class="jiaimg" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/bangong.png" ></image> 
+        <!-- <view class="reminds">
+            <text class="remind">今日已有</text>
+            <text class="warn">123</text>
+            <text class="remind">位考友打卡</text>
+        </view> -->
+        <view class="clock" bindtap="clickin">
+            马上打卡
+            <!-- <text id="gl1"></text>
+            <text id="gl2"></text> -->
+        </view>
     </view>
 </view>
 <view class="middle-bottom-area">
-    <view class="middle-bottom-function" wx:for="{{fun_list}}"  wx:key="index" bindtap='{{item.action}}'>
-          <image mode="widthFix" class=" img-function" src="{{ item.img }}" ></image> 
-          <text class="fun-name"> {{ item.name }} </text>
+    <view class="middle-bottom-function" wx:for="{{fun_list}}" wx:key="index" bindtap='{{item.action}}'>
+        <image mode="widthFix" class=" img-function" src="{{ item.img }}"></image>
+        <text class="fun-name">{{ item.name }}</text>
     </view>
 </view>
 <view class="myCourse" bindtap='toVideoroom'>
     <text class="myCourse-title">我的课程</text>
     <view class="myCourse-content">
-        <image mode="scaleToFill" class="img-myCourse" src="{{ myCourse.courseImage }}"   /> 
+        <view class="img-myCourse"><image mode="aspectFit" style="width:100%;height:100%" src="{{ myCourse.courseImage }}" /></view>
         <view class="myCourse-info">
-            <text class="myCourse-content-title">2020年初级会计师</text>
-            <view><text class="myCourse-name" style="display:none">会计</text><text class="myCourse-time">{{myCourse.classHou }}课时</text></view>
+            <view class="myCourse-content-title" >
+                {{ myCourse.courseName}}
+            </view>
+            <view>
+                <text class="myCourse-name" style="display:none">会计</text>
+                <text class="myCourse-time">{{myCourse.classHou }}课时</text>
+                 <text class="myCourse-times">{{myCourse.number}}人已学习</text>
+            </view>
             <view class="myCourse-info-bottom">
-               <view class="personal-infor"><image mode="widthFix" class="personal-img-myCourse" src="{{ myCourse.teacherImage }}" binderror="errorFunction"></image> <text class="personal-name">{{ myCourse.teacherName }}</text></view> 
-               <text class="havelearn">{{myCourse.number}}人已学习</text>
+                <view class="personal-infor">
+                    <image mode="widthFix" class="personal-img-myCourse" src="{{ myCourse.teacherImage }}" binderror="errorFunction"></image>
+                    <text class="personal-name">{{ myCourse.teacherName }}</text>
+                </view>
+                <!-- <text class="havelearn">{{myCourse.number}}人已学习</text> -->
             </view>
         </view>
     </view>
 </view>
 <view class="myCourse" style="margin-bottom:20rpx" bindtap='toliveclass'>
-    <view class="title-course"><text class="myCourse-title-live">班级直播</text><text class="course-data">查看课程表</text></view>
+    <view class="title-course">
+        <text class="myCourse-title-live">班级直播</text>
+        <text class="course-data" style="display:none">查看课程表</text>
+    </view>
     <view class="myCourse-content">
-        <image mode="widthFix" class="img-myCourse" src="{{ item.img }}" ></image> 
+ <view class="img-myCourse"> <image mode="widthFix"   src="{{ item.img }}" style="border:1px solid #cecece;width:100%;height:100%"></image></view>
         <view class="myCourse-info">
             <text class="myCourse-content-title">2020年初级会计师</text>
-            <view class=""><text class="myCourse-name">会计</text><text class="myCourse-time">30课时</text></view>
+            <view class="">
+                <text class="myCourse-name">会计</text>
+                <text class="myCourse-time">30课时</text>
+            </view>
             <view class="myCourse-info-bottom">
-               <view class="personal-infor"><image mode="widthFix" class="personal-img-myCourse" src="{{ item.img }}" ></image> <text class="personal-name">龙龙龙</text></view> 
-               <view class="remindMes">
-                   <text class="live-review">直播回顾</text>
-                   <view class="repeat">
-                        <image mode="widthFix" class="img-remindMe" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png" ></image> 
+                <view class="personal-infor">
+                    <image mode="widthFix" class="personal-img-myCourse" src="{{ item.img }}"></image>
+                    <text class="personal-name">龙龙龙</text>
+                </view>
+                <view class="remindMes">
+                    <text class="live-review">直播回顾</text>
+                    <view class="repeat">
+                        <image mode="widthFix" class="img-remindMe" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png"></image>
                         <text class="remindMe">提醒我</text>
-                   </view>
-               </view>
+                    </view>
+                </view>
             </view>
         </view>
     </view>

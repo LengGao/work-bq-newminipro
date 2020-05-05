@@ -12,13 +12,14 @@ Page({
         name:'我的班级'
       },
       {
+        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiazai.png',
+        name:'收藏夹'
+      },
+      {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xuexibaogao.png',
         name:'学习报告'
       },
-      {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiazai.png',
-        name:'我的收藏'
-      },
+     
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumaijilu.png',
         name:'购买记录'
@@ -28,20 +29,20 @@ Page({
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiugaiziliao.png',
         tosome:'',
-        name:'修改资料',
+        name:'个人资料',
         option:['身份证、','毕业证']
       },
-      {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/wodekaoshi.png',
-        tosome:'',
-        name:'我的考试',
-        option:['考试时间、','地点、','科目']
-      },
-      {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jifentongji.png',
-        tosome:'',
-        name:'积分统计',
-      },
+      // {
+      //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/wodekaoshi.png',
+      //   tosome:'',
+      //   name:'我的考试',
+      //   option:['考试时间、','地点、','科目']
+      // },
+      // {
+      //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jifentongji.png',
+      //   tosome:'',
+      //   name:'积分统计',
+      // },
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xitongshezhi.png',
         tosome:'',

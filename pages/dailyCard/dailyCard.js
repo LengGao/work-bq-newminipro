@@ -35,7 +35,7 @@ Page({
       },
       {
         name: '完成后可以查看解析,也可以再练一遍巩固知识点'
-      },
+      }
     ]
   },
   goAny () {
@@ -52,20 +52,58 @@ Page({
     })
   },
   gopri(){
-    console.log('点击了打卡按钮')
+    let id = this.data.courseId
+    wx.reLaunch({
+      url:`../daliyPri/daliyPri?courseId=${id}`
+    })
+  },
+  getTodayStatus(){
+    let that = this
+    let option = {
+      courseId:that.data.courseId
+    }
+    app.encryption({
+      url: api.default.getTodayStatus,
+      method: "GET",
+      data:option,
+      success: function (res) {
+        console.log(res)
+        let allData = 'everyDate[0].name',allData1 = 'everyDate[1].name',allData2 = 'everyDate[2].name'
+        if(res.data==undefined){
+          that.setData({
+            [allData]:res.punchCount,
+            [allData1]:res.useTime,
+            [allData2]:res.todayCount,
+            isCrard:res.isPunch,
+            accuracy:res.accuracy
+         })
+        }else{
+
+        }
+      },
+      fail: function (t) {
+        return reject
+      },
+      complete: function () {
+
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
+  onLoad: function (options) {
+    console.log(options)
     this.setData({
-      navH: app.globalData.navHeight
+      navH: app.globalData.navHeight,
+      courseId:options.courseId
     })
     let date = util.getDates(1, new Date())
     console.log(date)
     this.setData({
       time: date,
     });
+    this.getTodayStatus()
 
   },
 

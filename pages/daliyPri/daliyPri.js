@@ -54,7 +54,8 @@ Page({
     activeAnswer:'defaultAnswer',
     correctoption:'',
     multishowAny:true,
-    multiselect:''
+    multiselect:'',
+    rightStatus:'0'
   },
   lastQU() {
     let that = this
@@ -117,48 +118,10 @@ Page({
     let judgmentNum = JSON.stringify(this.data.judgmentNum)
     let singleNum =JSON.stringify(this.data.singleNum)
     let multipleNum = JSON.stringify(this.data.multipleNum)
-    let challengeId = this.data.challengeId
-    let name = '刷题挑战'
+    let dailyId = this.data.dailyId
     wx.navigateTo({
-      url: `../challAnswerVard/challAnswerVard?name=${name}&challengeId=${ challengeId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
+      url: `../daliyard/daliyard?name=答题卡&dailyId=${ dailyId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
     })
-  },
-  goback() {
-    let that = this
-    let courseID = that.data.courseId
-    wx.showModal({
-      title: '提示',
-      content: '你正在进行挑战，是否选择退出？',
-      showCancel: true,//是否显示取消按钮
-      cancelText:"取消",//默认是“取消”
-      cancelColor:'#199FFF',//取消文字的颜色
-      confirmText:"确认",//默认是“确定”
-      confirmColor: '#199FFF',//确定文字的颜色
-      success: function (res) {
-         if (res.cancel) {
-            //点击取消,默认隐藏弹框
-         } else {
-          let option = {
-            challengeId:that.data.challengeId
-          }//以上为初始化加载参数
-          console.log(option)
-          app.encryption({//初始化加载函数获取所有题目
-            url: api.default.generatingChallengesMark,
-            data: option,
-            method: 'POST',
-            dataType: "json",
-            success: function (res) {
-              console.log(res)
-              wx.navigateTo({
-                url:`../challengResult/challengResult?courseId=${courseID}`
-              })
-          }
-        })
-      }
-      },
-      fail: function (res) { },//接口调用失败的回调函数
-      complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
-   })
   },
   likes() {
     let that = this
@@ -167,7 +130,6 @@ Page({
     let name = 'tabItems[2].name'
     let current_no = that.data.current_no
     let allRender = that.data.allRender//页面已经渲染的数据集合
-    console.log(current_no,allRender)
     if (this.data.tabItems[2].class == 'active') {
       let option = {
         problemId:this.data.randerTitle.problemId,
@@ -244,42 +206,44 @@ Page({
   },
   nextQU() {
     if(this.data.current_no >= this.data.all_current_no){
-      let that = this
-      let courseID = that.data.courseId
-      wx.showModal({
-        title: '提示',
-        content: '已经是最后一道题了,是否交卷？',
-        showCancel: true,//是否显示取消按钮
-        cancelText:"取消",//默认是“取消”
-        cancelColor:'#199FFF',//取消文字的颜色
-        confirmText:"确认",//默认是“确定”
-        confirmColor: '#199FFF',//确定文字的颜色
+      $Message({
+        content: '已经是最后题了',
+        type: 'warning'
+      });
+      let options= {
+         dailyId:this.data.dailyId,
+      }
+      app.encryption({
+        url: api.default.updateDailyPunchCards,
+        data: options,
+        method: 'POST',
+        dataType: "json",
         success: function (res) {
-           if (res.cancel) {
-              //点击取消,默认隐藏弹框
-           } else {
-            let option = {
-              challengeId:that.data.challengeId
-            }//以上为初始化加载参数
-            console.log(option)
-            app.encryption({//初始化加载函数获取所有题目
-              url: api.default.generatingChallengesMark,
-              data: option,
-              method: 'POST',
-              dataType: "json",
-              success: function (res) {
-                console.log(res)
-                wx.navigateTo({
-                  url:`../challengResult/challengResult?courseId=${courseID}`
-                })
-            }
-          })
-        }
+          wx.showModal({
+            title: '提示',
+            content:'是否退出打卡？',
+            showCancel: false,//是否显示取消按钮
+            confirmText:"确认",//默认是“确定”
+            confirmColor: '#199FFF',//确定文字的颜色
+            success: function (res) {
+               if (res.cancel) {
+                  //点击取消,默认隐藏弹框
+               } else {
+                  //点击确定
+                  wx.reLaunch({
+                    url:"../index/index"
+                  })
+               }
+            },
+            fail: function (res) { },//接口调用失败的回调函数
+            complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+         })
         },
-        fail: function (res) { },//接口调用失败的回调函数
-        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
-     })
-     return
+        fail: function (n) {
+          console.log('333333')
+        }
+      })
+      return
     }
     var that = this
     let randerTitle
@@ -359,13 +323,21 @@ Page({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
+    console.log(randerTitle)
     if( randerTitle.ProblemType == '2' ){
+      let rightStatus =  0
+     if(randerTitle.answer == this.data.multiselect) {
+         rightStatus  = 1
+     }else{
+        rightStatus  = 0
+     }
         let options= {
           problemId:randerTitle.ProblemId,
-          answe: this.data.multiselect
+          dailyId:this.data.dailyId,
+          rightStatus:rightStatus
         }
         app.encryption({
-          url: api.default.answerEvents,
+          url: api.default.upateDailyPunchCardsInfo,
           data: options,
           method: 'POST',
           dataType: "json",
@@ -387,6 +359,7 @@ Page({
     let d = this.data;
     let rightStatus = 1;
     let formId = this.data.formId;
+    let dailyId = this.data.dailyId;
     let option = e.currentTarget.dataset.option;//当前点击选项的option
     let answer = e.currentTarget.dataset.answer;//当前题目的答案
     let index = e.currentTarget.dataset.index;//当前点击选项的index
@@ -417,12 +390,12 @@ Page({
     //记录点击选项后数据库的改变
     let options= {
       problemId:id,
-      answer:option,
-      challengeId: parseInt(this.data.challengeId) 
+      dailyId:this.data.dailyId,
+      rightStatus:rightStatus
     }
     console.log(options)
     app.encryption({
-      url: api.default.recordingBrushProblem,
+      url: api.default.upateDailyPunchCardsInfo,
       data: options,
       method: 'POST',
       dataType: "json",
@@ -456,7 +429,7 @@ Page({
       this.setData({
         randerTitle: this.data.randerTitle,
       })
-    }else {
+    }else{
       color.color = false
       color.err = true
       this.setData({
@@ -492,19 +465,38 @@ Page({
     let classes = 'tabItems[2].class'
     let name = 'tabItems[2].name'//以上为获取收藏按钮状态
     let option = {
-      courseId: options.courseId
+      courseId: options.courseId,
+      num: 10
     }//以上为初始化加载参数
-    that.setData({
-      navH: app.globalData.navHeight
-    })
     app.encryption({//初始化加载函数获取所有题目
-      url: api.default.brushGenerationChallenge,
+      url: api.default.makeDailyPunchCards,
       data: option,
       method: 'POST',
       dataType: "json",
       success: function (res) {
         console.log(res)
-        console.log(res.singleNum)
+        if( res.data != undefined && res.data.code == '50003'){
+          wx.showModal({
+            title: '提示',
+            content: res.data.message,
+            showCancel: false,//是否显示取消按钮
+            confirmText:"确认",//默认是“确定”
+            confirmColor: '#199FFF',//确定文字的颜色
+            success: function (res) {
+               if (res.cancel) {
+                  //点击取消,默认隐藏弹框
+               } else {
+                  //点击确定
+                  wx.reLaunch({
+                    url:"../index/index"
+                  })
+               }
+            },
+            fail: function (res) { },//接口调用失败的回调函数
+            complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+         })
+         return
+        }
         let randerTitle = app.testWxParse(that, res.list[0])//初始化第一道题目
         that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
         that.setData({
@@ -516,9 +508,7 @@ Page({
           singleNum:res.singleList,//单选题的数量
           multipleNum:res.multipleList,//多选题的数量
           judgmentNum:res.judgmentList,//判断题的数量
-          formId:res.formId,
-          challengeId:res.challengeId,//formid，
-          courseId:options.courseId
+          dailyId:res.dailyId//formid
         })
         if (randerTitle.isCollect == 1) { //是否已收藏
           that.setData({

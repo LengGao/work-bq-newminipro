@@ -13,7 +13,7 @@ var e, a, o, i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterat
   return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t;
 };
 
-var n = getApp(), s = require("../../api.js"), d = require("../../wxParse/wxParse.js");
+var n = getApp(), s = require("../../api.js"), wxParse = require("../../wxParse/wxParse.js");
 
 require("../../utils/util.js");
 import { getToken, getVideoList, getVideoById } from '../../commons/service/index.js'
@@ -129,17 +129,12 @@ Page({
     loadAll: false,
     currentResource: '',
     multiListShow: false,
-
     rateShow: false,
     currentRate: '1.0',
-
     videoPlaying: false,
     controlHidden: true,
-
     currentTime: 0,
-
     isSwitchDefinition: false,
-
     currentVideoId: '',
     currentPoster: '',
     currentVideoTitle: '',
@@ -147,11 +142,62 @@ Page({
     currentDefinition: '',
     isAndroid: false,
     fullScreenData: "",
-    value2: ''
+    value2: '',
+    startNum:'1',
+    tag:''
   },
-  timeOut: '',
+  sumbitComment(){
+    if(this.data.value2 == ''){
+      wx.showToast({
+        title: '请完善评价内容',
+        icon: 'none',
+        mask: true,
+        duration: 2000
+      })
+      return
+    }
+    let that = this
+    let option = {
+      course_id: parseInt(this.data.courseId),
+      content:this.data.value2,
+      star: parseInt( this.data.startNum),
+      tag_id:this.data.tag,
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.submitcomment,
+      method: "POST",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        wx.showToast({
+          title: '发表评论成功！',
+          icon: 'success',
+          mask: true,
+          duration: 1200,
+          success:function(){
+            that.setData({
+              visible2: false,
+              value2: ''
+            });
+          },
+        })
+        that.getcomment()
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+  },
+  sureSomething(){
+    console.log('123')
+  },
   chooseTips(e) {
     console.log(e.currentTarget.dataset.index)
+    this.setData({
+      tag:''
+    })
     let index = e.currentTarget.dataset.index
     let num = 'tips[' + index + '].chooseOrNot'
     console.log()
@@ -165,46 +211,62 @@ Page({
       })
     }
     console.log(this.data.tips)
+    for(let i of this.data.tips){
+      if(i.chooseOrNot != '-1'){
+        this.setData({
+          tag:this.data.tag.concat(i.id + ',')
+        })
+      }
+    }
+    console.log(this.data.tag)
   },
   onChange2(e) {
     const index = e.detail.index;
     this.setData({
       'starIndex2': index
     })
+    console.log(this.data.startNum)
     switch (index) {
       case 0:
         this.setData({
-          'starIndextext': '课程体验较差'
+          'starIndextext': '课程体验较差',
+          startNum:'0'
         })
         break;
       case 1:
         this.setData({
-          'starIndextext': '课程体验较差'
+          'starIndextext': '课程体验较差',
+          startNum:'1'
         })
         break;
       case 2:
         this.setData({
-          'starIndextext': '课程感觉一般'
+          'starIndextext': '课程感觉一般',
+          startNum:'2'
         })
         break;
       case 3:
         this.setData({
-          'starIndextext': '加油继续努力'
+          'starIndextext': '加油继续努力',
+          startNum:'3'
         })
         break;
       case 4:
         this.setData({
-          'starIndextext': '基本达到预期'
+          'starIndextext': '基本达到预期',
+          startNum:'4'
         })
         break;
       case 5:
         this.setData({
-          'starIndextext': '课程超级棒'
+          'starIndextext': '课程超级棒',
+          startNum:'5'
         })
         break;
       default:
         this.setData({
-          'starIndextext': '请选择课程评价'
+          'starIndextext': '请选择课程评价',
+          startNum:'0'
         })
     }
   },
@@ -294,39 +356,64 @@ Page({
       urls: [e]
     });
   },
-  // countDown: function () {
-  //   var that = this;
-  //   var nowTime = new Date().getTime();//现在时间（时间戳）
-  //   var endTime = new Date(that.data.endTime).getTime();//结束时间（时间戳）
-  //   var time = (endTime - nowTime) / 1000;//距离结束的毫秒数
-  //   // 获取天、时、分、秒
-  //   let day = parseInt(time / (60 * 60 * 24));
-  //   let hou = parseInt(time % (60 * 60 * 24) / 3600);
-  //   let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
-  //   let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
-  //   // console.log(day + "," + hou + "," + min + "," + sec)
-  //   day = that.timeFormin(day),
-  //     hou = that.timeFormin(hou),
-  //     min = that.timeFormin(min),
-  //     sec = that.timeFormin(sec)
-  //   that.setData({
-  //     day: that.timeFormat(day),
-  //     hou: that.timeFormat(hou),
-  //     min: that.timeFormat(min),
-  //     sec: that.timeFormat(sec)
-  //   })
-  //   // 每1000ms刷新一次
-  //   if (time > 0) {
-  //     that.setData({
-  //       countDown: true
-  //     })
-  //     setTimeout(this.countDown, 1000);
-  //   } else {
-  //     that.setData({
-  //       countDown: false
-  //     })
-  //   }
-  // },
+  countDown: function () {
+    var that = this;
+    var nowTime = new Date().getTime();//现在时间（时间戳）
+    var endTime = new Date(that.data.endTime).getTime();//结束时间（时间戳）
+    var time = (endTime - nowTime) / 1000;//距离结束的毫秒数
+    // 获取天、时、分、秒
+    let day = parseInt(time / (60 * 60 * 24));
+    let hou = parseInt(time % (60 * 60 * 24) / 3600);
+    let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
+    let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+    // console.log(day + "," + hou + "," + min + "," + sec)
+    day = that.timeFormin(day),
+      hou = that.timeFormin(hou),
+      min = that.timeFormin(min),
+      sec = that.timeFormin(sec)
+    that.setData({
+      day: that.timeFormat(day),
+      hou: that.timeFormat(hou),
+      min: that.timeFormat(min),
+      sec: that.timeFormat(sec)
+    })
+    // 每1000ms刷新一次
+    if (time > 0) {
+      that.setData({
+        countDown: true
+      })
+      setTimeout(this.countDown, 1000);
+    } else {
+      that.setData({
+        countDown: false
+      })
+    }
+  },
+  coursedetail(){
+    let that = this
+    let option = {
+      course_id: this.data.courseId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.coursedetail,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        let courseInfo = res;
+        var a = courseInfo.about + "<span> </span>";
+        wxParse.wxParse("content", "html", a, that, 5);
+        that.setData({
+          courseInfo:res
+        })
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+  },
   listen: function (t) {
     let that = this
     let option = {
@@ -390,6 +477,7 @@ Page({
 
       }
     })
+    this.coursedetail()
   },
   //小于10的格式化函数（2变成02）
   timeFormat(param) {
@@ -399,21 +487,79 @@ Page({
   timeFormin(param) {
     return param < 0 ? 0 : param;
   },
-  // onload
-  onLoad: function (t = {}) {
-    this.listen(t)//获取播放信息
-    console.log(t)
+   //是否显示详细目录
+   ifShow(e) {
+    let index = e.currentTarget.dataset.index;
+    let d = this.data;
+    d.chapter[index].isShow = !d.chapter[index].isShow;
+    this.setData({
+      chapter: d.chapter
+    })
+    console.log(this.data.chapter)
+  },
+  getCourse(){
+    let that = this
+    let option = {
+      courseId: this.data.courseId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.chapterList,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          chapter:res
+        })
+      },
+      fail: function (t) {
+
+      },
+      complete: function () {
+
+      }
+    })
+  }, 
+  getcomment(){
+    let that = this
+    let option = {
+      course_id: this.data.courseId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.getcomment,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          comment_list:res
+        })
+      },
+      fail: function (t) {
+
+      },
+      complete: function () {
+
+      }
+    })
+
+  }, // onload
+  changes(e){
+    console.log(e.detail.detail.value)
+    this.setData({
+      value2:e.detail.detail.value
+    })
+  },
+    onLoad: function (option = {}) {
+    console.log(option)
+    this.listen(option)//获取播放信息
     clearInterval(this.timeOut);
     this.setData({
-      video_id: t.video_id || this.data.video_id,
+      video_id: option.video_id || this.data.video_id,
+      courseId: option.courseId || this.data.courseId,
     });
-    // this.getVideoInfo();
-    // this.loadComment();
-    // 阿里云
-    // return;
-    const res = wx.getSystemInfoSync()
-    console.log(res)
-    // this.loadData()
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {
@@ -422,6 +568,9 @@ Page({
     } catch (e) {
       console.log(e)
     }
+    this.getCourse()//获取课程目录
+    this.coursedetail()//获取课程介绍
+    this.getcomment()//获取课程评论
   },
   onShow: function () { },
   onHide: function () {
@@ -495,6 +644,41 @@ Page({
       audioPlayStatus: 0
     });
   },
+  select_date: function (t) {
+    let self = this, d = this.data;
+    this.setData({
+      lessonId: t.currentTarget.dataset.key,
+      learnTime: 0
+    })
+    this.play( t.currentTarget.dataset.key)
+    // this.onLoad();
+    console.log(this.data.lessonId)
+    // 已付款或免费
+    // if (d.video.isbuy == 1 || d.video.price == 0) {
+    //   this.setData({
+    //     lessonId: t.currentTarget.dataset.key,
+    //     learnTime: 0
+    //   })
+    //   this.onLoad();
+    // } else {
+    //   this.buyVideo();
+    // }
+    // return;
+    // var o = this;
+    // if (1 == o.data.video.chapter[t.currentTarget.dataset.key].type && wx.navigateTo({
+    //   url: "../live-class/live-class?video_id=" + o.data.video.chapter[t.currentTarget.dataset.key].live_id + "&for_video_id=" + o.data.video_id
+    // }), 0 == o.data.video.AUTH) return wx.showToast({
+    //   title: "请先获取授权",
+    //   icon: "none"
+    // }), !1;
+    // o.data.current_chapter != t.currentTarget.dataset.key && (o.setData({
+    //   state1: t.currentTarget.dataset.key,
+    //   current_chapter: t.currentTarget.dataset.key
+    // }), 0 != o.data.video.style && "0" != o.data.video.style || ((e = wx.createVideoContext("video")).seek(0),
+    //   e.pause()), 1 != o.data.video.style && "1" != o.data.video.style || (o.setData({
+    //     audioPlayStatus: 0
+    //   }), a.stop(), a.src = o.data.video.chapter[o.data.current_chapter].video_url, a.title = o.data.video.chapter[o.data.current_chapter].name));
+  },
   shareSuccess: function () {
     var t = this;
     n.request({
@@ -553,8 +737,7 @@ Page({
     let def = {
       FD: "流畅",
       LD: "标清",
-      SD: "高清",
-      HD: "超清",
+      SD: "高清 ",
       OD: "原画",
       "2K": "2K",
       "4K": "4K",

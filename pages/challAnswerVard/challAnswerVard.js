@@ -29,10 +29,10 @@ Page({
         title:options.name
       })
       let option = {
-        formId:options.formId
+        challengeId:options.challengeId
       }//以上为初始化加载参数
       app.encryption({//初始化加载函数获取所有题目
-        url: api.default.getFacePlatess,
+        url: api.default.getChallengesFacePlate,
         data: option,
         method: 'GET',
         dataType: "json",

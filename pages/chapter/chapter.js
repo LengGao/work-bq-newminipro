@@ -13,8 +13,13 @@ Page({
         this.setData({
             courseId:t.courseId
         })
-        this.getChapterInfo(t.courseId)
-        this.getPaperList(t.courseId)
+        let promise = new Promise((resolve, reject) => {  this.getChapterInfo(t.courseId,resolve, reject) })
+        let promise1 = new Promise((resolve, reject) => { this.getPaperList(t.courseId,resolve, reject) })
+        Promise.all([promise,promise1]).then((result) => {
+            wx.hideLoading();               //['成功了', 'success']
+          }).catch((error) => {
+            console.log(error)
+          })
     },
     onReady: function() {},
     onShow: function() {
@@ -36,7 +41,7 @@ Page({
             url: `../test/test?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}`
         })
     },
-    getChapterInfo: function(courseId) {
+    getChapterInfo: function(courseId,resolve, reject) {
         var that = this;
         wx.showLoading({
             title: "加载中"
@@ -49,6 +54,7 @@ Page({
             method: "GET",
             data:option,
             success: function(res) {
+               
                 console.log(res)
                 that.setData({
                     title_list:res
@@ -62,11 +68,11 @@ Page({
                 });
             },
             complete: function() {
-                wx.hideLoading();
+                return resolve()
             }
         });
     },
-    getPaperList: function(courseId) {
+    getPaperList: function(courseId,resolve, reject) {
         var that = this;
         wx.showLoading({
             title: "加载中"
@@ -93,7 +99,7 @@ Page({
                 });
             },
             complete: function() {
-                wx.hideLoading();
+                return resolve()
             }
         });
     }

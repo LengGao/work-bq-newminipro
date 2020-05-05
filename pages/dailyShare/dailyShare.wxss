@@ -1,5 +1,11 @@
 /* pages/dailyShare/dailyShare.wxss */
+page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .pages{
     width: 750rpx;
-    height: 1106rpx;
+    height:1104rpx;
+    flex: 1;
 }

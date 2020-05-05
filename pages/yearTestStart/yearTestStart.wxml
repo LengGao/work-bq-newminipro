@@ -35,13 +35,11 @@
     <view class="text-type padding">{{ randerTitle.stem }}</view>
     <radio-group class="checked padding">
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
-                <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items  {{  vItem.haschose == true ? 'correct':''  }} ">
+                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}" >
                     {{vItem.option}}
                 </view>
-                <image wx:if="{{ vItem.color ? true: false }}" mode="widthFix" src="../../images/correct.png" class="topimages" />
-                <image wx:if="{{ vItem.err ? true : false }}" mode="widthFix" src="../../images/error.png" class="topimages" />
-                <view class="rich_text_box test_rich {{ vItem.color ? 'correcttext':'' && vItem.err ? errorText: '' }}">
+                <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}" >
                     <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
                 </view>
             </view>

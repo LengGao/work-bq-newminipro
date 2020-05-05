@@ -447,7 +447,7 @@ Page({
           judgmentNum:res.judgmentList,//判断题的数量
           formId:res.formId//formid
         })
-        if (randerTitle.isCollect == 1) { //是否已收藏
+        if (randerTitle.isCollect == 1) {  //是否已收藏
           that.setData({
             likes: true,
             [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',

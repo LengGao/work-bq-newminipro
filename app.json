@@ -2,6 +2,11 @@
   "pages": [
     "pages/index/index",
     "pages/challengPri/challengPri",
+    "pages/yearTestPir/yearTestPir",
+    "pages/daliyPri/daliyPri",
+    "pages/daliyard/daliyard",
+    "pages/yearAnswerVard/yearAnswerVard",
+    "pages/challAnswerVard/challAnswerVard",
     "pages/challengResult/challengResult",
     "pages/yearTestStart/yearTestStart",
     "pages/yearPriStart/yearPriStart",

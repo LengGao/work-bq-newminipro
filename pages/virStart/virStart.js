@@ -338,7 +338,7 @@ Page({
             //点击取消,默认隐藏弹框
          } else {
             //点击确定
-            wx.redirectTo({
+            wx.reLaunch({
               url:"../index/index"
             })
          }
@@ -348,13 +348,13 @@ Page({
    })
   },
   onLoad: function (options = {}) {
+    console.log(options)
     var that = this;
     let times = new Date().getTime()
     that.setData({
-      targetTime2:times + 10000,
+      targetTime2:times + 100000,
       navH: app.globalData.navHeight
     })
-    if(options.noneTest=='1'){
       let option = {
         courseId:options.courseId
       }
@@ -386,9 +386,6 @@ Page({
         }
       })
       console.log(that.data.targetTime2)
-      return
-    }
-  
   },
   onReady: function () { },
   onShow: function () { },

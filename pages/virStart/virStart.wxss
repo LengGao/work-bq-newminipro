@@ -112,6 +112,9 @@ page {
     margin-right: 24rpx;
     color: #333;
 }
+.test_rich{
+    flex: 1;
+}
 .test_rich  view{
     font-size:32rpx;
     font-family:PingFang SC;

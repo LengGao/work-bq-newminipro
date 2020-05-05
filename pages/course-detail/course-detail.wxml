@@ -70,11 +70,11 @@
             <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
         </view>
         <view class="cata-list" wx:if="{{item.isShow}}">
-            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.id ?'selected com_color':''}}" data-key="{{vitem.id}}" wx:for="{{item.list}}" wx:for-item="vitem" wx:key="index">
+            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-key="{{vitem.LessonId}}" wx:for="{{item.child}}" wx:for-item="vitem" wx:key="index">
                 <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                 <view class="cata-content twoline">
-                    <text class="cata-name twoline">{{vitem.title}}</text>
+                    <text class="cata-name twoline">{{vitem.lessonName}}</text>
                     <!-- <text class="cata-time">{{vitem.time}}</text> -->
                 </view>
             </view>
@@ -158,16 +158,16 @@
     </view> -->
     <view class="tab-title">
         <view class="tab-container">
-            <view class="tab-container-title">信息系统项目管理师（高级）</view>
+            <text class="tab-container-title" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;display:block;width:600rpx">{{courseInfo.title}}</text>
             <view class="ratesMark">
                 <i-cell title="禁用点击和手势选择星">
-                    <i-rate disabled="{{true}}" value="{{starIndex4}}">{{starIndex4}}</i-rate>
+                    <i-rate disabled="{{true}}" value="{{courseInfo.star}}">{{courseInfo.star}}</i-rate>
                 </i-cell>
-                <view class="personals">{{ personal }}人在学</view>
+                <view class="personals">{{courseInfo.studentNum}}人在学</view>
             </view>
             <view class="pricesOfdiff">
-                <text class="newPrices">￥3980</text>
-                <text class="oldPrices">￥5980</text>
+                <text class="newPrices">￥{{courseInfo.onlinePrice}}</text>
+                <text class="oldPrices">￥{{courseInfo.originPrice}}</text>
             </view>
         </view>
         <view class="share-buttons">
@@ -177,11 +177,6 @@
     </view>
     <view class='fenge'></view>
     <view class="clasIntroduce">
-        <text class="clasIntroduce-title">课程介绍：</text>
-        <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
-        <text class="clasIntroduce-title2">学习目的：</text>
-        <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
-        <text class="clasIntroduce-title2">学习内容：</text>
         <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
     </view>
 </view>
@@ -197,13 +192,13 @@
         <view class="judgement-top">
             <view class="judgement-top-left">
                 <view class="judgement-top-marks">
-                    <text class="judgement-top-mark">4.6</text>
+                    <text class="judgement-top-mark">{{ comment_list.comment_info.total_star }}</text>
                     <span class="judgement-top-mark1">分</span>
                 </view>
                 <view class="judgement-top-numbers">
-                    <text class="howMuch">233人评价</text>
+                    <text class="howMuch">{{comment_list.comment_info.tag_list}}条评价</text>
                     <i-cell title="禁用点击和手势选择星">
-                        <i-rate disabled="{{true}}" value="{{starIndex4}}"></i-rate>
+                        <i-rate disabled="{{true}}" value="{{comment_list.comment_info.total_star}}"></i-rate>
                     </i-cell>
                 </view>
             </view>
@@ -212,26 +207,26 @@
         <view class="judgement-bottom">
             <view class="judgement-bottom-content" wx:for="{{ tips }}" wx:key="index">
                 <text class="judgement-bottom-container">{{ item.name }}</text>
-                <span>({{item.number}})</span>
+                <span>({{item.id == comment_list.comment_info.num[index].id ?  comment_list.comment_info.num[index].num:0 }})</span>
             </view>
         </view>
     </view>
     <view class="fenge2"></view>
     <view class="comment-list">
-        <view class="comment-item" wx:for="{{comment_list}}" wx:key="index">
+        <view class="comment-item" wx:for="{{comment_list.comment_list}}" wx:key="index">
             <view class="user-info flex-be">
                 <view class="avatar flex-st">
                     <image mode="widthFix" src="{{item.user_img}}"></image>
                     <view class="other-infor">
                         <text>{{item.user_nicename}}</text>
-                        <text class="howmany">学习了29个课时评价</text>
+                        <text class="howmany"></text>
                     </view>
                 </view>
                 <view class="add-infor">
                     <i-cell title="禁用点击和手势选择星">
-                        <i-rate disabled="{{true}}" value="{{starIndex4}}"></i-rate>
+                        <i-rate disabled="{{true}}" value="{{item.star}}"></i-rate>
                     </i-cell>
-                    <text class="date">{{item.createdTime}}</text>
+                    <text class="date">{{item.add_time}}</text>
                 </view>
             </view>
             <view class="comment-words">
@@ -384,25 +379,41 @@
     </view>
     <view class="fellings" wx:if='{{visible2}}'>
         <i-panel title="基础用法">
-            <i-input value="{{ value2 }}" type="textarea" placeholder="说一说听课感受吧（最多输入80字）" maxlength="80" />
+            <i-input value="{{ value2 }}" type="textarea" placeholder="说一说听课感受吧（最多输入80字）" maxlength="80" bind:change='changes'/>
         </i-panel>
     </view>
-    <view class="lunchYourcomm">发表评论</view>
+    <view class="lunchYourcomm" bindtap='sumbitComment'>发表评论</view>
     <view class="closings" catchtap='handleClose2'>
         <image class="closing" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/closeing.png" />
     </view>
 </i-modal>
 <view class="footer-bar flex-st">
-    <view class="flex-column">
+  
+      <button bindcontact="handleContact" class="function-list flex-be" openType="contact" style="line-height:36rpx">
+        <view class="flex-column">
         <i-icon type="customerservice" color="#666666" size='20' />
         <text class="serviceMan">客服</text>
     </view>
-    <view class="flex-column">
+        <!-- <view class="left-part flex-st">
+            <image style="height:40rpx;" src="../../images/kefu.png"></image>
+            <text>联系客服</text>
+        </view>
+        <view class="right-part flex-st">
+            <image style="height:24rpx;" src="../../images/ic-my-arrow.png"></image>
+        </view> -->
+    </button>
+    <!-- <view class="flex-column">
         <i-icon type="collection" color="#666666" size='20' />
         <text class="serviceMan">收藏</text>
-    </view>
+    </view> -->
     <view class="flex-center">
         <view class="freeText">免费题库</view>
         <view class="immiWatch">立即观看</view>
     </view>
 </view>
+<i-action-sheet visible="{{ visible3 }}" actions="{{ actions3 }}" show-cancel bind:cancel="handleCancel3" bind:click="handleClickItem3" mask-closable="{{ false }}">
+    <view slot="header" style="padding: 16px">
+        <view style="color: #444;font-size: 16px" bindtap='sureSomething'>确定吗？</view>
+        <text>删除后无法恢复哦</text>
+    </view>
+</i-action-sheet>

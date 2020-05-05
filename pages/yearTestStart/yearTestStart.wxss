@@ -253,6 +253,9 @@ page {
     position: relative;
     top: -41rpx;
 }
+.test_rich{
+    flex: 1;
+}
 .correctoption{
     display: flex;
     align-items: center;

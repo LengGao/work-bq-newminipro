@@ -114,51 +114,13 @@ Page({
     })
   },
   cards() {
-    let judgmentNum = JSON.stringify(this.data.judgmentNum)
-    let singleNum =JSON.stringify(this.data.singleNum)
-    let multipleNum = JSON.stringify(this.data.multipleNum)
-    let challengeId = this.data.challengeId
-    let name = '刷题挑战'
+    let chapter_id = this.data.chapter_id
+    let courseId = this.data.course_id
+    let exam_identity = this.data.exam_identity
+    let name = this.data.chapterName
     wx.navigateTo({
-      url: `../challAnswerVard/challAnswerVard?name=${name}&challengeId=${ challengeId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
+      url: `../yearAnswerVard/yearAnswerVard?chapter_id=${chapter_id}&courseId=${courseId}&exam_identity=${exam_identity}&name=${name}`
     })
-  },
-  goback() {
-    let that = this
-    let courseID = that.data.courseId
-    wx.showModal({
-      title: '提示',
-      content: '你正在进行挑战，是否选择退出？',
-      showCancel: true,//是否显示取消按钮
-      cancelText:"取消",//默认是“取消”
-      cancelColor:'#199FFF',//取消文字的颜色
-      confirmText:"确认",//默认是“确定”
-      confirmColor: '#199FFF',//确定文字的颜色
-      success: function (res) {
-         if (res.cancel) {
-            //点击取消,默认隐藏弹框
-         } else {
-          let option = {
-            challengeId:that.data.challengeId
-          }//以上为初始化加载参数
-          console.log(option)
-          app.encryption({//初始化加载函数获取所有题目
-            url: api.default.generatingChallengesMark,
-            data: option,
-            method: 'POST',
-            dataType: "json",
-            success: function (res) {
-              console.log(res)
-              wx.navigateTo({
-                url:`../challengResult/challengResult?courseId=${courseID}`
-              })
-          }
-        })
-      }
-      },
-      fail: function (res) { },//接口调用失败的回调函数
-      complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
-   })
   },
   likes() {
     let that = this
@@ -170,7 +132,7 @@ Page({
     console.log(current_no,allRender)
     if (this.data.tabItems[2].class == 'active') {
       let option = {
-        problemId:this.data.randerTitle.problemId,
+        problemId:this.data.randerTitle.ProblemId,
         behavior: 2
       }
       app.encryption({
@@ -207,7 +169,7 @@ Page({
       return
     }
     let option = {
-      problemId: this.data.randerTitle.problemId,
+      problemId: this.data.randerTitle.ProblemId,
       behavior: 1
     }
     app.encryption({
@@ -244,42 +206,11 @@ Page({
   },
   nextQU() {
     if(this.data.current_no >= this.data.all_current_no){
-      let that = this
-      let courseID = that.data.courseId
-      wx.showModal({
-        title: '提示',
-        content: '已经是最后一道题了,是否交卷？',
-        showCancel: true,//是否显示取消按钮
-        cancelText:"取消",//默认是“取消”
-        cancelColor:'#199FFF',//取消文字的颜色
-        confirmText:"确认",//默认是“确定”
-        confirmColor: '#199FFF',//确定文字的颜色
-        success: function (res) {
-           if (res.cancel) {
-              //点击取消,默认隐藏弹框
-           } else {
-            let option = {
-              challengeId:that.data.challengeId
-            }//以上为初始化加载参数
-            console.log(option)
-            app.encryption({//初始化加载函数获取所有题目
-              url: api.default.generatingChallengesMark,
-              data: option,
-              method: 'POST',
-              dataType: "json",
-              success: function (res) {
-                console.log(res)
-                wx.navigateTo({
-                  url:`../challengResult/challengResult?courseId=${courseID}`
-                })
-            }
-          })
-        }
-        },
-        fail: function (res) { },//接口调用失败的回调函数
-        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
-     })
-     return
+      $Message({
+        content: '已经是最后题了',
+        type: 'warning'
+      });
+      return
     }
     var that = this
     let randerTitle
@@ -359,23 +290,36 @@ Page({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
-    if( randerTitle.ProblemType == '2' ){
-        let options= {
-          problemId:randerTitle.ProblemId,
-          answe: this.data.multiselect
+    if (allRender[current_no - 1].ProblemType == '2') {
+      let index = this.data.index
+      let answer = ''
+      for (let item of this.data.multiselect) {
+        answer = answer + item + ','
+      }
+      let option = {
+        answer: answer,
+        course_id: parseInt(this.data.course_id),
+        chapter_id: parseInt(this.data.chapter_id),
+        exam_type: 2,//2为考试类型
+        question_id: parseInt(allRender[current_no - 1].ProblemId),//题目Id
+        exam_identity: this.data.exam_identity,//考试次数标志
+      }
+      console.log(option)
+      app.encryption({
+        url: api.default.answersave,
+        data: option,
+        method: 'POST',
+        dataType: "json",
+        success: function (res) {
+          console.log(res)
+          that.setData({
+            multiselect: []
+          })
+        },
+        fail: function (n) {
+          console.log('333333')
         }
-        app.encryption({
-          url: api.default.answerEvents,
-          data: options,
-          method: 'POST',
-          dataType: "json",
-          success: function (res) {
-            console.log(res)
-          },
-          fail: function (n) {
-            console.log('333333')
-          }
-        })
+      })
     }
   },
   //选择答案
@@ -415,58 +359,56 @@ Page({
       })
     }
     //记录点击选项后数据库的改变
-    let options= {
-      problemId:id,
-      answer:option,
-      challengeId: parseInt(this.data.challengeId) 
+    let options = {
+      answer: this.data.randerTitle.content[index].option,
+      course_id: parseInt(this.data.course_id),
+      chapter_id: parseInt(this.data.chapter_id),
+      exam_type: 1,//2为考试类型
+      question_id: parseInt(this.data.randerTitle.ProblemId),//题目Id
+      exam_identity: this.data.exam_identity,//考试次数标志
     }
     console.log(options)
-    app.encryption({
-      url: api.default.recordingBrushProblem,
+    app.encryption({//初始化加载函数获取所有题目
+      url: api.default.answersave,
       data: options,
       method: 'POST',
       dataType: "json",
       success: function (res) {
-        console.log(res)
+        console.table(res)
       },
       fail: function (n) {
-        console.log('333333')
+        console.log('初始化失败')
       }
     })
   },
   multiselectAnswer(e){
-    if (!this.data.multishowAny) {
-      return
-    }
     let option = e.currentTarget.dataset.option;
-    let answer = e.currentTarget.dataset.answer;
     let index = e.currentTarget.dataset.index;
-    let color = this.data.randerTitle.content[index];
-    let id = e.currentTarget.dataset.id;
-    console.log(option,answer)
-    let multiselect = []
-    if(!multiselect.includes(option)){
+    console.log(option, index)
+    let multiselect = this.data.multiselect
+    if (!multiselect.includes(option)) {
       multiselect.push(option)
+      this.data.randerTitle.content[index].haschose = true
+      this.data.randerTitle.done = true
       this.setData({
-        multiselect:this.data.multiselect  + option+ ','
-      })
-    }
-    if( answer.includes(option) ){
-      color.color = true
-      this.setData({
-        randerTitle: this.data.randerTitle,
-      })
-    }else {
-      color.color = false
-      color.err = true
-      this.setData({
+        multiselect: multiselect,
         randerTitle: this.data.randerTitle
       })
+    } else {
+      this.data.randerTitle.content[index].haschose = false
+      multiselect.splice(multiselect.findIndex(item => item === option), 1);
+      this.setData({
+        multiselect: multiselect,
+        randerTitle: this.data.randerTitle
+      })
+      if (multiselect.length = 0) {
+        this.data.randerTitle.done = false//表明当前题目已做
+        this.setData({
+          randerTitle: this.data.randerTitle
+        })
+      }
     }
-  
-    // this.setData({
-    //   option:multiselect
-    // })
+    console.log(multiselect)
   },
   showAnswer(){
     if(this.data.activeAnswer == 'activeAnswer'){
@@ -486,53 +428,53 @@ Page({
     }
   },
   onLoad: function (options = {}) {
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     console.log(options)
     var that = this;
-    let icon = 'tabItems[2].icon'
-    let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为获取收藏按钮状态
-    let option = {
-      courseId: options.courseId
-    }//以上为初始化加载参数
+    let times = new Date().getTime()
     that.setData({
-      navH: app.globalData.navHeight
+      targetTime2: times + 1000,
+      navH: app.globalData.navHeight,
+      chapterName: options.chapterName,
+      course_id: options.courseId,
+      chapter_id: options.chapterId
     })
+    let option = {
+      course_id: options.courseId,
+      chapter_id: options.chapterId,
+      exam_type: 1
+    }
     app.encryption({//初始化加载函数获取所有题目
-      url: api.default.brushGenerationChallenge,
+      url: api.default.gettruthquestion,
       data: option,
-      method: 'POST',
+      method: 'GET',
       dataType: "json",
       success: function (res) {
         console.log(res)
-        console.log(res.singleNum)
-        let randerTitle = app.testWxParse(that, res.list[0])//初始化第一道题目
+        let randerTitle = app.testWxParse(that, res.question_list[0])//初始化第一道题目
         that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
         that.setData({
-          originTitle: res.list,//为所有原始数据
+          targetTime2: times + res.duration * 1000,
+          originTitle: res.question_list,//为所有原始数据
           randerTitle: randerTitle,//为当前渲染数据
           current_no: 1,//初始化题目标注
-          ProblemType:randerTitle.ProblemType,//表明练习题类型
-          all_current_no:res.num,//所有题目的数量
-          singleNum:res.singleList,//单选题的数量
-          multipleNum:res.multipleList,//多选题的数量
-          judgmentNum:res.judgmentList,//判断题的数量
-          formId:res.formId,
-          challengeId:res.challengeId,//formid，
-          courseId:options.courseId
+          ProblemType: randerTitle.ProblemType,//表明练习题类型
+          all_current_no: res.total,//所有题目的数量
+          exam_identity: res.exam_identity//考试次数
         })
-        if (randerTitle.isCollect == 1) { //是否已收藏
-          that.setData({
-            likes: true,
-            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-            [classes]: 'active',
-            [name]: '已收藏'
-          })
-        }
       },
       fail: function (n) {
         console.log('初始化失败')
+      },
+      complete: function () {
+        wx.hideLoading();
       }
     })
+    console.log(that.data.targetTime2)
+    return
   },
   onReady: function () { },
   onShow: function () { },

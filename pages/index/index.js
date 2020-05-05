@@ -94,7 +94,7 @@ Page({
     })
   },
   virText() {
-    let id = this.data.menustat
+    let id = this.data.courseId
     wx.navigateTo({
       url: `../virTest/virTest?courseId=${id}`
     })
@@ -118,7 +118,7 @@ Page({
   toVideoroom() {
     let video_id = this.data.myCourse['courseId']
     wx.navigateTo({
-      url: `../course-detail/course-detail?video_id=${video_id}`
+      url: `../course-detail/course-detail?video_id=${video_id}&courseId=${video_id}`
     })
   },
   handleClickItem1({ detail }) {
@@ -144,8 +144,9 @@ Page({
     });
   },
   clickin() {
+    let id = this.data.courseId
     wx.navigateTo({
-      url: `../dailyCard/dailyCard`
+      url: `../dailyCard/dailyCard?courseId=${id}`
     })
   },
   // 点击下拉列表
@@ -198,7 +199,7 @@ Page({
           biaoti: res[0].courseName
         })
         that.getSubject()
-        return resolve('qqqqqq')
+        return resolve()
       },
       fail: function (t) {
         return reject
@@ -218,6 +219,7 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
+        console.log(res)
         if (res.data == undefined) {
           that.setData({
             myCourse: res

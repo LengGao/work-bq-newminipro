@@ -45,8 +45,19 @@ var apiurl = {
     getChallengesFacePlate:e +'api/v1/answe/getChallengesFacePlate',
     recordingBrushProblem:e +'api/v1/answe/recordingBrushProblem',
     getRankeEdition:e +'api/v1/answe/getRankeEdition',
-    MyRankeEdition:e +'api/v1/answe/MyRankeEdition'
-
+    MyRankeEdition:e +'api/v1/answe/MyRankeEdition',
+    MyRankeEditions:e +'api/v1/answe/MyRankeEditions',
+    answercard:e +'api/v1//answe/answercard',
+    coursedetail: e + 'api/v1/course/coursedetail',
+    getPunchClock: e + 'api/v1/bill/getPunchClock',
+    makeDailyPunchCards: e + 'api/v1/answe/makeDailyPunchCards',
+    getDailyPunchFacePlate: e +'api/v1/answe/getDailyPunchFacePlate',
+    upateDailyPunchCardsInfo: e +'api/v1/answe/upateDailyPunchCardsInfo',
+    getTodayStatus: e +'api/v1/answe/getTodayStatus',
+    updateDailyPunchCards: e +'api/v1/answe/updateDailyPunchCards',
+    submitpaper: e +'api/v1/answe/submitpaper',
+    getcomment: e +'api/v1/comment/getcomment',
+    submitcomment: e +'api/v1/comment/submitcomment'
   },
   index: {
     // banner: e + "index"
@@ -79,7 +90,7 @@ var apiurl = {
     user_center: e + "usercenter",
     video: bq + "index/index/getCourseDetail",
     addProblemOrder: bq + "index/course/addProblemOrder",
-    vip_list: e + "viplist"
+    vip_list: e + "viplist",
   },
   video: {
     listen: e +'api/v1/course/listen',
