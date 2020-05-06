@@ -126,6 +126,7 @@ Page({
   goback() {
     let that = this
     let courseID = that.data.courseId
+    let challengeId = that.data.challengeId
     wx.showModal({
       title: '提示',
       content: '你正在进行挑战，是否选择退出？',
@@ -150,7 +151,7 @@ Page({
             success: function (res) {
               console.log(res)
               wx.navigateTo({
-                url:`../challengResult/challengResult?courseId=${courseID}`
+                url:`../challengResult/challengResult?courseId=${courseID}&challengeId=${challengeId}`
               })
           }
         })
@@ -246,6 +247,7 @@ Page({
     if(this.data.current_no >= this.data.all_current_no){
       let that = this
       let courseID = that.data.courseId
+      let challengeId = that.data.challengeId
       wx.showModal({
         title: '提示',
         content: '已经是最后一道题了,是否交卷？',
@@ -270,7 +272,7 @@ Page({
               success: function (res) {
                 console.log(res)
                 wx.navigateTo({
-                  url:`../challengResult/challengResult?courseId=${courseID}`
+                  url:`../challengResult/challengResult?courseId=${courseID}&challengeId=${challengeId}`
                 })
             }
           })

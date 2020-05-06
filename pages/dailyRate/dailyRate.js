@@ -1,7 +1,6 @@
 // pages/dailyRate/dailyRate.js
 let app = getApp(), api = require("../../api.js"),util = require("../../utils/util.js")
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -25,21 +24,61 @@ Page({
     ],
     singleNum:10,
     successOPtion:'defaultOption',
+    rate:0
   },
   goshare(){
     wx.navigateTo({
       url:'../dailyShare/dailyShare'
     })
   },
+  goback(){
+      
+  },
+  getinfo(){
+    let that = this
+    let option = {
+      courseId: this.data.courseId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.getTodayStatus,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        let allInfo = 'everyDate[0].name'
+        let allInfo1 = 'everyDate[1].name'
+        let allInfo2 = 'everyDate[2].name'
+        that.setData({
+           [allInfo]:res.punchCount,
+           [allInfo1]:res.useTime,
+           [allInfo2]:res.todayCount,
+           rate:res.accuracy
+        })
+        let date= util.js_date_time(res.createTime )
+        that.setData({
+          time: date
+        })
+      },
+      fail: function (t) {
+
+      },
+      complete: function () {
+
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let date= util.js_date_time(new Date() / 1000)
-    console.log(date)
+   
+    console.log(options)
      this.setData({
-       time: date,
+       
+       courseId:options.courseId
      });
+     this.getinfo()
   },
 
   /**

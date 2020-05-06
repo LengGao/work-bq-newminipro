@@ -15,10 +15,10 @@
     </view>
 </view>
 <view style="width:266rpx;height:230rpx;margin-left:242rpx;margin-top:60rpx;">
-  <view class="uprates">  <text class="rates">正确率 </text> <text class="percentages">80%</text> </view>
+  <view class="uprates">  <text class="rates">正确率 </text> <text class="percentages">{{ rate }}%</text> </view>
   <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/circle@2x.png" mode="widthFix"/>
 </view>
-<view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-top:50rpx;position:relative;display:flex;justify-content:center">继续努力，更上一层楼吧！
+<view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-top:50rpx;position:relative;display:flex;justify-content:center">{{ rate == 100 ? '今天表现完美！':'继续努力，更上一层楼吧！' }}
 </view>
 <view class="wrapper-top-content">
         <view wx:for="{{ everyDate }}" wx:key="index" class="wrapper-data-every">
@@ -49,10 +49,10 @@
     </view>
 </view>
 <view style="position:absolute;align-items:center;justify-content:space-around;bottom:0;left:0;display:flex;width:750rpx;height:100rpx;background:rgba(255,255,255,1);">
-  <button style="width:300rpx;height:60rpx;border:1px solid rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#199FFF;font-size:32rpx;">
+  <button style="width:300rpx;height:60rpx;border:1px solid rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#199FFF;font-size:32rpx;" bindtap="goback">
     再练一遍
   </button>
-  <button style="width:300rpx;height:60rpx;background:rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#FFFFFF;font-size:32rpx;">
+  <button style="width:300rpx;height:60rpx;background:rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#FFFFFF;font-size:32rpx;" bindtap="goback">
    查看解析
   </button>
 </view>

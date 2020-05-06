@@ -1,0 +1,44 @@
+<view class="myCourse">
+    <view class="myCourse-content">
+        <view class="img-myCourse"><image  style="width:100%;height:100%" src="http://oss.beiqujy.com/fc3cc87e91b9f6ecd6a29f1ad29151f40fff645c.jpeg" /></view>
+        <view class="myCourse-info">
+            <view class="myCourse-content-title">
+                系统项目工程师
+            </view>
+            <view>
+                <text class="myCourse-time">33课时</text>
+                 <text class="myCourse-time">/</text>
+                <text class="myCourse-time">333人已学习</text>
+            </view>
+            <view class="myCourse-info-bottom">
+                <view class="personal-infor">
+                    <image mode="widthFix" class="personal-img-myCourse" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png" binderror="errorFunction"></image>
+                    <text class="personal-name">马冬梅</text>
+                </view>
+                <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥6280</text>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="myCourse">
+    <view class="myCourse-content">
+        <view class="img-myCourse"><image  style="width:100%;height:100%" src="http://oss.beiqujy.com/fc3cc87e91b9f6ecd6a29f1ad29151f40fff645c.jpeg" /></view>
+        <view class="myCourse-info">
+            <view class="myCourse-content-title">
+                系统项目工程师
+            </view>
+            <view>
+                <text class="myCourse-time">33课时</text>
+                 <text class="myCourse-time">/</text>
+                <text class="myCourse-time">333人已学习</text>
+            </view>
+            <view class="myCourse-info-bottom">
+                <view class="personal-infor">
+                    <image mode="widthFix" class="personal-img-myCourse" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png" binderror="errorFunction"></image>
+                    <text class="personal-name">马冬梅</text>
+                </view>
+                <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥6280</text>
+            </view>
+        </view>
+    </view>
+</view>

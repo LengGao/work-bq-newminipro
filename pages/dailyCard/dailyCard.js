@@ -39,8 +39,9 @@ Page({
     ]
   },
   goAny () {
+    let courseId = this.data.courseId
     wx.navigateTo({
-      url:'../dailyRate/dailyRate'
+      url:`../dailyRate/dailyRate?courseId=${courseId}`
     })
   },
   goback() {

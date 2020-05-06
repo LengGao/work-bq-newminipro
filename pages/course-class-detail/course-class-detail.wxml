@@ -46,14 +46,12 @@
         </cover-view>
 
     </video>
-    
     <!-- <view class="middle-box" hidden="{{isPay}}">
         <view class="inner-box">
             <view class="psy-tips">
                 <text>视频加载中</text>
                 <image mode="widthFix" src="../../images/pay-line-tips.png"></image>
             </view>
-           
         </view>
     </view> -->
 </view>
@@ -68,12 +66,12 @@
     <block wx:key="index" wx:for="{{chapter}}">
       <view class="cata-title" bindtap="ifShow" data-index="{{index}}">
       {{item.title}}
-        <image src="../../images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
+        <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
       </view>
       <view class="cata-list" wx:if="{{item.isShow}}">
           <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.id ?'selected com_color':''}}" data-key="{{vitem.id}}" wx:for="{{item.list}}" wx:for-item="vitem">
-              <image class="cata-icon icon01" mode="widthFix" src="../../images/icon-catalog.png"></image>
-              <image class="cata-icon icon02" mode="widthFix" src="../../images/icon-catalog2.png"></image>
+              <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
+              <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image>
               <view class="cata-content twoline">
                   <text class="cata-name twoline">{{vitem.title}}</text>
                   <!-- <text class="cata-time">{{vitem.time}}</text> -->

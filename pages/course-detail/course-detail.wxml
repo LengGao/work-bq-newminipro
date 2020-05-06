@@ -158,10 +158,14 @@
     </view> -->
     <view class="tab-title">
         <view class="tab-container">
-            <text class="tab-container-title" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;display:block;width:600rpx">{{courseInfo.title}}</text>
+            <text class="tab-container-title" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;display:block;width:600rpx;line-height:12rpx;height:40rpx">
+                {{courseInfo.title}}
+            </text>
             <view class="ratesMark">
                 <i-cell title="禁用点击和手势选择星">
-                    <i-rate disabled="{{true}}" value="{{courseInfo.star}}">{{courseInfo.star}}</i-rate>
+                    <i-rate disabled="{{true}}" value="{{courseInfo.star}}">
+                        {{courseInfo.star}}
+                    </i-rate>
                 </i-cell>
                 <view class="personals">{{courseInfo.studentNum}}人在学</view>
             </view>
@@ -170,9 +174,13 @@
                 <text class="oldPrices">￥{{courseInfo.originPrice}}</text>
             </view>
         </view>
-        <view class="share-buttons">
-            <image class="" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/share.png" />
-            <text class="">分享</text>
+        <view>
+        <button open-type="share" style="background:#fff;line-height:32rpx">
+            <view class="share-buttons">
+                <image class="" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/share.png" />
+                <text class="">分享</text>
+            </view>
+        </button>
         </view>
     </view>
     <view class='fenge'></view>
@@ -192,7 +200,9 @@
         <view class="judgement-top">
             <view class="judgement-top-left">
                 <view class="judgement-top-marks">
-                    <text class="judgement-top-mark">{{ comment_list.comment_info.total_star }}</text>
+                    <text class="judgement-top-mark">
+                        {{ comment_list.comment_info.total_star }}
+                    </text>
                     <span class="judgement-top-mark1">分</span>
                 </view>
                 <view class="judgement-top-numbers">
@@ -207,7 +217,9 @@
         <view class="judgement-bottom">
             <view class="judgement-bottom-content" wx:for="{{ tips }}" wx:key="index">
                 <text class="judgement-bottom-container">{{ item.name }}</text>
-                <span>({{item.id == comment_list.comment_info.num[index].id ?  comment_list.comment_info.num[index].num:0 }})</span>
+                <span>
+                    ({{item.id == comment_list.comment_info.num[index].id ?  comment_list.comment_info.num[index].num:0 }})
+                </span>
             </view>
         </view>
     </view>
@@ -238,7 +250,7 @@
                         <view class="weui-uploader">
                             <view class="weui-uploader__bd">
                                 <view class="weui-uploader__files">
-                                    <view bindtap="previewImage" class="weui-uploader__file" data-current="{{v}}" wx:for="{{item.upload_img}}" wx:for-item="v" wx:key="{{ index }}">
+                                    <view bindtap="previewImage" class="weui-uploader__file" data-current="{{v}}" wx:for="{{item.upload_img}}" wx:for-item="v" wx:key="index">
                                         <image class="weui-uploader__img" src="{{v}}"></image>
                                     </view>
                                 </view>
@@ -379,7 +391,7 @@
     </view>
     <view class="fellings" wx:if='{{visible2}}'>
         <i-panel title="基础用法">
-            <i-input value="{{ value2 }}" type="textarea" placeholder="说一说听课感受吧（最多输入80字）" maxlength="80" bind:change='changes'/>
+            <i-input value="{{ value2 }}" type="textarea" placeholder="说一说听课感受吧（最多输入80字）" maxlength="80" bind:change='changes' />
         </i-panel>
     </view>
     <view class="lunchYourcomm" bindtap='sumbitComment'>发表评论</view>
@@ -388,12 +400,11 @@
     </view>
 </i-modal>
 <view class="footer-bar flex-st">
-  
-      <button bindcontact="handleContact" class="function-list flex-be" openType="contact" style="line-height:36rpx">
+    <button bindcontact="handleContact" class="function-list flex-be" openType="contact" style="line-height:36rpx">
         <view class="flex-column">
-        <i-icon type="customerservice" color="#666666" size='20' />
-        <text class="serviceMan">客服</text>
-    </view>
+            <i-icon type="customerservice" color="#666666" size='20' />
+            <text class="serviceMan">客服</text>
+        </view>
         <!-- <view class="left-part flex-st">
             <image style="height:40rpx;" src="../../images/kefu.png"></image>
             <text>联系客服</text>

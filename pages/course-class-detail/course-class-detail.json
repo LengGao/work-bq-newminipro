@@ -1,7 +1,7 @@
 {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "直播回顾",
-    "navigationBarTextStyle": "black",
-    "usingComponents": {}
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTitleText": "直播回顾",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {}
 }

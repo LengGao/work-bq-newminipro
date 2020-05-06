@@ -5,70 +5,75 @@ Page({
     isIOS: app.globalData.isIOS,
     banner: [
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/01.jpg'
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/01.jpg'
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/02.jpg'
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/02.jpg'
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg'
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg'
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg'
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg'
       }
-  ],
-  funsel: [
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ruankaojisuanji.png',
-      name:'软考'
-    },
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiaoshizigezheng.png',
-      name:'会计师'
-    },
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jingjishizhicheng.png',
-      name:'经济师'
-    },
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/gongchengshizhicheng.png',
-      name:'特种作业'
-    },
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiankangguanlishi.png',
-      name:'健康管理师'
-    }
-   
-  
-  ],
-  freeCourse:[],
-  hotpoint:[
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/05.jpg',
-      title:'系统集成项目管理工程师',
-      price:'6666',
-      personal:'2564',
-      id:'123'
-    },
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/06.jpg',
-      title:'系统集成项目管理工程师',
-      price:'5646',
-      personal:'1654'
-    },
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg',
-      title:'系统集成项目管理工程师',
-      price:'8947',
-      personal:'56971'
-    },
-    {
-      url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg',
-      title:'系统集成项目管理工程师',
-      price:'5612',
-      personal:'89745'
-    },
-  ]
+    ],
+    funsel: [
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ruankaojisuanji.png',
+        name: '软考',
+        id: '1'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiaoshizigezheng.png',
+        name: '会计师',
+        id: '2'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jingjishizhicheng.png',
+        name: '经济师',
+        id: '3'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/gongchengshizhicheng.png',
+        name: '特种作业',
+        id: '4'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiankangguanlishi.png',
+        name: '健康管理师',
+        id: '5'
+      }
+
+
+    ],
+    freeCourse: [],
+    hotpoint: [
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/05.jpg',
+        title: '系统集成项目管理工程师',
+        price: '6666',
+        personal: '2564',
+        id: '123'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/06.jpg',
+        title: '系统集成项目管理工程师',
+        price: '5646',
+        personal: '1654'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg',
+        title: '系统集成项目管理工程师',
+        price: '8947',
+        personal: '56971'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg',
+        title: '系统集成项目管理工程师',
+        price: '5612',
+        personal: '89745'
+      },
+    ]
   },
   selectmenuAll() {
     this.setData({
@@ -80,6 +85,12 @@ Page({
       cat_list3: [],
     });
     this.getClassVideo(true);
+  },
+  godetails(e) {
+    console.log(e.currentTarget.dataset.keys)
+    wx.navigateTo({
+      url: `../../pages/AllTestPir/AllTestPir?id=${e.currentTarget.dataset.keys}&name=${e.currentTarget.dataset.name}`
+    });
   },
   selectmenu: function (t) {
     let key = t.currentTarget.dataset.key;
@@ -114,7 +125,7 @@ Page({
     });
     this.getClassVideo(true);
   },
-  hotpoint(){
+  hotpoint() {
     wx.showLoading({
       title: "加载中"
     });
@@ -122,28 +133,38 @@ Page({
     let token = wx.getStorageSync("user_info").token
     let that = this
     app.encryption({
-      url:api.default.hostcourse,
+      url: api.default.hostcourse,
       header: {
-        token:token,
-        uuid:uuid
+        token: token,
+        uuid: uuid
       },
-      method:'GET',
+      method: 'GET',
       dataType: "json",
-      success:function(res){
+      success: function (res) {
         console.log(res)
         that.setData({
-          hotpoint:res
+          hotpoint: res
         })
       },
-      fail:function(res){
-        
+      fail: function (res) {
+
       },
       complete: function () {
         wx.hideLoading();
       }
     })
   },
-  freeCourse(){
+  checkAll(e,f){
+    wx.navigateTo({
+      url: `../../pages/AllTestPir/AllTestPir?id=${e.currentTarget.dataset.keys}&name=免费题目`
+    });
+  },
+  checkAlls(e,f){
+    wx.navigateTo({
+      url: `../../pages/AllTestPir/AllTestPir?id=${e.currentTarget.dataset.keys}&name=热门题库`
+    });
+  },
+  freeCourse() {
     wx.showLoading({
       title: "加载中"
     });
@@ -151,21 +172,21 @@ Page({
     let token = wx.getStorageSync("user_info").token
     let that = this
     app.encryption({
-      url:api.default.freecourse,
+      url: api.default.freecourse,
       header: {
-        token:token,
-        uuid:uuid
+        token: token,
+        uuid: uuid
       },
-      method:'GET',
+      method: 'GET',
       dataType: "json",
-      success:function(res){
+      success: function (res) {
         console.log(res)
         that.setData({
-          freeCourse:res
+          freeCourse: res
         })
       },
-      fail:function(res){
-        
+      fail: function (res) {
+
       },
       complete: function () {
         wx.hideLoading();
@@ -174,7 +195,7 @@ Page({
   },
   onLoad: function (t) {
     tab.tabbar("tabBar", 0, this, "shoponline");
-    this.hotpoint();this.freeCourse()
+    this.hotpoint(); this.freeCourse()
   },
   onReady: function () { },
   onShow: function () { },
@@ -192,27 +213,27 @@ Page({
     var a = this;
     wx.showLoading({
       title: "加载中"
-    }), 
-    wx.request({
-      url: e.video.category_list,
-      method: "POST",
-      data: {},
-      success: function (t) {
-        0 == t.code && a.setData({
-          cat_list: t.data
-        });
-      },
-      fail: function (t) {
-        wx.showModal({
-          title: "警告",
-          content: t.errmsg,
-          showCancel: !1
-        });
-      },
-      complete: function () {
-        wx.hideLoading();
-      }
-    });
+    }),
+      wx.request({
+        url: e.video.category_list,
+        method: "POST",
+        data: {},
+        success: function (t) {
+          0 == t.code && a.setData({
+            cat_list: t.data
+          });
+        },
+        fail: function (t) {
+          wx.showModal({
+            title: "警告",
+            content: t.errmsg,
+            showCancel: !1
+          });
+        },
+        complete: function () {
+          wx.hideLoading();
+        }
+      });
   },
   tabBarRedirect: function (e) {
     wx.redirectTo({

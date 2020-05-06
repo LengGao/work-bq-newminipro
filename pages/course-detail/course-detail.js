@@ -444,6 +444,9 @@ Page({
   },
   play(listen_id) {
     let that = this
+    that.setData({
+      lessonId: listen_id
+    })
     let option = {
       listen_id: listen_id
     }
@@ -544,8 +547,33 @@ Page({
 
       }
     })
-
   }, // onload
+  getProgrammePosters(){
+    let that = this
+    let option = {
+      courseId: this.data.courseId,
+      scene:'video_id='+this.data.courseId,
+      pages:'pages/index/index'
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.getProgrammePosters,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        that.setData({
+           imgUrl:res.imgUrl
+        })
+      },
+      fail: function (t) {
+
+      },
+      complete: function () {
+
+      }
+    })
+  },
   changes(e){
     console.log(e.detail.detail.value)
     this.setData({
@@ -571,14 +599,29 @@ Page({
     this.getCourse()//获取课程目录
     this.coursedetail()//获取课程介绍
     this.getcomment()//获取课程评论
+    this.getProgrammePosters()//获取课程封面
   },
-  onShow: function () { },
+  onShow: function () {},
   onHide: function () {
   },
   onUnload: function () {
-    // 1 == this.data.video.style && a.stop();
-    // clearTimeout(o);
-    clearInterval(this.timeOut);
+    let option = {
+      listen_id: this.data.lessonId,
+      learn_time:this.data.currentTime,
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.videomember,
+      method: "POST",
+      data: option,
+      success: function (res) {
+        console.log(res)
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
   },
   onPullDownRefresh: function () { },
   onReachBottom: function () { },
@@ -646,6 +689,24 @@ Page({
   },
   select_date: function (t) {
     let self = this, d = this.data;
+    let option = {
+      listen_id: this.data.lessonId,
+      learn_time:this.data.currentTime,
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.videomember,
+      method: "POST",
+      data: option,
+      success: function (res) {
+        console.log(res)
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+
+      }
+    })
     this.setData({
       lessonId: t.currentTarget.dataset.key,
       learnTime: 0
@@ -960,5 +1021,24 @@ Page({
       second = '0' + second;
     }
     return hour === 0 ? minute + ':' + second : hour + ':' + minute + ':' + second;
-  }
+  },
+  onShareAppMessage: function (res) {
+    let that = this 
+     return {
+       title: '东培学堂',
+       path: 'pages/challengResult/challengResult?courseId=17',
+       imageUrl:that.data.imgUrl,
+       success: function (shareTickets) {
+         console.info(shareTickets + '成功');
+         // 转发成功
+       },
+       fail: function (res) {
+         console.log(res + '失败');
+         // 转发失败
+       },
+       complete: function (res) {
+         console.log('xiixixixixixi')
+       }
+     }
+   }
 });

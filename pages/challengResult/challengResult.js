@@ -24,12 +24,12 @@ Page({
       {
         name: '15:30',
         title: '挑战用时',
-      
+
       },
       {
         name: '120',
         title: '挑战得分',
-      
+
       },
       {
         name: '68',
@@ -37,60 +37,92 @@ Page({
       }
     ],
   },
-  gopaihang(){
+  gopaihang() {
     let courseId = this.data.courseId
     wx.navigateTo({
-      url:`../challengRate/challengRate?courseId=${courseId}`
+      url: `../challengRate/challengRate?courseId=${courseId}`
     })
   },
-  startChallenge(){
+  startChallenge() {
     let id = this.data.courseId
     wx.reLaunch({
       url: `../challengPri/challengPri?courseId=${id}`
     })
   },
-  goback(){  
+  goback() {
     wx.reLaunch({
       url: '../index/index'
     })
   },
-  MyRankeEdition(){
+  MyRankeEdition() {
     var that = this;
     wx.showLoading({
-        title: "加载中"
+      title: "加载中"
     });
     let option = {
-        courseId:that.data.courseId
+      courseId: that.data.courseId
     }
     console.log(option)
     app.encryption({
-        url: api.default.MyRankeEditions,
-        method: "GET",
-        data:option,
-        success: function(res) {
-          console.log(res)
-          let data = that.data.userInfo
-          let userInfo0 = 'everyDate[0].name'
-          let userInfo1 = 'everyDate[1].name'
-          let userInfo2 = 'everyDate[2].name'
-          if(res.data == undefined){
-            that.setData({
-              [userInfo0]:res.consumeTime,
-              [userInfo1]:res.mark,
-              [userInfo2]:res.num
-            })
-          }
-        },
-        fail: function(t) {
-            wx.showModal({
-                title: "警告",
-                content: t.errmsg,
-                showCancel: !1
-            });
-        },
-        complete: function() {
-            wx.hideLoading(); 
+      url: api.default.MyRankeEditions,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        let data = that.data.userInfo
+        let userInfo0 = 'everyDate[0].name'
+        let userInfo1 = 'everyDate[1].name'
+        let userInfo2 = 'everyDate[2].name'
+        if (res.data == undefined) {
+          that.setData({
+            [userInfo0]: res.consumeTime,
+            [userInfo1]: res.mark,
+            [userInfo2]: res.num
+          })
         }
+      },
+      fail: function (t) {
+        wx.showModal({
+          title: "警告",
+          content: t.errmsg,
+          showCancel: !1
+        });
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    });
+  },
+  getChallengeResults() {
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    let that = this
+    let option = {
+      challengeId: that.data.challengeId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.getChallengeResults,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          imgUrl:res.imgUrl
+        })
+      },
+      fail: function (t) {
+        wx.showModal({
+          title: "警告",
+          content: t.errmsg,
+          showCancel: !1
+        });
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
     });
   },
   /**
@@ -100,9 +132,11 @@ Page({
     console.log(options)
     this.setData({
       navH: app.globalData.navHeight,
-      courseId:options.courseId
+      courseId: options.courseId,
+      challengeId:options.challengeId
     })
     this.MyRankeEdition()
+    this.getChallengeResults()
   },
 
   /**
@@ -151,30 +185,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (res) {
-    // var _this = this;
-
-    // if (res.from === 'button') {
-    // }
-    // return {
-    //   title: "您好，这是我的名片，望惠存",
-    //   path: "pages/TaCard/TaCard?objectId=" + _this.data.objectId + '&vrTag=' + _this.data.vrTag + '&imageUrl=' + _this.data.imageUrl + '&memberId=' + _this.data.memberId,
-    //   imageUrl: _this.data.imageUrl,
-    //   success: function (shareTickets) {
-    //     console.info(shareTickets + '成功');
-    //     // 转发成功
-    //   },
-    //   fail: function (res) {
-    //     console.log(res + '失败');
-    //     // 转发失败
-    //   },
-    //   complete:function(res){
-    //     console.log('xiixixixixixi')
-    //   }
-    // }
+   let that = this 
     return {
       title: '东培学堂',
       path: 'pages/challengResult/challengResult?courseId=17',
-      imageUrl:'',
+      imageUrl:that.data.imgUrl,
       success: function (shareTickets) {
         console.info(shareTickets + '成功');
         // 转发成功
@@ -183,7 +198,7 @@ Page({
         console.log(res + '失败');
         // 转发失败
       },
-      complete:function(res){
+      complete: function (res) {
         console.log('xiixixixixixi')
       }
     }

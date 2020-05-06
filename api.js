@@ -57,7 +57,13 @@ var apiurl = {
     updateDailyPunchCards: e +'api/v1/answe/updateDailyPunchCards',
     submitpaper: e +'api/v1/answe/submitpaper',
     getcomment: e +'api/v1/comment/getcomment',
-    submitcomment: e +'api/v1/comment/submitcomment'
+    submitcomment: e +'api/v1/comment/submitcomment',
+    getChallengeResults: e +'api/v1/bill/getChallengeResults',
+    getProgrammePosters: e +'api/v1/bill/getProgrammePosters',
+    getclasslive: e +'api/v1/course/getclasslive',
+    videomember: e +'api/v1//video/videomember',
+    getrevielive: e +'api/v1/video/getrevielive',
+    liveplayinfo: e +'api/v1/video/liveplayinfo'
   },
   index: {
     // banner: e + "index"

@@ -2,7 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/challengPri/challengPri",
+    "pages/course-class-detail/course-class-detail",
     "pages/yearTestPir/yearTestPir",
+    "pages/AllTestPir/AllTestPir",
     "pages/daliyPri/daliyPri",
     "pages/daliyard/daliyard",
     "pages/yearAnswerVard/yearAnswerVard",
@@ -26,7 +28,6 @@
     "pages/test/test",  
     "pages/chapter/chapter",
     "pages/answerCard/answerCard",
-    "pages/course-class-detail/course-class-detail",
     "pages/secondary/secondary",
     "pages/chapter_topic/chapter_topic",
     "pages/course-detail/course-detail",

@@ -21,7 +21,8 @@ Page({
       {
         name: '收藏夹',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png',
-        number: '45'
+        number: '45',
+        
       },
       {
         name: '错题集',
@@ -68,7 +69,19 @@ Page({
     t_id: 0,
     type: 0,
     noACtion: 0,
-    myCourse: []
+    myCourse: [],
+    optionsGo: 'toliveclass'
+  },
+  gocollection(){
+    wx.showToast({
+      title: '暂未开放',//提示文字
+      duration: 1000,//显示时长
+      mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+      icon: 'none', //图标，支持"success"、"loading"  
+      success: function () { },//接口调用成功
+      fail: function () { },  //接口调用失败的回调函数  
+      complete: function () { } //接口调用结束的回调函数  
+    })
   },
   errorFunction(e) {
     if (e.type == "error") {
@@ -79,6 +92,15 @@ Page({
       })
     }
 
+  },
+  errorLiving(e) {
+    if (e.type == "error") {
+      let imgList = this.data.living
+      imgList['img'] = this.data.defaultImg //错误图片替换为默认图片
+      this.setData({
+        living: imgList
+      })
+    }
   },
   // 点击下拉显示框
   prictive() {
@@ -164,7 +186,6 @@ Page({
     let courseId = t.currentTarget.dataset.key
     this.setData({
       menuTop: key.courseId,
-      biaoti: key.courseName,
       courseId: courseId.courseId
     });
     that.getSubject()
@@ -259,13 +280,13 @@ Page({
             noACtion: 0
           })
         } else {
-          let action = [
-            {
-              name: '该课程暂未设置科目'
-            }
-          ]
+          // let action = [
+          //   {
+          //     name: '该课程暂未设置科目'
+          //   }
+          // ]
           that.setData({
-            actions1: action,
+            actions1: [],
             noACtion: 1
           })
         }
@@ -276,6 +297,38 @@ Page({
       complete: function () {
 
       }
+    })
+  },
+  getclasslive() {
+    let that = this
+    app.encryption({
+      url: api.default.getclasslive,
+      method: "GET",
+      success: function (res) {
+        console.log(res)
+        if (res.classroomList[0].review == 1) {
+          that.setData({
+            optionsGo: 'goTestvideo',
+            banjiID: res.classroomList[0].class_id
+          })
+        }
+        that.setData({
+          living: res.classroomList[0]
+        })
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+  },
+  goTestvideo() {
+    console.log('kakakaka')
+    console.log(this.data.optionsGo)
+    let courseId = this.data.banjiID
+    console.log(courseId)
+    wx.reLaunch({
+      url: `../course-class-detail/course-class-detail?video_id=${courseId}`
     })
   },
   onLoad: function (e) {
@@ -327,6 +380,7 @@ Page({
       })
     });
     Promise.all([promise]).then((result) => {
+      this.getclasslive()
       wx.hideLoading();               //['成功了', 'success']
     }).catch((error) => {
       console.log(error)
