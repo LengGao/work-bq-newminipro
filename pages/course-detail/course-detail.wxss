@@ -176,6 +176,8 @@
 
 .judgement-top-left {
     display: flex;
+    height: 80rpx;
+    align-items: center;
 
 }
 
@@ -191,6 +193,7 @@
     font-family: PingFang SC;
     font-weight: 500;
     color: rgba(235, 93, 42, 1);
+    line-height: 146rpx;
 }
 
 .howMuch {

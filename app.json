@@ -1,9 +1,13 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/collectionAll/collectionAll",
+    "pages/AllTestScore/AllTestScore",
+    
     "pages/challengPri/challengPri",
     "pages/course-class-detail/course-class-detail",
     "pages/yearTestPir/yearTestPir",
+    "pages/viranswerCard/viranswerCard",
     "pages/AllTestPir/AllTestPir",
     "pages/daliyPri/daliyPri",
     "pages/daliyard/daliyard",

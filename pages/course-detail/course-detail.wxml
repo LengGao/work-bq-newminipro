@@ -33,11 +33,11 @@
                 <view class="countdown-titles">距离活动结束:</view>
                 <view>
                     <text class="countdown-title">{{day}}天</text>
-                    <span style="color:#fff;padding:0 3rpx ">:</span>
+                    <text style="color:#fff;padding:0 3rpx ">:</text>
                     <text class="countdown-title">{{hou}}</text>
-                    <span style="color:#fff;padding:0 3rpx">:</span>
+                    <text style="color:#fff;padding:0 3rpx">:</text>
                     <text class="countdown-title">{{min}}</text>
-                    <span style="color:#fff;padding: 0 3rpx">:</span>
+                    <text style="color:#fff;padding: 0 3rpx">:</text>
                     <text class="countdown-title">{{sec}}</text>
                 </view>
                 <!-- </view> -->
@@ -199,11 +199,11 @@
     <view class="judgement">
         <view class="judgement-top">
             <view class="judgement-top-left">
-                <view class="judgement-top-marks">
-                    <text class="judgement-top-mark">
+                <view class="judgement-top-marks" style="display:flex">
+                    <view class="judgement-top-mark">
                         {{ comment_list.comment_info.total_star }}
-                    </text>
-                    <span class="judgement-top-mark1">分</span>
+                    </view>
+                    <!-- <text class="judgement-top-mark1">分</text> -->
                 </view>
                 <view class="judgement-top-numbers">
                     <text class="howMuch">{{comment_list.comment_info.tag_list}}条评价</text>

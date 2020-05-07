@@ -332,7 +332,8 @@ Page({
     var e = t.target.dataset.id;
     console.log("----" + e + "----");
     var a = {};
-    a.curHdIndex = e, a.curBdIndex = e, this.setData({
+    a.curHdIndex = e, a.curBdIndex = e, 
+    this.setData({
       tabArr: a
     });
   },

@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "答题数据",
+  "backgroundTextStyle": "light",
+  "navigationStyle": "default",
+  "usingComponents": {}
+}

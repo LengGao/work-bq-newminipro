@@ -127,6 +127,9 @@ Page({
       confirmText: "确认",//默认是“确定”
       confirmColor: '#199FFF',//确定文字的颜色
       success: function (res) {
+        if (res.cancel) {
+          //点击取消,默认隐藏弹框
+        } else {
         //点击确定
         let option = {
           exam_identity: that.data.exam_identity,
@@ -142,14 +145,14 @@ Page({
           success: function (res) {
             console.table(res)
             wx.reLaunch({
-              url: "../index/index"
+              url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
             })
           },
           fail: function (n) {
             console.log('初始化失败')
           }
         })
-
+      }
       },
       fail: function (res) { },//接口调用失败的回调函数
       complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
@@ -215,7 +218,7 @@ Page({
                       success: function (res) {
                         console.table(res)
                         wx.reLaunch({
-                          url: "../index/index"
+                          url: `../yearTest/yearTest?courseId=${that.data.course_id}`
                         })
                       },
                       fail: function (n) {
@@ -260,7 +263,7 @@ Page({
                 success: function (res) {
                   console.table(res)
                   wx.reLaunch({
-                    url: "../index/index"
+                    url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
                   })
                 },
                 fail: function (n) {
@@ -307,7 +310,7 @@ Page({
                 success: function (res) {
                   console.table(res)
                   wx.reLaunch({
-                    url: "../index/index"
+                    url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
                   })
                 },
                 fail: function (n) {
@@ -513,6 +516,7 @@ Page({
     }
   },
   goback() {
+    let that = this
     wx.showModal({
       title: '提示',
       content: '你正在进行考试，是否选择退出？',
@@ -525,10 +529,29 @@ Page({
         if (res.cancel) {
           //点击取消,默认隐藏弹框
         } else {
+           //点击确定
+        let option = {
+          exam_identity: that.data.exam_identity,
+          course_id: parseInt(that.data.course_id),
+          chapter_id: parseInt(that.data.chapter_id)
+        }
+        console.log(option)
+        app.encryption({//交卷动作
+          url: api.default.submitpaper,
+          data: option,
+          method: 'POST',
+          dataType: "json",
+          success: function (res) {
+            console.table(res)
+            wx.reLaunch({
+              url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
+            })
+          },
+          fail: function (n) {
+            console.log('初始化失败')
+          }
+        })
           //点击确定
-          wx.redirectTo({
-            url: "../index/index"
-          })
         }
       },
       fail: function (res) { },//接口调用失败的回调函数

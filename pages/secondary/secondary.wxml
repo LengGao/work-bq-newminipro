@@ -43,7 +43,7 @@
     </view>
     <view class="hotpoint-content ">
         <view class="hotpoint-container" wx:for="{{ hotpoint }}" wx:key="index" hidden="{{ index < 4 ? false : true }}">
-            <navigator hover-class="none" url="../course-detail/course-detail?video_id={{ item.course_id }}">
+            <navigator hover-class="none" url="../course-detail/course-detail?video_id={{ item.course_id }}&courseId={{ item.course_id }}">
                 <view class="hotpoint-image">
                     <image style="width:100%;height:100%" src="{{ item.Picture }}" />
                 </view>

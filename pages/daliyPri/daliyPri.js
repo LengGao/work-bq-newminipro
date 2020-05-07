@@ -206,10 +206,6 @@ Page({
   },
   nextQU() {
     if(this.data.current_no >= this.data.all_current_no){
-      $Message({
-        content: '已经是最后题了',
-        type: 'warning'
-      });
       let options= {
          dailyId:this.data.dailyId,
       }

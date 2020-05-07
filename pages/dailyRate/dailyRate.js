@@ -53,7 +53,8 @@ Page({
            [allInfo]:res.punchCount,
            [allInfo1]:res.useTime,
            [allInfo2]:res.todayCount,
-           rate:res.accuracy
+           rate:res.accuracy,
+           singleNum:res.list
         })
         let date= util.js_date_time(res.createTime )
         that.setData({

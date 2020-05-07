@@ -112,9 +112,9 @@ Page({
     let judgmentNum = JSON.stringify(this.data.judgmentNum)
     let singleNum =JSON.stringify(this.data.singleNum)
     let multipleNum = JSON.stringify(this.data.multipleNum)
-    let formId = this.data.formId
+    let examId = this.data.examLogId
     wx.navigateTo({
-      url: `../answerCard/answerCard?name=第一章&formId=${ formId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
+      url: `../viranswerCard/viranswerCard?name=第一章&examId=${ examId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
     })
   },
   myLinsterner(e) {

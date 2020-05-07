@@ -186,13 +186,13 @@ Page({
    */
   onShareAppMessage: function (res) {
    let that = this 
+   let courseId =  that.data.courseId
     return {
       title: '东培学堂',
-      path: 'pages/challengResult/challengResult?courseId=17',
+      path: `pages/challengResult/challengResult?courseId=${courseId}`,
       imageUrl:that.data.imgUrl,
       success: function (shareTickets) {
-        console.info(shareTickets + '成功');
-        // 转发成功
+        console.info(shareTickets + '成功')
       },
       fail: function (res) {
         console.log(res + '失败');

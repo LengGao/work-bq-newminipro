@@ -63,7 +63,8 @@ var apiurl = {
     getclasslive: e +'api/v1/course/getclasslive',
     videomember: e +'api/v1//video/videomember',
     getrevielive: e +'api/v1/video/getrevielive',
-    liveplayinfo: e +'api/v1/video/liveplayinfo'
+    liveplayinfo: e +'api/v1/video/liveplayinfo',
+    getExamFacePlate: e +'api/v1/answe/getExamFacePlate'
   },
   index: {
     // banner: e + "index"

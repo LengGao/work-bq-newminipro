@@ -1,0 +1,165 @@
+/* pages/AllTestScore/AllTestScore.wxss */
+.top-container{
+    width: 690rpx;
+    height: 300rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background:rgba(25,159,255,1);
+    border-radius:20rpx;
+    margin: auto;
+    margin-top: 25rpx;
+    padding-top: 40rpx;
+    padding-bottom: 35rpx;
+    position: relative;
+    background:rgba(255,255,255,1);
+    box-shadow:0rpx 0rpx 30rpx 0rpx rgba(163,217,255,0.5);
+    border-radius:20rpx;
+}
+.top-titles{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20rpx;
+}
+.top-title{
+    font-size:30rpx;
+    font-family:PingFang SC;
+    font-weight:bold;
+    color:rgba(255,255,255,1);
+    margin-right:10rpx ;
+}
+.top-content{
+    height: 216rpx;
+    width: 625rpx;
+    display: flex;
+    justify-content: space-between;
+}
+#triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 10rpx solid transparent;
+    border-right: 10rpx solid transparent;
+    border-top: 10rpx solid #fff;
+}
+#triangle-up{
+    width: 0;
+    height: 0;
+    border-left: 10rpx solid transparent;
+    border-right: 10rpx solid transparent;
+    border-bottom: 10rpx solid #fff;
+}
+.left-logo{
+    width: 260rpx;
+    height: 230rpx;
+   position: relative;
+  
+}
+.circles{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+.left-logo view{
+    z-index: 10;
+   
+}
+.right-content{
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 51rpx;
+}
+.right-menu{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+   
+}
+.menu-img{
+    margin-right: 19rpx;
+    width: 49rpx;
+    height: 46rpx;
+}
+.menu-name{
+    font-size:30rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:#999999;
+}
+.every-menu{
+    display: flex;
+    align-items: center;
+}
+.right-number{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.uprates{
+    position:absolute ;
+    height: 230rpx;
+    width: 260rpx;
+    left: 50%;
+    top:0;
+    margin-left: -126rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.rates{
+    font-size:28rpx;
+    font-family:'PingFang SC';
+    font-weight:500;
+    color:rgba(25,159,255,1);
+    
+}
+.percentages{
+    font-size:70rpx;
+    font-family:'DINPro';
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    margin-bottom: 37rpx;
+}
+.jiaimg{
+    width: 100% !important;
+    height: 100% !important;
+}
+.green{
+    width:32rpx;
+    height:32rpx;
+    background:rgba(89,210,52,1);
+    border-radius:50%;
+}
+.red{
+    width:32rpx;
+    height:32rpx;
+    background:rgba(255,75,75,1);
+    border-radius:50%;
+}
+.gray{
+    width:32rpx;
+    height:32rpx;
+    background:rgba(221,221,221,1);
+    border-radius:50%;
+}
+.greens{
+    font-size: 30rpx;
+    color:#59D234;
+}
+.reds{
+    font-size: 30rpx;
+    color:#FF4B4B;
+}
+.grays{
+    font-size: 30rpx;
+    color:#999999;
+}

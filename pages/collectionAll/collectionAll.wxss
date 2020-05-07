@@ -1,0 +1,94 @@
+/* pages/collectionAll/collectionAll.wxss */
+page{
+    background: #fff;
+}
+.fenlei-menu{
+    width: 750rpx;
+    height: 100rpx;
+    background:rgba(255,255,255,1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.fenlei-menu text {
+    display: inline-block;
+    margin: 0 24rpx;
+    position: relative;
+    height: 100rpx;
+    font-family:PingFang SC;
+    line-height: 32rpx;
+}
+.fenlei-menu .thismenu {
+    color: #1bcc14;
+    font-weight: 500;
+    font-family:PingFang SC;
+}
+.teamnum{
+    font-size: 32rpx;
+}
+.fenlei-menu .thismenu::after {
+    content: '';
+    display: inline-block;
+    width:50%;
+    height: 4rpx;
+    border-radius: 6rpx;
+    background: #1bcc14;
+    position: absolute;
+    bottom: 0rpx;
+    left:46%;
+    transform: translateX(-50%);
+}
+.cata-title{
+    width: 750rpx;
+    height: 100rpx;
+    background:rgba(245,245,245,1);
+    padding: 0 0 0 31rpx;
+    display: flex;
+    align-items: center;
+    font-size:32rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(153,153,153,1);
+}
+.cata-content{
+    display: flex;
+    width: 750rpx;
+    height:100rpx;
+    border-top: 1rpx solid #cecece77;
+    align-items: center;
+    padding-left: 29rpx;
+    padding-right: 29rpx;
+   justify-content: space-between;
+}
+.twoline{
+    font-size:32rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(102,102,102,1);
+    margin-left: 32rpx;
+}
+.fix-out-box {
+    display: none;
+    background: #FFFEFF;
+}
+
+.fix-out-box.tactive {
+    display: block;
+}
+.catalogue {
+    background: #fff;
+    box-sizing: border-box;
+}
+.history-content{
+    display: flex;
+    flex-direction: column;
+}
+.history-name{
+    font-size:32rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(102,102,102,1);
+}
+.history-wrapper{
+    padding:27rpx 0 28rpx 30rpx;
+}
