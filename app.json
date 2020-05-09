@@ -1,9 +1,11 @@
 {
   "pages": [
+    "pages/learnStatus/learnStatus",
     "pages/index/index",
-    "pages/collectionAll/collectionAll",
     "pages/AllTestScore/AllTestScore",
-    
+    "pages/personalInfor/personalInfor",
+    "pages/collectionAll/collectionAll",
+    "pages/switchScore/switchScore",
     "pages/challengPri/challengPri",
     "pages/course-class-detail/course-class-detail",
     "pages/yearTestPir/yearTestPir",

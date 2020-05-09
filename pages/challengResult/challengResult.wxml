@@ -1,25 +1,33 @@
 <view class='nav bg-white' style='height:{{navH}}px'>
     <view class='nav-title'>
-     <text class="biaoti">刷题挑战</text> 
-      <text id="gl1" bindtap="goback"></text>
+        <text class="biaoti">刷题挑战</text>
+        <text id="gl1" bindtap="goback"></text>
     </view>
 </view>
 <view>
     <image mode="scaleToFill" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/challenge.png" style="width:688rpx;height:473rpx;margin-left:31rpx" />
 </view>
- <view class="wrapper-top-content">
-        <view wx:for="{{ everyDate }}" wx:key="index" class="wrapper-data-every">
-            <view style=" font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(25,159,255,1);">
-                <text class="wrapper-data-name">{{ item.name }}</text>
-            </view>
-            <view>
-                <text class="wrapper-data-title">{{ item.title }}</text>
-            </view>
+<view class="wrapper-top-content">
+    <view wx:for="{{ everyDate }}" wx:key="index" class="wrapper-data-every">
+        <view style=" font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(25,159,255,1);">
+            <text class="wrapper-data-name">{{ item.name }}</text>
+        </view>
+        <view>
+            <text class="wrapper-data-title">{{ item.title }}</text>
         </view>
     </view>
+</view>
 <view style="margin-top:80rpx">
-<button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#ffffff;background:#199FFF;text-align:center" bindtap='gopaihang'>挑战排行榜</button>
-<button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#ffffff;background:#199FFF;text-align:center" bindtap='startChallenge'>再次挑战</button>
-<button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#ffffff;background:#199FFF;text-align:center" bindtap='goback'>返回首页</button>
-<button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#199FFF" open-type="share">炫耀一下</button>
+    <button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#ffffff;background:#199FFF;text-align:center" bindtap='gopaihang'>
+        挑战排行榜
+    </button>
+    <button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#ffffff;background:#199FFF;text-align:center" bindtap='startChallenge'>
+        再次挑战
+    </button>
+    <button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#ffffff;background:#199FFF;text-align:center" bindtap='goback'>
+        返回首页
+    </button>
+    <button style="width:500rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;line-height:74rpx;border:2rpx solid rgba(255,255,255,1);border-radius:40rpx;margin-left:125rpx;margin-top:30rpx;color:#199FFF" open-type="share">
+        炫耀一下
+    </button>
 </view>

@@ -1,0 +1,12 @@
+{
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "提醒设置",
+  "backgroundTextStyle": "light",
+  "navigationStyle": "default",
+  "usingComponents": {
+    "i-switch": "../../utils/iview/switch/index",
+    "i-cell-group": "../../utils/iview/cell-group/index",
+    "i-cell": "../../utils/iview/cell/index"
+  }
+}

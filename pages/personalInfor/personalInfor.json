@@ -1,0 +1,11 @@
+{
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "个人资料",
+  "backgroundTextStyle": "light",
+  "navigationStyle": "default",
+  "usingComponents": {
+    "i-input": "../../utils/iview/input/index",
+    "i-panel": "../../utils/iview/panel/index"
+  }
+}

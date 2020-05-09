@@ -13,7 +13,7 @@
     </view>
 </view>
 <view class="function-select flex-around">
-    <view wx:for="{{ funsel }}" wx:key="index" class="fun-sel flex-column">
+    <view wx:for="{{ funsel }}" wx:key="index" class="fun-sel flex-column" bindtap="{{ item.action }}">
         <image mode="widthFix" class='function-select-image' src="{{ item.url }}" />
         <text class="function-select-name">{{ item.name }}</text>
     </view>

@@ -1,0 +1,4 @@
+/* pages/switchScore/switchScore.wxss */
+page{
+    background: #fff;
+}

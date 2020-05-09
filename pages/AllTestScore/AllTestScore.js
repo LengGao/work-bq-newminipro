@@ -36,11 +36,83 @@ Page({
       url: "../test/test"
     })
   },
+  generalScoring(id,type,courseId){
+    let that = this
+    let option = {
+      id:parseInt(id),
+      courseId: parseInt(courseId) ,
+      type: type 
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.generalScoring,
+      method: "GET",
+      data: option,
+      success: function (res) {
+      console.log(res)
+      let nums1 =  'topmenu[0].number'
+      let nums2 =  'topmenu[1].number'
+      let nums3 =  'topmenu[2].number'
+      that.setData({
+        [nums1]:res.rightNum,
+        [nums2]:res.errorNum,
+        [nums3]:res.notDoneNum,
+        singleNum:res.single,
+        multipleNum:res.multiple,
+        judgmentNum:res.judgment
+      })
+      if( typeof(res.data) != 'undefined'){
+        console.log('1')
+      }else {
+        console.log('2')
+      for(let i  of  singleNum )
+      {
+        for( let j of res.single)
+        {
+          if( i.problemId == j.problemId ){
+            i.correct = j.rightStatus
+         }
+        }
+      }
+      for(let i  of  multipleNum )
+      {
+        for( let j of res)
+        {
+          if( i.problemId == j.problemId){
+            i.correct = j.rightStatus
+        }
+        }
+      }
+      for(let i  of  judgmentNum )
+      {
+        for( let j of res)
+        {
+          if( i.problemId == j.problemId){
+            i.correct = j.rightStatus
+        }
+        }
+      }  
+      that.setData({
+        multipleNum:multipleNum,
+        singleNum:singleNum,
+        judgmentNum:judgmentNum 
+      })
+    }
+      },
+      fail: function (t) {
+        return reject()
+      },
+      complete: function () {
+
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(options)
+     this.generalScoring(options.id , options.type,options.courseId)
       
   },
 

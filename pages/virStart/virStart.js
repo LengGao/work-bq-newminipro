@@ -325,6 +325,7 @@ Page({
     }
   },
   goback() {
+    let that = this
     wx.showModal({
       title: '提示',
       content: '你正在进行考试，是否选择退出？',
@@ -337,9 +338,12 @@ Page({
          if (res.cancel) {
             //点击取消,默认隐藏弹框
          } else {
+           let type = 'mockExam';
+           let courseId = that.data.courseId;
+           let id = that.data.examLogId;
             //点击确定
             wx.reLaunch({
-              url:"../index/index"
+              url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
             })
          }
       },
@@ -353,7 +357,8 @@ Page({
     let times = new Date().getTime()
     that.setData({
       targetTime2:times + 100000,
-      navH: app.globalData.navHeight
+      navH: app.globalData.navHeight,
+      courseId:options.courseId
     })
       let option = {
         courseId:options.courseId

@@ -238,11 +238,11 @@ text-align: center;
 width: 120rpx!important;
 
 }
-.serial image {
+/* .serial image {
   
   width: 62rpx;
-	height: 59rpx;
-}
+ height: 59rpx;
+} */
 
 .paper .bigger {
   font-weight: 700;

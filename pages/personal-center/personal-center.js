@@ -9,26 +9,29 @@ Page({
     funsel:[
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/banji.png',
-        name:'我的班级'
+        name:'我的班级',
+        action:'myclass'
       },
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiazai.png',
-        name:'收藏夹'
+        name:'收藏夹',
+        action:'likes'
       },
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xuexibaogao.png',
-        name:'学习报告'
+        name:'学习报告',
+        action:'learns'
       },
-     
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumaijilu.png',
-        name:'购买记录'
+        name:'购买记录',
+        action:'recorders'
       },
     ],
     funlist:[
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiugaiziliao.png',
-        tosome:'',
+        tosome:'../personalInfor/personalInfor',
         name:'个人资料',
         option:['身份证、','毕业证']
       },
@@ -45,8 +48,8 @@ Page({
       // },
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xitongshezhi.png',
-        tosome:'',
-        name:'系统设置',
+        tosome:'../switchScore/switchScore',
+        name:'提醒设置',
       },
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
@@ -59,6 +62,30 @@ Page({
         name:'联系客服',
       }
     ]
+  },
+  recorders() {
+    let courseId = this.data.courseId
+    wx.navigateTo({
+      url: `../learnStatus/learnStatus?courseId=${courseId}`
+    })
+  },
+  learns() {
+    let id = this.data.courseId
+    wx.navigateTo({
+      url: `../learnStatus/learnStatus?courseId=${id}`
+    })
+  },
+  likes() {
+    let courseId = this.data.courseId
+    wx.navigateTo({
+      url: `../dailyChallenge/dailyChallenge?courseId=${courseId}`
+    })
+  },
+  myclass() {
+    let courseId = this.data.courseId
+    wx.navigateTo({
+      url: `../dailyChallenge/dailyChallenge?courseId=${courseId}`
+    })
   },
   onLoad: function (e) {
     n.tabbar("tabBar", 0, this, "usercenter");

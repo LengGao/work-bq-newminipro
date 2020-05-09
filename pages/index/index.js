@@ -21,18 +21,17 @@ Page({
       {
         name: '收藏夹',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png',
-        number: '45',
+     
         
       },
       {
         name: '错题集',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xingxing.png',
-        number: '45'
+ 
       },
       {
         name: '做题历史',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png',
-        number: '45'
       }
     ],
     fun_list: [

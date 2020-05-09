@@ -1,0 +1,185 @@
+<i-panel title="填写个人信息">
+    <i-input value="{{ value1 }}" title="真实姓名" autofocus placeholder="请输入你的真实名字" bind:change='realName' />
+    <i-input value="{{ value2 }}" title="手机号码" type="number" placeholder="请输入你的手机号码" bind:change='phoneNum' />
+    <i-input value="{{ value3 }}" title="身份证号码" type="number" placeholder="请输入你的身份证号码" bind:change='Idcard' />
+</i-panel>
+<i-panel title="上传身份证照片">
+    <view class="question-images-area">
+        <!-- 添加图片按钮 -->
+        <view class="question-images-tool">
+            <view class="top-server">
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !idcardimages.length }}" bindtap="idcardimages" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !idcardimages.length }}">
+                        身份证正面
+                    </text>
+                    <view class="question-images" wx:if="{{ idcardimages.length }}">
+                        <block wx:for="{{idcardimages}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removeidcardImage">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !idcardimage.length }}" bindtap="idcardimage" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !idcardimage.length }}">
+                        身份证背面
+                    </text>
+                    <view class="question-images" wx:if="{{ idcardimage.length }}">
+                        <block wx:for="{{idcardimage}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removeidcardImages">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <!-- <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadjiahao.png" style="width:190rpx;height:190rpx;margin-top:30rpx" bindtap="chooseImage" wx:if="{{images.length < 3}}" /> -->
+            </view>
+            <!-- </button> -->
+        </view>
+        <!-- 图片缩略图 -->
+    </view>
+</i-panel>
+<i-panel title="上传个人照片和毕业证照片">
+    <view class="question-images-area">
+        <!-- 添加图片按钮 -->
+        <view class="question-images-tool">
+            <view class="top-server">
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !personalimages.length }}" bindtap="personalimages" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !personalimages.length }}">
+                        个人免冠正面照
+                    </text>
+                    <view class="question-images" wx:if="{{ personalimages.length }}">
+                        <block wx:for="{{personalimages}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removepersonalImage">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !graduationimages.length }}" bindtap="graduationimages" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !graduationimages.length }}">
+                        毕业证
+                    </text>
+                    <view class="question-images" wx:if="{{ graduationimages.length }}">
+                        <block wx:for="{{graduationimages}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removegraduationImage">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <!-- <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadjiahao.png" style="width:190rpx;height:190rpx;margin-top:30rpx" bindtap="chooseImage" wx:if="{{images.length < 3}}" /> -->
+            </view>
+            <!-- </button> -->
+        </view>
+        <!-- 图片缩略图 -->
+    </view>
+</i-panel>
+<i-panel title="上传社保卡照片">
+    <view class="question-images-area">
+        <!-- 添加图片按钮 -->
+        <view class="question-images-tool">
+            <view class="top-server">
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !socins.length }}" bindtap="socins" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !socins.length }}">
+                        社保卡正面
+                    </text>
+                    <view class="question-images" wx:if="{{ socins.length }}">
+                        <block wx:for="{{socins}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removesocinsImage">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !backimages.length }}" bindtap="choosebackImage" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !backimages.length }}">
+                        社保卡背面
+                    </text>
+                    <view class="question-images" wx:if="{{ backimages.length }}">
+                        <block wx:for="{{backimages}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removebackImage">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <!-- <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadjiahao.png" style="width:190rpx;height:190rpx;margin-top:30rpx" bindtap="chooseImage" wx:if="{{images.length < 3}}" /> -->
+            </view>
+            <!-- </button> -->
+        </view>
+        <!-- 图片缩略图 -->
+    </view>
+</i-panel>
+<i-panel title="上传居住证照片">
+    <view class="question-images-area">
+        <!-- 添加图片按钮 -->
+        <view class="question-images-tool">
+            <view class="top-server">
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !permit.length }}" bindtap="choosepermitImages" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !permit.length }}">
+                        居住证正面
+                    </text>
+                    <view class="question-images" wx:if="{{ permit.length }}">
+                        <block wx:for="{{permit}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removepermitImage">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <view style="width:330rpx;height:208rpx;background:rgba(238,238,238,1);border-radius:10rpx;margin-left:28rpx;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative">
+                    <image style="width:50rpx;height:50rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/addimg.png" wx:if="{{ !permitback.length }}" bindtap="choosepermitbackImages" />
+                    <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);" wx:if="{{ !permitback.length }}">
+                        居住证背面
+                    </text>
+                    <view class="question-images" wx:if="{{ permitback.length }}">
+                        <block wx:for="{{permitback}}" wx:key="*this">
+                            <view class="q-image-wrap">
+                                <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+                                <view class="q-image-remover" data-idx="{{index}}" bindtap="removepermitbackImage">
+                                    <view style="background:rgba(255,255,255,1);width:18rpx;height:2rpx;margin-left:4rpx"></view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+                <!-- <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadjiahao.png" style="width:190rpx;height:190rpx;margin-top:30rpx" bindtap="chooseImage" wx:if="{{images.length < 3}}" /> -->
+            </view>
+            <!-- </button> -->
+        </view>
+        <!-- 图片缩略图 -->
+    </view>
+</i-panel>
+<view bindtap="submitForm" class="submitContent">提交内容</view>
+<view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin:auto;margin-top:30rpx;display:flex;align-items:center;justify-content:center;padding-bottom:39rpx">
+    *个人资料仅用于考试报名，请放心提交
+</view>

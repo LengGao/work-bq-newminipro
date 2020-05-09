@@ -40,9 +40,6 @@ page {
 .tabBar-item{
     width: 150rpx;
 }
-.tabBar .tabBar-item:nth-of-type(2) image {
-    
-}
 
 .tabBartext {
     color: #47c390;

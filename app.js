@@ -24,7 +24,6 @@ App({
         // 缓存
         wx.setStorageSync('school_id', 1);
     },
-
     // 新增school_id
     globalData: {
         userInfo: null,
