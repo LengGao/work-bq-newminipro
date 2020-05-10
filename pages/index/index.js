@@ -185,7 +185,11 @@ Page({
     let courseId = t.currentTarget.dataset.key
     this.setData({
       menuTop: key.courseId,
-      courseId: courseId.courseId
+      courseId: courseId.courseId,
+
+    });
+    wx.setStorageSync("courseId", {
+      courseId:courseId.courseId
     });
     that.getSubject()
   },
@@ -218,6 +222,9 @@ Page({
           courseId: res[0].courseId,
           biaoti: res[0].courseName
         })
+        wx.setStorageSync("courseId", {
+          courseId: res[0].courseId
+        });
         that.getSubject()
         return resolve()
       },

@@ -1,15 +1,18 @@
 <view class="boom" style="width:750rpx;position:relative">
+<view class='nav-title' style="position:absolute;left:30rpx;z-index:100;top:80rpx">
+      <text id="gl1" bindtap="goback"></text>
+    </view>
   <image style="width:100%;height:100%;position:absolute" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(9).png" />
   <image style="width:742rpx;height:1175rpx;position:absolute;top:72rpx;left:8rpx;z-index:1" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(4).png" />
   <image style="width:293rpx;height:372rpx;position:absolute;right:0;top:0;z-index:0" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(8).png" />
-  <view style="position:absolute;right:0;top:546rpx;left:70rpx;z-index:1;width:600rpx;height:100rpx;display:flex;justify-content:flex-start;align-items:center">
-    <image style="width:88rpx;height:88rpx;border-radius:50%;background:red" src="" />
-    <view style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;margin-left:20rpx">
+  <view style="position:absolute;right:0;top:546rpx;left:70rpx;z-index:1;width:600rpx;height:100rpx;display:flex;justify-content:flex-start;align-items:center;overflow:hidden">
+    <view ><image style="width:88rpx;height:88rpx;border-radius:50%" src="{{ UserInfo.userImage }}" /></view>
+    <view style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;margin-left:20rpx;flex:1">
       <view style="font-size:32rpx;font-family:PingFang SC;font-weight:800;color:rgba(51,51,51,1);">
-        马冬梅
+        {{ UserInfo.nickname }}
       </view>
-      <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-top:14rpx">
-        在东培学堂学习『系统集成项目管理工程师』
+      <view>
+         <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-top:14rpx;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">{{ UserInfo.title }}</text> 
       </view>
     </view>
   </view>
@@ -18,7 +21,7 @@
       坚持学习天数
     </view>
     <view style="height:77rpx;margin-top:21rpx;margin-left:-10rpx">
-      <text style="font-size:100rpx;height:77rpx;font-family:PingFang-SC-Bold;font-weight:Bold;color:#199FFF;vertical-align:bottom;line-height:50rpx">332</text>
+      <text style="font-size:100rpx;height:77rpx;font-family:PingFang-SC-Bold;font-weight:Bold;color:#199FFF;vertical-align:bottom;line-height:50rpx">{{Top.day }}</text>
       <text style="font-size:50rpx;height:50rpx;font-family:PingFang-SC-Bold;font-weight:Bold;color:#199FFF;vertical-align:bottom;line-height:50rpx;margin-bottom:-10rpx">天</text>
     </view>
   </view>
@@ -32,12 +35,12 @@
       </view>
     </view>
   </view>
-  <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(13).png" style="width:726rpx;height:825rpx;position:relative;top:1279rpx;left:12rpx;z-index:1" />
+  <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(13).png" style="width:726rpx;height:825rpx;position:relative;top:1268rpx;left:12rpx;z-index:1" />
   <view style="font-size:40rpx;font-family:PingFang SC;font-weight:bold;color:rgba(255,255,255,1);position:absolute;top:1310rpx;left:70rpx;z-index:1">
     题库练习
   </view>
   <view class="wrapper-top-content" style="position:absolute;top:1900rpx;left:0;z-index:1;width:750rpx">
-    <view wx:for="{{ everyDate }}" wx:key="index" class="wrapper-data-every">
+    <view wx:for="{{ practise }}" wx:key="index" class="wrapper-data-every">
       <view style=" font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(25,159,255,1);">
         <text class="wrapper-data-name">{{ item.name }}</text>
       </view>
@@ -47,9 +50,45 @@
     </view>
   </view>
   <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:1778rpx;left:312rpx;z-index:1">刷题正确率</view>
+  <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:2662rpx;left:82rpx;z-index:1000;display:flex;align-item:center;">
+    <view style="width:4rpx;height:30rpx;background:rgba(25,159,255,1);"></view> <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-left:9rpx"> 各类题型正确率 </view>
+  </view>
+  <view style="display:flex;justify-content:center;align-items:center;position:absolute;top:2766rpx;z-index:100;left:114rpx;flex-direction:column">
+    <view style="display:flex;align-items:center;justify-content:center">
+    <view style="color:#41E58A;font-size:40rpx;">{{ MockExamination.single }}</view>
+    <view style="color:#41E58A;font-size:20rpx">%</view>
+    </view>
+    <view style="color:#333333;font-size:24rpx;">单选题</view>
+  </view>
+   <view style="display:flex;justify-content:center;align-items:center;position:absolute;top:2766rpx;z-index:100;left:340rpx;flex-direction:column">
+    <view style="display:flex;align-items:center;justify-content:center">
+    <view style="color:#199FFF;font-size:40rpx;">{{ MockExamination.multiple }}</view>
+    <view style="color:#199FFF;font-size:20rpx">%</view>
+    </view>
+    <view style="color:#333333;font-size:24rpx;">多选题</view>
+  </view>
+   <view style="display:flex;justify-content:center;align-items:center;position:absolute;top:2766rpx;z-index:100;right:114rpx;flex-direction:column">
+    <view style="display:flex;align-items:center;justify-content:center">
+    <view style="color:#E65DFF;font-size:40rpx;">{{  MockExamination.judgment }}</view>
+    <view style="color:#E65DFF;font-size:20rpx">%</view>
+    </view>
+    <view style="color:#333333;font-size:24rpx;">判断题</view>
+  </view>
+   <view style="width:4rpx;height:30rpx;background:rgba(25,159,255,1);position:absolute;top:2294rpx;left:82rpx;z-index:1000;"></view>
+  <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:1778rpx;left:312rpx;z-index:1">刷题正确率</view>
   <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(13).png" style="width:726rpx;height:825rpx;position:absolute;top:2110rpx;left:12rpx;z-index:1" />
   <view style="font-size:40rpx;font-family:PingFang SC;font-weight:bold;color:rgba(255,255,255,1);position:absolute;top:2140rpx;left:70rpx;z-index:1">
     模拟考试
+  </view>
+    <view class="wrapper-top-content" style="position:absolute;top:1099rpx;left:0;z-index:1;width:750rpx">
+    <view wx:for="{{ everyDate }}" wx:key="index" class="wrapper-data-every">
+      <view style=" font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(25,159,255,1);">
+        <text class="wrapper-data-name">{{ item.name }}</text>
+      </view>
+      <view>
+        <text class="wrapper-data-title">{{ item.title }}</text>
+      </view>
+    </view>
   </view>
   <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(22).png" style="width:726rpx;height:600rpx;position:absolute;top:2940rpx;left:12rpx;z-index:1" />
   <view style="font-size:40rpx;font-family:PingFang SC;font-weight:bold;color:rgba(255,255,255,1);position:absolute;top:2965rpx;left:70rpx;z-index:1">
@@ -57,40 +96,50 @@
   </view>
   <view style="display:flex;flex-direction:column;position:absolute;top:3096rpx;left:136rpx;z-index:2;justify-content:center;align-items:center">
      <view style="">
-       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">23</text>
+       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">{{ Punch.count }}</text>
         <text  style="font-size:36rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">天</text>
      </view>
      <view  style="font-size:26rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#333333;">累计打卡天数</view>
   </view>
 <view style="display:flex;flex-direction:column;position:absolute;top:3096rpx;right:124rpx;z-index:2;justify-content:center;align-items:center">
      <view style="">
-       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">60</text>
+       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">{{ Punch.accuracy }}</text>
         <text  style="font-size:36rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">%</text>
      </view>
      <view  style="font-size:26rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#333333;">打卡平均正确率</view>
   </view>
   <view style="display:flex;flex-direction:column;position:absolute;top:3316rpx;right:134rpx;z-index:2;justify-content:center;align-items:center">
      <view style="">
-       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">93</text>
+       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">{{ Challenge.mark }}</text>
         <text  style="font-size:36rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">分</text>
      </view>
      <view  style="font-size:26rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#333333;">最好挑战成绩</view>
   </view>
     <view style="display:flex;flex-direction:column;position:absolute;top:3316rpx;left:134rpx;z-index:2;justify-content:center;align-items:center">
      <view style="">
-       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">53</text>
+       <text style="font-size:74rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">{{ Challenge.count }}</text>
         <text  style="font-size:36rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#199FFF;">次</text>
      </view>
      <view  style="font-size:26rpx;font-family:PingFang-SC-Medium;font-weight:Medium;color:#333333;">刷题挑战次数</view>
   </view>
-<image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(1).png" style="width:449rpx;height:143rpx;position:absolute;top:3540rpx;left:150rpx;z-index:1;margin-bottom:70rpx" />
+
+
+<button open-type="share" style="width:449rpx;height:143rpx;position:absolute;top:3540rpx;left:150rpx;z-index:1;margin-bottom:70rpx;background-color:none !important" >
+<image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(1).png" style="width:100%;height:100%"/>
+</button>
 </view>
 <view style="width:700rpx;height:629rpx;position:absolute;top:1330rpx;z-index:100;left:25rpx">
-<ec-canvas ec="{{ ecLine }}"style="width:100%;height:100%" force-use-old-canvas="true"></ec-canvas>
+<ec-canvas ec="{{ ecLine }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-gauge"></ec-canvas>
 </view>
 <view style="width:700rpx;height:529rpx;position:absolute;top:2230rpx;z-index:100;left:25rpx">
-  <ec-canvas ec="{{ ecLine2 }}"style="width:500rpx;height:429rpx" force-use-old-canvas="true"></ec-canvas>
+  <ec-canvas ec="{{ ecLine2 }}"style="width:500rpx;height:429rpx" force-use-old-canvas="true" id="mychart-dom-line"></ec-canvas>
 </view>
-<view style="width:280rpx;height:280rpx;position:absolute;top:2660rpx;z-index:100;left:25rpx">
-  <ec-canvas ec="{{ ecLine3 }}"style="width:100%;height:100%" force-use-old-canvas="true"></ec-canvas>
+<view style="width:550rpx;height:300rpx;position:absolute;top:2660rpx;z-index:100;left:-125rpx">
+  <ec-canvas ec="{{ ecLine3 }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-pie1"></ec-canvas>
+</view>
+<view style="width:550rpx;height:300rpx;position:absolute;top:2660rpx;z-index:100;left:100rpx">
+  <ec-canvas ec="{{ ecLine4 }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-pie2"></ec-canvas>
+</view>
+<view style="width:550rpx;height:300rpx;position:absolute;top:2660rpx;z-index:100;right:-125rpx">
+  <ec-canvas ec="{{ ecLine5 }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-pie3"></ec-canvas>
 </view>

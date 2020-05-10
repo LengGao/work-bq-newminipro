@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/learnStatus/learnStatus",
     "pages/index/index",
+    "pages/learnStatus/learnStatus",
     "pages/AllTestScore/AllTestScore",
     "pages/personalInfor/personalInfor",
     "pages/collectionAll/collectionAll",

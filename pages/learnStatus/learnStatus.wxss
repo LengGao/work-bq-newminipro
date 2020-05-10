@@ -35,3 +35,27 @@ ec-canvas {
     border: 1px solid red;
     display: block;
 }
+button{
+    background: none !important;
+}
+
+  #gl1{
+    text-align: center;
+    width: 25rpx;
+    height: 25rpx;
+    position: absolute;
+    top: 50%;
+    left: 22rpx;
+    border-left: 1rpx solid #FFFFFF;
+    border-bottom: 1rpx solid #FFFFFF;
+    -webkit-transform: translate(0,-50%) rotate(-135deg);
+    transform: translate(0,-50%) rotate(45deg);
+}
+#gl1::before{
+    content:"";
+    position:absolute;
+    top:-20rpx;
+    left:-20rpx;
+    bottom:-20rpx;
+    right:-20rpx;
+    }

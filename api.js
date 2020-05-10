@@ -66,7 +66,8 @@ var apiurl = {
     liveplayinfo: e +'api/v1/video/liveplayinfo',
     getExamFacePlate: e +'api/v1/answe/getExamFacePlate',
     updatePunchRemind: e +'api/v1/set/updatePunchRemind',
-    generalScoring: e +'api/v1/answe/generalScoring'
+    generalScoring: e +'api/v1/answe/generalScoring',
+    getLearningReports: e + 'api/v1/user/getLearningReports'
   },
   index: {
     // banner: e + "index"
