@@ -13,7 +13,7 @@ Page({
     let chapterId = this.data.chapterId;
     let courseId = this.data.courseId;
     let chapterName = this.data.chapterName
-    wx.redirectTo({
+    wx.navigateTo({
       url: `../yearTestPir/yearTestPir?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
    })
   },
@@ -21,7 +21,7 @@ Page({
     let chapterId = this.data.chapterId;
     let courseId = this.data.courseId;
     let chapterName = this.data.chapterName
-    wx.redirectTo({
+    wx.navigateTo({
       url: `../yearTestStart/yearTestStart?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
    })
   },

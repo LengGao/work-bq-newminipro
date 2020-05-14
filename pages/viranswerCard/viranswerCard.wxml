@@ -7,12 +7,6 @@
         </view>
     </view>
     <view>
-        <view style="width:32rpx;height:32rpx;background:#FF4B4B;border-radius:50%;margin-right: 16rpx;"></view>
-        <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">
-            错误
-        </view>
-    </view>
-    <view>
         <view style="width:32rpx;height:32rpx;background:#DDDDDD;border-radius:50%;margin-right: 16rpx;"></view>
         <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-right:10rpx">
             未回答

@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "我的班级",
+  "backgroundTextStyle": "light",
+  "navigationStyle": "default",
+  "usingComponents": {}
+}

@@ -115,10 +115,9 @@ Page({
     comment_list: [],
     p: 1,
     video: {},
-    isPay: false,
+    
     lessonId: '',
     learnTime: 0,
-
     // 阿里云
     page: 1,
     size: 5,
@@ -144,7 +143,8 @@ Page({
     fullScreenData: "",
     value2: '',
     startNum:'1',
-    tag:''
+    tag:'',
+    isPay:true
   },
   sumbitComment(){
     if(this.data.value2 == ''){
@@ -458,6 +458,31 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
+        if(res.free ==  1 && res.buy == 1){//免费或者已购买
+          that.setData({
+              isPay: true
+          })
+        }else{
+          that.setData({
+              isPay: false
+          })
+          wx.showToast({
+            title: '该视频尚未免费开放',
+            icon: 'none',
+            duration: 2000
+          })
+          return
+        }
+        // if(res.free == 0  ){
+        //   that.setData({
+        //       isPay: false
+        //     })
+        //     return
+        // }else{
+        //   that.setData({
+        //     isPay: true
+        //   })
+        // }
         wx.setNavigationBarTitle({
           title: `视频：${res.media.mediaName}`
         });
@@ -499,14 +524,12 @@ Page({
     this.setData({
       chapter: d.chapter
     })
-    console.log(this.data.chapter)
   },
   getCourse(){
     let that = this
     let option = {
       courseId: this.data.courseId
     }
-    console.log(option)
     app.encryption({
       url: api.default.chapterList,
       method: "GET",
@@ -530,13 +553,11 @@ Page({
     let option = {
       course_id: this.data.courseId
     }
-    console.log(option)
     app.encryption({
       url: api.default.getcomment,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
         that.setData({
           comment_list:res
         })
@@ -556,13 +577,11 @@ Page({
       scene:'video_id='+this.data.courseId,
       pages:'pages/index/index'
     }
-    console.log(option)
     app.encryption({
       url: api.default.getProgrammePosters,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
         that.setData({
            imgUrl:res.imgUrl
         })
@@ -576,13 +595,11 @@ Page({
     })
   },
   changes(e){
-    console.log(e.detail.detail.value)
     this.setData({
       value2:e.detail.detail.value
     })
   },
     onLoad: function (option = {}) {
-    console.log(option)
     this.listen(option)//获取播放信息
     clearInterval(this.timeOut);
     this.setData({
@@ -595,7 +612,7 @@ Page({
         this.data.isAndroid = true
       }
     } catch (e) {
-      console.log(e)
+     
     }
     this.getCourse()//获取课程目录
     this.coursedetail()//获取课程介绍
@@ -609,8 +626,8 @@ Page({
     let option = {
       listen_id: this.data.lessonId,
       learn_time:this.data.currentTime,
+      type:1
     }
-    console.log(option)
     app.encryption({
       url: api.default.videomember,
       method: "POST",
@@ -676,9 +693,8 @@ Page({
     });
   },
   playAudio: function () {
-    var t = this;
-    console.log(a), a.play(), a.src || (a.src = t.data.video.chapter[t.data.current_chapter].video_url),
-      console.log(a), 0 == t.data.can_play && wx.showLoading({
+    var t = this; a.play(), a.src || (a.src = t.data.video.chapter[t.data.current_chapter].video_url),
+       0 == t.data.can_play && wx.showLoading({
         title: "缓冲中"
       });
   },
@@ -693,8 +709,9 @@ Page({
     let option = {
       listen_id: this.data.lessonId,
       learn_time:this.data.currentTime,
+      type:1
     }
-    console.log(option)
+
     app.encryption({
       url: api.default.videomember,
       method: "POST",
@@ -713,33 +730,81 @@ Page({
       learnTime: 0
     })
     this.play( t.currentTarget.dataset.key)
-    // this.onLoad();
-    console.log(this.data.lessonId)
-    // 已付款或免费
-    // if (d.video.isbuy == 1 || d.video.price == 0) {
-    //   this.setData({
-    //     lessonId: t.currentTarget.dataset.key,
-    //     learnTime: 0
-    //   })
-    //   this.onLoad();
-    // } else {
-    //   this.buyVideo();
-    // }
-    // return;
-    // var o = this;
-    // if (1 == o.data.video.chapter[t.currentTarget.dataset.key].type && wx.navigateTo({
-    //   url: "../live-class/live-class?video_id=" + o.data.video.chapter[t.currentTarget.dataset.key].live_id + "&for_video_id=" + o.data.video_id
-    // }), 0 == o.data.video.AUTH) return wx.showToast({
-    //   title: "请先获取授权",
-    //   icon: "none"
-    // }), !1;
-    // o.data.current_chapter != t.currentTarget.dataset.key && (o.setData({
-    //   state1: t.currentTarget.dataset.key,
-    //   current_chapter: t.currentTarget.dataset.key
-    // }), 0 != o.data.video.style && "0" != o.data.video.style || ((e = wx.createVideoContext("video")).seek(0),
-    //   e.pause()), 1 != o.data.video.style && "1" != o.data.video.style || (o.setData({
-    //     audioPlayStatus: 0
-    //   }), a.stop(), a.src = o.data.video.chapter[o.data.current_chapter].video_url, a.title = o.data.video.chapter[o.data.current_chapter].name));
+   
+  },
+  buyVideo: function () {
+    var that = this, e = this.data.video;
+    let d = this.data;
+    (wx.showLoading({
+      title: "提交中"
+    }), 
+    app.encryption({
+      url: api.default.wxauth,
+      method: "POST",
+      data: {
+        course_id: that.data.courseId,
+        shouldbe_price:that.data.courseInfo.onlinePrice,
+        amount:that.data.courseInfo.originPrice
+      },
+      success: function (e) {
+        console.log(e.wx_pay_data)
+        let a = e.wx_pay_data
+        wx.requestPayment({
+          appId:a.appid,
+          timeStamp: a.timeStamp,
+          nonceStr: a.nonce_str,
+          package: a.prepay_id,
+          signType: a.signType,
+          paySign: a.paySign,
+          success: function (e) {
+            console.log(e)
+            wx.showToast({
+              title: "订单支付成功",
+              icon: "success"
+            })
+            that.onLoad();
+          },
+          fail: function (t) {
+            console.log(t)
+            wx.showToast({
+              title: "订单未支付",
+              icon: 'none'
+            });
+          }
+        });
+        // 0 == e.code ? 
+        // n.request({
+        //   url: s.order.get_pay_data,
+        //   method: "POST",
+        //   data: {
+        //     orderId: e.data.orderId,
+        //     openid: wx.getStorageSync('openid')
+        //   },
+        //   success: function (e) {
+        //     console.log(e);
+        //     if (wx.hideLoading(), 0 == e.code) {
+        //       var a = e.data;
+            
+        //     } else wx.showModal({
+        //       title: "提示",
+        //       content: e.msg,
+        //       showCancel: !1
+        //     });
+        //   },
+        //   complete() {
+        //     wx.hideLoading();
+        //   }
+        // })
+        //  : wx.showModal({
+        //   title: "警告",
+        //   content: e.msg,
+        //   showCancel: !1
+        // });
+      },
+      complete() {
+        wx.hideLoading();
+      }
+    }));
   },
   shareSuccess: function () {
     var t = this;

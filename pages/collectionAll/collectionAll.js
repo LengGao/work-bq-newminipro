@@ -1,6 +1,7 @@
 // pages/collectionAll/collectionAll.js
+let app = getApp();
+let api = require("../../api.js")
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -19,9 +20,14 @@ Page({
         id:'0'
       }
     ],
+    collectionList:null,
+    hisdata:null,
+    nodata:true,
+    errornodata:true,
+    nohisdata:true,
     tabArr: {
-      curHdIndex: 2,
-      curBdIndex: 2
+      curHdIndex: 1,
+      curBdIndex: 1
     },
     chapter:[
       {
@@ -67,7 +73,8 @@ Page({
         name:'信息化知识',
         num:'25'
       }
-    ]
+    ],
+    errordata:null
   },
   tabFun: function (t) {
     var e = t.target.dataset.id;
@@ -78,11 +85,143 @@ Page({
       tabArr: tab
     });
   },
+  ifShow(e) {
+    let index = e.currentTarget.dataset.index;
+    let d = this.data;
+    d.collectionList[index].isShow = !d.collectionList[index].isShow;
+    this.setData({
+      collectionList: d.collectionList
+    })
+    console.log(this.data.collectionList)
+  },
+  Showif(e) {
+    let index = e.currentTarget.dataset.index;
+    let d = this.data;
+    d.errordata[index].isShow = !d.errordata[index].isShow;
+    this.setData({
+      errordata: d.errordata
+    })
+    console.log(this.data.collectionList)
+  },
+  getCollection(){
+    let that = this
+    let option = {
+      courseId: that.data.courseId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.getCollection,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        for(let i of res){
+          app.testWxParse(that, i)
+        }
+        if( res.data != undefined && res.data.code == 30000){
+          console.log('12313')
+          that.setData({
+            nodata:false
+          })
+        }else{
+          that.setData({
+            collectionList:res
+          })
+        }
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+
+      }
+    })
+  },
+  getErrorTopicFeedbac(){
+    let that = this
+    let option = {
+      courseId: that.data.courseId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.getErrorTopicFeedbac,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        for(let i of res){
+          app.testWxParse(that, i)
+        }
+        if( res.data != undefined && res.data.code == 30000){
+          console.log('2342324')
+          that.setData({
+            errornodata:false
+          })
+        }else{
+          that.setData({
+            errordata:res
+          })
+        }
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+  },
+  getBehaviorLogList(){
+    let that = this
+    let option = {
+      courseId: that.data.courseId,
+      page:1
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.getBehaviorLogList,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        // for(let i of res){
+        //   app.testWxParse(that, i)
+        // }
+        if( res.data != undefined && res.data.code == 30000){
+          console.log('2342324')
+          that.setData({
+            nohisdata:false
+          })
+        }else{
+          that.setData({
+            hisdata:res
+          })
+        }
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+
+  },
+  select_date(t){
+    let courseId = this.data.courseId
+    wx.navigateTo({
+        url: `../answerCardPir/answerCardPir?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&type=${t.currentTarget.dataset.type}&name=${t.currentTarget.dataset.name}`
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(options)
+    let  tabArr0 = 'tabArr.curHdIndex',tabArr1 = 'tabArr.curBdIndex'
+    this.setData({
+      courseId:options.courseId,
+      [tabArr0]:options.number,
+      [tabArr1]:options.number,     
+    })
+   this.getCollection(),
+   this.getErrorTopicFeedbac()
+   this.getBehaviorLogList()
   },
 
   /**

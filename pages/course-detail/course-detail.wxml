@@ -26,9 +26,9 @@
             </cover-view>
         </cover-view>
     </video>
-    <view class="middle-box" hidden="{{isPay}}" wx:if="{{false}}">
+    <view class="middle-box" hidden="{{isPay}}">
         <view class="inner-box">
-            <view class='countdown-contant' wx:if="{{countDown}}">
+            <view class='countdown-contant' wx:if="{{ false }}">
                 <!-- <view class='name_right'> -->
                 <view class="countdown-titles">距离活动结束:</view>
                 <view>
@@ -42,7 +42,7 @@
                 </view>
                 <!-- </view> -->
             </view>
-            <image mode='widthFix' src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/countdown.jpg" class="countdown-image" />
+            <image mode='widthFix' src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/countdown.jpg" class="countdown-image"   wx:if="{{ false }}"/>
             <view class="psy-tips">
                 <text>本视频需要报名</text>
                 <!-- <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pay-line-tips.png"></image> -->
@@ -419,7 +419,8 @@
     </view> -->
     <view class="flex-center">
         <view class="freeText">免费题库</view>
-        <view class="immiWatch">立即观看</view>
+        <view class="immiWatch" bindtap="buyVideo"  wx:if="{{ !isPay }}">立即观看</view>
+        <view class="immiWatch" wx:else>已开放</view>
     </view>
 </view>
 <i-action-sheet visible="{{ visible3 }}" actions="{{ actions3 }}" show-cancel bind:cancel="handleCancel3" bind:click="handleClickItem3" mask-closable="{{ false }}">

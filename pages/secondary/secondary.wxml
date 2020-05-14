@@ -27,12 +27,10 @@
     <view id="gl" style="display:none"></view>
 </view>
 <view class="fenge"></view>
-<view class="function-select flex-around">
-    <view wx:for="{{ funsel }}" wx:key="index" class="fun-sel flex-column" bindtap='godetails' data-keys=" {{item.id}} " data-name='{{ item.name }}'>
-        <!-- <navigator url='../../pages/AllTestPir/AllTestPir?id={{ item.id }}' hover-class="none"> -->
-            <image mode="widthFix" class='function-select-image' src="{{ item.url }}" />
-            <text class="function-select-name">{{ item.name }}</text>
-        <!-- </navigator> -->
+<view class="function-select">
+    <view wx:for="{{ funsel }}" wx:key="index" class="fun-sel flex-column fcourse-fenlei" bindtap='godetails' data-keys="{{item.category_id}}" data-name="{{ item.title }}">
+            <image mode="widthFix" class='function-select-image' src="{{ item.icon }}" />
+            <text class="function-select-name">{{ item.title }}</text>
     </view>
 </view>
 <view class="fenge2"></view>
@@ -64,7 +62,9 @@
     </view>
     <view class="hotpoint-content ">
         <view class="hotpoint-container" wx:for="{{ freeCourse }}" wx:key="index"  hidden="{{ index < 4 ? false : true }}">
+            <navigator hover-class="none" url="../course-detail/course-detail?video_id={{ item.course_id }}&courseId={{ item.course_id }}">
             <image class="hotpoint-image" src="{{ item.Picture }}" />
+             </navigator>
             <view class="container-title" style="margin-top:20rpx">{{ item.title }}</view>
             <view class="container-detail " style="margin-top:20rpx">
                 <text class="container-price">免费</text>

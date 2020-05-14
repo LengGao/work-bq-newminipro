@@ -11,6 +11,7 @@ Page({
     actions1: [],
     courseId: '',
     menuTop: '',
+    accuracy:0,
     course_list: [
       {
         name: '初级会计师',
@@ -21,17 +22,20 @@ Page({
       {
         name: '收藏夹',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png',
-     
-        
+        number:'0',
+        num:'2'
       },
       {
         name: '错题集',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xingxing.png',
- 
+        number:'0',
+        num:'1'
       },
       {
         name: '做题历史',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png',
+        number:'0',
+        num:'0'
       }
     ],
     fun_list: [
@@ -69,17 +73,16 @@ Page({
     type: 0,
     noACtion: 0,
     myCourse: [],
-    optionsGo: 'toliveclass'
+    optionsGo: 'toliveclass',
+    nomyCourse:false,
+    noliving:true,
+   
   },
-  gocollection(){
-    wx.showToast({
-      title: '暂未开放',//提示文字
-      duration: 1000,//显示时长
-      mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
-      icon: 'none', //图标，支持"success"、"loading"  
-      success: function () { },//接口调用成功
-      fail: function () { },  //接口调用失败的回调函数  
-      complete: function () { } //接口调用结束的回调函数  
+  gocollection(number){
+    let courseId = this.data.courseId
+    console.log(number.currentTarget.dataset.number)
+    wx.navigateTo({
+      url: `../collectionAll/collectionAll?number=${number.currentTarget.dataset.number}&courseId=${courseId}`
     })
   },
   errorFunction(e) {
@@ -132,8 +135,9 @@ Page({
     });
   },
   toliveclass() {
+    let video_id = this.data.banjiID
     wx.navigateTo({
-      url: '../live-class-room/live-class-room?video_id=79'
+      url: `../live-class-room/live-class-room?video_id=${video_id}`
     })
   },
   toVideoroom() {
@@ -192,9 +196,10 @@ Page({
       courseId:courseId.courseId
     });
     that.getSubject()
+    that.getHomePanel()
   },
   addStory() {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '../addCourse/addCourse'
     })
     // wx.showToast({
@@ -209,6 +214,7 @@ Page({
   },
   gettopINfor(resolve, reject) {
     let that = this
+    console.log('8888')
     app.encryption({
       url: api.default.getCollectionCourses,
       method: "GET",
@@ -225,8 +231,9 @@ Page({
         wx.setStorageSync("courseId", {
           courseId: res[0].courseId
         });
+        that.getHomePanel()
         that.getSubject()
-        return resolve()
+        return resolve
       },
       fail: function (t) {
         return reject
@@ -249,11 +256,13 @@ Page({
         console.log(res)
         if (res.data == undefined) {
           that.setData({
-            myCourse: res
+            myCourse: res,
+            accuracy:res.info.accuracy,
+            nomyCourse:true
           })
         } else {
           that.setData({
-            myCourse: false
+            nomyCourse: false
           })
         }
       },
@@ -311,7 +320,18 @@ Page({
       url: api.default.getclasslive,
       method: "GET",
       success: function (res) {
-        console.log(res)
+        console.log(res.data)
+        if (res.data == undefined) {
+           that.setData({
+            noliving:true
+           })
+           
+        }else{
+          that.setData({
+            noliving:false
+           })
+        }
+        console.log(that.data.noliving)
         if (res.classroomList[0].review == 1) {
           that.setData({
             optionsGo: 'goTestvideo',
@@ -319,7 +339,8 @@ Page({
           })
         }
         that.setData({
-          living: res.classroomList[0]
+          living: res.classroomList[0],
+          banjiID: res.classroomList[0].class_id
         })
       },
       fail: function (t) {
@@ -337,7 +358,45 @@ Page({
       url: `../course-class-detail/course-class-detail?video_id=${courseId}`
     })
   },
+  goindex(){
+    wx.navigateTo({
+      url: '../secondary/secondary'
+    });
+  },
+  getHomePanel(){
+    console.log('nimen')
+    let that = this
+    let courseId = this.data.menuTop
+    let option = {
+      courseId: courseId
+    }
+    console.log(option)
+    app.encryption({
+      url: api.user.getHomePanel,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        let topmenu0 = 'topmenu[0].number'
+        let topmenu1 = 'topmenu[1].number'
+        let topmenu2 = 'topmenu[2].number'
+        that.setData({
+          [topmenu0]:res.collectionCount,
+          [topmenu1]:res.errorCount,
+          [topmenu2]:res.logNumber,
+          accuracy:res.accuracy
+        })
+      },
+      fail: function (t) {
+
+      },
+      complete: function () {
+
+      }
+    })
+  },
   onLoad: function (e) {
+ 
     let that = this
     wx.showLoading({
       title: '加载中',
@@ -352,8 +411,20 @@ Page({
               url: api.user.newLogin,
               data: { code: t },
               method: 'POST',
-              dataType: '',
               success: function (e) {
+                console.log(e)
+                if(e.code == '10001'){
+                  wx.showModal({
+                    title:"警告",
+                    content:e.message,
+                    showCancel: !1,
+                    success:function(){
+                     wx.reLaunch({
+                       url:'../index/index'
+                     })
+                    }
+                  })
+                }
                 wx.setStorageSync("user_info", {
                   nickname: e.data.param.nickname,
                   avatar_url: e.data.param.user_img,
@@ -383,10 +454,12 @@ Page({
       })
       promise1.then(function (resolve) {
         that.getMycourse()
+        return resolve
       })
     });
     Promise.all([promise]).then((result) => {
       this.getclasslive()
+     
       wx.hideLoading();               //['成功了', 'success']
     }).catch((error) => {
       console.log(error)
@@ -406,7 +479,7 @@ Page({
     };
   },
   tabBarRedirect: function (e) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: e.currentTarget.dataset.url
     });
 

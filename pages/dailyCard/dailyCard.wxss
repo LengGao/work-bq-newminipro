@@ -53,18 +53,18 @@
     position: absolute;
     top: 50%;
     left: 22rpx;
-    border-left: 1rpx solid #FFFFFF;
-    border-bottom: 1rpx solid #FFFFFF;
+    border-left: 2rpx solid #FFFFFF;
+    border-bottom: 2rpx solid #FFFFFF;
     -webkit-transform: translate(0,-50%) rotate(-135deg);
     transform: translate(0,-50%) rotate(45deg);
 }
 #gl1::before{
     content:"";
     position:absolute;
-    top:-20rpx;
-    left:-20rpx;
-    bottom:-20rpx;
-    right:-20rpx;
+    top:-40rpx;
+    left:-40rpx;
+    bottom:-40rpx;
+    right:-40rpx;
     }
   .wrapper-dates{
     display: flex;

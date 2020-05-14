@@ -23,7 +23,7 @@ page {
 .fenlei-menu .thismenu::after {
     content: '';
     display: inline-block;
-    width:50%;
+    width:80%;
     height: 4rpx;
     border-radius: 6rpx;
     background: #1bcc14;
@@ -54,7 +54,18 @@ page {
     width:20rpx;
     height: 20rpx;
     margin-right:34rpx ;
+    position: relative;
 }
+.imgs::before{
+    content:"";
+    position: absolute;
+    width: 80rpx;
+    height: 80rpx;
+    top:-10px;
+    left:-10px;
+    bottom:-10px;
+    right:-10px;
+    }
 .jiaimg{
     width: 100% !important;
     height: 100% !important;
@@ -140,8 +151,8 @@ page {
 }
 .menu-img{
     margin-right: 19rpx;
-    width: 49rpx;
-    height: 46rpx;
+    width: 50rpx;
+    height: 50rpx;
 }
 .menu-name{
     font-size:30rpx;
@@ -158,6 +169,7 @@ page {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    
 }
 .number{
     margin-right:10rpx;
@@ -165,11 +177,13 @@ page {
     font-family:DINPro;
     font-weight:500;
     color:rgba(255,255,255,1);
+    margin-right:22rpx
  
 }
 .every-number{
   position: relative;
-    width: 50rpx;
+    width: 110rpx;
+    text-align: right;
 }
 #gl{
     text-align: center;
@@ -177,6 +191,7 @@ page {
     height: 14rpx;
     position: absolute;
     top: 50%;
+    right:0;
     border-left: 1rpx solid rgb(245, 242, 242);
     border-bottom: 1rpx solid rgb(241, 238, 238);
     -webkit-transform: translate(0,-50%) rotate(-135deg);
@@ -247,7 +262,7 @@ page {
     height:50rpx;
     position: relative;
     background:linear-gradient(-30deg,rgba(0,144,255,1),rgba(25,159,255,1));
-    border-radius:16rpx;
+    border-radius:50rpx;
     font-size:26rpx;
     font-family:PingFang SC;
     font-weight:500;
@@ -538,4 +553,14 @@ page {
     border-top: 1px solid #efefef;
     border-bottom: 1px solid #efefef;
     padding: 10rpx;
+  }
+  .nomyCourse-content{
+     height: 142rpx;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background: rgba(255,255,255,1);
+     box-shadow: 0px 0px 17px 0px rgba(181, 223, 253, 0.5);
+     margin-top: 22rpx;
+     border-radius: 20rpx;
   }

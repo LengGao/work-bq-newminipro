@@ -20,7 +20,6 @@ Page({
     questionId:[],
     groupId:''
   },
-
   onLoad(options) {
     var that = this
     console.log(api.default.proInit)
@@ -219,7 +218,7 @@ Page({
       }
       console.log(option)
       app.encryption({
-        url: 'http://api.beiqujy.com/api/v1/chat/foundChat',
+        url: api.default.foundChat,
         data: option,
         method:'POST',
         dataType:  "json",

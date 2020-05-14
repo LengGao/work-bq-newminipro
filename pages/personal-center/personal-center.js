@@ -60,13 +60,14 @@ Page({
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lianxikefu.png',
         tosome:'',
         name:'联系客服',
+        id:1
       }
     ]
   },
   recorders() {
     let courseId = this.data.courseId
     wx.navigateTo({
-      url: `../learnStatus/learnStatus?courseId=${courseId}`
+      url: `../buyStatus/buyStatus?courseId=${courseId}`
     })
   },
   learns() {
@@ -78,21 +79,23 @@ Page({
   likes() {
     let courseId = this.data.courseId
     wx.navigateTo({
-      url: `../dailyChallenge/dailyChallenge?courseId=${courseId}`
+      url: `../collectionAll/collectionAll?number=2&courseId=${courseId}`
     })
   },
   myclass() {
     let courseId = this.data.courseId
     wx.navigateTo({
-      url: `../dailyChallenge/dailyChallenge?courseId=${courseId}`
+      url: `../Myclass/Myclass?courseId=${courseId}`
     })
   },
   onLoad: function (e) {
     n.tabbar("tabBar", 0, this, "usercenter");
     var t = wx.getStorageSync("user_info");
+   
     console.log(t)
     this.setData({
-      user_info: t
+      user_info: t,
+      courseId: wx.getStorageSync("courseId").courseId
     });
   },
   onReady: function () { },
@@ -140,7 +143,7 @@ Page({
     // })
 },
   tabBarRedirect: function (e) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: e.currentTarget.dataset.url
     });
   },

@@ -1,8 +1,8 @@
 
 <view class="live-course">
   <view class="wrapper-video">
-    <live-player autoplay="true" class="liveplay" id="video-livePlayer" src="{{videoUrl}}" bindstatechange="dostatechange" bindfullscreenchange="doFullScreen" bindtap="doPause">
-        <!-- 暂停 -->
+    <!-- <live-player autoplay="true" class="liveplay" id="video-livePlayer" src="{{videoUrl}}" bindstatechange="dostatechange" bindfullscreenchange="doFullScreen" bindtap="doPause">
+    
         <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-play00.png" class="pause_cover" wx:if="{{isFullscreen && isPause}}"  bindtap="doPauseBtn"></cover-image>
         <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-pause00.png" class="pause_cover" wx:if="{{isFullscreen && !isPause}}"  bindtap="doPauseBtn"></cover-image>
         <cover-view class="video-control" wx:if="{{isFullscreen}}" bindtap="doExitFull" >
@@ -10,24 +10,35 @@
           <cover-view class="video-title">{{video_title}}</cover-view>
             <cover-view class="video-titles">清晰度</cover-view>
         </cover-view>
+    </live-player> -->
+      <live-player autoplay="true" class="liveplay" id="video-livePlayer" src="{{videoUrl}}" bindstatechange="dostatechange" bindfullscreenchange="doFullScreen" bindtap="doPause">
+        <!-- 暂停 -->
+        <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-play00.png" class="pause_cover" wx:if="{{isFullscreen && isPause}}"  bindtap="doPauseBtn"></cover-image>
+        <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-pause00.png" class="pause_cover" wx:if="{{isFullscreen && !isPause}}"  bindtap="doPauseBtn"></cover-image>
+        
+        <cover-view class="video-control" wx:if="{{isFullscreen}}" bindtap="doExitFull" >
+          <cover-image class="video_jt" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/left_jt.png"></cover-image>
+          <cover-view class="video-title">{{video_title}}</cover-view>
+        </cover-view>
+
     </live-player>
-    <view class="video-operator"  bindtap="onFullScreenClick">
+    <!-- <view class="video-operator"  bindtap="onFullScreenClick">
             <text class="speed">倍速</text>
             <text class="articulation">高清</text>
             <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/full-screen.png" style="width:44rpx;height:100%" ></image>
-    </view>
+    </view> -->
     </view>
     <view class="outer-menu flex-be">
         <view bindtap="tabFun" class="price-menu">
             <view class="menu-item {{tabArr.curHdIndex==0?'priceactive':''}}" data-id="0" id="tab-hd01">直播互动</view>
-            <view class="menu-item {{tabArr.curHdIndex==2?'priceactive':''}}" data-id="2" id="tab-hd03">直播目录</view>
+            <!-- <view class="menu-item {{tabArr.curHdIndex==2?'priceactive':''}}" data-id="2" id="tab-hd03">直播目录</view> -->
             <view class="menu-item {{tabArr.curHdIndex==1?'priceactive':''}}" data-id="1" id="tab-hd02">课程介绍</view>
             <!-- <view class="menu-item {{tabArr.curHdIndex==2?'priceactive':''}}" data-id="2" id="tab-hd03">打赏榜</view> -->
         </view>
-        <!-- <view bindtap="onFullScreenClick" class="full-screen flex-column-center" >
-            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/full-screen.png"></image>
+        <view bindtap="onFullScreenClick" class="full-screen flex-column-center" >
+            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/fullScroll.png"></image>
             <text>全屏</text>
-        </view> -->
+        </view>
     </view>
 </view>
 <!-- 互动 -->

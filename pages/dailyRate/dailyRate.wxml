@@ -48,11 +48,11 @@
         <text > {{index+1}} </text>
     </view>
 </view>
-<view style="position:absolute;align-items:center;justify-content:space-around;bottom:0;left:0;display:flex;width:750rpx;height:100rpx;background:rgba(255,255,255,1);">
+<!-- <view style="position:absolute;align-items:center;justify-content:space-around;bottom:0;left:0;display:flex;width:750rpx;height:100rpx;background:rgba(255,255,255,1);">
   <button style="width:300rpx;height:60rpx;border:1px solid rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#199FFF;font-size:32rpx;" bindtap="goback">
     再练一遍
   </button>
   <button style="width:300rpx;height:60rpx;background:rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#FFFFFF;font-size:32rpx;" bindtap="goback">
    查看解析
   </button>
-</view>
+</view> -->

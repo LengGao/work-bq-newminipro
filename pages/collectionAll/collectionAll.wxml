@@ -1,98 +1,90 @@
+<import src="../../wxParse/wxParse.wxml"></import>
 <view class="fenlei-menu">
     <text bindtap="tabFun" class="teamnum {{tabArr.curHdIndex == item.id ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}">
         {{item.name}}
     </text>
 </view>
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '2'?'tactive':''}}">
-    <block>
-        <view class="cata-title">章节练习</view>
-        <view class="cata-list">
-            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-key="{{vitem.LessonId}}" wx:for="{{catalist}}" wx:for-item="vitem" wx:key="index">
-                <view class="cata-content">
-                    <view style="display:flex">
-                        <text class="cata-name1 twoline">{{vitem.charper}}</text>
-                        <text class="cata-name2 twoline">{{vitem.name}}</text>
-                    </view>
-                    <view style="display:flex">
-                        <text class="cata-name3 ">{{vitem.num}}</text>
-                        <text style="font-size:28rpx;color:#999999">题</text>
+    <block wx:if="{{ nodata }}">
+        <block wx:key="index" wx:for="{{collectionList}}" wx:key="index">
+            <view class="cata-title" bindtap="ifShow" data-index="{{index}}">
+                {{item.chapterName}}
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
+            </view>
+            <view class="cata-list" wx:if="{{item.isShow}}">
+                <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='collection' data-name='收藏夹'>
+                    <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
+                <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
+                    <view class="cata-content twoline">
+                        <!-- <text class="cata-name twoline">{{vitem.stem}}</text> -->
+                         <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
+                        <!-- <text class="cata-time">{{vitem.time}}</text> -->
                     </view>
                 </view>
             </view>
-        </view>
+        </block>
     </block>
-    <block>
-        <view class="cata-title">历年真题</view>
-        <view class="cata-list">
-            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-key="{{vitem.LessonId}}" wx:for="{{catalist}}" wx:for-item="vitem" wx:key="index">
-                <view class="cata-content">
-                    <view style="display:flex">
-                        <text class="cata-name1 twoline">{{vitem.charper}}</text>
-                        <text class="cata-name2 twoline">{{vitem.name}}</text>
-                    </view>
-                    <view style="display:flex">
-                        <text class="cata-name3 ">{{vitem.num}}</text>
-                        <text style="font-size:28rpx;color:#999999">题</text>
-                    </view>
-                </view>
-            </view>
+    <block wx:if="{{ !nodata }}">
+        <view style="width:300rpx;height:318rpx;position:absolute;left:50%;top:45%;margin-left:-150rpx;margin-top:-142rpx;display:flex;flex-direction:column;align-items:center">
+            <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+            <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
+                暂无数据
+            </text>
         </view>
     </block>
 </view>
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '1'?'tactive':''}}">
-    <block>
-        <view class="cata-title">章节练习1</view>
-        <view class="cata-list">
-            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-key="{{vitem.LessonId}}" wx:for="{{catalist}}" wx:for-item="vitem" wx:key="index">
-                <view class="cata-content">
-                    <view style="display:flex">
-                        <text class="cata-name1 twoline">{{vitem.charper}}</text>
-                        <text class="cata-name2 twoline">{{vitem.name}}</text>
-                    </view>
-                    <view style="display:flex">
-                        <text class="cata-name3 ">{{vitem.num}}</text>
-                        <text style="font-size:28rpx;color:#999999">题</text>
+ <block wx:if="{{ errornodata }}">
+        <block wx:key="index" wx:for="{{errordata}}" wx:key="index">
+            <view class="cata-title" bindtap="Showif" data-index="{{index}}">
+                {{item.chapterName}}
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
+            </view>
+            <view class="cata-list" wx:if="{{item.isShow}}">
+                <view bindtap="select_date" class="cata-item flex-st {{chapterId == vitem.chapterId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='error' data-name='错题集'>
+                    <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
+                <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
+                    <view class="cata-content twoline">
+                        <!-- <text class="cata-name twoline">{{vitem.stem}}</text> -->
+                         <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
+                        <!-- <text class="cata-time">{{vitem.time}}</text> -->
                     </view>
                 </view>
             </view>
-        </view>
+        </block>
     </block>
-    <block>
-        <view class="cata-title">历年真题1</view>
-        <view class="cata-list">
-            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-key="{{vitem.LessonId}}" wx:for="{{catalist}}" wx:for-item="vitem" wx:key="index">
-                <view class="cata-content">
-                    <view style="display:flex">
-                        <text class="cata-name1 twoline">{{vitem.charper}}</text>
-                        <text class="cata-name2 twoline">{{vitem.name}}</text>
-                    </view>
-                    <view style="display:flex">
-                        <text class="cata-name3 ">{{vitem.num}}</text>
-                        <text style="font-size:28rpx;color:#999999">题</text>
-                    </view>
-                </view>
-            </view>
+    <block wx:if="{{ !errornodata }}">
+        <view style="width:300rpx;height:318rpx;position:absolute;left:50%;top:45%;margin-left:-150rpx;margin-top:-142rpx;display:flex;flex-direction:column;align-items:center">
+            <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+            <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
+                暂无数据
+            </text>
         </view>
     </block>
 </view>
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '0'?'tactive':''}}">
-    <block wx:key="index" wx:for="{{chapter}}" wx:key="index">
-        <view class="cata-title">{{item.charper}}</view>
-        <view class="cata-list">
-            <view class="history-wrapper" data-key="index" wx:for="{{item.list}}" wx:for-item="vitem" wx:key="index">
+    <block wx:key="index" wx:for="{{hisdata}}" wx:key="index">
+        <!-- <view class="cata-title">{{item.charper}}</view> -->
+        <view class="cata-list" style="border-top:1rpx solid #EEEEEE">
+            <view class="history-wrapper" data-key="index">
                 <view class="history-content">
                     <view style="display:flex">
-                        <text class="history-name">{{vitem.name}}</text>
+                        <text class="history-name">{{item.courseName}}</text>
                     </view>
-                    <view style="display:flex;margin-top:11rpx">
-                        <view style="display:flex">
-                             <text class="cata-name2">正确率：</text>
-                            <text class="cata-name2">{{vitem.rate}}</text>
+                    <view style="display:flex;margin-top:11rpx;align-items:center">
+                        <view style="display:flex;align-items:center">
+                            <text class="time-title">{{item.dateTime}}</text>
+                            <text class="cata-name2" style="color:#CCCCCC;font-size:24rpx;margin-left:30rpx">正确率：</text>
+                            <text class="cata-name2" style="color:#199FFF;font-size:24rpx">{{item.accuracy}}</text>
                         </view>
-                        <view style="display:flex">
-                             <text class="cata-name2">用时：</text>
-                            <text class="cata-name3 ">{{vitem.time}}</text>
-                        </view>
+                        <!-- <view style="display:flex;margin-left:45rpx">
+                            <text class="cata-name2" style="color:#CCCCCC;font-size:24rpx">
+                                用时：
+                            </text>
+                            <text class="cata-name3 " style="color:#199FFF;font-size:24rpx">
+                                {{item.time}}
+                            </text>
+                        </view> -->
                     </view>
                 </view>
             </view>

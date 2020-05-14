@@ -22,8 +22,14 @@
 <view class="function-container">
     <navigator class="function-list" wx:for="{{ funlist }}" wx:key="index" url="{{ item.tosome }}" hover-class="none">
         <view class="function-list-left">
+            <button bindcontact="handleContact"  openType="contact" wx:if="{{ item.id ==1 }}" style="display:flex;align-items:center;background:#fff">
+                <image class="function-image" src="{{ item.url }}" mode="widthFix" />
+                <text class="function-name">{{ item.name }}</text>
+            </button>
+            <block wx:else>
             <image class="function-image" src="{{ item.url }}" mode="widthFix" />
             <text class="function-name">{{ item.name }}</text>
+            </block>
         </view>
         <block wx:if="{{ item.option }}">
             <view class="options-list">

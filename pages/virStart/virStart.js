@@ -105,7 +105,7 @@ Page({
         activeAnswer:'defaultAnswer',
         option:'',
         multishowAny:true,
-        ProblemType:allRenders[current_no - 1].ProblemType,
+        ProblemType:allRenders[current_no - 1].ProblemType, m
       })
   },
   cards() {
@@ -126,8 +126,11 @@ Page({
       confirmColor: '#199FFF',//确定文字的颜色
       success: function (res) {
             //点击确定
+            let type = 'mockExam';
+            let courseId = that.data.courseId;
+            let id = that.data.examLogId;
             wx.redirectTo({
-              url:"../index/index"
+              url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
             })
       },
       fail: function (res) { },//接口调用失败的回调函数
@@ -144,8 +147,11 @@ Page({
         confirmColor: '#199FFF',//确定文字的颜色
         success: function (res) {
               //点击确定
+              let type = 'mockExam';
+              let courseId = that.data.courseId;
+              let id = that.data.examLogId;
               wx.redirectTo({
-                url:"../index/index"
+                url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
               })
         },
         fail: function (res) { },//接口调用失败的回调函数
@@ -341,10 +347,25 @@ Page({
            let type = 'mockExam';
            let courseId = that.data.courseId;
            let id = that.data.examLogId;
-            //点击确定
-            wx.reLaunch({
+           let option = {
+            examLogId:that.data.examLogId
+          }
+          app.encryption({//初始化加载函数获取所有题目
+            url: api.default.examinationResultsStatistics,
+            data: option,
+            method: 'POST',
+            dataType: "json",
+            success: function (res) {
+              console.log(res)
+              wx.reLaunch({
               url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
             })
+            },
+            fail: function (n) {
+              console.log('初始化失败')
+            }
+          })
+            //点击确定
          }
       },
       fail: function (res) { },//接口调用失败的回调函数
@@ -358,7 +379,8 @@ Page({
     that.setData({
       targetTime2:times + 100000,
       navH: app.globalData.navHeight,
-      courseId:options.courseId
+      courseId:options.courseId,
+      courseName:options.courseName
     })
       let option = {
         courseId:options.courseId
@@ -379,11 +401,10 @@ Page({
             current_no: 1,//初始化题目标注
             ProblemType:randerTitle.ProblemType,//表明练习题类型
             all_current_no:res.total,//所有题目的数量
-            examLogId:res.examLogId
-            // singleNum:res.singleList,//单选题的数量
-            // multipleNum:res.multipleLis,//多选题的数量
-            // judgmentNum:res.judgmentList,//判断题的数量
-            // formId:res.formId//formid
+            examLogId:res.examLogId,
+            singleNum:res.singleList,//单选题的数量
+            multipleNum:res.multipleList,//多选题的数量
+            judgmentNum:res.judgmentList,//判断题的数量
           })
         },
         fail: function (n) {

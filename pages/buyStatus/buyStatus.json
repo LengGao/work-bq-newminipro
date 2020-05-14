@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "购买记录",
+  "backgroundTextStyle": "light",
+  "navigationStyle": "default",
+  "usingComponents": {}
+}

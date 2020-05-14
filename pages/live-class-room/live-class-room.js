@@ -1,5 +1,5 @@
 var e, t = getApp(), api = require("../../api.js"), a = (require("../../commons/comment-chat/comment-chat.js"),
-  !1), i = !1, n = require("../../wxParse/wxParse.js"), s = require("../../utils/util.js"), c = !1, d = !0, r = !0, l = 0, u = null, g = "";
+  !1), i = !1, wxParse= require("../../wxParse/wxParse.js"), s = require("../../utils/util.js"), c = !1, d = !0, r = !0, l = 0, u = null, g = "";
 var api = require("../../api.js"), app = getApp();
 
 Page({
@@ -155,11 +155,12 @@ Page({
   onLoad: function (e) {
     console.log(e)
     this.setData({
-      course_id: parseInt(36)
+      course_id: parseInt(e.video_id)
     });
     this.setData({
       video_id: e.video_id || this.data.video_id,
       uid: wx.getStorageSync('user_info').uid,
+
     });
     this.webSocket()
     this.getVideoInfo();
@@ -185,34 +186,32 @@ Page({
     })
   },
   getVideoInfo: function () {
+    let that = this
+    let class_id =parseInt( that.data.course_id)
     wx.showLoading({
       title: "加载中"
     });
-    var t = this,
-      e = t.data.video_id;
       let option = {
-        course_id:17
+        class_id:class_id
       }
+      console.log(option)
     app.encryption({
-      url: api.video.listen,
+      url: api.default.getClassLiveInfo,
       method: "GET",
       data: option,
-      success: function (res) {
-        let options = {
-          listen_id:res.listen_id
-        }
-        app.encryption({
-          url: api.video.play,
-          method: "GET",
-          data: options,
-          success: function (e) {
-            console.log(e)
-            wx.setNavigationBarTitle({
-                  title: `直播：${e.media.mediaName}`
-                  // title: `(人数:${t.data.client_list.length})${e.data.title}`
-                });
-          }
-          })
+      success: function (e) {
+        console.log(e)
+        var a = e.about + "<span> </span>";
+         wxParse.wxParse("content", "html", a, that, 5);
+          that.setData({
+            video_title: e.title,
+            videoUrl: e.rtmpurl,
+            roomId: e.roomId
+          });
+          wx.setNavigationBarTitle({
+            title: `直播：${e.title}`
+            // title: `(人数:${t.data.client_list.length})${e.data.title}`
+          });
         // if (0 == e.code) {
         //   console.log(e);
         //   console.log(e.data.roomId);

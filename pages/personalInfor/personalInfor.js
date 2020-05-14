@@ -1,4 +1,5 @@
-// pages/personalInfor/personalInfor.js
+import api from '../../api'
+let app = getApp();
 Page({
 
   /**
@@ -16,36 +17,89 @@ Page({
     graduationimages: [],//毕业照
     socins: [],//社保卡
     permit: [],//居住证
-    permitback:[]
+    permitback:[]//
   },
-  realName(e) {
-    console.log(e)
+  upload(data){
+    console.log(data)
+    let that = this
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    wx.request({
+      url:api.default.upload,
+      header: {
+        token:token,
+        uuid:uuid
+      },
+      data:{
+        base_img: data.img
+      },
+      method:'POST',
+      dataType: "json",
+      success:function(res){
+        console.log(res.data.data.param.img)
+        let haha = data.type
+        let option = {
+          [haha]:res.data.data.param.img
+        }
+        console.log(option)
+        app.encryption({
+          url: api.default.userident,
+          method: "POST",
+          data: option,
+          success: function (res) {
+            console.log(res)
+        },
+          fail: function (t) {
+            return reject()
+          },
+          complete: function () {
+    
+          }
+        })
+      },
+      fail:function(res){
+      }
+    })
   },
   idcardimages(e) {
+    let that = this
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const images = this.data.idcardimages.concat(res.tempFilePaths)
-        this.setData({
-          idcardimages: images.length <= 3 ? images : images.slice(0, 3)
+        const idcardimage = that.data.idcardimages.concat(res.tempFilePaths)
+        that.setData({
+          idcardimages: idcardimage.slice(0, idcardimage.length)
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
-            console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            console.log(res)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'id_card_positive'
             })
-            console.log(that.data.baseimage)
           }
         })
       }
     })
   },
+  handleImagePreview: function(t) {
+    var a = t.target.dataset.idx, e = this.data.idcardimages;
+    wx.previewImage({
+        current: e[a],
+        urls: e
+    });
+},
+handleImagePreviewback:function(t){
+  var a = t.target.dataset.idx, e = this.data.idcardimage;
+  wx.previewImage({
+      current: e[a],
+      urls: e
+  });
+},
   removeidcardImage(e) {
     const idx = e.target.dataset.idx
     console.log(e, this.data.images.splice(idx, 1))
@@ -54,25 +108,25 @@ Page({
     })
   },
   idcardimage(e) {
+    let that = this
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const idcardimage = this.data.idcardimage.concat(res.tempFilePaths)
-        this.setData({
-          idcardimage: idcardimage.length <= 3 ? idcardimage : idcardimage.slice(0, 3)
+        const idcardimage = that.data.idcardimage.concat(res.tempFilePaths)
+        that.setData({
+          idcardimage:idcardimage.slice(0, idcardimage.length)
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
             console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'id_card_side'
             })
-            console.log(that.data.baseimage)
           }
         })
       }
@@ -85,51 +139,29 @@ Page({
       idcardimage: this.data.idcardimage.splice(idx, 1)
     })
   },
-  idcardimage(e) {
-    wx.chooseImage({
-      count: 3,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-      success: res => {
-        var that = this
-        const idcardimage = this.data.idcardimage.concat(res.tempFilePaths)
-        this.setData({
-          idcardimage: idcardimage.length <= 3 ? idcardimage : idcardimage.slice(0, 3)
-        })
-        wx.getFileSystemManager().readFile({
-          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
-          encoding: 'base64', //编码格式
-          success: res => { //成功的回调
-            console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
-            })
-            console.log(that.data.baseimage)
-          }
-        })
-      }
-    })
-  },
   personalimages(e) {
+    let that = this
+    const personalimages = that.data.personalimages
+    that.setData({
+      personalimages: personalimages.slice(0, personalimages.length)
+    })
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const personalimages = this.data.personalimages.concat(res.tempFilePaths)
-        this.setData({
-          personalimages: personalimages.length <= 3 ? personalimages : personalimages.slice(0, 3)
+        that.setData({
+          personalimages: personalimages.concat(res.tempFilePaths)
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
             console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'head_sticker'
             })
-            console.log(that.data.baseimage)
           }
         })
       }
@@ -150,25 +182,25 @@ Page({
     })
   },
   graduationimages(e) {
+    let that = this
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const graduationimages = this.data.graduationimages.concat(res.tempFilePaths)
-        this.setData({
-          graduationimages: graduationimages.length <= 3 ? graduationimages : personalimages.slice(0, 3)
+        const graduationimages = that.data.graduationimages.concat(res.tempFilePaths)
+        that.setData({
+          graduationimages:  graduationimages.slice(0, graduationimages.length )
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
             console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'diploma'
             })
-            console.log(that.data.baseimage)
           }
         })
       }
@@ -182,25 +214,25 @@ Page({
     })
   },
   socins(e) {
+    let that = this
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const socins = this.data.socins.concat(res.tempFilePaths)
-        this.setData({
-          socins: socins.length <= 3 ? socins : socins.slice(0, 3)
+        const socins = that.data.socins.concat(res.tempFilePaths)
+        that.setData({
+          socins:  socins.slice(0,socins.length )
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
             console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'social_security_card'
             })
-            console.log(that.data.baseimage)
           }
         })
       }
@@ -221,25 +253,25 @@ Page({
     })
   },
   choosebackImage(e) {
+    let that = this
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const backimages = this.data.backimages.concat(res.tempFilePaths)
-        this.setData({
-          backimages: backimages.length <= 3 ? backimages : backimages.slice(0, 3)
+        const backimages = that.data.backimages.concat(res.tempFilePaths)
+        that.setData({
+          backimages: backimages.slice(0,  backimages.length)
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
             console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'social_security_card_side'
             })
-            console.log(that.data.baseimage)
           }
         })
       }
@@ -253,14 +285,14 @@ Page({
     })
   },
   choosepermitImages(){
+    let that = this
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const permit = this.data.permit.concat(res.tempFilePaths)
-        this.setData({
+        const permit = that.data.permit.concat(res.tempFilePaths)
+        that.setData({
           permit: permit.length <= 3 ? permit : permit.slice(0, 3)
         })
         wx.getFileSystemManager().readFile({
@@ -268,10 +300,10 @@ Page({
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
             console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'live_permit'
             })
-            console.log(that.data.baseimage)
           }
         })
       }
@@ -285,14 +317,15 @@ Page({
     })
   },
   choosepermitbackImages(e){
+    let that = this
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        var that = this
-        const permitback = this.data.permitback.concat(res.tempFilePaths)
-        this.setData({
+       
+        const permitback = that.data.permitback.concat(res.tempFilePaths)
+        that.setData({
           permitback: permitback.length <= 3 ? permitback : permitback.slice(0, 3)
         })
         wx.getFileSystemManager().readFile({
@@ -300,12 +333,13 @@ Page({
           encoding: 'base64', //编码格式
           success: res => { //成功的回调
             console.log(res.data)
-            that.setData({
-              baseimage: that.data.baseimage.concat('data:image/png;base64,' + res.data)
+            that.upload({
+              img: 'data:image/png;base64,' + res.data,
+              type:'live_permit_side'
             })
-            console.log(that.data.baseimage)
           }
         })
+        console.log(that.data.permitback)
       }
     })
   },
@@ -316,11 +350,105 @@ Page({
       permitback: this.data.permitback.splice(idx, 1)
     })
   },
+  updateuserident(){
+    let that = this
+    app.encryption({
+      url: api.default.updateuserident,
+      method: "GET",
+      success: function (res) {
+        console.log(res,that.data.idcardimages)
+        that.setData({
+          idcardimages: that.data.idcardimages.concat(res.id_card_positive),
+          idcardimage:  that.data.idcardimages.concat(res.id_card_side),
+          personalimages:  that.data.idcardimages.concat(res.head_sticker),
+          graduationimages:  that.data.idcardimages.concat(res.diploma),
+          socins: that.data.idcardimages.concat(res.social_security_card),
+          backimages:that.data.idcardimages.concat(res.social_security_card_side),
+          permit:that.data.idcardimages.concat(res.live_permit),
+          permitback:that.data.idcardimages.concat(res.live_permit_side),
+          value1:res.real_name,
+          value2:res.phone_number,
+          value3:res.id_card_number
+        })
+        console.log(that.data.idcardimage)
+    },
+      fail: function (t) {
+        return reject()
+      },
+      complete: function () {
+
+      }
+    })
+  },
+  realName(e){
+    console.log(e.detail.detail.value)
+    this.setData({
+      value1:e.detail.detail.value
+    })
+  },
+  phoneNum(e){
+    console.log(e.detail.detail.value)
+    this.setData({
+      value2:e.detail.detail.value
+    })
+  },
+  Idcard(e){
+    console.log(e.detail.detail.value)
+    this.setData({
+      value3:e.detail.detail.value
+    })
+  },
+  submitForm(){
+    if(this.data.value1=='' || this.data.value2=='' || this.data.value3=='' ){
+        wx.showToast({
+          title: '请完善个人信息',//提示文字
+          duration: 1300,//显示时长
+          mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+          icon: 'none', //图标，支持"success"、"loading"  
+          success: function () { },//接口调用成功
+          fail: function () { },  //接口调用失败的回调函数  
+          complete: function () { } //接口调用结束的回调函数  
+        })
+      return
+    }
+    let option = {
+      real_name:this.data.value1,
+      phone_number:this.data.value2,
+      id_card_number:this.data.value3
+    }
+    app.encryption({
+      url: api.default.userident,
+      method: "POST",
+      data: option,
+      success: function (res) {
+        wx.showToast({
+          title: '资料上传成功！',//提示文字
+          duration: 1300,//显示时长
+          mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+          icon: 'none', //图标，支持"success"、"loading"  
+          success: function () {
+            wx.redirectTo({
+              url: '../personal-center/personal-center',
+            }
+            )
+           },//接口调用成功
+          fail: function () { },  //接口调用失败的回调函数  
+          complete: function () { } //接口调用结束的回调函数  
+        })
+    },
+      fail: function (t) {
+        return reject()
+      },
+      complete: function () {
+
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.updateuserident()//初始化数据
   },
 
   /**

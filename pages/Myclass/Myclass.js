@@ -1,58 +1,51 @@
 // pages/AllTestPir/AllTestPir.js
-let app = getApp(), api = require("../../api.js")
+let app = getApp();
+let api = require("../../api.js")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    funsel:null
+    nodata:false
   },
-  toVideoroom(e) {
-    console.log(e.currentTarget.dataset.id)
-    let video_id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: `../course-detail/course-detail?video_id=${video_id}&courseId=${video_id}`
-    })
-  },
-  getcoursecategory(){
+  getMyAllClassroom(options){
+    console.log('nimen')
     let that = this
+    let courseId = options.courseId
     let option = {
-      category_id:that.data.id
+      courseId: courseId
     }
     console.log(option)
-  app.encryption({
-    url: api.default.getcoursecategory,
-    method: 'GET',
-    data:option,
-    success: function (res) {
-      console.log(res)
-     that.setData({
-      funsel:res
-     })
-    },
-    fail: function (res) {
+    app.encryption({
+      url: api.default.getMyCourse,
+      method: "GET",
+      data: option,
+      success: function (res) {
+        console.log(res)
+        if(res.data!= undefined){
+          that.setData({
+            nodata:true
+          })
+          console.log('nimenhao',that.data.nodata)
+        }
+       
+      },
+      fail: function (t) {
 
-    },
-    complete: function () {
-      wx.hideLoading();
-    }
-  })
+      },
+      complete: function () {
+
+      }
+    })
   },
-  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log(options)
-    wx.setNavigationBarTitle({
-      title:options.name,
-      
-    })
-    this.setData({
-      id:options.id
-    })
-    this.getcoursecategory()
+    this.getMyAllClassroom(options)
+   
   },
 
   /**

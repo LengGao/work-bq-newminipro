@@ -93,10 +93,13 @@ page {
     align-items: center;
 }
 .function-select{
-    padding-top: 23rpx;
     width: 690rpx;
     margin: auto;
     margin-left: 30rpx;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
 }
 .content{
     width: 360rpx;
@@ -131,6 +134,11 @@ page {
 }
 .fun-sel{
     justify-content: center !important;
+    /* margin-left: 50rpx; */
+}
+.fcourse-fenlei{
+    width: 120rpx;
+    margin-top:23rpx
 }
 .fenge2{
     width: 750rpx;

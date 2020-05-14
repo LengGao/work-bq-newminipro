@@ -21,9 +21,9 @@ Page({
    */
   onLoad: function (options) {
     let that = this
-    let multipleNum = JSON.parse(options.multipleNum)
-    let singleNum = JSON.parse(options.singleNum)
-    let judgmentNum = JSON.parse(options.judgmentNum)
+    let multipleNum =JSON.parse(options.multipleNum)
+    let singleNum =JSON.parse(options.singleNum)
+    let judgmentNum =JSON.parse(options.judgmentNum)
     console.log(options)
       wx.setNavigationBarTitle({
         title:options.name

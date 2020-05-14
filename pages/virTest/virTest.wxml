@@ -8,7 +8,7 @@
     模拟考试历史记录
 </view>
 <view style="margin-top:35rpx;" wx:if="{{ datas  }}">
-        <navigator url="../virStart/virStart?courseId={{item.courseId}}" hover-class="none" class="vir-top-wrapper" wx:for="{{ history }}" wx:key="index" style="position:relative">
+        <navigator url="../virStart/virStart?courseId={{item.courseId}}&courseName={{item.courseName}}" hover-class="none" class="vir-top-wrapper" wx:for="{{ history }}" wx:key="index" style="position:relative">
             <image style="width:26rpx;height:26rpx;margin-top:10rpx" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kaoshi.png" />
             <view style="margin-left:10rpx;display:flex;flex-direction:column;justify-content:space-between">
                 <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(102,102,102,1)">

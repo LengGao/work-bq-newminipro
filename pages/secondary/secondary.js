@@ -43,8 +43,6 @@ Page({
         name: '健康管理师',
         id: '5'
       }
-
-
     ],
     freeCourse: [],
     hotpoint: [
@@ -193,9 +191,28 @@ Page({
       }
     })
   },
+  menu(){
+    let that = this
+    app.encryption({
+      url: api.default.getindexcategory,
+      method: 'GET',
+      success: function (res) {
+        console.log(res)
+       that.setData({
+        funsel:res
+       })
+      },
+      fail: function (res) {
+
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    })
+  },
   onLoad: function (t) {
     tab.tabbar("tabBar", 0, this, "shoponline");
-    this.hotpoint(); this.freeCourse()
+    this.hotpoint(); this.freeCourse(),this.menu()
   },
   onReady: function () { },
   onShow: function () { },
@@ -236,7 +253,7 @@ Page({
       });
   },
   tabBarRedirect: function (e) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: e.currentTarget.dataset.url
     });
   },

@@ -67,7 +67,7 @@ App({
                         openid: n.data.data.param.openid,
                         session_key: n.data.data.param.session_key
                     })
-                    wx.navigateTo({
+                    wx.reLaunch({
                         url: "/pages/usersq/usersq"
                     }), !1;
                 }

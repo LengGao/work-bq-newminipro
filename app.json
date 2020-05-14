@@ -1,6 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/yearTestScroll/yearTestScroll",
+    "pages/Myclass/Myclass",
+    "pages/answerCardPir/answerCardPir",
+    "pages/buyStatus/buyStatus",
     "pages/learnStatus/learnStatus",
     "pages/AllTestScore/AllTestScore",
     "pages/personalInfor/personalInfor",

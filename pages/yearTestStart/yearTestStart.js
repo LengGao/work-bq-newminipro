@@ -164,6 +164,7 @@ Page({
     let current_no = that.data.current_no//获取下一题index
     let curReander = that.data.originTitle[current_no]//获取下一题的原始数据
     let allRender = that.data.allRender//页面已经渲染的数据集
+    let exam_identity = that.data.exam_identity
     if (this.data.current_no >= this.data.all_current_no) {
       console.log('1111111')
       if (allRender[current_no - 1].done) {//当前题目是否已做
@@ -218,7 +219,7 @@ Page({
                       success: function (res) {
                         console.table(res)
                         wx.reLaunch({
-                          url: `../yearTest/yearTest?courseId=${that.data.course_id}`
+                          url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
                         })
                       },
                       fail: function (n) {
@@ -263,7 +264,7 @@ Page({
                 success: function (res) {
                   console.table(res)
                   wx.reLaunch({
-                    url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
+                    url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
                   })
                 },
                 fail: function (n) {
@@ -310,7 +311,7 @@ Page({
                 success: function (res) {
                   console.table(res)
                   wx.reLaunch({
-                    url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
+                    url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
                   })
                 },
                 fail: function (n) {
@@ -536,6 +537,7 @@ Page({
           chapter_id: parseInt(that.data.chapter_id)
         }
         console.log(option)
+        let exam_identity = that.data.exam_identity
         app.encryption({//交卷动作
           url: api.default.submitpaper,
           data: option,
@@ -543,8 +545,10 @@ Page({
           dataType: "json",
           success: function (res) {
             console.table(res)
+            let type = 'mockExam';
+            let id = that.data.examLogId;
             wx.reLaunch({
-              url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
+              url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
             })
           },
           fail: function (n) {

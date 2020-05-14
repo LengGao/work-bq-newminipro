@@ -36,16 +36,14 @@ Page({
       url: "../test/test"
     })
   },
-  generalScoring(id,type,courseId){
+  generalScoring(courseId){
     let that = this
     let option = {
-      id:parseInt(id),
-      courseId: parseInt(courseId) ,
-      type: type 
+      exam_identity:courseId
     }
     console.log(option)
     app.encryption({
-      url: api.default.generalScoring,
+      url: api.default.examreport,
       method: "GET",
       data: option,
       success: function (res) {
@@ -54,13 +52,13 @@ Page({
       let nums2 =  'topmenu[1].number'
       let nums3 =  'topmenu[2].number'
       that.setData({
-        [nums1]:res.rightNum,
-        [nums2]:res.errorNum,
-        [nums3]:res.notDoneNum,
-        singleNum:res.singleList.length==0?false:res.singleList,
-        multipleNum:res.multipleList.length==0?false:res.multipleList,
-        judgmentNum:res.judgmentList.length==0?false:res.judgmentList,
-        allScroll:res.vaule
+        [nums1]:res.real_number,
+        [nums2]:res.error_number,
+        [nums3]:res.not_doing,
+        singleNum:res.radio.length==0?false:res.radio,
+        multipleNum:res.multi.length==0?false:res.multi,
+        judgmentNum:res.judge.length==0?false:res.judge,
+        allScroll:res.total_scores
       })
     },
       fail: function (t) {
@@ -76,7 +74,7 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
-     this.generalScoring(options.id , options.type,options.courseId)
+     this.generalScoring(options.exam_identity)
       
   },
 

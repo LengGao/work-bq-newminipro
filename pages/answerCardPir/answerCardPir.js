@@ -6,7 +6,7 @@ const { $Message } = require('../../utils/iview/base/index');
 Page({
   data: {
     current_no: 0, 
-    all_current_no:'70', //当前题目
+    all_current_no:'0', //当前题目
     question_list: [],
     question_no: 1,
     is_collect: 0,
@@ -31,18 +31,6 @@ Page({
         class: ''
       },
       {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (1).png',
-        name: '答题卡',
-        action: 'cards',
-        class: ''
-      },
-      {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-        name: '收藏',
-        action: 'likes',
-        class: ''
-      },
-      {
         icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
         name: '下一题',
         action: 'nextQU',
@@ -54,14 +42,10 @@ Page({
     activeAnswer:'defaultAnswer',
     correctoption:'',
     multishowAny:true,
-    multiselect:'',
-    rightStatus:'0'
+    multiselect:''
   },
   lastQU() {
     let that = this
-    let icon = 'tabItems[2].icon'
-    let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为收藏按钮数据
     let current_no = that.data.current_no//获取上一题的下标
     let allRenders = that.data.allRender//获取所有已经渲染的数据
     console.log(allRenders)
@@ -78,23 +62,6 @@ Page({
       return
     }
     current_no = current_no - 1 //修改渲染下标（局部）
-    console.log(current_no)
-    if(allRenders[current_no-1].isCollect && allRenders[current_no-1].isCollect == '1'){ //已收藏 
-      that.setData({
-        likes: true,
-        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-        [classes]: 'active',
-        [name]: '已收藏'
-      })
-      }else{
-        that.setData({
-          likes: true,
-          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-          [classes]: '',
-          [name]: '收藏'
-        })
-      }
-      console.log(allRenders[current_no-1])
       if(allRenders[current_no-1].done){
         that.setData({
           showAny:false
@@ -118,128 +85,17 @@ Page({
     let judgmentNum = JSON.stringify(this.data.judgmentNum)
     let singleNum =JSON.stringify(this.data.singleNum)
     let multipleNum = JSON.stringify(this.data.multipleNum)
-    let dailyId = this.data.dailyId
+    let formId = this.data.formId
     wx.navigateTo({
-      url: `../daliyard/daliyard?name=答题卡&dailyId=${ dailyId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
-    })
-  },
-  likes() {
-    let that = this
-    let icon = 'tabItems[2].icon'
-    let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'
-    let current_no = that.data.current_no
-    let allRender = that.data.allRender//页面已经渲染的数据集合
-    if (this.data.tabItems[2].class == 'active') {
-      let option = {
-        problemId:this.data.randerTitle.problemId,
-        behavior: 2
-      }
-      app.encryption({
-        url: api.default.makeCollection,
-        data: option,
-        method: 'POST',
-        dataType: "json",
-        success: function (res) {
-          if (res.data.code == 200) {
-            allRender[current_no-1].isCollect = 0
-            that.setData({
-              likes: false,//表示当前题目未收藏
-              [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-              [classes]: '',
-              [name]: '收藏',
-              allRender: allRender//缓存即将需要渲染的数据
-            })
-            $Message({
-              content: '收藏已取消',
-              type: 'success'
-            });
-            return
-          }
-          $Message({
-            content: res.data.message,
-            type: 'warning'
-          });
-
-        },
-        fail: function (n) {
-          console.log('333333')
-        }
-      })
-      return
-    }
-    let option = {
-      problemId: this.data.randerTitle.problemId,
-      behavior: 1
-    }
-    app.encryption({
-      url: api.default.makeCollection,
-      data: option,
-      method: 'POST',
-      dataType: "json",
-      success: function (res) {
-        if (res.data.code == 200) {
-          allRender[current_no-1].isCollect = 1
-          that.setData({
-            likes: true,
-            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-            [classes]: 'active',
-            [name]: '已收藏',
-            allRender: allRender
-          })
-          $Message({
-            content: '收藏成功',
-            type: 'success'
-          });
-          return
-        }
-        $Message({
-          content: res.data.message,
-          type: 'warning'
-        });
-
-      },
-      fail: function (n) {
-        console.log('333333')
-      }
+      url: `../answerCard/answerCard?name=第一章&formId=${ formId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
     })
   },
   nextQU() {
-    let courseId =  this.data.courseId
     if(this.data.current_no >= this.data.all_current_no){
-      let options= {
-         dailyId:this.data.dailyId,
-      }
-      app.encryption({
-        url: api.default.updateDailyPunchCards,
-        data: options,
-        method: 'POST',
-        dataType: "json",
-        success: function (res) {
-          wx.showModal({
-            title: '提示',
-            content:'是否退出打卡？',
-            showCancel: false,//是否显示取消按钮
-            confirmText:"确认",//默认是“确定”
-            confirmColor: '#199FFF',//确定文字的颜色
-            success: function (res) {
-               if (res.cancel) {
-                  //点击取消,默认隐藏弹框
-               } else {
-                  //点击确定
-                  wx.reLaunch({
-                    url:`../dailyCard/dailyCard?courseId=${courseId}`
-                  })
-               }
-            },
-            fail: function (res) { },//接口调用失败的回调函数
-            complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
-         })
-        },
-        fail: function (n) {
-          console.log('333333')
-        }
-      })
+      $Message({
+        content: '已经是最后题了',
+        type: 'warning'
+      });
       return
     }
     var that = this
@@ -247,27 +103,11 @@ Page({
     let current_no = that.data.current_no//获取下一题index
     let curReander = that.data.originTitle[current_no]//获取下一题的原始数据
     let allRender = that.data.allRender//页面已经渲染的数据集合
-    let icon = 'tabItems[2].icon'
-    let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为收藏按钮的数据
     if (!that.data.allRender.includes(curReander)) {//判断下一题的渲染数据是否已存在当前已经渲染的数据集合，如果不存在则添加并初始化状态
       allRender.push(curReander)
       randerTitle = allRender[current_no]//初始化即将渲染的数据
       //如果该数据没有解析则进行解析
       randerTitle = app.testWxParse(that, randerTitle)
-      if (curReander.isCollect == '1') { //判断下一题是否已收藏 
-        that.setData({
-          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-          [classes]: 'active',
-          [name]: '已收藏'
-        })
-      } else {
-        that.setData({
-          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-          [classes]: '',
-          [name]: '收藏'
-        })
-      }
       that.setData({
         randerTitle: randerTitle,//挂载页面
         current_no: current_no + 1,//更新下标
@@ -287,21 +127,6 @@ Page({
       }else{
         isShow = true //否则隐藏答案
       }
-      if (randerTitle.isCollect == '1') { //判断下一题是否已收藏 
-        that.setData({
-          likes: true,
-          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-          [classes]: 'active',
-          [name]: '已收藏'
-        })
-      } else {
-        that.setData({
-          likes: true,
-          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-          [classes]: '',
-          [name]: '收藏'
-        })
-      }
       that.setData({
         randerTitle: randerTitle,//挂载页面
         current_no: current_no + 1,//更新下标
@@ -320,21 +145,13 @@ Page({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
-    console.log(randerTitle)
     if( randerTitle.ProblemType == '2' ){
-      let rightStatus =  0
-     if(randerTitle.answer == this.data.multiselect) {
-         rightStatus  = 1
-     }else{
-        rightStatus  = 0
-     }
         let options= {
           problemId:randerTitle.ProblemId,
-          dailyId:this.data.dailyId,
-          rightStatus:rightStatus
+          answe: this.data.multiselect
         }
         app.encryption({
-          url: api.default.upateDailyPunchCardsInfo,
+          url: api.default.answerEvents,
           data: options,
           method: 'POST',
           dataType: "json",
@@ -356,7 +173,6 @@ Page({
     let d = this.data;
     let rightStatus = 1;
     let formId = this.data.formId;
-    let dailyId = this.data.dailyId;
     let option = e.currentTarget.dataset.option;//当前点击选项的option
     let answer = e.currentTarget.dataset.answer;//当前题目的答案
     let index = e.currentTarget.dataset.index;//当前点击选项的index
@@ -387,12 +203,12 @@ Page({
     //记录点击选项后数据库的改变
     let options= {
       problemId:id,
-      dailyId:this.data.dailyId,
+      answe:option,
+      formId:formId,
       rightStatus:rightStatus
     }
-    console.log(options)
     app.encryption({
-      url: api.default.upateDailyPunchCardsInfo,
+      url: api.default.answerEvents,
       data: options,
       method: 'POST',
       dataType: "json",
@@ -426,7 +242,7 @@ Page({
       this.setData({
         randerTitle: this.data.randerTitle,
       })
-    }else{
+    }else {
       color.color = false
       color.err = true
       this.setData({
@@ -457,46 +273,23 @@ Page({
   },
   onLoad: function (options = {}) {
     console.log(options)
-    var that = this;
-    let icon = 'tabItems[2].icon'
-    let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为获取收藏按钮状态
-    that.setData({
-      courseId: options.courseId
+    wx.setNavigationBarTitle({
+      title:options.name
     })
+    var that = this;
     let option = {
-      courseId: options.courseId,
-      num: 10
+      type:options.type,
+      courseId:parseInt(options.courseId),
+      chapterId:parseInt(options.chapter_id) 
     }//以上为初始化加载参数
+    console.log(option)
     app.encryption({//初始化加载函数获取所有题目
-      url: api.default.makeDailyPunchCards,
+      url: api.default.collectionList,
       data: option,
-      method: 'POST',
+      method: 'GET',
       dataType: "json",
       success: function (res) {
         console.log(res)
-        if( res.data != undefined && res.data.code == '50003'){
-          wx.showModal({
-            title: '提示',
-            content: res.data.message,
-            showCancel: false,//是否显示取消按钮
-            confirmText:"确认",//默认是“确定”
-            confirmColor: '#199FFF',//确定文字的颜色
-            success: function (res) {
-               if (res.cancel) {
-                  //点击取消,默认隐藏弹框
-               } else {
-                  //点击确定
-                  wx.reLaunch({
-                    url:"../index/index"
-                  })
-               }
-            },
-            fail: function (res) { },//接口调用失败的回调函数
-            complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
-         })
-         return
-        }
         let randerTitle = app.testWxParse(that, res.list[0])//初始化第一道题目
         that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
         that.setData({
@@ -504,20 +297,12 @@ Page({
           randerTitle: randerTitle,//为当前渲染数据
           current_no: 1,//初始化题目标注
           ProblemType:randerTitle.ProblemType,//表明练习题类型
-          all_current_no:res.num,//所有题目的数量
+          all_current_no:res.count,//所有题目的数量
           singleNum:res.singleList,//单选题的数量
-          multipleNum:res.multipleList,//多选题的数量
+          multipleNum:res.multipleLis,//多选题的数量
           judgmentNum:res.judgmentList,//判断题的数量
-          dailyId:res.dailyId//formid
+          formId:res.formId//formid
         })
-        if (randerTitle.isCollect == 1) { //是否已收藏
-          that.setData({
-            likes: true,
-            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-            [classes]: 'active',
-            [name]: '已收藏'
-          })
-        }
       },
       fail: function (n) {
         console.log('初始化失败')
