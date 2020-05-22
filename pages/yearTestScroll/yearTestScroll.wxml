@@ -1,4 +1,10 @@
 <!-- pages/answerCard/answerCard.wxml -->
+<view class='nav bg-white' style='height:{{navH}}px'>
+    <view class='nav-title'>
+     <text class="biaoti" >成绩预览</text>  
+      <text id="gl1" bindtap="goback"></text>
+    </view>
+</view>
 <view class="top-container">
     <view class="top-content">
         <view class="left-logo">
@@ -28,7 +34,7 @@
     <text class="top-wrapper-title">单选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}}">
+    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}}"  catchtap="gobefor"  data-index='{{ index }}'>
         <text > {{index+1}} </text>
     </view>
 </view>
@@ -37,7 +43,7 @@
     <text class="top-wrapper-title">多选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{ multipleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} ">
+    <view wx:for="{{ multipleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ index }}'>
         <text > {{index+1}} </text>
     </view>
 </view>
@@ -46,8 +52,12 @@
     <text class="top-wrapper-title">判断题</text>
 </view>
 <view class="wrapper-single-option" style="margin-bottom:160rpx">
-    <view wx:for="{{ judgmentNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} ">
+    <view wx:for="{{ judgmentNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ index }}'>
         <text > {{index+1}} </text>
     </view>
+</view>
+<view class="tabbottom">
+    <!-- <view class="checkAllAn" >查看全部解析</view> -->
+    <view class="goPri" bindtap='goToTest'>查看解析</view>
 </view>
 

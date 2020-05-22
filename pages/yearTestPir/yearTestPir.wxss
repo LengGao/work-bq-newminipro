@@ -19,9 +19,12 @@ page {
 .questions-box {
     box-sizing: border-box;
     width: 670rpx;
+    height: 800rpx;
     margin-left: 40rpx;
     margin-top: 40rpx;
     overflow-y: scroll;
+    margin-bottom: 50rpx;
+
 }
 .test_rich{
     flex: 1;

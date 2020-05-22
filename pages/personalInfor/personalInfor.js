@@ -69,8 +69,12 @@ Page({
       sourceType: ['album', 'camera'],
       success: res => {
         const idcardimage = that.data.idcardimages.concat(res.tempFilePaths)
+        if(idcardimage[0] == '')
+        {
+          idcardimage.splice(0,1)
+        }
         that.setData({
-          idcardimages: idcardimage.slice(0, idcardimage.length)
+          idcardimages: idcardimage
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
@@ -115,8 +119,12 @@ handleImagePreviewback:function(t){
       sourceType: ['album', 'camera'],
       success: res => {
         const idcardimage = that.data.idcardimage.concat(res.tempFilePaths)
+        if(idcardimage[0] == '')
+        {
+          idcardimage.splice(0,1)
+        }
         that.setData({
-          idcardimage:idcardimage.slice(0, idcardimage.length)
+          idcardimage: idcardimage
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
@@ -141,15 +149,19 @@ handleImagePreviewback:function(t){
   },
   personalimages(e) {
     let that = this
-    const personalimages = that.data.personalimages
-    that.setData({
-      personalimages: personalimages.slice(0, personalimages.length)
-    })
     wx.chooseImage({
       count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
+        const personalimages = that.data.personalimages.concat(res.tempFilePaths)
+        if(personalimages[0] == '')
+        {
+          personalimages.splice(0,1)
+        }
+        that.setData({
+          personalimages: personalimages
+        })
         that.setData({
           personalimages: personalimages.concat(res.tempFilePaths)
         })
@@ -189,8 +201,12 @@ handleImagePreviewback:function(t){
       sourceType: ['album', 'camera'],
       success: res => {
         const graduationimages = that.data.graduationimages.concat(res.tempFilePaths)
+        if(graduationimages[0] == '')
+        {
+          graduationimages.splice(0,1)
+        }
         that.setData({
-          graduationimages:  graduationimages.slice(0, graduationimages.length )
+          graduationimages: graduationimages
         })
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
@@ -221,9 +237,20 @@ handleImagePreviewback:function(t){
       sourceType: ['album', 'camera'],
       success: res => {
         const socins = that.data.socins.concat(res.tempFilePaths)
+        console.log(socins[0])
+        if(socins[0] == '')
+        {
+          socins.splice(0,1)
+        }
+        console.log(socins)
+        that.setData({
+          socins: socins
+        })
+       console.log(that.data.socins)
         that.setData({
           socins:  socins.slice(0,socins.length )
         })
+        console.log(socins)
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
@@ -260,9 +287,15 @@ handleImagePreviewback:function(t){
       sourceType: ['album', 'camera'],
       success: res => {
         const backimages = that.data.backimages.concat(res.tempFilePaths)
+        console.log(backimages)
+        if(backimages[0] == '')
+        {
+          backimages.splice(0,1)
+        }
         that.setData({
-          backimages: backimages.slice(0,  backimages.length)
+          backimages: backimages
         })
+       console.log(that.data.backimages)
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
@@ -292,9 +325,16 @@ handleImagePreviewback:function(t){
       sourceType: ['album', 'camera'],
       success: res => {
         const permit = that.data.permit.concat(res.tempFilePaths)
+        console.log(permit)
+        if(permit[0] == '')
+        {
+          permit.splice(0,1)
+        }
         that.setData({
-          permit: permit.length <= 3 ? permit : permit.slice(0, 3)
+          permit: permit
         })
+        console.log(permit)
+        console.log(that.data.permit)
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
@@ -323,11 +363,15 @@ handleImagePreviewback:function(t){
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-       
         const permitback = that.data.permitback.concat(res.tempFilePaths)
+        if(permitback[0] == '')
+        {
+          permitback.splice(0,1)
+        }
         that.setData({
-          permitback: permitback.length <= 3 ? permitback : permitback.slice(0, 3)
+          permitback: permitback
         })
+        console.log(that.data.permitback)
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式

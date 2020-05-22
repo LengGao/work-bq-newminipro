@@ -1,4 +1,4 @@
-<view class="myCourse" wx:for="{{ funsel }}" wx:key="index" bindtap='toVideoroom' data-id = '{{ item.course_id }}'>
+<view class="myCourse" wx:for="{{ funsel }}" wx:key="index" bindtap='toVideoroom' data-id = '{{ item.course_id }}' wx:if="{{ !nodata }}">
     <view class="myCourse-content">
         <view class="img-myCourse"><image  style="width:100%;height:100%" src="{{ item.Picture }}" /></view>
         <view class="myCourse-info">
@@ -20,3 +20,11 @@
         </view>
     </view>
 </view>
+ <block wx:if="{{ nodata }}">
+        <view style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center" hidden="{{ false }}" >
+        <view style="width:280rpx;height:264rpx;">
+            <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+        </view>
+        <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">暂无数据</text>
+        </view>
+    </block>

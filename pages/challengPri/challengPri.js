@@ -150,6 +150,7 @@ Page({
             dataType: "json",
             success: function (res) {
               console.log(res)
+              res.consumeTime
               wx.navigateTo({
                 url:`../challengResult/challengResult?courseId=${courseID}&challengeId=${challengeId}`
               })

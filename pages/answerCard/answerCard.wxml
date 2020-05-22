@@ -24,7 +24,7 @@
     <text class="top-wrapper-title">单选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}}">
+    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}}" data-index='{{ index }}' catchtap="gobefor">
         <text > {{index+1}} </text>
     </view>
 </view>
@@ -47,7 +47,7 @@
     </view>
 </view>
 
-<!-- <view class="tabbottom">
-    <view class="checkAllAn" >查看全部解析</view>
+<view class="tabbottom">
+    <!-- <view class="checkAllAn" >查看全部解析</view> -->
     <view class="goPri" bindtap='goToTest'>继续练习</view>
-</view> -->
+</view>

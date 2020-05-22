@@ -115,15 +115,15 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-        for(let i of res){
-          app.testWxParse(that, i)
-        }
         if( res.data != undefined && res.data.code == 30000){
           console.log('12313')
           that.setData({
             nodata:false
           })
         }else{
+          for(let i of res){
+            app.testWxParse(that, i)
+          }
           that.setData({
             collectionList:res
           })
@@ -148,15 +148,16 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-        for(let i of res){
-          app.testWxParse(that, i)
-        }
+       
         if( res.data != undefined && res.data.code == 30000){
           console.log('2342324')
           that.setData({
             errornodata:false
           })
         }else{
+          for(let i of res){
+            app.testWxParse(that, i)
+          }
           that.setData({
             errordata:res
           })
@@ -184,7 +185,7 @@ Page({
         // for(let i of res){
         //   app.testWxParse(that, i)
         // }
-        if( res.data != undefined && res.data.code == 30000){
+        if( res.data != undefined){
           console.log('2342324')
           that.setData({
             nohisdata:false

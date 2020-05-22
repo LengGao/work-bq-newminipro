@@ -74,9 +74,9 @@ Page({
     noACtion: 0,
     myCourse: [],
     optionsGo: 'toliveclass',
-    nomyCourse:false,
+    nomyCourse:true,
     noliving:true,
-   
+    images:{}
   },
   gocollection(number){
     let courseId = this.data.courseId
@@ -190,13 +190,14 @@ Page({
     this.setData({
       menuTop: key.courseId,
       courseId: courseId.courseId,
-
     });
     wx.setStorageSync("courseId", {
       courseId:courseId.courseId
     });
     that.getSubject()
     that.getHomePanel()
+    that.getclasslive()
+    that.getMycourse()
   },
   addStory() {
     wx.navigateTo({
@@ -233,10 +234,11 @@ Page({
         });
         that.getHomePanel()
         that.getSubject()
-        return resolve
+        that.getclasslive()
+        return resolve()
       },
       fail: function (t) {
-        return reject
+        return reject()
       },
       complete: function () {
 
@@ -257,7 +259,6 @@ Page({
         if (res.data == undefined) {
           that.setData({
             myCourse: res,
-            accuracy:res.info.accuracy,
             nomyCourse:true
           })
         } else {
@@ -316,23 +317,27 @@ Page({
   },
   getclasslive() {
     let that = this
+    let option =  {
+      course_id:that.data.menuTop
+    }
+    console.log(option)
     app.encryption({
       url: api.default.getclasslive,
       method: "GET",
+      data:option,
       success: function (res) {
-        console.log(res.data)
-        if (res.data == undefined) {
+        console.log(res)
+        if (res.data == undefined && res.classroomList.length != 0) {
            that.setData({
             noliving:true
            })
-           
         }else{
           that.setData({
             noliving:false
            })
         }
         console.log(that.data.noliving)
-        if (res.classroomList[0].review == 1) {
+        if (res.classroomList[0].length !=0 && res.classroomList[0].review == 1) {
           that.setData({
             optionsGo: 'goTestvideo',
             banjiID: res.classroomList[0].class_id
@@ -396,10 +401,9 @@ Page({
     })
   },
   onLoad: function (e) {
- 
     let that = this
     wx.showLoading({
-      title: '加载中',
+      title: '加载中', 
       mask: true
     })
     let promise = new Promise((resolve, reject) => {
@@ -458,8 +462,7 @@ Page({
       })
     });
     Promise.all([promise]).then((result) => {
-      this.getclasslive()
-     
+    
       wx.hideLoading();               //['成功了', 'success']
     }).catch((error) => {
       console.log(error)
@@ -479,7 +482,7 @@ Page({
     };
   },
   tabBarRedirect: function (e) {
-    wx.navigateTo({
+    wx.reLaunch({
       url: e.currentTarget.dataset.url
     });
 

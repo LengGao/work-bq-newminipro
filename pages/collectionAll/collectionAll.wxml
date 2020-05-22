@@ -16,20 +16,19 @@
                     <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                     <view class="cata-content twoline">
-                        <!-- <text class="cata-name twoline">{{vitem.stem}}</text> -->
-                         <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
-                        <!-- <text class="cata-time">{{vitem.time}}</text> -->
+                        <text class="cata-names">{{index+1}}、</text>
+                        <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
                     </view>
                 </view>
             </view>
         </block>
     </block>
     <block wx:if="{{ !nodata }}">
-        <view style="width:300rpx;height:318rpx;position:absolute;left:50%;top:45%;margin-left:-150rpx;margin-top:-142rpx;display:flex;flex-direction:column;align-items:center">
+        <view style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center" hidden="{{ false }}" >
+        <view style="width:280rpx;height:264rpx;">
             <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
-            <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
-                暂无数据
-            </text>
+        </view>
+        <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">暂无数据</text>
         </view>
     </block>
 </view>
@@ -45,7 +44,7 @@
                     <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                     <view class="cata-content twoline">
-                        <!-- <text class="cata-name twoline">{{vitem.stem}}</text> -->
+                           <text class="cata-names">{{index+1}}、</text>
                          <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
                         <!-- <text class="cata-time">{{vitem.time}}</text> -->
                     </view>
@@ -53,17 +52,18 @@
             </view>
         </block>
     </block>
-    <block wx:if="{{ !errornodata }}">
-        <view style="width:300rpx;height:318rpx;position:absolute;left:50%;top:45%;margin-left:-150rpx;margin-top:-142rpx;display:flex;flex-direction:column;align-items:center">
+      <block wx:if="{{ !errornodata }}">
+        <view style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center" hidden="{{ false }}" >
+        <view style="width:280rpx;height:264rpx;">
             <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
-            <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
-                暂无数据
-            </text>
+        </view>
+        <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">暂无数据</text>
         </view>
     </block>
+    
 </view>
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '0'?'tactive':''}}">
-    <block wx:key="index" wx:for="{{hisdata}}" wx:key="index">
+    <block wx:key="index" wx:for="{{hisdata}}" wx:key="index" wx:if="{{ nohisdata }}">
         <!-- <view class="cata-title">{{item.charper}}</view> -->
         <view class="cata-list" style="border-top:1rpx solid #EEEEEE">
             <view class="history-wrapper" data-key="index">
@@ -88,6 +88,14 @@
                     </view>
                 </view>
             </view>
+        </view>
+    </block>
+        <block wx:if="{{ !nohisdata }}">
+        <view style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center" hidden="{{ false }}" >
+        <view style="width:280rpx;height:264rpx;">
+            <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+        </view>
+        <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">暂无数据</text>
         </view>
     </block>
 </view>

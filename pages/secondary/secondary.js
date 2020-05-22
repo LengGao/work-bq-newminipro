@@ -46,31 +46,31 @@ Page({
     ],
     freeCourse: [],
     hotpoint: [
-      {
-        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/05.jpg',
-        title: '系统集成项目管理工程师',
-        price: '6666',
-        personal: '2564',
-        id: '123'
-      },
-      {
-        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/06.jpg',
-        title: '系统集成项目管理工程师',
-        price: '5646',
-        personal: '1654'
-      },
-      {
-        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg',
-        title: '系统集成项目管理工程师',
-        price: '8947',
-        personal: '56971'
-      },
-      {
-        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg',
-        title: '系统集成项目管理工程师',
-        price: '5612',
-        personal: '89745'
-      },
+      // {
+      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/05.jpg',
+      //   title: '系统集成项目管理工程师',
+      //   price: '6666',
+      //   personal: '2564',
+      //   id: '123'
+      // },
+      // {
+      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/06.jpg',
+      //   title: '系统集成项目管理工程师',
+      //   price: '5646',
+      //   personal: '1654'
+      // },
+      // {
+      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg',
+      //   title: '系统集成项目管理工程师',
+      //   price: '8947',
+      //   personal: '56971'
+      // },
+      // {
+      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg',
+      //   title: '系统集成项目管理工程师',
+      //   price: '5612',
+      //   personal: '89745'
+      // },
     ]
   },
   selectmenuAll() {
@@ -253,7 +253,7 @@ Page({
       });
   },
   tabBarRedirect: function (e) {
-    wx.navigateTo({
+    wx.reLaunch({
       url: e.currentTarget.dataset.url
     });
   },

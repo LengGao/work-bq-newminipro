@@ -6,7 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    funsel:null
+    funsel:null,
+    nodata:false
   },
   toVideoroom(e) {
     console.log(e.currentTarget.dataset.id)
@@ -27,9 +28,17 @@ Page({
     data:option,
     success: function (res) {
       console.log(res)
-     that.setData({
-      funsel:res
-     })
+      if(res.data != undefined ){
+        that.setData({
+          nodata:true
+        })
+         
+      }else{
+        that.setData({
+          funsel:res
+         })
+      }
+    
     },
     fail: function (res) {
 

@@ -5,7 +5,7 @@
     </view>
     <text class="marks">{{ current_no }}/{{ all_current_no }}</text>
 </view>
-<view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" >
+<view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style="height:{{ screenHeight }}px">
     <!-- 单选题 -->
     <view class="text-type padding">{{ randerTitle.stem }}</view>
     <radio-group class="checked padding">
@@ -36,7 +36,7 @@
         </view>
     </radio-group>
 </view>
-<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ ProblemType == '2'?false:true }}">
+<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ ProblemType == '2'?false:true }}" style="height:{{ screenHeight }}px">
     <view class="text-type padding">{{ randerTitle.stem }}</view>
     <radio-group class="checked padding">
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
@@ -70,7 +70,7 @@
         </view>
     </radio-group>
 </view>
-<view hidden="{{ ProblemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" >
+<view hidden="{{ ProblemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style="height:{{ screenHeight }}px">
     <!-- 单选题 -->
     <view class="text-type padding">{{ randerTitle.stem }}</view>
     <radio-group class="checked padding">

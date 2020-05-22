@@ -61,7 +61,7 @@ var apiurl = {
     getChallengeResults: e +'api/v1/bill/getChallengeResults',
     getProgrammePosters: e +'api/v1/bill/getProgrammePosters',
     getclasslive: e +'api/v1/course/getclasslive',
-    videomember: e +'api/v1//video/videomember',
+    videomember: e +'api/v1/video/videomember',
     getrevielive: e +'api/v1/video/getrevielive',
     liveplayinfo: e +'api/v1/video/liveplayinfo',
     getExamFacePlate: e +'api/v1/answe/getExamFacePlate',
@@ -81,7 +81,10 @@ var apiurl = {
     wxauth: e +'api/v1/order/buy',
     collectionList: e + 'api/v1/answe/CollectionList',
     examreport: e + 'api/v1/answe/examreport',
-    examinationResultsStatistics: e + 'api/v1/answe/examinationResultsStatistics'
+    examinationResultsStatistics: e + 'api/v1/answe/examinationResultsStatistics',
+    wxpay: e +'api/v1/order/wxpay',
+    getMessagePushList: e +'api/v1/push/getMessagePushList',
+    saveMessagePushState: e +'api/v1/push/saveMessagePushState'
   },
   user: {
     newLogin: bq + "api/v1/login",

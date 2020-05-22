@@ -16,7 +16,7 @@ Page({
     let chapterId = e.currentTarget.dataset.chapterid
     let courseId = this.data.courseId
     let chapterName =  e.currentTarget.dataset.chaptername
-    wx.redirectTo({
+    wx.navigateTo({
       url: `../yearTestIntro/yearTestIntro?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
     })
   },

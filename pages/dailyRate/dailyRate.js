@@ -7,17 +7,17 @@ Page({
   data: {
     everyDate:[
       {
-        name:'12',
+        name:'00',
         title:'累计打卡天数',
         desc:'天'
       },
       {
-        name:'15:30',
+        name:'00:00',
         title:'本次打卡时间',
         desc:''
       },
       {
-       name:'68',
+       name:'00',
        title:'今天打卡排行',
        desc:''
       }

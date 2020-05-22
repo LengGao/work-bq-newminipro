@@ -2,18 +2,16 @@
   <view class='help_item' wx:for='{{maskData}}' wx:key='index' wx:for-item="i">
     <view class='title' data-index='{{index + 1}}' catchtap='panel'>
       <view class='title_1'>
-        <image style="width:32rpx;height:32rpx;margin-right:20rpx" src="{{ i.icon }}" />
+        <image style="width:32rpx;height:32rpx;margin-right:20rpx;margin-top:7rpx" src="{{ i.icon }}" />
         <view style="display:flex;flex-direction:column">
           <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);"> {{i.categoryName}}</text>
-          <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">{{ i.description }}</text>
+          <text style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin-top:10rpx">{{ i.description }}</text>
         </view>
         </view>
       <view class='title_2'>
         <view class="{{showIndex == index + 1 ? 'up':'down'}}"></view>
       </view>
-     
     </view>
-    
     <view class='detail' wx:if="{{showIndex == index + 1 ?true:false}}">
       <view wx:for='{{i.child}}' wx:for-item="j" wx:key='keys' class="wrapper-items"  data-courseId='{{j.courseId}}' catchtap='insertCourse'>
         {{ j.courseName }}

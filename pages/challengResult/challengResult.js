@@ -22,17 +22,17 @@ Page({
     ],
     everyDate: [
       {
-        name: '15:30',
+        name: '00:00',
         title: '挑战用时',
 
       },
       {
-        name: '120',
+        name: '00',
         title: '挑战得分',
 
       },
       {
-        name: '68',
+        name: '00',
         title: '挑战排名'
       }
     ],

@@ -25,6 +25,7 @@ Page({
     navH:'',
     clearTimer: false,
     examLogId:'',
+    lettering:'goback',
     tabItems: [
       {
         icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(4).png',
@@ -62,6 +63,40 @@ Page({
     multishowAny:true,
     multiselect:'',
     index:''
+  },
+  wode(number,nosubmit = 0){
+    let that = this
+    let allRenders = that.data.allRender//获取所有已经渲染的数据
+    console.log(allRenders)
+    if(nosubmit !=0){
+      that.setData({
+        lettering:'normalGo',
+        showAny:false
+      })
+      if(that.data.tabItems[2] && that.data.tabItems[2].action == 'likes')
+      {
+        that.data.tabItems.splice(2,1)
+      }
+      
+      that.setData({
+        tabItems:that.data.tabItems,
+        targetTime2:''
+      })
+      console.log(that.data.tabItems)
+    }
+    if(number>=allRenders.length){
+      wx.showToast({
+        title: '不能查看未做题目',
+        icon: 'none',
+        duration: 2000
+       })
+       return
+    }
+    this.setData({
+      randerTitle: allRenders[number],
+      current_no: number + 1,
+      ProblemType:allRenders[number].ProblemType
+    })
   },
   lastQU() {
     let that = this
@@ -105,7 +140,7 @@ Page({
         activeAnswer:'defaultAnswer',
         option:'',
         multishowAny:true,
-        ProblemType:allRenders[current_no - 1].ProblemType, m
+        ProblemType:allRenders[current_no - 1].ProblemType
       })
   },
   cards() {
@@ -113,8 +148,9 @@ Page({
     let singleNum =JSON.stringify(this.data.singleNum)
     let multipleNum = JSON.stringify(this.data.multipleNum)
     let examId = this.data.examLogId
+    let name = this.data.courseName
     wx.navigateTo({
-      url: `../viranswerCard/viranswerCard?name=第一章&examId=${ examId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
+      url: `../viranswerCard/viranswerCard?name=${name}&examId=${ examId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
     })
   },
   myLinsterner(e) {
@@ -139,20 +175,42 @@ Page({
     },
   nextQU() {
     if(this.data.current_no >= this.data.all_current_no){
+      let that = this
       wx.showModal({
         title: '提示',
-        content: '考试时间到，系统自动交卷！',
-        showCancel: false,//是否显示取消按钮
+        content: '已经是最后一道题了，是否交卷？',
+        showCancel: true,//是否显示取消按钮
+        cancelText:"取消",//默认是“取消”
+        cancelColor:'#199FFF',//取消文字的颜色
         confirmText:"确认",//默认是“确定”
         confirmColor: '#199FFF',//确定文字的颜色
         success: function (res) {
-              //点击确定
-              let type = 'mockExam';
-              let courseId = that.data.courseId;
-              let id = that.data.examLogId;
-              wx.redirectTo({
+           if (res.cancel) {
+              //点击取消,默认隐藏弹框
+           } else {
+             let type = 'mockExam';
+             let courseId = that.data.courseId;
+             let id = that.data.examLogId;
+             let option = {
+              examLogId:that.data.examLogId
+            }
+            app.encryption({//初始化加载函数获取所有题目
+              url: api.default.examinationResultsStatistics,
+              data: option,
+              method: 'POST',
+              dataType: "json",
+              success: function (res) {
+                console.log(res)
+                wx.reLaunch({
                 url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
               })
+              },
+              fail: function (n) {
+                console.log('初始化失败')
+              }
+            })
+              //点击确定
+           }
         },
         fail: function (res) { },//接口调用失败的回调函数
         complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
@@ -330,6 +388,20 @@ Page({
       })
     }
   },
+  normalGo(){
+    let that = this
+    let type = 'mockExam';
+    let courseId = that.data.courseId;
+    let id = that.data.examLogId;
+    let exam_identity = this.data.exam_identity
+    wx.navigateTo({
+      url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
+    })
+
+    // wx.navigateBack({
+    //   delta: 1
+    // })
+  },
   goback() {
     let that = this
     wx.showModal({
@@ -339,7 +411,7 @@ Page({
       cancelText:"取消",//默认是“取消”
       cancelColor:'#199FFF',//取消文字的颜色
       confirmText:"确认",//默认是“确定”
-      confirmColor: '#199FFF',//确定文字的颜色
+      confirmColor: '#333333',//确定文字的颜色
       success: function (res) {
          if (res.cancel) {
             //点击取消,默认隐藏弹框
@@ -357,15 +429,14 @@ Page({
             dataType: "json",
             success: function (res) {
               console.log(res)
-              wx.reLaunch({
+              wx.navigateTo({
               url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
             })
             },
             fail: function (n) {
               console.log('初始化失败')
             }
-          })
-            //点击确定
+          }) //点击确定
          }
       },
       fail: function (res) { },//接口调用失败的回调函数

@@ -31,10 +31,37 @@ Page({
       }
     ],
   },
-  goToTest(){
-    wx.redirectTo({
-      url: "../test/test"
-    })
+  goToTest(e) {
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+    let number = 0// 前一个页面
+    // console.log("beforePage");
+    // console.log(beforePage);
+    wx.navigateBack({
+      success: function () {
+        beforePage.wode(number,'nosubmit'); // 执行前一个页面的onLoad方法
+      }
+    });
+  },
+  gobefor(e){
+    console.log(e.currentTarget.dataset.index)
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+    let number = e.currentTarget.dataset.index// 前一个页面
+    // console.log("beforePage");
+    // console.log(beforePage);
+    wx.navigateBack({
+      success: function () {
+        beforePage.wode(number,'nosubmit'); // 执行前一个页面的onLoad方法
+      }
+    });
+    // let that = this
+    // let chapterName= that.data.chapterName;
+    // let course_id= that.data.courseId;
+    // let chapter_id= that.data.chapterId;
+    // wx.navigateTo({
+    //   url:`/pages/yeartestReload/yeartestReload?chapterName=${chapterName}&courseId=${course_id}&chapterId=${chapter_id}`
+    // })
   },
   generalScoring(courseId){
     let that = this
@@ -69,13 +96,23 @@ Page({
       }
     })
   },
+  goback(){
+    wx.reLaunch({
+      url: '/pages/index/index'
+  });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log(options)
      this.generalScoring(options.exam_identity)
-      
+      this.setData({
+        navH: app.globalData.navHeight,
+        chapterName: options.chapterName,
+        courseId: options.course_id,
+        chapterId: options.chapter_id
+      })
   },
 
   /**

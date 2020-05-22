@@ -11,10 +11,23 @@ Page({
     successOPtion:'defaultOption',
     correct:[]
   },
-  goToTest(){
-    wx.redirectTo({
-      url: "../test/test"
+  goToTest() {
+    wx.navigateBack({
+      delta: 1
     })
+  },
+  gobefor(e){
+    console.log(e.currentTarget.dataset.index)
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+    let number = e.currentTarget.dataset.index// 前一个页面
+    // console.log("beforePage");
+    // console.log(beforePage);
+    wx.navigateBack({
+      success: function () {
+        beforePage.wode(number); // 执行前一个页面的onLoad方法
+      }
+    });
   },
   /**
    * 生命周期函数--监听页面加载

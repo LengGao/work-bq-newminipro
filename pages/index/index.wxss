@@ -51,10 +51,11 @@ page {
     width: 90%;
 }
 .imgs{
-    width:20rpx;
-    height: 20rpx;
-    margin-right:34rpx ;
+    width:34rpx;
+    height: 34rpx;
+    margin-right:25rpx ;
     position: relative;
+    top: 5rpx;
 }
 .imgs::before{
     content:"";
@@ -146,7 +147,7 @@ page {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
    
 }
 .menu-img{
@@ -167,7 +168,7 @@ page {
 .right-number{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     
 }
@@ -181,9 +182,10 @@ page {
  
 }
 .every-number{
-  position: relative;
+    position: relative;
     width: 110rpx;
     text-align: right;
+    margin-top: 6rpx;
 }
 #gl{
     text-align: center;
@@ -236,7 +238,7 @@ page {
     padding:24rpx 30rpx 15rpx 30rpx;
     display: flex;
     justify-content: space-between;
-    box-shadow:0px 0px 17px 0px rgba(163,217,255,0.5);
+    box-shadow:0px 0px 6px 0px rgba(163,217,255,0.5);
 }
 .title-top-left{
     height:40rpx;
@@ -349,7 +351,7 @@ page {
     border-radius:20rpx;
     display: flex;
     flex-direction: column;
-    padding:35rpx 29rpx 0rpx 30rpx ;
+    margin:35rpx 29rpx 0rpx 30rpx ;
 
 }
 .myCourse-title{
@@ -367,7 +369,7 @@ page {
 }
 .myCourse-content{
     display: flex;
-    margin-top: 25rpx;
+    margin-top: 40rpx;
 }
 .myCourse-info{
     height: 130rpx;
@@ -390,8 +392,9 @@ page {
     color:rgba(25,159,255,1);
 }
 .personal-img-myCourse{
-       width: 32rpx;
-       height: 32rpx;
+      width: 100%;
+      height: 100%;
+       border-radius: 50%;
 }
 .myCourse-name{
     height: 30rpx;
@@ -447,6 +450,7 @@ page {
 .personal-infor{
     display: flex;
     align-items: center;
+    height: 32rpx;
 }
 .personal-name{
     margin-left: 10rpx;
@@ -555,7 +559,7 @@ page {
     padding: 10rpx;
   }
   .nomyCourse-content{
-     height: 142rpx;
+     height: 170rpx;
      display: flex;
      align-items: center;
      justify-content: center;

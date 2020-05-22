@@ -10,7 +10,7 @@
   <image src="{{ imgsrc }}"  class="wrapper-img"/>
 </view>
 <view style="display:flex;width:750rpx;height:100rpx;background:rgba(255,255,255,1);display:flex;align-items:center;justify-content:space-around">
-  <button style="width:300rpx;height:60rpx;border:1px solid rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#199FFF;font-size:32rpx;" bindtap='saveImage'>
+  <button style="width:300rpx;height:60rpx;border:1px solid rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#199FFF;font-size:32rpx;background:#fff" bindtap='saveImage'>
     保存
   </button>
   <button style="width:300rpx;height:60rpx;background:rgba(25,159,255,1);border-radius:30rpx;line-height:60rpx;color:#FFFFFF;font-size:32rpx;" open-type="share">

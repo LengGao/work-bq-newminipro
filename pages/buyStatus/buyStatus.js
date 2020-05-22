@@ -22,30 +22,30 @@ Page({
       }
     ],
     collectionList:[
-      {
-        "orderId": 4866,
-        "orderNo": "B-5690200224-110032",
-        "amount": "7980.00",
-        "payTime": 0,
-        "CourseName": "系统规划与管理师（高级职称）",
-        "picture": "http://oss.beiqujy.com/dda0cf4ba3418fbf24456385d3efd850b387ed9a.jpeg"
-      },
-      {
-        "orderId": 4915,
-        "orderNo": "B-8953200224-172851",
-        "amount": "0.00",
-        "payTime": 0,
-        "CourseName": "系统集成直播公开课（观看直播请联系老师）",
-        "picture": "http://oss.beiqujy.com/f6f316cd0ed95208498b87db68d6ede101555eb0.jpeg"
-      },
-      {
-        "orderId": 5044,
-        "orderNo": "B-3971200314-151535",
-        "amount": "7980.00",
-        "payTime": 1583825968,
-        "CourseName": "信息系统项目管理师（高级职称）",
-        "picture": "http://oss.beiqujy.com/67225ecdc11e774929aa5955e38facb5eca306f1.jpeg"
-      }
+      // {
+      //   "orderId": 4866,
+      //   "orderNo": "B-5690200224-110032",
+      //   "amount": "7980.00",
+      //   "payTime": 0,
+      //   "CourseName": "系统规划与管理师（高级职称）",
+      //   "picture": "http://oss.beiqujy.com/dda0cf4ba3418fbf24456385d3efd850b387ed9a.jpeg"
+      // },
+      // {
+      //   "orderId": 4915,
+      //   "orderNo": "B-8953200224-172851",
+      //   "amount": "0.00",
+      //   "payTime": 0,
+      //   "CourseName": "系统集成直播公开课（观看直播请联系老师）",
+      //   "picture": "http://oss.beiqujy.com/f6f316cd0ed95208498b87db68d6ede101555eb0.jpeg"
+      // },
+      // {
+      //   "orderId": 5044,
+      //   "orderNo": "B-3971200314-151535",
+      //   "amount": "7980.00",
+      //   "payTime": 1583825968,
+      //   "CourseName": "信息系统项目管理师（高级职称）",
+      //   "picture": "http://oss.beiqujy.com/67225ecdc11e774929aa5955e38facb5eca306f1.jpeg"
+      // }
     ],
     nodata:true,
     errornodata:true,
@@ -174,7 +174,6 @@ Page({
     })
   },
   waitForpay(){
-   
     let that = this
     let option = {
       state:2,//待付款
@@ -271,14 +270,60 @@ Page({
       }
     })
   },
+  repay(e){
+    let that = this
+    wx.showLoading({
+      title: "提交中"
+    })
+    let option = {
+      order_id:e.currentTarget.dataset.id
+    }
+    app.encryption({
+      url: api.default.wxpay,
+      method: "POST",
+      data:option,
+      success: function (e) {
+        console.log(e)
+        let a = e.wx_pay_data
+        wx.requestPayment({
+          appId:a.appid,
+          timeStamp: a.timeStamp,
+          nonceStr: a.nonce_str,
+          package: a.prepay_id,
+          signType: a.signType,
+          paySign: a.paySign,
+          success: function (e) {
+            console.log(e)
+            wx.showToast({
+              title: "订单支付成功",
+              icon: "success"
+            })
+            that.onLoad( {courseId: that.data.courseId } )
+          },
+          fail: function (t) {
+            console.log(t)
+            wx.showToast({
+              title: "订单未支付",
+              icon: 'none'
+            });
+          }
+        });
+      },
+      complete() {
+        wx.hideLoading();
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log(options)
-    this.setData({
-      courseId:options.courseId
-    })
+    if(options.courseId!=undefined){
+      this.setData({
+        courseId:options.courseId
+      })
+    }
    this.getCollection(),
    this.getErrorTopicFeedbac(),
    this.waitForpay()

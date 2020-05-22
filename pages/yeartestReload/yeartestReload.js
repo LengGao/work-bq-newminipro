@@ -1,4 +1,6 @@
-var t, app = getApp(), api = require("../../api.js"), app = getApp()
+var t, app = getApp(), api = require("../../api.js"), app = getApp(), wxParse = require("../../wxParse/wxParse.js");
+const util = require('../../utils/util.js')
+const { $Message } = require('../../utils/iview/base/index');
 Page({
   data: {
     current_no: 0,
@@ -24,7 +26,6 @@ Page({
     clearTimer: false,
     examLogId: '',
     exam_identity: '',
-    lettering: 'goback',
     tabItems: [
       {
         icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(4).png',
@@ -63,37 +64,22 @@ Page({
     multiselect: [],
     index: ''
   },
-  wode(number, nosubmit = 0) {
+  wode(number){
     let that = this
     let allRenders = that.data.allRender//获取所有已经渲染的数据
-    console.log(allRenders)
-    if (nosubmit != 0) {
-      that.setData({
-        lettering: 'normalGo',
-        showAny: false
-      })
-      if (that.data.tabItems[2] && that.data.tabItems[2].action == 'likes') {
-        that.data.tabItems.splice(2, 1)
-      }
-
-      that.setData({
-        tabItems: that.data.tabItems,
-        targetTime2: ''
-      })
-      console.log(that.data.tabItems)
-    }
-    if (number >= allRenders.length) {
+    console.log(allRenders.length)
+    if(number>=allRenders.length){
       wx.showToast({
         title: '不能查看未做题目',
         icon: 'none',
         duration: 2000
-      })
-      return
+       })
+       return
     }
     this.setData({
       randerTitle: allRenders[number],
       current_no: number + 1,
-      ProblemType: allRenders[number].ProblemType
+      ProblemType:allRenders[number].ProblemType
     })
   },
   lastQU() {
@@ -162,36 +148,29 @@ Page({
         if (res.cancel) {
           //点击取消,默认隐藏弹框
         } else {
-          //点击确定
-          let option = {
-            exam_identity: that.data.exam_identity,
-            course_id: parseInt(that.data.course_id),
-            chapter_id: parseInt(that.data.chapter_id)
-          }
-          console.log(option)
-          let exam_identity = that.data.exam_identity
-          app.encryption({//交卷动作
-            url: api.default.submitpaper,
-            data: option,
-            method: 'POST',
-            dataType: "json",
-            success: function (res) {
-              console.table(res)
-              let type = 'mockExam';
-              let id = that.data.examLogId;
-              let chapterName = that.data.chapterName;
-              let course_id = that.data.course_id;
-              let chapter_id = that.data.chapter_id;
-              wx.navigateTo({
-                url: `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
-              })
-            },
-            fail: function (n) {
-              console.log('初始化失败')
-            }
-          })
-          //点击确定
+        //点击确定
+        let option = {
+          exam_identity: that.data.exam_identity,
+          course_id: parseInt(that.data.course_id),
+          chapter_id: parseInt(that.data.chapter_id)
         }
+        console.log(option)
+        app.encryption({//交卷动作
+          url: api.default.submitpaper,
+          data: option,
+          method: 'POST',
+          dataType: "json",
+          success: function (res) {
+            console.table(res)
+            wx.reLaunch({
+              url:  `../yearTest/yearTest?courseId=${that.data.course_id}`
+            })
+          },
+          fail: function (n) {
+            console.log('初始化失败')
+          }
+        })
+      }
       },
       fail: function (res) { },//接口调用失败的回调函数
       complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
@@ -204,11 +183,10 @@ Page({
     let curReander = that.data.originTitle[current_no]//获取下一题的原始数据
     let allRender = that.data.allRender//页面已经渲染的数据集
     let exam_identity = that.data.exam_identity
-    let chapterName = that.data.chapterName;
-    let course_id = that.data.courseId;
-    let chapter_id = that.data.chapterId;
     if (this.data.current_no >= this.data.all_current_no) {
+      console.log('1111111')
       if (allRender[current_no - 1].done) {//当前题目是否已做
+        console.log('22222222',typeof (this.data.index) != typeof (''))
         if (typeof (this.data.index) != typeof ('')) {
           let index = this.data.index
           let color = this.data.randerTitle.content[index];//获取当前点击选项的数组
@@ -225,6 +203,7 @@ Page({
             question_id: parseInt(allRender[current_no - 1].ProblemId),//题目Id
             exam_identity: this.data.exam_identity,//考试次数标志
           }
+          console.log(option)
           app.encryption({//初始化加载函数获取所有题目
             url: api.default.answersave,
             data: option,
@@ -258,7 +237,7 @@ Page({
                       success: function (res) {
                         console.table(res)
                         wx.reLaunch({
-                          url: `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
+                          url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
                         })
                       },
                       fail: function (n) {
@@ -303,7 +282,7 @@ Page({
                 success: function (res) {
                   console.table(res)
                   wx.reLaunch({
-                    url: `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
+                    url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
                   })
                 },
                 fail: function (n) {
@@ -318,7 +297,7 @@ Page({
           }
         })
         return
-      } else {
+      }else {
         this.setData({
           option: '',
           index: ''
@@ -350,7 +329,7 @@ Page({
                 success: function (res) {
                   console.table(res)
                   wx.reLaunch({
-                    url: `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
+                    url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
                   })
                 },
                 fail: function (n) {
@@ -366,7 +345,7 @@ Page({
         })
         return
       }
-
+     
     }
     if (allRender[current_no - 1].done) {//当前题目是否已做
       if (typeof (this.data.index) != typeof ('')) {
@@ -496,7 +475,6 @@ Page({
     //开始选择答案
     let index = e.currentTarget.dataset.index;//当前点击选项的index
     this.data.randerTitle.done = true//表明当前题目已做
-    this.data.randerTitle.chooseAnswer = e.currentTarget.dataset.option
     let option = e.currentTarget.dataset.option;//当前点击选项的option
     this.setData({
       option: option,//声名点击选项
@@ -518,17 +496,10 @@ Page({
         randerTitle: this.data.randerTitle
       })
     } else {
-      console.log(multiselect)
-      let arrays = []
       this.data.randerTitle.content[index].haschose = false
-      let newarray = this.data.multiselect.splice(this.data.multiselect.findIndex(item => item === option), 1);
-      for (let i of this.data.multiselect) {
-        console.log(i)
-        arrays.push(i)
-      }
-      console.log(this.data.multiselect, newarray)
+      multiselect.splice(multiselect.findIndex(item => item === option), 1);
       this.setData({
-        multiselect: arrays,
+        multiselect: multiselect,
         randerTitle: this.data.randerTitle
       })
       if (multiselect.length = 0) {
@@ -538,14 +509,13 @@ Page({
         })
       }
     }
-    let answer = ''
-    for (let item of this.data.multiselect) {
-      answer = answer + item + ','
-    }
-    this.data.randerTitle.chooseAnswer = answer
-    this.setData({
-      randerTitle: this.data.randerTitle
-    })
+    console.log(multiselect)
+    // console.log(this.data.multiselect)
+    // let index = e.currentTarget.dataset.index;//当前点击选项的index
+    // this.data.randerTitle.done = true//表明当前题目已做
+    // this.setData({
+    //   randerTitle: this.data.randerTitle
+    // })
   },
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
@@ -578,50 +548,37 @@ Page({
         if (res.cancel) {
           //点击取消,默认隐藏弹框
         } else {
-          //点击确定
-          let option = {
-            exam_identity: that.data.exam_identity,
-            course_id: parseInt(that.data.course_id),
-            chapter_id: parseInt(that.data.chapter_id)
+           //点击确定
+        let option = {
+          exam_identity: that.data.exam_identity,
+          course_id: parseInt(that.data.course_id),
+          chapter_id: parseInt(that.data.chapter_id)
+        }
+        console.log(option)
+        let exam_identity = that.data.exam_identity
+        app.encryption({//交卷动作
+          url: api.default.submitpaper,
+          data: option,
+          method: 'POST',
+          dataType: "json",
+          success: function (res) {
+            console.table(res)
+            let type = 'mockExam';
+            let id = that.data.examLogId;
+            wx.navigateTo({
+              url:  `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
+            })
+          },
+          fail: function (n) {
+            console.log('初始化失败')
           }
-          console.log(option)
-          let exam_identity = that.data.exam_identity
-          app.encryption({//交卷动作
-            url: api.default.submitpaper,
-            data: option,
-            method: 'POST',
-            dataType: "json",
-            success: function (res) {
-              console.table(res)
-              let type = 'mockExam';
-              let id = that.data.examLogId;
-              let chapterName = that.data.chapterName;
-              let course_id = that.data.course_id;
-              let chapter_id = that.data.chapter_id;
-              wx.navigateTo({
-                url: `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
-              })
-            },
-            fail: function (n) {
-              console.log('初始化失败')
-            }
-          })
+        })
           //点击确定
         }
       },
       fail: function (res) { },//接口调用失败的回调函数
       complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
     })
-  },
-  normalGo() {
-    let exam_identity = this.data.exam_identity
-    wx.navigateTo({
-      url: `../yearTestScroll/yearTestScroll?exam_identity=${exam_identity}`
-    })
-
-    // wx.navigateBack({
-    //   delta: 1
-    // })
   },
   onLoad: function (options = {}) {
     wx.showLoading({
@@ -649,9 +606,8 @@ Page({
       method: 'GET',
       dataType: "json",
       success: function (res) {
-
+        console.log(res)
         let randerTitle = app.testWxParse(that, res.question_list[0])//初始化第一道题目
-        console.log(randerTitle)
         that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
         that.setData({
           targetTime2: times + res.duration * 1000,

@@ -3,6 +3,6 @@
   "navigationBarTextStyle": "white",
   "navigationBarTitleText": "成绩预览",
   "backgroundTextStyle": "light",
-  "navigationStyle": "default",
+  "navigationStyle": "custom",
   "usingComponents": {}
 }

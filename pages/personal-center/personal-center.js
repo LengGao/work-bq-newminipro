@@ -143,7 +143,7 @@ Page({
     // })
 },
   tabBarRedirect: function (e) {
-    wx.navigateTo({
+    wx.reLaunch({
       url: e.currentTarget.dataset.url
     });
   },

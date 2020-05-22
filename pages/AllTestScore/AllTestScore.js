@@ -31,10 +31,62 @@ Page({
       }
     ],
   },
-  goToTest(){
-    wx.redirectTo({
-      url: "../test/test"
+  goback(){
+    wx.reLaunch({
+      url: '/pages/index/index'
+  });
+  },
+  goToTest(e) {
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+    let number = 0// 前一个页面
+    // console.log("beforePage");
+    // console.log(beforePage);
+    wx.navigateBack({
+      success: function () {
+        beforePage.wode(number,'nosubmit'); // 执行前一个页面的onLoad方法
+      }
+    });
+  },
+  wode(number) {
+    let that = this
+    let allRenders = that.data.allRender//获取所有已经渲染的数据
+    console.log(allRenders.length)
+    if (number >= allRenders.length) {
+      wx.showToast({
+        title: '不能查看未做题目',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if (!allRenders[number].done == true) {
+      this.setData({
+        showAny: true
+      })
+    } else {
+      this.setData({
+        showAny: false
+      })
+    }
+    this.setData({
+      randerTitle: allRenders[number],
+      current_no: number + 1,
+      ProblemType: allRenders[number].ProblemType
     })
+  },
+  gobefor(e){
+    console.log(e.currentTarget.dataset.index)
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+    let number = e.currentTarget.dataset.index// 前一个页面
+    // console.log("beforePage");
+    // console.log(beforePage);
+    wx.navigateBack({
+      success: function () {
+        beforePage.wode(number,'nosubmit'); // 执行前一个页面的onLoad方法
+      }
+    });
   },
   generalScoring(id,type,courseId){
     let that = this
@@ -77,6 +129,9 @@ Page({
   onLoad: function (options) {
     console.log(options)
      this.generalScoring(options.id , options.type,options.courseId)
+     this.setData({
+      navH: app.globalData.navHeight
+     })
       
   },
 

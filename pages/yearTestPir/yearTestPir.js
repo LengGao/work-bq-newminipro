@@ -5,8 +5,8 @@ const util = require('../../utils/util.js')
 const { $Message } = require('../../utils/iview/base/index');
 Page({
   data: {
-    current_no: 0, 
-    all_current_no:'70', //当前题目
+    current_no: 0,
+    all_current_no: '70', //当前题目
     question_list: [],
     question_no: 1,
     is_collect: 0,
@@ -19,10 +19,10 @@ Page({
     disabled: false,
     showAny: true,
     likes: false,//默认展示未收藏
-    singleNum:'0',
-    multipleNum:'0',
-    judgmentNum:'0',
-    formId:'',
+    singleNum: '0',
+    multipleNum: '0',
+    judgmentNum: '0',
+    formId: '',
     tabItems: [
       {
         icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
@@ -49,12 +49,13 @@ Page({
         class: ''
       }
     ],
-    ProblemType:'1',
-    answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    activeAnswer:'defaultAnswer',
-    correctoption:'',
-    multishowAny:true,
-    multiselect:''
+    ProblemType: '1',
+    answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    activeAnswer: 'defaultAnswer',
+    correctoption: '',
+    multishowAny: true,
+    multiselect: '',
+    screenHeight:''
   },
   lastQU() {
     let that = this
@@ -64,13 +65,14 @@ Page({
     let current_no = that.data.current_no//获取上一题的下标
     let allRenders = that.data.allRender//获取所有已经渲染的数据
     console.log(allRenders)
-    if(current_no <= 1){//如果下标小于等于1则提示当前已经是第一题
-      $Message({
-        content: '已经是第一题了',
-        type: 'warning'
-      });
+    if (current_no <= 1) {//如果下标小于等于1则提示当前已经是第一题
+      wx.showToast({
+        title: '已经是第一题了',
+        icon: 'none',
+        duration: 2000
+      })
       let icon = 'tabItems[0].icon'
-      this.setData({ 
+      this.setData({
         current_no: 1,
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
       })
@@ -78,39 +80,39 @@ Page({
     }
     current_no = current_no - 1 //修改渲染下标（局部）
     console.log(current_no)
-    if(allRenders[current_no-1].isCollect && allRenders[current_no-1].isCollect == '1'){ //已收藏 
+    if (allRenders[current_no - 1].isCollect && allRenders[current_no - 1].isCollect == '1') { //已收藏 
       that.setData({
         likes: true,
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
         [classes]: 'active',
         [name]: '已收藏'
       })
-      }else{
-        that.setData({
-          likes: true,
-          [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-          [classes]: '',
-          [name]: '收藏'
-        })
-      }
-      console.log(allRenders[current_no-1])
-      if(allRenders[current_no-1].done){
-        that.setData({
-          showAny:false
-        })
-      }else{
-        that.setData({
-          showAny:true
-        })
-      }
+    } else {
+      that.setData({
+        likes: true,
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+        [classes]: '',
+        [name]: '收藏'
+      })
+    }
+    console.log(allRenders[current_no - 1])
+    if (allRenders[current_no - 1].done) {
+      that.setData({
+        showAny: false
+      })
+    } else {
+      that.setData({
+        showAny: true
+      })
+    }
     this.setData({
-      randerTitle: allRenders[current_no-1],
+      randerTitle: allRenders[current_no - 1],
       current_no: current_no,
-      answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-      activeAnswer:'defaultAnswer',
-      correctoption:'',
-      multishowAny:true,
-      ProblemType:allRenders[current_no - 1].ProblemType
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeAnswer: 'defaultAnswer',
+      correctoption: '',
+      multishowAny: true,
+      ProblemType: allRenders[current_no - 1].ProblemType
     })
   },
   cards() {
@@ -129,10 +131,10 @@ Page({
     let name = 'tabItems[2].name'
     let current_no = that.data.current_no
     let allRender = that.data.allRender//页面已经渲染的数据集合
-    console.log(current_no,allRender)
+    console.log(current_no, allRender)
     if (this.data.tabItems[2].class == 'active') {
       let option = {
-        problemId:this.data.randerTitle.ProblemId,
+        problemId: this.data.randerTitle.ProblemId,
         behavior: 2
       }
       app.encryption({
@@ -142,7 +144,7 @@ Page({
         dataType: "json",
         success: function (res) {
           if (res.data.code == 200) {
-            allRender[current_no-1].isCollect = 0
+            allRender[current_no - 1].isCollect = 0
             that.setData({
               likes: false,//表示当前题目未收藏
               [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
@@ -179,7 +181,7 @@ Page({
       dataType: "json",
       success: function (res) {
         if (res.data.code == 200) {
-          allRender[current_no-1].isCollect = 1
+          allRender[current_no - 1].isCollect = 1
           that.setData({
             likes: true,
             [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
@@ -205,11 +207,12 @@ Page({
     })
   },
   nextQU() {
-    if(this.data.current_no >= this.data.all_current_no){
-      $Message({
-        content: '已经是最后题了',
-        type: 'warning'
-      });
+    if (this.data.current_no >= this.data.all_current_no) {
+      wx.showToast({
+        title: '已经是最后一题了',
+        icon: 'none',
+        duration: 2000
+      })
       return
     }
     var that = this
@@ -249,12 +252,12 @@ Page({
         correctoption: '',
         multishowAny: true//
       })
-    }else{//如果存在则直接拿取已存在的数据渲染
+    } else {//如果存在则直接拿取已存在的数据渲染
       let isShow
       randerTitle = allRender[current_no]
-      if (randerTitle.done){
+      if (randerTitle.done) {
         isShow = false //如果当前题目已做，则展示答案
-      }else{
+      } else {
         isShow = true //否则隐藏答案
       }
       if (randerTitle.isCollect == '1') { //判断下一题是否已收藏 
@@ -280,7 +283,7 @@ Page({
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
-        showAny:isShow,
+        showAny: isShow,
         multishowAny: true//
       })
     }
@@ -324,7 +327,7 @@ Page({
   },
   //选择答案
   selectAnswer(e) {
-    if (!this.data.showAny ) {//如果已选答案，再次点击不在触发
+    if (!this.data.showAny) {//如果已选答案，再次点击不在触发
       return
     }
     console.log(this.data.randerTitle)
@@ -381,7 +384,7 @@ Page({
       }
     })
   },
-  multiselectAnswer(e){
+  multiselectAnswer(e) {
     let option = e.currentTarget.dataset.option;
     let index = e.currentTarget.dataset.index;
     console.log(option, index)
@@ -410,27 +413,81 @@ Page({
     }
     console.log(multiselect)
   },
-  showAnswer(){
-    if(this.data.activeAnswer == 'activeAnswer'){
+  showAnswer() {
+    if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({
-        answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-        activeAnswer:'defaultAnswer',
-        correctoption:'',
-        multishowAny:true
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeAnswer: 'defaultAnswer',
+        correctoption: '',
+        multishowAny: true
       })
-    }else{
+    } else {
       this.setData({
-        answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-        activeAnswer:'activeAnswer',
-        correctoption:'activeoption',
-        multishowAny:false
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        activeAnswer: 'activeAnswer',
+        correctoption: 'activeoption',
+        multishowAny: false
       })
     }
   },
+  wode(number) {
+    let that = this
+    let allRenders = that.data.allRender//获取所有已经渲染的数据
+    console.log(allRenders.length)
+    if (number >= allRenders.length) {
+      wx.showToast({
+        title: '不能查看未做题目',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if (!allRenders[number].done == true) {
+      this.setData({
+        showAny: true
+      })
+    } else {
+      this.setData({
+        showAny: false
+      })
+    }
+    if (!allRenders[number].done == true) {
+      this.setData({
+        multishowAny: true
+      })
+    } else {
+      this.setData({
+        multishowAny: false
+      })
+    }
+    this.setData({
+      randerTitle: allRenders[number],
+      current_no: number + 1,
+      ProblemType: allRenders[number].ProblemType
+    })
+  },
   onLoad: function (options = {}) {
+    var that = this
+    wx.getSystemInfo({
+      success(res) {
+        that.setData({
+          screenHeight:res.screenHeight
+        })
+       
+      }
+    }) 
     wx.showLoading({
       title: '加载中',
       mask: true
+    })
+    wx.setNavigationBarTitle({
+      title: options.chapterName,
+      success: function () {
+        console.log('setNavigationBarTitle success')
+      },
+      fail: function (err) {
+        console.log('setNavigationBarTitle fail, err is', err)
+      }
     })
     console.log(options)
     var that = this;

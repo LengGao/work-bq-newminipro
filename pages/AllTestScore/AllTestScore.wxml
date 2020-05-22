@@ -1,4 +1,10 @@
 <!-- pages/answerCard/answerCard.wxml -->
+<view class='nav bg-white' style='height:{{navH}}px'>
+    <view class='nav-title'>
+     <text class="biaoti" >成绩预览</text>  
+      <text id="gl1" bindtap="goback"></text>
+    </view>
+</view>
 <view class="top-container">
     <!-- <view class="top-titles" catchtap='selectTap' wx:if="{{ actions1.length == 0?false:true }}">
         <text class="top-title">{{ biaoti || '初级会计师' }}</text>
@@ -49,7 +55,7 @@
     <text class="top-wrapper-title">单选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.rightStatus == '1' ? 'right': item.rightStatus == '0' ? 'false':''}}">
+    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.rightStatus == '1' ? 'right': item.rightStatus == '0' ? 'false':''}}"  catchtap="gobefor"  data-index='{{ index }}'>
         <text > {{index+1}} </text>
     </view>
 </view>
@@ -71,4 +77,7 @@
         <text > {{index+1}} </text>
     </view>
 </view>
-
+<view class="tabbottom">
+    <!-- <view class="checkAllAn" >查看全部解析</view> -->
+    <view class="goPri" bindtap='goToTest'>查看解析</view>
+</view>

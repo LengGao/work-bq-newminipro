@@ -25,8 +25,6 @@ wx.showToast({
   icon: 'none'
 })
 }
-
-
 Page({
   data: {
     isIOS: n.globalData.isIOS,
@@ -183,9 +181,8 @@ Page({
     this.setData({
       video_id: t.video_id || this.data.video_id,
     });
-    this.getVideoInfo();
-    // this.loadComment();
-    
+    this.listen();
+    this.getVideoInfo()
     // 阿里云
     // return;
     const res = wx.getSystemInfoSync()
@@ -203,11 +200,30 @@ Page({
   onShow: function() {},
   onHide: function() {
   },
-  onUnload: function() {
-      // 1 == this.data.video.style && a.stop();
-      // clearTimeout(o);
+  onUnload: function () {
     clearInterval(this.timeOut);
+    let option = {
+      listen_id: this.data.lessonId,
+      learn_time: this.data.currentTime,
+      type: 2,
+      video_mid: this.data.video_mid
+    }
+
+    app.encryption({
+      url: api.default.videomember,
+      method: "POST",
+      data: option,
+      success: function (res) {
+        console.log(res)
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+    
   },
+  
   onPullDownRefresh: function() {},
   onReachBottom: function() {},
   onShareAppMessage: function() {
@@ -264,7 +280,7 @@ getVideoInfo: function() {
                 that.setData({
                     chapter
                 });
-                that.listen()
+                // that.listen()
                 //  wx.setNavigationBarTitle({
                 //    title: '直播回顾:' + video.title
                 // })
@@ -282,46 +298,6 @@ getVideoInfo: function() {
           }
       });
   },
-//   liveplayinfo: function() {
-//     wx.showLoading({
-//         title: "加载中"
-//     });
-//     var that = this, e = that.data.video_id;
-//     let option={
-//       listen_id: e
-//     }
-//     console.log(option)
-//     app.encryption({
-//         url: api.default.liveplayinfo,
-//         method: "GET",
-//         data:option,
-//         success: function(e) {
-//           console.log(e)
-//               let chapter = e;
-//               chapter.forEach((v) => {
-//                 v.isShow = 0;
-//               })
-//               that.setData({
-//                   chapter
-//               });
-//               //  wx.setNavigationBarTitle({
-//               //    title: '直播回顾:' + video.title
-//               // })
-//               that.data.lessonId ? that.learning(that.data.lessonId) : that.getLastlesson();
-//               // t.setData({
-//               //   isPay: true
-//               // })
-//               // if (video.isbuy == 1 || video.price == 0 ){          
-//                 that.setData({
-//                    isPay:false
-//                 })
-//         },
-//         complete: function(t) {
-//             wx.hideLoading();
-//         }
-//     });
-// },
-// getLastlesson 获取当前课时
 getLastlesson: function() {
       wx.showLoading({
           title: "加载中"
@@ -378,7 +354,7 @@ learning: function(id) {
           }
       });
   },
-  listen: function (t) {
+listen: function (t) {
     let that = this
     let option = {
       class_id: that.data.video_id
@@ -390,6 +366,11 @@ learning: function(id) {
       data: option,
       success: function (res) {
         console.log(res)
+        that.setData({
+          learnTime:res.learn_time,
+          lessonId:res.listen_id
+        })
+        console.log(that.data.learnTime)
        that.liveplayinfo(res.listen_id)
       },
       fail: function (t) {
@@ -411,6 +392,9 @@ learning: function(id) {
       data: options,
       success: function (res) {
         console.log(res)
+        that.setData({
+          video_mid: res.video_mid
+        })
         that.playVideo(res)
       },
       fail: function (t) {
@@ -755,9 +739,29 @@ ifShow(e) {
   select_date: function(t) {
     let self = this, d = this.data;
     // 已付款或免费
+    let option = {
+      listen_id: t.currentTarget.dataset.key,
+      learn_time: this.data.currentTime,
+      type: 2,
+      video_mid: this.data.video_mid
+    }
+    console.log(option)
+    app.encryption({
+      url: api.default.videomember,
+      method: "POST",
+      data: option,
+      success: function (res) {
+        console.log(res)
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+
+      }
+    })
     this.setData({
       lessonId: t.currentTarget.dataset.key,
-      learnTime:0
+      learnTime: 0
     })
     this.liveplayinfo(t.currentTarget.dataset.key)
     // this.onLoad();
@@ -1019,7 +1023,6 @@ playVideo(data) {
   // }
   // this.videoContext.stop()
   this.data.videoPlaying = false
-
       let currentPoster = data.VideoBase.CoverURL
       let currentResource = data.PlayInfoList.PlayInfo[0].PlayURL
       let currentVideoTitle = data.VideoBase.Title
@@ -1034,7 +1037,6 @@ playVideo(data) {
         currentVideoResource,
         currentDefinition: currentVideoResource[0].definitionFormat
       })
-
       // this.videoContext.play()
 },
 // 进度改变执行

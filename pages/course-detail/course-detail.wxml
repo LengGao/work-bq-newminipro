@@ -18,7 +18,7 @@
             </cover-view>
         </cover-view>
         <cover-view class="multi-list rate{{rateShow ? ' active': ''}}{{fullScreenData}}">
-            <cover-view wx:for="{{['0.5', '0.8', '1.0', '1.25', '1.5']}}" wx:key="{{item}}" class="multi-item rate{{ item === currentRate ? ' active' : '' }}" data-rate="{{item}}" bindtap="switchRate">
+            <cover-view wx:for="{{['0.5', '0.8', '1.0', '1.25', '1.5']}}" wx:key="item" class="multi-item rate{{ item === currentRate ? ' active' : '' }}" data-rate="{{item}}" bindtap="switchRate">
                 {{item}}
             </cover-view>
             <cover-view class="close-btn-wrap" hidden="{{fullScreenData === ''}}">
@@ -418,7 +418,7 @@
         <text class="serviceMan">收藏</text>
     </view> -->
     <view class="flex-center">
-        <view class="freeText">免费题库</view>
+        <view class="freeText" bindtap="goPri">免费题库</view>
         <view class="immiWatch" bindtap="buyVideo"  wx:if="{{ !isPay }}">立即观看</view>
         <view class="immiWatch" wx:else>已开放</view>
     </view>

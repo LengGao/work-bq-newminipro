@@ -1,9 +1,6 @@
 
-<i-cell-group>
-    <i-cell title="是否开启每日打卡提醒">
-        <i-switch value="{{switch1}}" bind:change="onChange" slot="footer"></i-switch>
-    </i-cell>
-    <!-- <i-cell title="是否开启课程直播提醒">
-        <i-switch value="{{switch1}}" disabled="{{true}}" slot="footer"></i-switch>
-    </i-cell> -->
-</i-cell-group>
+
+<view class="body-view"  wx:for="{{ alldata }}" wx:key="index">
+    <view style="font-size:26rpx;color:rgba(51,51,51,1);"> 是否开启{{ item.title }}提醒 </view>
+    <switch checked="{{ item.state }}"  bindchange="{{ item.type }}" data-id = '{{ item.id }}' data-temid = '{{ item.templateId }}'/>
+</view>

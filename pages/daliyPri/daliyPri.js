@@ -206,7 +206,7 @@ Page({
   },
   nextQU() {
     let courseId =  this.data.courseId
-    if(this.data.current_no >= this.data.all_current_no){
+    if(this.data.current_no > this.data.all_current_no){
       let options= {
          dailyId:this.data.dailyId,
       }
@@ -218,7 +218,7 @@ Page({
         success: function (res) {
           wx.showModal({
             title: '提示',
-            content:'是否退出打卡？',
+            content:'是否提交打卡结果？',
             showCancel: false,//是否显示取消按钮
             confirmText:"确认",//默认是“确定”
             confirmColor: '#199FFF',//确定文字的颜色

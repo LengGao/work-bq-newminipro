@@ -114,14 +114,23 @@ App({
             method: e.method || "GET",
             dataType: e.dataType || "json",
             success: function (n) {
+               if(n.data.code==20001){
+                wx.showToast({
+                    title: '登陆状态已失效',//提示文字
+                    duration:2000,//显示时长
+                    mask:true,//是否显示透明蒙层，防止触摸穿透，默认：false  
+                    icon:'none', //图标，支持"success"、"loading"  
+                    success:function(){ 
+                    },//接口调用成功
+                    fail: function () { },  //接口调用失败的回调函数  
+                    complete: function () { } //接口调用结束的回调函数  
+                 })
+               }
                 let data
                 if (n.data.data.length != undefined && n.data.data.length == 0 && n.data.data) {
-
                     e.success && e.success(n);
                 } else {
-
                     data = crypto.decrypt(n.data.data['param'], key, uuid)
-
                     e.success && e.success(data);
                 }
             },

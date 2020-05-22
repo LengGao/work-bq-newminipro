@@ -23,7 +23,7 @@ page {
     letter-spacing:2px;
   }
   .biaoti{
-    font-size:36rpx;
+    font-size:32rpx;
     font-family:PingFang SC;
     font-weight:500;
     color:rgba(255,255,255,1);
@@ -50,13 +50,13 @@ page {
   }
   #gl1{
     text-align: center;
-    width: 20rpx;
-    height: 20rpx;
+    width: 24rpx;
+    height: 24rpx;
     position: absolute;
     top: 50%;
     left: 22rpx;
-    border-left: 1rpx solid #FFFFFF;
-    border-bottom: 1rpx solid #FFFFFF;
+    border-left: 4rpx solid #FFFFFF;
+    border-bottom: 4rpx solid #FFFFFF;
     -webkit-transform: translate(0,-50%) rotate(-135deg);
     transform: translate(0,-50%) rotate(45deg);
 }
@@ -86,9 +86,12 @@ page {
 .questions-box {
     box-sizing: border-box;
     width: 670rpx;
+    min-height: 930rpx;
+    max-height: 1100rpx;
     margin-left: 40rpx;
     margin-top: 40rpx;
     overflow-y: scroll;
+    margin-bottom: 50rpx;
 }
 
  .padding {

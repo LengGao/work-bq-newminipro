@@ -59,8 +59,8 @@ page {
     position: absolute;
     top: 50%;
     left: 22rpx;
-    border-left: 1rpx solid #FFFFFF;
-    border-bottom: 1rpx solid #FFFFFF;
+    border-left: 4rpx solid #FFFFFF;
+    border-bottom: 4rpx solid #FFFFFF;
     -webkit-transform: translate(0,-50%) rotate(-135deg);
     transform: translate(0,-50%) rotate(45deg);
 }
@@ -93,6 +93,7 @@ page {
     margin-left: 40rpx;
     margin-top: 40rpx;
     overflow-y: scroll;
+    
 }
 
  .padding {

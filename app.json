@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/yearTestScroll/yearTestScroll",
     "pages/Myclass/Myclass",
+    "pages/yeartestReload/yeartestReload",
     "pages/answerCardPir/answerCardPir",
     "pages/buyStatus/buyStatus",
     "pages/learnStatus/learnStatus",

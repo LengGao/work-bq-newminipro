@@ -124,12 +124,12 @@ function initChart3(data, canvas, width, height, dpr) {
         data: [
           {
             value: data.single, name: '单选题', itemStyle: {
-              color: '#41E58A', borderWidth: 1
+              color: '#41E58A', borderWidth: 2
             }
           },
           {
             value: (100 - data.single), name: '多选题', itemStyle: {
-              color: '#EEEEEE', borderWidth: 1
+              color: '#EEEEEE', borderWidth: 2
             }
           },
         ]
@@ -168,7 +168,7 @@ function initChart4(data, canvas, width, height, dpr) {
             }
           },
           {
-            value: (100 -data.multiple), name: '多选题', itemStyle: {
+            value: (100 - data.multiple), name: '多选题', itemStyle: {
               color: '#EEEEEE', borderWidth: 1
             }
           },
