@@ -65,17 +65,15 @@
 }
 
 .share-buttons>image {
-    width: 44rpx;
-    height: 44rpx;
+    width: 40rpx;
+    height: 40rpx;
 }
-
 .share-buttons>text {
     font-size: 26rpx;
     font-family: 'PingFang SC';
     font-weight: 500;
     color: rgba(153, 153, 153, 1);
 }
-
 .tab-container-title {
     font-size: 36rpx;
     font-family: PingFang SC;
@@ -86,16 +84,20 @@
 
 .ratesMark {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+
     /* margin-top: 11rpx; */
 }
 
 .pricesOfdiff {
     margin-top: 10rpx;
+    
 }
 
 .personals {
-    margin-left: 12rpx;
+    margin-left: 30rpx;
+    padding-top: 10rpx;
+    
 }
 
 .newPrices {
@@ -205,7 +207,7 @@
 
 .judgement-top-right {
     background: rgba(25, 159, 255, 1);
-    border-radius: 25rpx;
+    border-radius: 29rpx;
     padding: 13rpx 23rpx;
     text-align: center;
     vertical-align: middle;
@@ -224,7 +226,7 @@
 
 .judgement-bottom {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     align-items: flex-start;
 
@@ -240,6 +242,7 @@
     font-family: PingFang SC;
     font-weight: 500;
     color: rgba(153, 153, 153, 1);
+    margin-right: 10rpx;
 }
 
 .howmany {
@@ -356,7 +359,7 @@
 .serviceMan {
     font-size: 20rpx;
     font-family: 'PingFang SC';
-    font-weight: 400;
+    font-weight: 500;
     color: rgba(102, 102, 102, 1);
 }
 
@@ -1121,6 +1124,10 @@ button{
     flex: 1;
     border-bottom: 1px solid #eee;
     padding: 32rpx 30rpx;
+    display: flex;
+    justify-content: space-between;
+    
+
 }
 
 .cata-name {
@@ -1135,7 +1142,7 @@ button{
 .cata-time {
     display: block;
     font-size: 24rpx;
-    color: #999;
+    color: rgb(12, 207, 241);
 }
 
 .selected .cata-name {
@@ -1182,8 +1189,8 @@ button{
 }
 
 .comment-item {
-    border-bottom: 1px solid #fafafa;
-    margin: 40rpx 0;
+    border-bottom: 1px solid #eeeeee;
+    margin: 30rpx 0;
 }
 
 .comment-item .user-info {
@@ -1198,8 +1205,8 @@ button{
 
 .comment-item .avatar image {
     display: inline-block;
-    width: 60rpx;
-    height: 60rpx;
+    width: 60rpx !important;
+    height: 60rpx !important ;
     border-radius: 100%;
     margin-right: 20rpx;
 }
@@ -1224,7 +1231,7 @@ button{
     margin: 16rpx 0 12rpx;
     color: #333;
     margin-left: 80rpx;
-    font-size: 32rpx;
+    font-size: 28rpx;
     font-family: 'PingFang SC';
     font-weight: 500;
     color: rgba(102, 102, 102, 1);
@@ -1632,4 +1639,7 @@ button{
 
 .catalogue .cata-title image.transf {
     transform: rotate(-90deg);
+}
+.hasvision{
+    color: #e9e3e3;
 }

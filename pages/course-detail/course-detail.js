@@ -110,7 +110,7 @@ Page({
     audioPlayStatus: 0,
     can_play: 0,
     detail_id: 0,
-
+    listen_time:0,
     // 新
     comment_list: [],
     p: 1,
@@ -144,7 +144,11 @@ Page({
     value2: '',
     startNum: '1',
     tag: '',
-    isPay: true
+    isPay: true,
+    SocketTask: '',
+    testWorker:null,
+    repeated:null,
+    isHide:false
   },
   sumbitComment() {
     if (this.data.value2 == '') {
@@ -169,7 +173,7 @@ Page({
       method: "POST",
       data: option,
       success: function (res) {
-        console.log(res)
+        
         wx.showToast({
           title: '发表评论成功！',
           icon: 'success',
@@ -401,7 +405,6 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
         let courseInfo = res;
         var a = courseInfo.about + "<span> </span>";
         wxParse.wxParse("content", "html", a, that, 5);
@@ -471,7 +474,6 @@ Page({
         console.log(res)
         that.setData({
           video_mid: res.video_mid,
-
         })
         if (res.free == 1 && res.buy == 1) {//免费或者已购买
           that.setData({
@@ -499,7 +501,6 @@ Page({
           method: "GET",
           data: option,
           success: function (res) {
-            console.log(res)
             that.playVideo(res, listen_time)
           }
         })
@@ -512,6 +513,7 @@ Page({
       }
     })
     this.coursedetail()
+    this.webSocket()
   },
   //小于10的格式化函数（2变成02）
   timeFormat(param) {
@@ -529,6 +531,90 @@ Page({
     this.setData({
       chapter: d.chapter
     })
+  },
+  webSocket() {
+    let that = this
+    let uid = wx.getStorageSync("user_info").uid
+    let uuid = wx.getStorageSync("user_info").uuid
+    let course_id = 15
+    let  listen_id = this.data.lessonId
+    let tokens = wx.getStorageSync("user_info").token
+    let listen_time = this.data.currentTime
+    // 创建Socket
+    that.SocketTask = wx.connectSocket({
+      // url: 'wss://api.beiqujy.com/wss',
+      url: api.default.countSocket +`/count?token=${tokens}&uid=${uid}&type=1&from=1&listen_id=${listen_id}&listen_time=${listen_time}`,
+      header: {
+        'content-type': 'application/json'
+      },
+      method: 'get',
+      success: function (res) {
+        console.log('WebSocket连接创建', res)
+      },
+      fail: function (err) {
+        console.log('网络异常');
+        wx.showToast({
+          title: '网络异常！',
+        })
+        console.log(err)
+      },
+    })
+    // 监听webSocket错误
+    that.SocketTask.onError(res => {
+      console.log('监听到 WebSocket 打开错误，请检查！')
+      that.SocketTask.close();
+    })
+    // 监听WebSocket关闭
+    that.SocketTask.onClose(res => {
+      console.log('监听到 WebSocket 已关闭！' + ':' + res)
+      that.reconnect();
+    })
+    // websocket打开
+    that.SocketTask.onOpen(res => {
+      console.log('监听到 WebSocket 连接已打开！')
+      clearInterval(that.repeated)
+      that.repeated =  setInterval(() => {
+       let listen_time = that.data.currentTime
+      let sendData = `{"token":"${tokens}","uid":${uid},"type":1,"from":1,"listen_id":${listen_id},"listen_time":${listen_time}}`;
+      console.log(sendData);
+      that.socketSend(sendData);
+    },10000)
+      // let d = this.data;
+      // let login_data =`{"uid":"${d.uid}","course_id":"${d.course_id}","content":"${comment_data}"}`;
+      // this.socketSend(login_data);
+    })
+    // 收到websocket消息
+    that.SocketTask.onMessage(res => {
+      console.log('监听到 接收消息！' + ':' + res.data )
+
+      // this.socketMessage(JSON.parse(res.data));
+    })
+  },
+  reconnect() {
+    let that = this
+    clearInterval(that.repeated)
+    if (!this.isHide) {
+      console.log('重连');
+      clearTimeout(this.socketTime);
+      this.socketTime = setTimeout(() => {
+        that.webSocket();
+      }, 5000)
+    }
+  },
+  socketSend(data, fn) {
+    console.warn('SocketTask', this.SocketTask, data);
+    if (this.SocketTask.readyState == 1) {
+      this.SocketTask.send({
+        data: data
+      })
+      fn && fn();
+    } else {
+      this.SocketTask.close();
+      wx.showToast({
+        title: "网络连接失败,请检查网络",
+        icon: "none"
+      });
+    }
   },
   getCourse() {
     let that = this
@@ -607,6 +693,7 @@ Page({
   onLoad: function (option = {}) {
     this.listen(option)//获取播放信息
     clearInterval(this.timeOut);
+    // this.data.testWorker = makeWorker(work);
     this.setData({
       video_id: option.video_id || this.data.video_id,
       courseId: option.courseId || this.data.courseId,
@@ -618,6 +705,7 @@ Page({
       }
     } catch (e) {
     }
+    // this.webSocket()//开启socket
     this.getCourse()//获取课程目录
     this.coursedetail()//获取课程介绍
     this.getcomment()//获取课程评论
@@ -627,25 +715,28 @@ Page({
   onHide: function () {
   },
   onUnload: function () {
-    let option = {
-      listen_id: this.data.lessonId,
-      learn_time: this.data.currentTime,
-      type: 1,
-      video_mid: this.data.video_mid
-    }
-
-    app.encryption({
-      url: api.default.videomember,
-      method: "POST",
-      data: option,
-      success: function (res) {
-        console.log(res)
-      },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
-    })
+    this.isHide = true;
+    this.SocketTask && this.SocketTask.close();
+    clearInterval(this.repeated)
+    this.repeated = null 
+    // let option = {
+    //   listen_id: this.data.lessonId,
+    //   learn_time: this.data.currentTime,
+    //   type: 1,
+    //   video_mid: this.data.video_mid
+    // }
+    // app.encryption({
+    //   url: api.default.videomember,
+    //   method: "POST",
+    //   data: option,
+    //   success: function (res) {
+    //     
+    //   },
+    //   fail: function (t) {
+    //   },
+    //   complete: function () {
+    //   }
+    // })
   },
   onPullDownRefresh: function () { },
   onReachBottom: function () { },
@@ -711,31 +802,36 @@ Page({
     });
   },
   select_date: function (t) {
-    let self = this, d = this.data;
-    let option = {
-      listen_id: this.data.lessonId,
-      learn_time: this.data.currentTime,
-      type: 1,
-      video_mid: this.data.video_mid
-    }
-    console.log(option)
-    app.encryption({
-      url: api.default.videomember,
-      method: "POST",
-      data: option,
-      success: function (res) {
-        console.log(res)
-      },
-      fail: function (t) {
-      },
-      complete: function () {
+    clearInterval(this.repeated)
+    this.repeated = null
+    this.SocketTask && this.SocketTask.close();
+    
+    // let self = this, d = this.data;
+    // let option = {
+    //   listen_id: this.data.lessonId,
+    //   learn_time: this.data.currentTime,
+    //   type: 1,
+    //   video_mid: this.data.video_mid
+    // }
+    // console.log(option)
+    // app.encryption({
+    //   url: api.default.videomember,
+    //   method: "POST",
+    //   data: option,
+    //   success: function (res) {
+    //     
+    //   },
+    //   fail: function (t) {
+    //   },
+    //   complete: function () {
 
-      }
-    })
+    //   }
+    // })
     this.setData({
       lessonId: t.currentTarget.dataset.key,
       learnTime: 0
     })
+    // this.onLoad()
     this.play(t.currentTarget.dataset.key)
 
   },
@@ -765,11 +861,15 @@ Page({
             paySign: a.paySign,
             success: function (e) {
               console.log(e)
+           
               wx.showToast({
                 title: "订单支付成功",
                 icon: "success"
               })
-              that.onLoad();
+              that.getCourse()//获取课程目录
+              that.coursedetail()//获取课程介绍
+              that.getcomment()//获取课程评论
+              that.getProgrammePosters()//获取课程封面
             },
             fail: function (t) {
               console.log(t)
@@ -1100,7 +1200,7 @@ Page({
     let that = this
     return {
       title: '东培学堂',
-      path: 'pages/challengResult/challengResult?courseId=17',
+      path: 'pages/index/index',
       imageUrl: that.data.imgUrl,
       success: function (shareTickets) {
         console.info(shareTickets + '成功');

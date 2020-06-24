@@ -91,8 +91,13 @@ Page({
   onLoad: function (e) {
     n.tabbar("tabBar", 0, this, "usercenter");
     var t = wx.getStorageSync("user_info");
+    if(app.globalData.info_show  == 1){
+      this.data.funlist.splice(0,1)
+    }
+    this.setData({
+      funlist:this.data.funlist
+    })
    
-    console.log(t)
     this.setData({
       user_info: t,
       courseId: wx.getStorageSync("courseId").courseId

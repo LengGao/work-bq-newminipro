@@ -1,5 +1,5 @@
 <view class="white-bg">
-    <swiper autoplay="true" circular="true" class="home-swiper" duration="1000" indicatorDots="true" interval="3000">
+    <swiper autoplay="true" circular="true" class="home-swiper" duration="1500" indicatorDots="true" interval="2500">
         <navigator hoverClass="none" url="{{item.url}}" wx:for="{{banner}}" wx:key="index">
             <swiper-item class="swiper-img">
                 <image class="slide-image" src="{{item.url}}"></image>
@@ -28,18 +28,24 @@
 </view>
 <view class="fenge"></view>
 <view class="function-select">
-    <view wx:for="{{ funsel }}" wx:key="index" class="fun-sel flex-column fcourse-fenlei" bindtap='godetails' data-keys="{{item.category_id}}" data-name="{{ item.title }}">
-            <image mode="widthFix" class='function-select-image' src="{{ item.icon }}" />
-            <text class="function-select-name">{{ item.title }}</text>
-    </view>
+    <scroll-view scroll-x="true" style=" white-space: nowrap;">
+        <view class="fenlei-menu">
+            <view wx:for="{{ funsel }}" wx:key="index" class="ever-items">
+            <view  class="fun-sel flex-column fcourse-fenlei" bindtap='godetails' data-keys="{{item.category_id}}" data-name="{{ item.title }}">
+                <image mode="widthFix" class='function-select-image' src="{{ item.icon }}" />
+                <text class="function-select-name">{{ item.title }}</text>
+            </view>
+            </view>
+        </view>
+    </scroll-view>
 </view>
 <view class="fenge2"></view>
 <view class="hotpoint tacitly">
     <view class="hotpoint-top flex-between">
         <text class="tuijian">热门推荐</text>
-        <text class="allin" bindtap="checkAlls">查看全部</text>
+        <text class="allin" bindtap="checkAlls" wx:if="{{ true }}">查看全部</text>
     </view>
-    <view class="hotpoint-content ">
+    <view class="hotpoint-content">
         <view class="hotpoint-container" wx:for="{{ hotpoint }}" wx:key="index" hidden="{{ index < 4 ? false : true }}">
             <navigator hover-class="none" url="../course-detail/course-detail?video_id={{ item.course_id }}&courseId={{ item.course_id }}">
                 <view class="hotpoint-image">
@@ -58,17 +64,17 @@
 <view class="hotpoint tacitly" style="margin-bottom:20rpx">
     <view class="hotpoint-top flex-between">
         <text class="tuijian">免费课程</text>
-        <text class="allin" bindtap="checkAll">查看全部</text>
+        <text class="allin" bindtap="checkAll" wx:if="{{ true }}">查看全部</text>
     </view>
     <view class="hotpoint-content ">
-        <view class="hotpoint-container" wx:for="{{ freeCourse }}" wx:key="index"  hidden="{{ index < 4 ? false : true }}">
+        <view class="hotpoint-container" wx:for="{{ freeCourse }}" wx:key="index" hidden="{{ index < 4 ? false : true }}">
             <navigator hover-class="none" url="../course-detail/course-detail?video_id={{ item.course_id }}&courseId={{ item.course_id }}">
-            <image class="hotpoint-image" src="{{ item.Picture }}" />
-             </navigator>
+                <image class="hotpoint-image" src="{{ item.Picture }}" />
+            </navigator>
             <view class="container-title" style="margin-top:20rpx">{{ item.title }}</view>
             <view class="container-detail " style="margin-top:20rpx">
                 <text class="container-price">免费</text>
-                <text class="container-personal" >{{ item.buy_number }}人购买</text>
+                <text class="container-personal">{{ item.buy_number }}人购买</text>
             </view>
         </view>
     </view>

@@ -50,7 +50,6 @@ function initChart2(data, canvas, width, height, dpr) {
         value: data,
         name: '',
       }]
-
     }]
   };
   // chart.setOption(option, true);
@@ -222,13 +221,16 @@ function initChart5(data, canvas, width, height, dpr) {
 Page({
   onShareAppMessage: function (res) {
     return {
-      title: 'ECharts 可以在微信小程序中使用啦！',
+      title: '每天进步一点点！',
       path: '/pages/index/index',
+      imageUrl: this.data.imgsrc ,
       success: function () { },
       fail: function () { }
     }
   },
   data: {
+    imgsrc:'',
+    showModalStatus: false,
     ecLine: {
       lazyLoad: true,
     },
@@ -279,6 +281,106 @@ Page({
     ],
     UserInfo: null
   },
+  
+  showBuyModal() {
+    // 显示遮罩层
+    var animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: "ease",
+      delay: 0
+    })
+    this.animation = animation
+    animation.translateY(300).step()
+    this.setData({
+      animationData: animation.export(), // export 方法每次调用后会清掉之前的动画操作。
+      showModalStatus: true
+    })
+    setTimeout(() => {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export()  // export 方法每次调用后会清掉之前的动画操作。
+      })
+      console.log(this)
+    }, 200)
+  },
+  hideBuyModal() { 
+    // 隐藏遮罩层
+    var animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: "ease",
+      delay: 0
+    })
+    this.animation = animation
+    animation.translateY(300).step()
+    this.setData({
+      animationData: animation.export(),
+    })
+    setTimeout(function () {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export(),
+        showModalStatus: false
+      })
+      console.log(this)
+    }.bind(this), 200)
+  },
+  saveImage() {
+    let imgsrc = this.data.imgsrc
+    wx.showLoading({
+      title: '保存中...', 
+      mask: true,
+    });
+    console.log(imgsrc)
+    wx.downloadFile({
+      url:imgsrc,
+      success: function(res) {
+        console.log(res)
+        if (res.statusCode === 200) {
+          let img = res.tempFilePath;
+          wx.saveImageToPhotosAlbum({
+            filePath: img,
+            success(res) {
+              wx.showToast({
+                title: '保存成功',
+                icon: 'success',
+                duration: 2000
+              });
+            },
+            fail(res) {
+              wx.showToast({
+                title: '保存失败',
+                icon: 'success',
+                duration: 2000
+              });
+            }
+          });
+        }
+      }
+    });
+  },
+  getPunchClock(courseId){
+    let that = this
+    let option= {
+      courseId:courseId
+    }
+    app.encryption({
+      url: api.default.learningReport,
+      method: "GET",
+      data:option,
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          imgsrc:res.imgUrl
+        })
+      },
+      fail: function (t) {
+       
+      },
+      complete: function () {
+
+      }
+    })
+  },
   onLoad(optinos) {
     console.log(optinos)
     let c1 = wx.getStorageSync('courseId').courseId
@@ -287,7 +389,6 @@ Page({
       courseId:courseId,
       navH: app.globalData.navHeight,
     })
-    console.log()
     this.ecComponent = this.selectComponent('#mychart-dom-gauge');
     this.eclineComponent = this.selectComponent('#mychart-dom-line');
     this.ecpie1Component = this.selectComponent('#mychart-dom-pie1');
@@ -295,6 +396,7 @@ Page({
     this.ecpie3Component = this.selectComponent('#mychart-dom-pie3');
     //这里是获取url中get方式传递的参数 比如 http://xx.com?scode=11
     this.getLearningReports()
+    this.getPunchClock(courseId)
   },
   goback(){
     wx.reLaunch({
@@ -395,7 +497,6 @@ Page({
     const mychartline = echarts.init(canvas, null, {
       width: width,
       height: height,
-
     });
     canvas.setChart(mychartline);
     mychartline.setOption(initChart());

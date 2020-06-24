@@ -54,7 +54,7 @@ Page({
     activeAnswer: 'defaultAnswer',
     correctoption: '',
     multishowAny: true,
-    multiselect: '',
+    multiselect: [],
     screenHeight:''
   },
   lastQU() {
@@ -387,7 +387,24 @@ Page({
   multiselectAnswer(e) {
     let option = e.currentTarget.dataset.option;
     let index = e.currentTarget.dataset.index;
-    console.log(option, index)
+    let color = this.data.randerTitle.content[index];
+    console.log( this.data.randerTitle.answer.indexOf(option), index)
+    color.color = false//新增当前点击选项的color
+    color.err = false//新增当前点击选项的err
+   if(this.data.randerTitle.answer.indexOf(option) != -1){
+     console.log('此选项是正确的')
+     color.color = true//改变当前选项的颜色为true
+    
+      this.setData({
+        randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
+      })
+   }else{
+    color.color = false
+    color.err = true
+    this.setData({
+      randerTitle: this.data.randerTitle//缓存改变后的渲染数据
+    })
+   }
     let multiselect = this.data.multiselect
     if (!multiselect.includes(option)) {
       multiselect.push(option)
@@ -411,7 +428,6 @@ Page({
         })
       }
     }
-    console.log(multiselect)
   },
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
@@ -433,8 +449,9 @@ Page({
   wode(number) {
     let that = this
     let allRenders = that.data.allRender//获取所有已经渲染的数据
-    console.log(allRenders.length)
-    if (number >= allRenders.length) {
+   number =  allRenders.findIndex(ite => ite.ProblemId === number)
+    console.log()
+    if (number== -1) {
       wx.showToast({
         title: '不能查看未做题目',
         icon: 'none',

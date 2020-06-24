@@ -1,33 +1,37 @@
-<block >
-<view class="myCourse" hidden="{{ true }}">
-    <view class="myCourse-content">
-        <view class="img-myCourse"><image  style="width:100%;height:100%" src="http://oss.beiqujy.com/fc3cc87e91b9f6ecd6a29f1ad29151f40fff645c.jpeg" /></view>
-        <view class="myCourse-info">
-            <view class="myCourse-content-title">
-                系统项目工程师
+<block>
+    <view class="myCourse" hidden="{{ nodata }}" wx:for="{{ myclass }}" wx:key="index">
+        <view style="display:flex;margin-bottom:31rpx;align-items:center">
+          <view style="width:6rpx;height:26rpx;background:rgba(25,159,255,1);"></view>
+          <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin-left:20rpx">{{ item.time }}加入班级</view>
+        </view>
+        <view class="myCourse-content" >
+            <view class="img-myCourse">
+                <image style="width:100%;height:100%" src="{{item.courseImage}}" />
             </view>
-            <view>
-                <text class="myCourse-time">33课时</text>
-                 <text class="myCourse-time">/</text>
-                <text class="myCourse-time">333人已学习</text>
-            </view>
-            <view class="myCourse-info-bottom">
-                <view class="personal-infor">
-                    <image mode="widthFix" class="personal-img-myCourse" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png" binderror="errorFunction"></image>
-                    <text class="personal-name">马冬梅</text>
+            <view class="myCourse-info">
+                <view class="myCourse-content-title">{{item.classroomName}}</view>
+                <view>
+                    <text class="myCourse-time">{{ item.chapterNum }}课时</text>
+                    <!-- <text class="myCourse-time">/</text>
+                    <text class="myCourse-time">333人已学习</text> -->
                 </view>
-                <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥6280</text>
+                <view class="myCourse-info-bottom">
+                    <view class="personal-infor">
+                        <image mode="widthFix" class="personal-img-myCourse" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png" binderror="errorFunction"></image>
+                        <text class="personal-name">{{ item.teacherName }}</text>
+                    </view>
+                </view>
             </view>
         </view>
     </view>
-</view>
 </block>
-  <block >
-        <view style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center" hidden="{{ false }}" >
+<block>
+    <view style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center" wx:if="{{nodata}}">
         <view style="width:280rpx;height:264rpx;">
-            <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+            <image style="width:140px;height:132px" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
         </view>
-        <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">暂无数据</text>
-        </view>
-
-    </block>
+        <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
+            暂无数据
+        </text>
+    </view>
+</block>

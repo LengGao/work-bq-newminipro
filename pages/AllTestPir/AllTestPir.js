@@ -7,7 +7,9 @@ Page({
    */
   data: {
     funsel:null,
-    nodata:false
+    nodata:false,
+     freeCourse: [],
+    // hotpoint:[]
   },
   toVideoroom(e) {
     console.log(e.currentTarget.dataset.id)
@@ -48,20 +50,83 @@ Page({
     }
   })
   },
-  
+  freeCourse() {
+    wx.showLoading({
+      title: "加载中"
+    });
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    let that = this
+    app.encryption({
+      url: api.default.freecourse,
+      header: {
+        token: token,
+        uuid: uuid
+      },
+      method: 'GET',
+      dataType: "json",
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          freeCourse: res
+        })
+      },
+      fail: function (res) {
+
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    })
+  },
+  hotpoint() {
+    wx.showLoading({
+      title: "加载中"
+    });
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    let that = this
+    app.encryption({
+      url: api.default.hostcourse,
+      header: {
+        token: token,
+        uuid: uuid
+      },
+      method: 'GET',
+      dataType: "json",
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          freeCourse: res
+        })
+      },
+      fail: function (res) {
+
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log(options)
     wx.setNavigationBarTitle({
-      title:options.name,
-      
+      title:options.name
     })
     this.setData({
       id:options.id
     })
-    this.getcoursecategory()
+  
+    if(options.id == 1){
+      this.hotpoint()
+    }else if (options.id == 2){
+      this.freeCourse()
+    }else{
+      this.getcoursecategory()
+    }
   },
 
   /**

@@ -59,6 +59,7 @@ Page({
             wx.getUserInfo({
               success: function (n) {
                 console.log(n), 
+                console.log( wx.getStorageSync('privateInfor').openid)
                 wx.request({
                   url: api.user.login,
                   method: "POST",
@@ -168,8 +169,8 @@ Page({
           self.setData({
                 isphone: !0
               });
-          wx.navigateBack({
-            delta: 1
+          wx.reLaunch({
+            url:'../index/index'
           });    
         }      
       })

@@ -53,16 +53,30 @@ Page({
       }
     ]
   },
+  gobefor(e){
+    console.log(e.currentTarget.dataset.index)
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+    let number = e.currentTarget.dataset.index// 前一个页面
+    // console.log("beforePage");
+    // console.log(beforePage);
+    wx.navigateBack({
+      success: function () {
+        beforePage.gettopINfor(number); 
+      }
+    });
+  },
   insertCourse(e){
-    // wx.showLoading({
-    //   title: '加载中',
-    //   mask: true
-    // })
-      
+    let that = this
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
    let courseId = e.currentTarget.dataset.courseid
    let option = {
     courseId:courseId
    }
+   console.log(option)
    app.encryption({
     url: api.default.insertCourse,
     data:option,
@@ -78,12 +92,49 @@ Page({
         fail: function () { },  //接口调用失败的回调函数  
         complete: function () { } //接口调用结束的回调函数  
       })
+      that.getCourse()//获取所有分类
     },
     fail: function (t) {
 
     },
     complete: function () {
-       
+      wx.hideLoading();  
+    } 
+  })
+  },
+
+  cancel(e){
+    let that = this
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+   let courseId = e.currentTarget.dataset.courseid
+   let option = {
+    courseId:courseId
+   }
+   console.log(option)
+   app.encryption({
+    url: api.default.removeCourse,
+    data:option,
+    method: "POST",
+    success: function (res) {
+      console.log(res)
+      wx.showToast({
+        title: '移除成功',//提示文字
+        duration: 1000,//显示时长
+        mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+        icon: 'none', //图标，支持"success"、"loading"  
+        success: function () { },//接口调用成功
+        fail: function () { },  //接口调用失败的回调函数  
+        complete: function () { } //接口调用结束的回调函数  
+      })
+      that.getCourse()//获取所有分类
+    },
+    fail: function (t) {
+    },
+    complete: function () {
+      wx.hideLoading();  
     } 
   })
   },
@@ -97,7 +148,6 @@ Page({
         that.setData({
           maskData:res
         })
-        
       },
       fail: function (t) {
 
@@ -125,6 +175,9 @@ Page({
    */
   onLoad: function (options) {
     this.getCourse()//获取所有分类
+    this.setData({
+      navH: app.globalData.navHeight,
+    })
   },
 
   /**

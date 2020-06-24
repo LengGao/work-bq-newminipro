@@ -10,6 +10,7 @@ page{
     flex-direction: column;
     padding:20rpx 29rpx 27rpx 30rpx ;
     background: #fff;
+    margin-bottom: 20rpx;
 }
 .myCourse-title{
     height:28rpx;

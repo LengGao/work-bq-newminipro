@@ -41,11 +41,12 @@ Page({
       }
     });
   },
-  getPunchClock(){
+  getPunchClock(courseId){
     let that = this
     let option= {
-      courseId:'17'
+      courseId:courseId
     }
+    console.log(option)
     app.encryption({
       url: api.default.getPunchClock,
       method: "GET",
@@ -57,7 +58,7 @@ Page({
         })
       },
       fail: function (t) {
-        return reject
+      
       },
       complete: function () {
 
@@ -68,11 +69,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(  )
    this.setData({
      height:wx.getSystemInfoSync().windowHeight
    })
-    this.getPunchClock()
+   let courseId  =wx.getStorageSync('courseId').courseId
+    this.getPunchClock(courseId)
   },
 
   /**

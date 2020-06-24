@@ -1,3 +1,9 @@
+ <view class="nav bg-white" style="height:{{navH}}px">
+    <view class="nav-title">
+     <text class="biaoti" >{{ chapterName }}</text>  
+      <text id="gl1" bindtap="gobefor"></text>
+    </view>
+  </view>
 <view class='help'>
   <view class='help_item' wx:for='{{maskData}}' wx:key='index' wx:for-item="i">
     <view class='title' data-index='{{index + 1}}' catchtap='panel'>
@@ -13,8 +19,8 @@
       </view>
     </view>
     <view class='detail' wx:if="{{showIndex == index + 1 ?true:false}}">
-      <view wx:for='{{i.child}}' wx:for-item="j" wx:key='keys' class="wrapper-items"  data-courseId='{{j.courseId}}' catchtap='insertCourse'>
-        {{ j.courseName }}
+      <view wx:for='{{i.child}}' wx:for-item="j" wx:key='keys' class="wrapper-items"  data-courseId='{{j.courseId}}' catchtap="{{ j.isChecked == 1 ?'cancel':'insertCourse'}}">
+        <view >{{ j.courseName }}  </view>  <view wx:if="{{ j.isChecked == 1?true:false}}" > <checkbox  checked="{{j.isChecked == 1?true:''}}" color="rgba(25,159,255,1)"  class="cb"></checkbox></view>    
       </view>
       <view  class="none-items" wx:if="{{ i.child.length == 0?true:false}}">
         当前分类还没有课程!

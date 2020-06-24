@@ -33,7 +33,8 @@ App({
         localSocket: {},
         school_id: 1,
         isIOS: wx.getSystemInfoSync().system.includes('iOS'),
-        navHeight: 0
+        navHeight: 0,
+        info_show:0
     },
     login: function () {
         is_login = !0,

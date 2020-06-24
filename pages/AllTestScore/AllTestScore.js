@@ -119,7 +119,7 @@ Page({
         return reject()
       },
       complete: function () {
-
+        console.log(that.data.singleNum,that.data.multipleNum,that.data.judgmentNum)
       }
     })
   },

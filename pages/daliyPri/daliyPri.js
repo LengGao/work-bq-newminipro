@@ -6,7 +6,7 @@ const { $Message } = require('../../utils/iview/base/index');
 Page({
   data: {
     current_no: 0, 
-    all_current_no:'70', //当前题目
+    all_current_no:'0', //当前题目
     question_list: [],
     question_no: 1,
     is_collect: 0,
@@ -49,7 +49,7 @@ Page({
         class: ''
       }
     ],
-    ProblemType:'1',
+    problemType:'1',
     answerImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     activeAnswer:'defaultAnswer',
     correctoption:'',
@@ -64,7 +64,6 @@ Page({
     let name = 'tabItems[2].name'//以上为收藏按钮数据
     let current_no = that.data.current_no//获取上一题的下标
     let allRenders = that.data.allRender//获取所有已经渲染的数据
-    console.log(allRenders)
     if(current_no <= 1){//如果下标小于等于1则提示当前已经是第一题
       $Message({
         content: '已经是第一题了',
@@ -78,7 +77,6 @@ Page({
       return
     }
     current_no = current_no - 1 //修改渲染下标（局部）
-    console.log(current_no)
     if(allRenders[current_no-1].isCollect && allRenders[current_no-1].isCollect == '1'){ //已收藏 
       that.setData({
         likes: true,
@@ -94,7 +92,7 @@ Page({
           [name]: '收藏'
         })
       }
-      console.log(allRenders[current_no-1])
+
       if(allRenders[current_no-1].done){
         that.setData({
           showAny:false
@@ -111,7 +109,6 @@ Page({
       activeAnswer:'defaultAnswer',
       correctoption:'',
       multishowAny:true,
-      ProblemType:allRenders[current_no - 1].ProblemType
     })
   },
   cards() {
@@ -163,7 +160,6 @@ Page({
 
         },
         fail: function (n) {
-          console.log('333333')
         }
       })
       return
@@ -200,13 +196,54 @@ Page({
 
       },
       fail: function (n) {
-        console.log('333333')
+
       }
     })
   },
   nextQU() {
+    let that = this
     let courseId =  this.data.courseId
-    if(this.data.current_no > this.data.all_current_no){
+    let randerTitle = this.data.randerTitle
+    let dailyId = this.data.dailyId
+    let flag = true
+    if( randerTitle.problemType == 2 ){
+      let answersing = randerTitle.answer
+      let a = answersing.split(',')
+      a.sort(function(a,b){return a.localeCompare(b)});
+      let newArrd = a.filter(item => item)
+      let  b = this.data.multiselect.split(',')
+      b.sort(function(a,b){return a.localeCompare(b)});
+      let  newArr = b.filter(item => item)
+      newArr.forEach(item => {
+        if (newArrd.indexOf(item) === -1) {
+          flag = false
+        }
+      })
+      let rightStatus =  0
+    
+      if(flag){
+        rightStatus = 1
+      }
+        let options= {
+          problemId:randerTitle.ProblemId,
+          dailyId:this.data.dailyId,
+          rightStatus:rightStatus
+        }
+        app.encryption({
+          url: api.default.upateDailyPunchCardsInfo,
+          data: options,
+          method: 'POST',
+          dataType: "json",
+          success: function (res) {
+            that.setData({
+              multiselect:''
+            })
+          },
+          fail: function (n) {
+          }
+        })
+    }
+    if(this.data.current_no >= this.data.all_current_no){
       let options= {
          dailyId:this.data.dailyId,
       }
@@ -219,7 +256,7 @@ Page({
           wx.showModal({
             title: '提示',
             content:'是否提交打卡结果？',
-            showCancel: false,//是否显示取消按钮
+            showCancel: true,//是否显示取消按钮
             confirmText:"确认",//默认是“确定”
             confirmColor: '#199FFF',//确定文字的颜色
             success: function (res) {
@@ -228,7 +265,7 @@ Page({
                } else {
                   //点击确定
                   wx.reLaunch({
-                    url:`../dailyCard/dailyCard?courseId=${courseId}`
+                    url:`../dailyCard/dailyCard?courseId=${courseId}&dailyId=${dailyId}`
                   })
                }
             },
@@ -237,13 +274,10 @@ Page({
          })
         },
         fail: function (n) {
-          console.log('333333')
         }
       })
       return
     }
-    var that = this
-    let randerTitle
     let current_no = that.data.current_no//获取下一题index
     let curReander = that.data.originTitle[current_no]//获取下一题的原始数据
     let allRender = that.data.allRender//页面已经渲染的数据集合
@@ -273,7 +307,6 @@ Page({
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
         showAny: true,//隐藏答案
-        ProblemType: randerTitle.ProblemType,//更新题目类型
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
@@ -306,7 +339,6 @@ Page({
         randerTitle: randerTitle,//挂载页面
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
-        ProblemType: randerTitle.ProblemType,//更新题目类型
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
@@ -320,39 +352,14 @@ Page({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
-    console.log(randerTitle)
-    if( randerTitle.ProblemType == '2' ){
-      let rightStatus =  0
-     if(randerTitle.answer == this.data.multiselect) {
-         rightStatus  = 1
-     }else{
-        rightStatus  = 0
-     }
-        let options= {
-          problemId:randerTitle.ProblemId,
-          dailyId:this.data.dailyId,
-          rightStatus:rightStatus
-        }
-        app.encryption({
-          url: api.default.upateDailyPunchCardsInfo,
-          data: options,
-          method: 'POST',
-          dataType: "json",
-          success: function (res) {
-            console.log(res)
-          },
-          fail: function (n) {
-            console.log('333333')
-          }
-        })
-    }
+
   },
   //选择答案
   selectAnswer(e) {
     if (!this.data.showAny ) {//如果已选答案，再次点击不在触发
       return
     }
-    console.log(this.data.randerTitle)
+    let courseId =  this.data.courseId;
     let d = this.data;
     let rightStatus = 1;
     let formId = this.data.formId;
@@ -390,19 +397,56 @@ Page({
       dailyId:this.data.dailyId,
       rightStatus:rightStatus
     }
-    console.log(options)
     app.encryption({
       url: api.default.upateDailyPunchCardsInfo,
       data: options,
       method: 'POST',
       dataType: "json",
       success: function (res) {
-        console.log(res)
+
       },
       fail: function (n) {
-        console.log('333333')
+
       }
     })
+    if(this.data.current_no >= this.data.all_current_no){
+
+      let options= {
+         dailyId:this.data.dailyId,
+      }
+      app.encryption({
+        url: api.default.updateDailyPunchCards,
+        data: options,
+        method: 'POST',
+        dataType: "json",
+        success: function (res) {
+          wx.showModal({
+            title: '提示',
+            content:'是否提交打卡结果？',
+            showCancel: false,//是否显示取消按钮
+            confirmText:"确认",//默认是“确定”
+            confirmColor: '#199FFF',//确定文字的颜色
+            success: function (res) {
+
+               if (res.cancel) {
+                  //点击取消,默认隐藏弹框
+               } else {
+                  //点击确定
+                  wx.reLaunch({
+                    url:`../dailyCard/dailyCard?courseId=${courseId}&dailyId=${dailyId}`
+                  })
+               }
+            },
+            fail: function (res) { },//接口调用失败的回调函数
+            complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+         })
+        },
+        fail: function (n) {
+
+        }
+      })
+      return
+    }
   },
   multiselectAnswer(e){
     if (!this.data.multishowAny) {
@@ -413,10 +457,8 @@ Page({
     let index = e.currentTarget.dataset.index;
     let color = this.data.randerTitle.content[index];
     let id = e.currentTarget.dataset.id;
-    console.log(option,answer)
-    let multiselect = []
+    let multiselect = this.data.multiselect
     if(!multiselect.includes(option)){
-      multiselect.push(option)
       this.setData({
         multiselect:this.data.multiselect  + option+ ','
       })
@@ -433,7 +475,6 @@ Page({
         randerTitle: this.data.randerTitle
       })
     }
-  
     // this.setData({
     //   option:multiselect
     // })
@@ -456,7 +497,6 @@ Page({
     }
   },
   onLoad: function (options = {}) {
-    console.log(options)
     var that = this;
     let icon = 'tabItems[2].icon'
     let classes = 'tabItems[2].class'
@@ -474,7 +514,6 @@ Page({
       method: 'POST',
       dataType: "json",
       success: function (res) {
-        console.log(res)
         if( res.data != undefined && res.data.code == '50003'){
           wx.showModal({
             title: '提示',
@@ -503,13 +542,17 @@ Page({
           originTitle: res.list,//为所有原始数据
           randerTitle: randerTitle,//为当前渲染数据
           current_no: 1,//初始化题目标注
-          ProblemType:randerTitle.ProblemType,//表明练习题类型
           all_current_no:res.num,//所有题目的数量
           singleNum:res.singleList,//单选题的数量
           multipleNum:res.multipleList,//多选题的数量
           judgmentNum:res.judgmentList,//判断题的数量
           dailyId:res.dailyId//formid
         })
+        wx.setStorageSync('dailyId', res.dailyId)
+       
+
+
+
         if (randerTitle.isCollect == 1) { //是否已收藏
           that.setData({
             likes: true,
@@ -520,7 +563,6 @@ Page({
         }
       },
       fail: function (n) {
-        console.log('初始化失败')
       }
     })
   },

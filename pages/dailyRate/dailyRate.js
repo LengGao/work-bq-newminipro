@@ -52,7 +52,7 @@ Page({
         that.setData({
            [allInfo]:res.punchCount,
            [allInfo1]:res.useTime,
-           [allInfo2]:res.todayCount,
+           [allInfo2]:res.rank,
            rate:res.accuracy,
            singleNum:res.list
         })

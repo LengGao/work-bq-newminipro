@@ -65,7 +65,7 @@ Page({
     isPay:false,
     lessonId:'',
     learnTime:0,
-
+    isHide:false,
     // 阿里云
     page: 1,
     size: 5,
@@ -86,15 +86,16 @@ Page({
     currentTime: 0,
 
     isSwitchDefinition: false,
-
+    
     currentVideoId: '',
     currentPoster: '',
     currentVideoTitle: '',
     currentVideoResource: [],
     currentDefinition: '',
     isAndroid: false,
-
+    repeating:null,
     fullScreenData: "",
+    SocketTask:''
   },
   timeOut:'',
   select_team: function(t) {
@@ -201,26 +202,29 @@ Page({
   onHide: function() {
   },
   onUnload: function () {
-    clearInterval(this.timeOut);
-    let option = {
-      listen_id: this.data.lessonId,
-      learn_time: this.data.currentTime,
-      type: 2,
-      video_mid: this.data.video_mid
-    }
+    this.isHide = true;
+    clearInterval(this.repeating);
+    this.repeating = null 
+    this.SocketTask && this.SocketTask.close();
+    // let option = {
+    //   listen_id: this.data.lessonId,
+    //   learn_time: this.data.currentTime,
+    //   type: 2,
+    //   video_mid: this.data.video_mid
+    // }
 
-    app.encryption({
-      url: api.default.videomember,
-      method: "POST",
-      data: option,
-      success: function (res) {
-        console.log(res)
-      },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
-    })
+    // app.encryption({
+    //   url: api.default.videomember,
+    //   method: "POST",
+    //   data: option,
+    //   success: function (res) {
+    //     console.log(res)
+    //   },
+    //   fail: function (t) {
+    //   },
+    //   complete: function () {
+    //   }
+    // })
     
   },
   
@@ -368,7 +372,8 @@ listen: function (t) {
         console.log(res)
         that.setData({
           learnTime:res.learn_time,
-          lessonId:res.listen_id
+          lessonId:res.listen_id,
+          roomId:res.room_id
         })
         console.log(that.data.learnTime)
        that.liveplayinfo(res.listen_id)
@@ -376,7 +381,7 @@ listen: function (t) {
       fail: function (t) {
       },
       complete: function () {
-
+        that.webSocket()
       }
     })
   }, 
@@ -739,29 +744,33 @@ ifShow(e) {
   select_date: function(t) {
     let self = this, d = this.data;
     // 已付款或免费
-    let option = {
-      listen_id: t.currentTarget.dataset.key,
-      learn_time: this.data.currentTime,
-      type: 2,
-      video_mid: this.data.video_mid
-    }
-    console.log(option)
-    app.encryption({
-      url: api.default.videomember,
-      method: "POST",
-      data: option,
-      success: function (res) {
-        console.log(res)
-      },
-      fail: function (t) {
-      },
-      complete: function () {
+    // let option = {
+    //   listen_id: t.currentTarget.dataset.key,
+    //   learn_time: this.data.currentTime,
+    //   type: 2,
+    //   video_mid: this.data.video_mid
+    // }
+    // console.log(option)
+    // app.encryption({
+    //   url: api.default.videomember,
+    //   method: "POST",
+    //   data: option,
+    //   success: function (res) {
+    //     console.log(res)
+    //   },
+    //   fail: function (t) {
+    //   },
+    //   complete: function () {
 
-      }
-    })
+    //   }
+    // })
+    clearInterval(this.repeating);
+    this.repeating = null
+    this.SocketTask && this.SocketTask.close();
     this.setData({
       lessonId: t.currentTarget.dataset.key,
-      learnTime: 0
+      learnTime: 0,
+      roomId: t.currentTarget.dataset.roomid
     })
     this.liveplayinfo(t.currentTarget.dataset.key)
     // this.onLoad();
@@ -1085,6 +1094,91 @@ loadData(cb) {
         serviceError('获取token失败')
         console.log(err)
       })
+  }
+},
+webSocket() {
+  let that = this
+  let uid = wx.getStorageSync("user_info").uid
+  let listen_id = this.data.lessonId
+  let tokens = wx.getStorageSync("user_info").token
+  let listen_time = this.data.currentTime
+  let roomId = this.data.roomId
+  let class_id = this.data.video_id
+  // 创建Socket
+  that.SocketTask = wx.connectSocket({
+    // url: 'wss://api.beiqujy.com/wss',
+    url: 'wss://apps.beiqujy.com/count'+`?token=${tokens}&uid=${uid}&type=2&from=1&listen_id=${listen_id}&listen_time=${listen_time}&room_id=${roomId}&class_id=${class_id}`,
+    header: {
+      'content-type': 'application/json'
+    },
+    method: 'get',
+    success: function (res) {
+      console.log('WebSocket连接创建', res)
+    },
+    fail: function (err) {
+      console.log('网络异常');
+      wx.showToast({
+        title: '网络异常！',
+      })
+      console.log(err)
+    },
+  })
+  // 监听webSocket错误
+  that.SocketTask.onError(res => {
+    console.log('监听到 WebSocket 打开错误，请检查！')
+    that.SocketTask.close();
+  })
+  // 监听WebSocket关闭
+  that.SocketTask.onClose(res => {
+    console.log('监听到 WebSocket 已关闭！' + ':' + res)
+    that.reconnect();
+  })
+  // websocket打开
+  that.SocketTask.onOpen(res => {
+    console.log('监听到 WebSocket 连接已打开！')
+    clearInterval(that.repeating)
+    that.repeating =  setInterval(() => {
+     let listen_time = that.data.currentTime
+     let roomId = that.data.roomId
+     let listen_id = that.data.lessonId
+    let sendData = `{"token":"${tokens}","uid":${uid},"type":2,"from":1,"listen_id":${listen_id},"listen_time":${listen_time},"room_id":"${roomId}","class_id":${class_id}}`;
+    console.log(sendData);
+    that.socketSend(sendData);
+  }, 10000)
+    // let d = this.data;
+    // let login_data =`{"uid":"${d.uid}","course_id":"${d.course_id}","content":"${comment_data}"}`;
+    // this.socketSend(login_data);
+  })
+  // 收到websocket消息
+  that.SocketTask.onMessage(res => {
+    console.log('监听到 接收消息！' + ':' + res.data )
+    // this.socketMessage(JSON.parse(res.data));
+  })
+},
+reconnect() {
+  let that = this
+  clearInterval(that.repeating)
+  if (!this.isHide) {
+    console.log('重连');
+    clearTimeout(that.socketTime);
+    that.socketTime = setTimeout(() => {
+      that.webSocket();
+    }, 2000)
+  }
+},
+socketSend(data, fn) {
+  let that = this
+  if (that.SocketTask.readyState == 1) {
+    that.SocketTask.send({
+      data: data
+    })
+    fn && fn();
+  } else {
+    that.SocketTask.close();
+    wx.showToast({
+      title: "网络连接失败,请检查网络",
+      icon: "none"
+    });
   }
 },
 getVideoList(cb) {

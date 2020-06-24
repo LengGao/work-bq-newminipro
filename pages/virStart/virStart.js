@@ -4,7 +4,7 @@ const { $Message } = require('../../utils/iview/base/index');
 Page({
   data: {
     current_no: 0, 
-    all_current_no:'70', //当前题目
+    all_current_no:'00', //当前题目
     question_list: [],
     question_no: 1,
     is_collect: 0,
@@ -62,13 +62,15 @@ Page({
     correctoption:'',
     multishowAny:true,
     multiselect:'',
-    index:''
+    index:'',
+    multiselected:[]
   },
   wode(number,nosubmit = 0){
     let that = this
     let allRenders = that.data.allRender//获取所有已经渲染的数据
     console.log(allRenders)
-    if(nosubmit !=0){
+    number = allRenders.findIndex(ite => ite.problemId == number)
+    if(nosubmit ){
       that.setData({
         lettering:'normalGo',
         showAny:false
@@ -77,7 +79,6 @@ Page({
       {
         that.data.tabItems.splice(2,1)
       }
-      
       that.setData({
         tabItems:that.data.tabItems,
         targetTime2:''
@@ -95,9 +96,31 @@ Page({
     this.setData({
       randerTitle: allRenders[number],
       current_no: number + 1,
-      ProblemType:allRenders[number].ProblemType
+      ProblemType:allRenders[number].problemType
     })
   },
+  // wode(number, nosubmit = 0) {
+  //   let that = this
+  //   let allRenders = that.data.originTitle//获取所有的数据
+  //   console.log(allRenders)
+  //   // allRenders.forEach(element => {
+  //   //   app.testWxParse(that, element)
+  //   // });
+  //   number = allRenders.findIndex(ite => ite.problemId == number)
+  //   if(number >=1 ){
+  //     let icon = 'tabItems[0].icon'
+  //     this.setData({
+  //       [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+  //     })
+  //   }
+  //   console.log(number, nosubmit)
+  //   let randerTitle = app.testWxParse(that, allRenders[number])
+  //   this.setData({
+  //     randerTitle: randerTitle,
+  //     current_no: number + 1,
+  //     allRenders:allRenders
+  //   })
+  // },
   lastQU() {
     let that = this
     let current_no = that.data.current_no//获取上一题的下标
@@ -140,7 +163,7 @@ Page({
         activeAnswer:'defaultAnswer',
         option:'',
         multishowAny:true,
-        ProblemType:allRenders[current_no - 1].ProblemType
+        ProblemType:allRenders[current_no - 1].problemType
       })
   },
   cards() {
@@ -149,6 +172,7 @@ Page({
     let multipleNum = JSON.stringify(this.data.multipleNum)
     let examId = this.data.examLogId
     let name = this.data.courseName
+    console.log(this.data.singleNum)
     wx.navigateTo({
       url: `../viranswerCard/viranswerCard?name=${name}&examId=${ examId }&judgmentNum=${ judgmentNum}&singleNum=${ singleNum }&multipleNum=${ multipleNum }`
     })
@@ -201,7 +225,7 @@ Page({
               dataType: "json",
               success: function (res) {
                 console.log(res)
-                wx.reLaunch({
+                wx.navigateTo({
                 url:`../AllTestScore/AllTestScore?type=${type}&id=${id}&courseId=${courseId}`
               })
               },
@@ -222,6 +246,7 @@ Page({
     let current_no = that.data.current_no//获取下一题index
     let curReander = that.data.originTitle[current_no]//获取下一题的原始数据
     let allRender = that.data.allRender//页面已经渲染的数据集
+    console.log(allRender,allRender[current_no-1])
     if(allRender[current_no-1].done){//当前题目是否已做
       if(typeof(this.data.index) != typeof('') ){
         let index = this.data.index
@@ -263,7 +288,7 @@ Page({
         randerTitle: randerTitle,//挂载页面
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
-        ProblemType: randerTitle.ProblemType,//更新题目类型
+        ProblemType: randerTitle.problemType,//更新题目类型
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         option: '',
@@ -279,7 +304,7 @@ Page({
         randerTitle: randerTitle,//挂载页面
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
-        ProblemType: randerTitle.ProblemType,//更新题目类型
+        ProblemType: randerTitle.problemType,//更新题目类型
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
@@ -294,22 +319,30 @@ Page({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
-    if( randerTitle.ProblemType == '2' ){
-        let options= {
-          problemId:randerTitle.ProblemId,
-          answe: this.data.multiselect
+    if( randerTitle.problemType == '2' ){
+      let answer = ''
+      for (let item of this.data.multiselected) {
+        answer = answer + item + ','
+      }
+      let option = {
+        problemId:allRender[current_no-1].problemId,
+        answer: answer,
+        examLogId:this.data.examLogId
+       }
+       app.encryption({//初始化加载函数获取所有题目
+        url: api.default.examinationQuestions,
+        data: option,
+        method: 'POST',
+        dataType: "json",
+        success: function (res) {
+          that.setData({
+            multiselected:[]
+          })
+        },
+        fail: function (n) {
+          console.log('初始化失败')
         }
-        app.encryption({
-          url: api.default.answerEvents,
-          data: options,
-          method: 'POST',
-          dataType: "json",
-          success: function (res) {
-          },
-          fail: function (n) {
-            console.log('333333')
-          }
-        })
+      })
     }
   },
   //选择答案
@@ -347,30 +380,36 @@ Page({
     let index = e.currentTarget.dataset.index;
     let color = this.data.randerTitle.content[index];
     let id = e.currentTarget.dataset.id;
-    let multiselect = []
-    if(!multiselect.includes(option)){
-      multiselect.push(option)
-      this.setData({
-        multiselect:this.data.multiselect  + option+ ','
-      })
+    let multiselected = this.data.multiselected
+    if(!multiselected.includes(option)){
+      this.data.randerTitle.content[index].haschose = true
+      this.data.randerTitle.done = true
+      multiselected.push(option)
+      // this.setData({
+      //   multiselect:this.data.multiselect  + option+ ','
+      // })
     }
-    if( answer.includes(option) ){
-      color.color = true
-      this.setData({
-        randerTitle: this.data.randerTitle,
-      })
-    }else {
-      color.color = false
-      color.err = true
+    // if( answer.includes(option) ){
+    //   color.color = true
+    //   this.setData({
+    //     randerTitle: this.data.randerTitle,
+    //   })
+    // }else {
+    //   color.color = false
+    //   color.err = true 
       this.setData({
         randerTitle: this.data.randerTitle
       })
-    }
+    // }
   
     // this.setData({
     //   option:multiselect
     // })
   },
+
+
+
+  
   showAnswer(){
     if(this.data.activeAnswer == 'activeAnswer'){
       this.setData({
@@ -451,7 +490,7 @@ Page({
       targetTime2:times + 100000,
       navH: app.globalData.navHeight,
       courseId:options.courseId,
-      courseName:options.courseName
+      courseName:options.courseName || '模拟试题'
     })
       let option = {
         courseId:options.courseId
@@ -463,14 +502,15 @@ Page({
         dataType: "json",
         success: function (res) {
           console.log(res)
-          let randerTitle = app.testWxParse(that, res.list[0])//初始化第一道题目
+          let randerTitle = app.testWxParse(that, res.list[0])
+          console.log(randerTitle)//初始化第一道题目
           that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
           that.setData({
             targetTime2: times + res.duration*1000,
             originTitle: res.list,//为所有原始数据
             randerTitle: randerTitle,//为当前渲染数据
             current_no: 1,//初始化题目标注
-            ProblemType:randerTitle.ProblemType,//表明练习题类型
+            ProblemType:randerTitle.problemType,//表明练习题类型
             all_current_no:res.total,//所有题目的数量
             examLogId:res.examLogId,
             singleNum:res.singleList,//单选题的数量
@@ -482,7 +522,6 @@ Page({
           console.log('初始化失败')
         }
       })
-      console.log(that.data.targetTime2)
   },
   onReady: function () { },
   onShow: function () { },

@@ -1,6 +1,6 @@
 /* pages/virTest/virTest.wxss */
 page{
-    background: #fff;
+    background: #f5f5f5;
 }
 .vir-top-wrapper{
     width: 750rpx;

@@ -24,7 +24,7 @@
     <text class="top-wrapper-title">单选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}}" data-index='{{ index }}' catchtap="gobefor">
+    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}}" data-index='{{ item.problemId }}' catchtap="gobefor">
         <text > {{index+1}} </text>
     </view>
 </view>
@@ -33,8 +33,8 @@
     <text class="top-wrapper-title">多选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{ multipleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}} ">
-        <text > {{index+1}} </text>
+    <view wx:for="{{ multipleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}}" data-index='{{ item.problemId }}' catchtap="gobefor">
+        <text > {{ index + 1 + singleNum.length }} </text>
     </view>
 </view>
 <view class="top-wrapper-pri" wx:if="{{ judgmentNum.length }}">
@@ -42,11 +42,10 @@
     <text class="top-wrapper-title">判断题</text>
 </view>
 <view class="wrapper-single-option" style="margin-bottom:160rpx">
-    <view wx:for="{{ judgmentNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}} ">
-        <text > {{index+1}} </text>
+    <view wx:for="{{ judgmentNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'false':''}}" data-index='{{ item.problemId }}' catchtap="gobefor">
+        <text > {{index+1+multipleNum.length+singleNum.length}} </text>
     </view>
 </view>
-
 <view class="tabbottom">
     <!-- <view class="checkAllAn" >查看全部解析</view> -->
     <view class="goPri" bindtap='goToTest'>继续练习</view>

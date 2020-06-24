@@ -29,7 +29,8 @@ Page({
   getExaminationList(options){
     let that = this
     let option = {
-      page:0
+      page:0,
+      courseId:options.courseId
      }//以上为初始化加载参数
      app.encryption({//初始化加载函数获取所有题目
        url: api.default.getExaminationList,

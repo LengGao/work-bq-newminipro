@@ -3,6 +3,6 @@
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "练习",
     "backgroundTextStyle": "light",
-    "navigationStyle": "default",
+    "navigationStyle": "custom",
     "usingComponents": {}
   }

@@ -1,8 +1,8 @@
 // pages/AllTestPir/AllTestPir.js
-let app = getApp();
+let app = getApp()
 let api = require("../../api.js")
+let util = require("../../utils/util.js")
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -18,16 +18,22 @@ Page({
     }
     console.log(option)
     app.encryption({
-      url: api.default.getMyCourse,
+      url: api.default.getMyAllClassroom,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
-        if(res.data!= undefined){
+        res.forEach( res => {
+          res.time =  util.js_date_time(res.time)
+        } )
+        that.setData({
+          myclass:res
+        })
+        console.log('nimenhao',that.data.nodata)
+        if(res.data != undefined){
           that.setData({
             nodata:true
           })
-          console.log('nimenhao',that.data.nodata)
+         
         }
        
       },

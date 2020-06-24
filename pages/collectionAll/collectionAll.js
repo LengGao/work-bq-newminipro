@@ -74,7 +74,8 @@ Page({
         num:'25'
       }
     ],
-    errordata:null
+    errordata:null,
+    chapterName:'答题数据'
   },
   tabFun: function (t) {
     var e = t.target.dataset.id;
@@ -103,10 +104,10 @@ Page({
     })
     console.log(this.data.collectionList)
   },
-  getCollection(){
+  getCollection(courseid){
     let that = this
     let option = {
-      courseId: that.data.courseId
+      courseId: courseid  || that.data.courseId
     }
     console.log(option)
     app.encryption({
@@ -122,7 +123,11 @@ Page({
           })
         }else{
           for(let i of res){
-            app.testWxParse(that, i)
+            i.content.forEach(element => {
+              element.content = [{A:'lalala'}],
+              element.stem =  element.analyse
+              app.testWxParse(that, element)
+            });
           }
           that.setData({
             collectionList:res
@@ -132,7 +137,6 @@ Page({
       fail: function (t) {
       },
       complete: function () {
-
       }
     })
   },
@@ -148,15 +152,18 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-       
         if( res.data != undefined && res.data.code == 30000){
-          console.log('2342324')
           that.setData({
             errornodata:false
           })
         }else{
           for(let i of res){
-            app.testWxParse(that, i)
+            i.content.forEach(element => {
+              element.content = [{A:'lalala'}],
+              element.stem =  element.analyse
+              app.testWxParse(that,  element)
+            });
+            console.log(i)
           }
           that.setData({
             errordata:res
@@ -186,7 +193,6 @@ Page({
         //   app.testWxParse(that, i)
         // }
         if( res.data != undefined){
-          console.log('2342324')
           that.setData({
             nohisdata:false
           })
@@ -205,15 +211,32 @@ Page({
   },
   select_date(t){
     let courseId = this.data.courseId
+    let id = t.currentTarget.dataset.id
     wx.navigateTo({
-        url: `../answerCardPir/answerCardPir?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&type=${t.currentTarget.dataset.type}&name=${t.currentTarget.dataset.name}`
+        url: `../answerCardPir/answerCardPir?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&type=${t.currentTarget.dataset.type}&name=${t.currentTarget.dataset.name}&id=${id}`
     })
+  },
+  gobefor(e){
+    console.log(e.currentTarget.dataset.index)
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+    let courseId = wx.getStorageSync('courseId').courseId
+    // console.log("beforePage");
+    // console.log(beforePage);
+    wx.navigateBack({
+      success: function () {
+        beforePage.getHomePanel(courseId);
+      }
+    });
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log(options)
+    this.setData({
+      navH: app.globalData.navHeight,
+     })
     let  tabArr0 = 'tabArr.curHdIndex',tabArr1 = 'tabArr.curBdIndex'
     this.setData({
       courseId:options.courseId,
@@ -264,9 +287,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
   },
-
   /**
    * 用户点击右上角分享
    */

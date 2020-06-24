@@ -1,15 +1,16 @@
 // pages/answerCard/answerCard.js
 let app = getApp(), api = require("../../api.js")
 Page({
-  /**
-   * 页面的初始数据
-   */
   data: {
-    multipleNum:'',
-    singleNum:'',
-    judgmentNum:'',
+    multipleNum:0,
+    singleNum:0,
+    judgmentNum:0,
     successOPtion:'defaultOption',
-    correct:[]
+    correct:[],
+    radio:[],
+    multi:[],
+    judge:[],
+    monikaoshi:false
   },
   goToTest() {
     wx.navigateBack({
@@ -37,6 +38,10 @@ Page({
     let course_id = options.courseId
     let chapter_id = options.chapter_id
     let exam_identity = options.exam_identity
+    
+    that.setData({
+      monikaoshi:true
+    })
       wx.setNavigationBarTitle({
         title:options.name
       })
@@ -55,15 +60,21 @@ Page({
           that.setData({
               radio:res.radio,
               multi:res.multi,
-              judge:res.judge
+              judge:res.judge,
+              multipleNum:res.multi.length,
+              singleNum:res.radio.length
           })
+          // that.data.radio = res.radio
+          // that.data.multi = res.multi
+          // that.data.judge = res.judge
+          console.log(that.data.multipleNum,that.data.singleNum)
         },
         fail: function (n) {
           console.log('初始化失败')
         }
       })
     
-      
+    
   },
 
   /**

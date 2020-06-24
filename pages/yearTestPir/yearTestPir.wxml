@@ -1,13 +1,13 @@
 <import src="../../wxParse/wxParse.wxml"></import>
 <view class="title">
     <view class="marks">
-        {{ ProblemType == '1'?'单选题':ProblemType =='2'?'多选题':ProblemType =='3'?'判断题':'简单题'}}
+        {{ ProblemType == '1'?'单选题':ProblemType =='2'?'多选题':ProblemType =='3'?'判断题':'简答题'}}
     </view>
     <text class="marks">{{ current_no }}/{{ all_current_no }}</text>
 </view>
 <view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style="height:{{ screenHeight }}px">
     <!-- 单选题 -->
-    <view class="text-type padding">{{ randerTitle.stem }}</view>
+    <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <radio-group class="checked padding">
         <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
@@ -31,13 +31,13 @@
             </view>
             <view class="referData">答案解析</view>
             <view class="topRefer">
-                <text class="anyAnswer">{{ randerTitle.analyse }}</text>
+                <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}" ></template>
             </view>
         </view>
     </radio-group>
 </view>
 <view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ ProblemType == '2'?false:true }}" style="height:{{ screenHeight }}px">
-    <view class="text-type padding">{{ randerTitle.stem }}</view>
+    <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <radio-group class="checked padding">
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
@@ -65,14 +65,14 @@
             </view>
             <view class="referData">答案解析</view>
             <view class="topRefer">
-                <text class="anyAnswer">{{ randerTitle.analyse }}</text>
+               <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}" ></template>
             </view>
         </view>
     </radio-group>
 </view>
 <view hidden="{{ ProblemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style="height:{{ screenHeight }}px">
     <!-- 单选题 -->
-    <view class="text-type padding">{{ randerTitle.stem }}</view>
+    <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <radio-group class="checked padding">
         <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-id="{{randerTitle.ProblemId}}" data-index="{{index}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
@@ -96,14 +96,14 @@
             </view>
             <view class="referData">答案解析</view>
             <view class="topRefer">
-                <text class="anyAnswer">{{ randerTitle.analyse }}</text>
+               <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}" ></template>
             </view>
         </view>
     </radio-group>
 </view>
 <view hidden="{{ ProblemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" >
     <!-- 单选题 -->
-    <view class="text-type padding">{{ randerTitle.stem }}</view>
+    <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入你的答案"></textarea>
        <view class="wrapper-option" bindtap="showAnswer">
             <view class="correctoption {{ correctoption }}">
@@ -121,7 +121,7 @@
             </view>
             <view class="referData">答案解析</view>
             <view class="topRefer">
-                <text class="anyAnswer">{{ randerTitle.analyse }}</text>
+                 <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}" ></template>
             </view>
         </view>
 </view>

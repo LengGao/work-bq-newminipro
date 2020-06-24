@@ -13,8 +13,8 @@
     line-height: 45px;
     text-align: center;
     position: absolute;
-    top: 45rpx;
-    left: 0;
+    top: 50rpx;
+    left: 10rpx;
     z-index: 10;
     font-family:PingFang-SC-Medium;
     font-size:36rpx;
@@ -48,13 +48,13 @@
   }
   #gl1{
     text-align: center;
-    width: 23rpx;
-    height: 23rpx;
+    width: 25rpx;
+    height: 25rpx;
     position: absolute;
     top: 50%;
-    left: 22rpx;
-    border-left: 2rpx solid #FFFFFF;
-    border-bottom: 2rpx solid #FFFFFF;
+    left: 27rpx;
+    border-left: 4rpx solid #FFFFFF;
+    border-bottom: 4rpx solid #FFFFFF;
     -webkit-transform: translate(0,-50%) rotate(-135deg);
     transform: translate(0,-50%) rotate(45deg);
 }

@@ -1,4 +1,10 @@
 <import src="../../wxParse/wxParse.wxml"></import>
+ <view class='nav bg-white' style='height:{{navH}}px'>
+    <view class='nav-title'>
+     <text class="biaoti" >{{ chapterName }}</text>  
+      <text id="gl1" bindtap="gobefor"></text>
+    </view>
+  </view>
 <view class="fenlei-menu">
     <text bindtap="tabFun" class="teamnum {{tabArr.curHdIndex == item.id ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}">
         {{item.name}}
@@ -12,12 +18,12 @@
                 <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
             </view>
             <view class="cata-list" wx:if="{{item.isShow}}">
-                <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='collection' data-name='收藏夹'>
+                <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='collection' data-name='收藏夹' data-id ='{{ vitem.problemId }}'>
                     <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                     <view class="cata-content twoline">
-                        <text class="cata-names">{{index+1}}、</text>
-                        <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
+                        <view class="cata-names">{{index+1}}、</view>
+                      <template is="wxParse" data="{{wxParseData:vitem.problem_stem_wx.nodes}}"></template>
                     </view>
                 </view>
             </view>
@@ -40,12 +46,12 @@
                 <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
             </view>
             <view class="cata-list" wx:if="{{item.isShow}}">
-                <view bindtap="select_date" class="cata-item flex-st {{chapterId == vitem.chapterId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='error' data-name='错题集'>
+                <view bindtap="select_date" class="cata-item flex-st {{chapterId == vitem.chapterId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='error' data-name='错题集' data-id ='{{ vitem.problemId }}'>
                     <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                     <view class="cata-content twoline">
-                           <text class="cata-names">{{index+1}}、</text>
-                         <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
+                           <view class="cata-names">{{index+1}}、</view>
+                      <template is="wxParse" data="{{wxParseData:vitem.problem_stem_wx.nodes}}"></template>
                         <!-- <text class="cata-time">{{vitem.time}}</text> -->
                     </view>
                 </view>

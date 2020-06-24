@@ -3,6 +3,7 @@
   "navigationBarBackgroundColor": "#199FFF",
   "navigationBarTitleText": "添加课程",
   "navigationBarTextStyle": "white",
+  "navigationStyle": "custom",
   "usingComponents": {
   }
 }

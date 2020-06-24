@@ -11,7 +11,7 @@
   </scroll-view> -->
 <view class="title">
     <view class="marks">
-        {{ ProblemType == '1'?'单选题':ProblemType =='2'?'多选题':ProblemType =='3'?'判断题':'简单题'}}
+        {{ ProblemType == '1'?'单选题':ProblemType =='2'?'多选题':ProblemType =='3'?'判断题':'简答题'}}
     </view>
     <text class="marks">{{ current_no }}/{{ all_current_no }}</text>
 </view>

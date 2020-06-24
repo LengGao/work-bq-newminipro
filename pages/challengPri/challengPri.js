@@ -110,7 +110,6 @@ Page({
       activeAnswer:'defaultAnswer',
       correctoption:'',
       multishowAny:true,
-      ProblemType:allRenders[current_no - 1].ProblemType
     })
   },
   cards() {
@@ -134,7 +133,7 @@ Page({
       cancelText:"取消",//默认是“取消”
       cancelColor:'#199FFF',//取消文字的颜色
       confirmText:"确认",//默认是“确定”
-      confirmColor: '#199FFF',//确定文字的颜色
+      confirmColor: '#333333',//确定文字的颜色
       success: function (res) {
          if (res.cancel) {
             //点击取消,默认隐藏弹框
@@ -190,17 +189,26 @@ Page({
               [name]: '收藏',
               allRender: allRender//缓存即将需要渲染的数据
             })
-            $Message({
-              content: '收藏已取消',
-              type: 'success'
-            });
+            wx.showToast({
+              title: res.data.message,//提示文字
+              duration: 1300,//显示时长
+              mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+              icon: 'none', //图标，支持"success"、"loading"  
+              success: function () { },//接口调用成功
+              fail: function () { },  //接口调用失败的回调函数  
+              complete: function () { } //接口调用结束的回调函数  
+            })
             return
           }
-          $Message({
-            content: res.data.message,
-            type: 'warning'
-          });
-
+          wx.showToast({
+            title: res.data.message,//提示文字
+            duration: 1300,//显示时长
+            mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+            icon: 'none', //图标，支持"success"、"loading"  
+            success: function (){},//接口调用成功
+            fail: function (){},  //接口调用失败的回调函数  
+            complete: function (){} //接口调用结束的回调函数  
+          })
         },
         fail: function (n) {
           console.log('333333')
@@ -233,11 +241,15 @@ Page({
           });
           return
         }
-        $Message({
-          content: res.data.message,
-          type: 'warning'
-        });
-
+        wx.showToast({
+          title: res.data.message,//提示文字
+          duration: 1300,//显示时长
+          mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+          icon: 'none', //图标，支持"success"、"loading"  
+          success: function () { },//接口调用成功
+          fail: function () { },  //接口调用失败的回调函数  
+          complete: function () { } //接口调用结束的回调函数  
+        })
       },
       fail: function (n) {
         console.log('333333')
@@ -315,7 +327,6 @@ Page({
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
         showAny: true,//隐藏答案
-        ProblemType: randerTitle.ProblemType,//更新题目类型
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
@@ -348,7 +359,6 @@ Page({
         randerTitle: randerTitle,//挂载页面
         current_no: current_no + 1,//更新下标
         allRender: allRender,//更新已经渲染的数据
-        ProblemType: randerTitle.ProblemType,//更新题目类型
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
@@ -362,7 +372,7 @@ Page({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
-    if( randerTitle.ProblemType == '2' ){
+    if( randerTitle.problemType == '2' ){
         let options= {
           problemId:randerTitle.ProblemId,
           answe: this.data.multiselect
@@ -402,6 +412,7 @@ Page({
     })
     color.color = false//新增当前点击选项的color
     color.err = false//新增当前点击选项的err
+    this.data.randerTitle.option = option
     this.data.randerTitle.done = true//表明当前题目已做
     if (option == answer) { //单选正确
       color.color = true//改变当前选项的颜色为true
@@ -497,6 +508,16 @@ Page({
     let option = {
       courseId: options.courseId
     }//以上为初始化加载参数
+    wx.getSystemInfo({
+      success(res) {
+        let height = res.screenHeight * 2;
+        let topheight = that.data.navH;
+        let questionHeight = height - topheight * 2 - 98 - 56 * 2 - 40-40
+        that.setData({
+          questionHeight: questionHeight
+        })
+      }
+    })
     that.setData({
       navH: app.globalData.navHeight
     })
@@ -507,19 +528,16 @@ Page({
       dataType: "json",
       success: function (res) {
         console.log(res)
-        console.log(res.singleNum)
         let randerTitle = app.testWxParse(that, res.list[0])//初始化第一道题目
         that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
         that.setData({
           originTitle: res.list,//为所有原始数据
           randerTitle: randerTitle,//为当前渲染数据
           current_no: 1,//初始化题目标注
-          ProblemType:randerTitle.ProblemType,//表明练习题类型
           all_current_no:res.num,//所有题目的数量
           singleNum:res.singleList,//单选题的数量
           multipleNum:res.multipleList,//多选题的数量
           judgmentNum:res.judgmentList,//判断题的数量
-          formId:res.formId,
           challengeId:res.challengeId,//formid，
           courseId:options.courseId
         })

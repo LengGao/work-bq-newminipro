@@ -7,7 +7,7 @@
             <view class="top-content-detail">
                 <text class="nick-name" wx:if="{{user_info.nickname}}">{{user_info.nickname}}</text>
                 <!-- <text class="nick-name">Night belongs bright</text> -->
-                <text class="nick-line">爱你所做，做你所爱</text>
+                <text class="nick-line">不怕千万人阻挡，只怕自己投降</text>
             </view>
         </view>
     </view>

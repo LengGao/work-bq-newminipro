@@ -37,13 +37,14 @@ Page({
     let multipleNum = JSON.parse(options.multipleNum)
     let singleNum = JSON.parse(options.singleNum)
     let judgmentNum = JSON.parse(options.judgmentNum)
-    console.log(options)
+    console.log(singleNum,multipleNum,judgmentNum)
     wx.setNavigationBarTitle({
       title: options.name
     })
     let option = {
       formId: options.formId
     }//以上为初始化加载参数
+    console.log(option)
     app.encryption({//初始化加载函数获取所有题目
       url: api.default.getFacePlatess,
       data: option,
@@ -129,14 +130,12 @@ Page({
   onPullDownRefresh: function () {
 
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
 
   },
-
   /**
    * 用户点击右上角分享
    */

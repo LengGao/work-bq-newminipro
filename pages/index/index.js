@@ -6,12 +6,15 @@ Page({
   data: {
     isIOS: app.globalData.isIOS,
     visible1: false,
+    moveParams: {
+      scrollLeft: 0
+    },
     banner: [],
     biaoti: '',
     actions1: [],
     courseId: '',
     menuTop: '',
-    accuracy:0,
+    accuracy: 0,
     course_list: [
       {
         name: '初级会计师',
@@ -22,20 +25,20 @@ Page({
       {
         name: '收藏夹',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png',
-        number:'0',
-        num:'2'
+        number: '0',
+        num: '2'
       },
       {
         name: '错题集',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xingxing.png',
-        number:'0',
-        num:'1'
+        number: '0',
+        num: '1'
       },
       {
         name: '做题历史',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png',
-        number:'0',
-        num:'0'
+        number: '0',
+        num: '0'
       }
     ],
     fun_list: [
@@ -74,11 +77,11 @@ Page({
     noACtion: 0,
     myCourse: [],
     optionsGo: 'toliveclass',
-    nomyCourse:true,
-    noliving:true,
-    images:{}
+    nomyCourse: true,
+    noliving: true,
+    images: {}
   },
-  gocollection(number){
+  gocollection(number) {
     let courseId = this.data.courseId
     console.log(number.currentTarget.dataset.number)
     wx.navigateTo({
@@ -183,7 +186,34 @@ Page({
       triangle: !this.data.triangle
     });
   },
+  getRect(ele) {
+    //获取点击元素的信息,ele为传入的id
+    var that = this;
+    console.log(ele)
+    //节点查询
+    wx.createSelectorQuery().select(ele).boundingClientRect(function (rect) {
+      console.log(rect)
+      let moveParams = that.data.moveParams;
+      moveParams.subLeft = rect.left;
+      moveParams.subHalfWidth = rect.width / 2;
+      that.moveTo();
+    }).exec()
+  },
+  moveTo: function () {
+    let subLeft = this.data.moveParams.subLeft;
+    let screenHalfWidth = 750/ 2 ;
+    let subHalfWidth = this.data.moveParams.subHalfWidth;
+    let scrollLeft = this.data.moveParams.scrollLeft;
+    let distance =subLeft - (screenHalfWidth - subHalfWidth);
+    scrollLeft = distance;
+
+    this.setData({
+      scrollLeft: scrollLeft
+    })
+  },
   selectmenu: function (t) {
+    let ele = 'scroll-item-' + t.currentTarget.dataset.index
+    this.getRect('#' + ele);
     let that = this
     let key = t.currentTarget.dataset.key;
     let courseId = t.currentTarget.dataset.key
@@ -191,8 +221,16 @@ Page({
       menuTop: key.courseId,
       courseId: courseId.courseId,
     });
+    this.data.course_list.forEach((item) => {
+      if (item.haschoose = true) {
+        item.haschoose = false
+      }
+    })
+    let indexOf = this.data.course_list.findIndex(item => item.courseId === key.courseId)
+    this.data.course_list[indexOf].haschoose = true
+    wx.setStorageSync('topInfo', this.data.course_list)//点击事件，点击后更新缓存。
     wx.setStorageSync("courseId", {
-      courseId:courseId.courseId
+      courseId: courseId.courseId
     });
     that.getSubject()
     that.getHomePanel()
@@ -213,6 +251,13 @@ Page({
     //   complete: function () { } //接口调用结束的回调函数  
     // })
   },
+  scrollMove(e) {
+    let moveParams = this.data.moveParams;
+    moveParams.scrollLeft = e.detail.scrollLeft;
+    this.setData({
+      moveParams: moveParams
+    })
+  },
   gettopINfor(resolve, reject) {
     let that = this
     console.log('8888')
@@ -220,6 +265,15 @@ Page({
       url: api.default.getCollectionCourses,
       method: "GET",
       success: function (res) {
+        console.log(res)
+        if (res.data && res.data.data.length == 0) {
+          console.log('213131231')
+          that.setData({
+            nomyCourse: false,
+            noliving: false
+          })
+          return
+        }
         for (let i = 0; i < res.length; i++) {
           res[i].name = res[i].courseName
         }
@@ -229,16 +283,28 @@ Page({
           courseId: res[0].courseId,
           biaoti: res[0].courseName
         })
-        wx.setStorageSync("courseId", {
-          courseId: res[0].courseId
-        });
+        // wx.setStorageSync("courseId", {
+        //   courseId: res[0].courseId
+        // });
+        if (wx.getStorageSync('topInfo')) {
+          wx.getStorageSync('topInfo').forEach((item) => {
+            console.log(item)
+            if (item.haschoose) {
+              that.setData({
+                menuTop: item.courseId,
+                courseId: item.courseId,
+                biaoti: item.courseName
+              })
+            }
+          })
+        }
         that.getHomePanel()
         that.getSubject()
         that.getclasslive()
-        return resolve()
+        resolve()
       },
       fail: function (t) {
-        return reject()
+        return reject
       },
       complete: function () {
 
@@ -259,7 +325,7 @@ Page({
         if (res.data == undefined) {
           that.setData({
             myCourse: res,
-            nomyCourse:true
+            nomyCourse: true
           })
         } else {
           that.setData({
@@ -317,35 +383,40 @@ Page({
   },
   getclasslive() {
     let that = this
-    let option =  {
-      course_id:that.data.menuTop
+    let option = {
+      course_id: that.data.menuTop
     }
     console.log(option)
     app.encryption({
       url: api.default.getclasslive,
       method: "GET",
-      data:option,
+      data: option,
       success: function (res) {
         console.log(res)
         if (res.data == undefined && res.classroomList.length != 0) {
-           that.setData({
-            noliving:true
-           })
-        }else{
           that.setData({
-            noliving:false
-           })
+            noliving: true
+          })
+        } else {
+          that.setData({
+            noliving: false
+          })
         }
         console.log(that.data.noliving)
-        if (res.classroomList[0].length !=0 && res.classroomList[0].review == 1) {
+        if (res.classroomList[0] && res.classroomList[0].length != 0 && res.classroomList[0].review == 1) {
           that.setData({
             optionsGo: 'goTestvideo',
+            banjiID: res.classroomList[0].class_id
+          })
+        } else if (res.classroomList[0] && res.classroomList[0].length != 0 && res.classroomList[0].review == 0) {
+          that.setData({
+            optionsGo: 'toliveclass',
             banjiID: res.classroomList[0].class_id
           })
         }
         that.setData({
           living: res.classroomList[0],
-          banjiID: res.classroomList[0].class_id
+          // banjiID: res.classroomList[0].class_id
         })
       },
       fail: function (t) {
@@ -363,13 +434,12 @@ Page({
       url: `../course-class-detail/course-class-detail?video_id=${courseId}`
     })
   },
-  goindex(){
+  goindex() {
     wx.navigateTo({
       url: '../secondary/secondary'
     });
   },
-  getHomePanel(){
-    console.log('nimen')
+  getHomePanel() {
     let that = this
     let courseId = this.data.menuTop
     let option = {
@@ -386,10 +456,10 @@ Page({
         let topmenu1 = 'topmenu[1].number'
         let topmenu2 = 'topmenu[2].number'
         that.setData({
-          [topmenu0]:res.collectionCount,
-          [topmenu1]:res.errorCount,
-          [topmenu2]:res.logNumber,
-          accuracy:res.accuracy
+          [topmenu0]: res.collectionCount,
+          [topmenu1]: res.errorCount,
+          [topmenu2]: res.logNumber,
+          accuracy: res.accuracy
         })
       },
       fail: function (t) {
@@ -403,9 +473,10 @@ Page({
   onLoad: function (e) {
     let that = this
     wx.showLoading({
-      title: '加载中', 
+      title: '加载中',
       mask: true
     })
+
     let promise = new Promise((resolve, reject) => {
       wx.login({ // 判断是否授权，，没有则授权
         success: function (n) {
@@ -417,15 +488,18 @@ Page({
               method: 'POST',
               success: function (e) {
                 console.log(e)
-                if(e.code == '10001'){
+                if(e.data.param.info_show){
+                  app.globalData.info_show = 1;  
+                }
+                if (e.code == '10001') {
                   wx.showModal({
-                    title:"警告",
-                    content:e.message,
+                    title: "警告",
+                    content: e.message,
                     showCancel: !1,
-                    success:function(){
-                     wx.reLaunch({
-                       url:'../index/index'
-                     })
+                    success: function () {
+                      wx.reLaunch({
+                        url: '../index/index'
+                      })
                     }
                   })
                 }
@@ -436,7 +510,7 @@ Page({
                   uuid: e.data.param.uuid,
                   token: e.data.param.token
                 });
-                return resolve()
+                resolve()
               },
               fail: function (e) {
                 wx.showModal({
@@ -458,11 +532,13 @@ Page({
       })
       promise1.then(function (resolve) {
         that.getMycourse()
-        return resolve
+        resolve()
       })
     });
     Promise.all([promise]).then((result) => {
-    
+
+      console.log(wx.getStorageSync('topInfo'))
+      //更新头部状态
       wx.hideLoading();               //['成功了', 'success']
     }).catch((error) => {
       console.log(error)

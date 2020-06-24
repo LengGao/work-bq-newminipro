@@ -20,28 +20,38 @@ Page({
     funsel: [
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ruankaojisuanji.png',
-        name: '软考',
+       title: '软考',
         id: '1'
       },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiaoshizigezheng.png',
-        name: '会计师',
+        title: '会计师',
         id: '2'
       },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jingjishizhicheng.png',
-        name: '经济师',
+        title: '经济师',
         id: '3'
       },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/gongchengshizhicheng.png',
-        name: '特种作业',
+        title: '特种作业',
         id: '4'
       },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiankangguanlishi.png',
-        name: '健康管理师',
+        title: '健康管理师',
         id: '5'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/gongchengshizhicheng.png',
+        title: '特种作业',
+        id: '6'
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiankangguanlishi.png',
+        title: '健康管理师',
+        id: '7'
       }
     ],
     freeCourse: [],
@@ -152,14 +162,14 @@ Page({
       }
     })
   },
-  checkAll(e,f){
+  checkAll(e, f) {
     wx.navigateTo({
-      url: `../../pages/AllTestPir/AllTestPir?id=${e.currentTarget.dataset.keys}&name=免费题目`
+      url: "../../pages/AllTestPir/AllTestPir?id=2&name=免费课程"
     });
   },
-  checkAlls(e,f){
+  checkAlls(e, f) {
     wx.navigateTo({
-      url: `../../pages/AllTestPir/AllTestPir?id=${e.currentTarget.dataset.keys}&name=热门题库`
+      url: "../../pages/AllTestPir/AllTestPir?id=1&name=热门推荐"
     });
   },
   freeCourse() {
@@ -191,16 +201,70 @@ Page({
       }
     })
   },
-  menu(){
+  getMycourse() {
+    let that = this
+    app.encryption({
+      url: api.default.ad,
+      method: "GET",
+      success: function (res) {
+        console.log(res)
+        that.banner(res[0].adGroupId)
+        // if (res.data == undefined) {
+        //   that.setData({
+        //     myCourse: res,
+        //     nomyCourse:true
+        //   })
+        // } else {
+        //   that.setData({
+        //     nomyCourse: false
+        //   })
+        // }
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+
+      }
+    })
+  },
+  banner(adGroupId){
+    let that = this
+    let option = {
+      adGroupId:adGroupId	
+    }
+    app.encryption({
+      url: api.default.banner,
+      method: "POST",
+      data:option,
+      success: function (res) {
+        console.log(res)
+        // if (res.data == undefined) {
+        //   that.setData({
+        //     myCourse: res,
+        //     nomyCourse:true
+        //   })
+        // } else {
+        //   that.setData({
+        //     nomyCourse: false
+        //   })
+        // }
+      },
+      fail: function (t) {
+      },
+      complete: function () {
+      }
+    })
+  },
+  menu() {
     let that = this
     app.encryption({
       url: api.default.getindexcategory,
       method: 'GET',
       success: function (res) {
         console.log(res)
-       that.setData({
-        funsel:res
-       })
+        that.setData({
+          funsel: res
+        })
       },
       fail: function (res) {
 
@@ -212,7 +276,7 @@ Page({
   },
   onLoad: function (t) {
     tab.tabbar("tabBar", 0, this, "shoponline");
-    this.hotpoint(); this.freeCourse(),this.menu()
+    this.hotpoint(); this.freeCourse(); this.menu(); this.getMycourse()
   },
   onReady: function () { },
   onShow: function () { },

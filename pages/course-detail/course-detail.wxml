@@ -74,8 +74,8 @@
                 <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                 <view class="cata-content twoline">
-                    <text class="cata-name twoline">{{vitem.lessonName}}</text>
-                    <!-- <text class="cata-time">{{vitem.time}}</text> -->
+                    <text class="cata-name twoline {{ vitem.hasVisit == 0 ?'':'hasvision'}}">{{vitem.lessonName}}</text>
+                    <text class="cata-time" wx:if="{{ vitem.isFree }}">免费</text>
                 </view>
             </view>
         </view>
@@ -174,14 +174,7 @@
                 <text class="oldPrices">￥{{courseInfo.originPrice}}</text>
             </view>
         </view>
-        <view>
-        <button open-type="share" style="background:#fff;line-height:32rpx">
-            <view class="share-buttons">
-                <image class="" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/share.png" />
-                <text class="">分享</text>
-            </view>
-        </button>
-        </view>
+     
     </view>
     <view class='fenge'></view>
     <view class="clasIntroduce">
@@ -347,33 +340,6 @@
         <button bindtap="kaituan" class="choose-team" hoverClass="none">确定</button>
     </view>
 </view>
-<!-- 底部 -->
-<!-- <view class="footer-bar flex-st">
-    <view class="child01 flex-column-center com_white_color"> -->
-<!-- <text>限时限免</text>
-        <text>欢迎观看</text> -->
-<!-- <navigator open-type="redirect" url="/pages/tiku-detail/tiku-detail?video_id={{video_id}}" style="width: 100%;height: 100%;">
-            <view class="item01" style="width:100%;background:#000;color:#fff;">
-                <view>{{ (video.isbuy != 1  && video.price != 0) ? '单买题库' : '前往题库' }}</view>
-            </view>
-        </navigator>
-    </view>
-    <block wx:if="{{video.isbuy != 1  && video.price != 0 }}">
-        <view class="item01 com_bgcolor" wx:if="{{isIOS}}">
-            <view>ios系统限制购买</view>
-        </view>
-        <view bindtap="buyVideo" class="item01 child02 com_bgcolor" wx:else>
-            <view class="pin-price">
-                <text>￥</text>
-                <text>{{video.price}}</text>
-            </view>
-            <view>单独购买</view>
-        </view>
-    </block>
-    <view class="item01 com_bgcolor" wx:else>
-        <view>{{ video.price == 0 ? '免费' : '已报名'}}</view>
-    </view>
-</view> -->
 <!-- 评论弹窗 -->
 <i-modal visible="{{ visible2 }}" bind:ok="handleClose2" bind:cancel="handleClose2">
     <!-- <i-icon type="close" size="28" color="#80848f" /> -->
@@ -400,19 +366,26 @@
     </view>
 </i-modal>
 <view class="footer-bar flex-st">
-    <button bindcontact="handleContact" class="function-list flex-be" openType="contact" style="line-height:36rpx">
+    <button class="function-list flex-be" openType="contact" style="background:#fff;line-height:36rpx">
         <view class="flex-column">
-            <i-icon type="customerservice" color="#666666" size='20' />
+           <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kefuanniu.png"  mode="widthFix" style="width:40rpx;height:40rpx"/>
             <text class="serviceMan">客服</text>
         </view>
-        <!-- <view class="left-part flex-st">
-            <image style="height:40rpx;" src="../../images/kefu.png"></image>
-            <text>联系客服</text>
-        </view>
-        <view class="right-part flex-st">
-            <image style="height:24rpx;" src="../../images/ic-my-arrow.png"></image>
-        </view> -->
     </button>
+     <button class="function-list flex-be" open-type="share" style="background:#fff;line-height:36rpx">
+        <view class="flex-column">
+           <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/fenxianganniu.png"  mode="widthFix" style="width:40rpx;height:40rpx"/>
+            <text class="serviceMan">分享</text>
+        </view>
+    </button>
+<!--    
+        <button  style="background:#fff;line-height:32rpx">
+            <view class="share-buttons">
+                <image class="" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/fenxianganniu.png" />
+                <text class="serviceMan"></text>
+            </view>
+        </button> -->
+     
     <!-- <view class="flex-column">
         <i-icon type="collection" color="#666666" size='20' />
         <text class="serviceMan">收藏</text>

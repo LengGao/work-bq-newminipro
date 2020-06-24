@@ -1,7 +1,5 @@
 <view class="video-box">
-
     <video
-     
       id="videoPlayer"
       autoplay
       bindplay="videoPlayHandle"
@@ -35,7 +33,7 @@
         <cover-view class="multi-list rate{{rateShow ? ' active': ''}}{{fullScreenData}}">
           <cover-view
             wx:for="{{['0.5', '0.8', '1.0', '1.25', '1.5']}}"
-            wx:key="{{item}}"
+            wx:key="index"
             class="multi-item rate{{ item === currentRate ? ' active' : '' }}"
             data-rate="{{item}}"
             bindtap="switchRate"
@@ -55,7 +53,6 @@
         </view>
     </view> -->
 </view>
-
 <view bindtap="tabFun" class="price-menu">
     <view class="menu-item {{tabArr.curHdIndex==0?'priceactive com_color com_after':''}}" data-id="0" id="tab-hd02">视频目录</view>
     <view class="menu-item {{tabArr.curHdIndex==2?'priceactive com_color com_after':''}}" data-id="2" id="tab-hd03">视频介绍</view>
@@ -69,7 +66,7 @@
         <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
       </view>
       <view class="cata-list" wx:if="{{item.isShow}}">
-          <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.id ?'selected com_color':''}}" data-key="{{vitem.id}}" wx:for="{{item.list}}" wx:for-item="vitem">
+          <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.id ?'selected com_color':''}}" data-key="{{vitem.id}}" wx:for="{{item.list}}" wx:for-item="vitem" data-roomid = "{{vitem.room_id}}">
               <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
               <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image>
               <view class="cata-content twoline">

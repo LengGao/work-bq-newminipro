@@ -3,6 +3,6 @@
   "navigationBarTextStyle": "white",
   "navigationBarTitleText": "答题数据",
   "backgroundTextStyle": "light",
-  "navigationStyle": "default",
+  "navigationStyle": "custom",
   "usingComponents": {}
 }

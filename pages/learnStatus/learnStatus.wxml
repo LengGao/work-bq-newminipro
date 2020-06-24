@@ -1,6 +1,6 @@
 <view style="width:100%;over-">
 <view class="boom" style="width:750rpx;position:relative">
-<view class='nav-title' style="position:absolute;left:30rpx;z-index:100;top:80rpx">
+<view class='nav-title' style="position:absolute;left:46rpx;z-index:100;top:104rpx">
       <text id="gl1" bindtap="goback"></text>
     </view>
   <image style="width:100%;height:100%;position:absolute" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(9).png" />
@@ -37,10 +37,10 @@
     </view>
   </view>
   <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(13).png" style="width:726rpx;height:825rpx;position:relative;top:1268rpx;left:12rpx;z-index:1" />
-  <view style="font-size:40rpx;font-family:PingFang SC;font-weight:bold;color:rgba(255,255,255,1);position:absolute;top:1310rpx;left:70rpx;z-index:1">
+  <view style="font-size:40rpx;font-family:PingFang SC;font-weight:bold;color:rgba(255,255,255,1);position:absolute;top:1310rpx;left:70rpx;z-index:1000">
     题库练习
   </view>
-  <view class="wrapper-top-content" style="position:absolute;top:1900rpx;left:0;z-index:1;width:750rpx">
+  <view class="wrapper-top-content" style="position:absolute;top:1900rpx;left:0;z-index:1000;width:750rpx">
     <view wx:for="{{ practise }}" wx:key="index" class="wrapper-data-every">
       <view style=" font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(25,159,255,1);">
         <text class="wrapper-data-name">{{ item.name }}</text>
@@ -50,7 +50,7 @@
       </view>
     </view>
   </view>
-  <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:1778rpx;left:312rpx;z-index:1">刷题正确率</view>
+  <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:1828rpx;left:312rpx;z-index:99999999">刷题正确率</view>
   <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:2662rpx;left:82rpx;z-index:1000;display:flex;align-item:center;">
     <view style="width:4rpx;height:30rpx;background:rgba(25,159,255,1);"></view> <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-left:9rpx"> 各类题型正确率 </view>
   </view>
@@ -76,7 +76,7 @@
     <view style="color:#333333;font-size:24rpx;">判断题</view>
   </view>
    <view style="width:4rpx;height:30rpx;background:rgba(25,159,255,1);position:absolute;top:2294rpx;left:82rpx;z-index:1000;"></view>
-  <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:1778rpx;left:312rpx;z-index:1">刷题正确率</view>
+  <!-- <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#333333;position:absolute;top:1798rpx;left:312rpx;z-index:9999999999">刷题正确率</view> -->
   <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(13).png" style="width:726rpx;height:825rpx;position:absolute;top:2110rpx;left:12rpx;z-index:1" />
   <view style="font-size:40rpx;font-family:PingFang SC;font-weight:bold;color:rgba(255,255,255,1);position:absolute;top:2140rpx;left:70rpx;z-index:1">
     模拟考试
@@ -125,23 +125,38 @@
   </view>
 
 
-<button open-type="share" style="width:449rpx;height:143rpx;position:absolute;top:3540rpx;left:150rpx;z-index:1;margin-bottom:90rpx;background-color:none !important" >
+<button bindtap='showBuyModal' style="width:449rpx;height:143rpx;position:absolute;top:3540rpx;left:150rpx;z-index:1;margin-bottom:90rpx;background:none !important" >
 <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/sharebutton%20(1).png" style="width:100%;height:100%"/>
 </button>
 </view>
-<view style="width:700rpx;height:629rpx;position:absolute;top:1330rpx;z-index:100;left:25rpx">
-<ec-canvas ec="{{ ecLine }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-gauge"></ec-canvas>
+<view style="width:690rpx;height:600rpx;position:absolute;top:1400rpx;z-index:10;left:25rpx">
+<ec-canvas ec="{{ ecLine }}"style="width:100%;height:100%"  id="mychart-dom-gauge"></ec-canvas>
 </view>
-<view style="width:700rpx;height:529rpx;position:absolute;top:2230rpx;z-index:100;left:25rpx">
-  <ec-canvas ec="{{ ecLine2 }}"style="width:500rpx;height:429rpx" force-use-old-canvas="true" id="mychart-dom-line"></ec-canvas>
+<view style="width:700rpx;height:529rpx;position:absolute;top:2230rpx;z-index:10;left:25rpx">
+  <ec-canvas ec="{{ ecLine2 }}"style="width:500rpx;height:429rpx"  id="mychart-dom-line"></ec-canvas>
 </view>
-<view style="width:250rpx;height:300rpx;position:absolute;top:2660rpx;z-index:100;left:25rpx">
-  <ec-canvas ec="{{ ecLine3 }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-pie1"></ec-canvas>
+<view style="width:250rpx;height:300rpx;position:absolute;top:2660rpx;z-index:10;left:25rpx">
+  <ec-canvas ec="{{ ecLine3 }}"style="width:100%;height:100%"  id="mychart-dom-pie1"></ec-canvas>
 </view>
-<view style="width:250rpx;height:300rpx;position:absolute;top:2660rpx;z-index:100;left:255rpx">
-  <ec-canvas ec="{{ ecLine4 }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-pie2"></ec-canvas>
+<view style="width:250rpx;height:300rpx;position:absolute;top:2660rpx;z-index:10;left:255rpx">
+  <ec-canvas ec="{{ ecLine4 }}"style="width:100%;height:100%"  id="mychart-dom-pie2"></ec-canvas>
 </view>
-<view style="width:250rpx;height:300rpx;position:absolute;top:2660rpx;z-index:100;right:25rpx">
-  <ec-canvas ec="{{ ecLine5 }}"style="width:100%;height:100%" force-use-old-canvas="true" id="mychart-dom-pie3"></ec-canvas>
+<view style="width:250rpx;height:300rpx;position:absolute;top:2660rpx;z-index:10;right:25rpx">
+  <ec-canvas ec="{{ ecLine5 }}"style="width:100%;height:100%"  id="mychart-dom-pie3"></ec-canvas>
+</view>
+</view>
+<view class="cover_screen"  wx:if="{{showModalStatus}}" bindtap='hideBuyModal'></view>
+<view animation="{{animationData}}" class="buy_box" wx:if="{{showModalStatus}}">
+ <view style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:50%">
+ <button  open-type="share" style="width:100rpx;height:100rpx;margin-bottom:10rpx;background:none !important" >
+   <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weixin.jpg" style="width:100%;height:100%;border-radius:50%"/>
+ </button>
+ <text>发给朋友</text>
+ </view>
+ <view  style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:50%">
+<button bindtap='saveImage'  style="width:100rpx;height:100rpx;margin-bottom:10rpx;background:none !important" >
+<image src="{{imgsrc  }}" style="width:100%;height:100%"/>
+</button>
+<text>保存图片</text>
 </view>
 </view>

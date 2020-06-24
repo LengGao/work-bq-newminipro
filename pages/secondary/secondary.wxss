@@ -19,7 +19,6 @@ page {
     height: 12rpx;
     background-color: #bfbfbf;
 }
-
 .home-swiper .wx-swiper-dot-active {
     background-color: #fff;
 }
@@ -95,11 +94,17 @@ page {
 .function-select{
     width: 690rpx;
     margin: auto;
-    margin-left: 30rpx;
+}
+.fenlei-menu{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+}
+.fenlei-menu > .ever-items {
+    display: inline-block;
+    margin: 0 10rpx 0 0;
+    position: relative;
+    font-family:PingFang SC;
 }
 .content{
     width: 360rpx;

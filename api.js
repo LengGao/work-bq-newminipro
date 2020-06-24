@@ -1,13 +1,15 @@
 
 import config from './config.js';
 
-var e = config.bqUrl;
+let e = config.bqUrl;
 
-// var bq = 'http://api.datuihome.com/';
-var bq = config.bqUrl;
-// var bq = 'http://api.beiqujy.com/';
-var apiurl = {
+// let bq = 'http://api.datuihome.com/';
+let bq = config.bqUrl;
+let sock = config.sock
+// let bq = 'http://api.beiqujy.com/';
+let apiurl = {
   default: {
+    countSocket:sock,
     newupload:bq +'api/v1/img',
     proInit:bq +'api/v1/chat/getQuestion',
     quesList:bq +'api/v1/chat/foundGroup',
@@ -32,8 +34,8 @@ var apiurl = {
     freecourse:e +'api/v1/course/freecourse',
     getCollectionCourses:e +'api/v1/course/getCollectionCourses',
     chapterList:e +'api/v1/course/chapterList',
-    getMyCourse:e +'/api/v1/course/getMyCourse',
-    getCourse:e +'/api/v1/course/getCourse',
+    getMyCourse:e +'api/v1/course/getMyCourse',
+    getCourse:e +'api/v1/course/getCourse',
     getSubject:e +'api/v1/course/getSubject',
     insertCourse:e +'api/v1/course/insertCourse',
     yearstruth:e +'api/v1/answe/yearstruth',
@@ -84,7 +86,14 @@ var apiurl = {
     examinationResultsStatistics: e + 'api/v1/answe/examinationResultsStatistics',
     wxpay: e +'api/v1/order/wxpay',
     getMessagePushList: e +'api/v1/push/getMessagePushList',
-    saveMessagePushState: e +'api/v1/push/saveMessagePushState'
+    saveMessagePushState: e +'api/v1/push/saveMessagePushState',
+    livemember: e +'api/v1/video/livemember',
+    learningReport: e +'api/v1/bill/learningReport',
+    banner: e +'api/v1/system/banner',
+    ad: e +'api/v1/system/ad',
+    removeCourse:e + 'api/v1/course/removeCourse',
+    getLiveStatus:'https://api.beiqujy.com/edu/Playnotify/getLiveStatus',
+    lockAnswerEvents:e + 'api/v1/answe/lockAnswerEvents'
   },
   user: {
     newLogin: bq + "api/v1/login",
@@ -115,6 +124,7 @@ var apiurl = {
    
   },
   video: {
+    getlivestatus:'testapi.abacc.cn/getlivestatus',
     listen: e +'api/v1/course/listen',
     getvideoinfo: e +'api/v1/video/getvideoinfo',
     play: e +'api/v1/course/play',

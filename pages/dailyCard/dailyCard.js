@@ -25,16 +25,13 @@ Page({
     ],
     directions: [
       {
-        name: '每天只能打卡一次,00:00更新数据'
+        name: '每天只能打卡一次，00:00更新数据'
       },
       {
-        name: '每次推荐一个知识点,包括10个题目'
+        name: '每次推荐一个知识点，包括10个题目'
       },
       {
-        name: '题目均为单选题,全部答完才可提交打卡'
-      },
-      {
-        name: '完成后可以查看解析,也可以再练一遍巩固知识点'
+        name: '题目均为单选题，全部答完才可提交打卡'
       }
     ]
   },
@@ -45,16 +42,13 @@ Page({
     })
   },
   goback() {
-    wx.navigateBack({
-      delta: 1,  // 返回上一级页面。
-      success: function () {
-        console.log('成功！')
-      }
+    wx.reLaunch({
+      url:'../index/index'
     })
   },
   gopri(){
     let id = this.data.courseId
-    wx.reLaunch({
+    wx.navigateTo({
       url:`../daliyPri/daliyPri?courseId=${id}`
     })
   },

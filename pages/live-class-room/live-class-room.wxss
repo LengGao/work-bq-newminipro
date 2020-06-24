@@ -348,20 +348,20 @@
 .nick-name {
     font-size: 24rpx;
     color: #999;
-    max-width: 80%;
-    overflow: hidden;
+    /* max-width: 80%; */
+    /* overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
     text-align: right;
     display: block;
 }
 .nick-names{
     font-size: 24rpx;
     color: #999;
-    max-width: 80%;
+    /* max-width: 80%;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
     text-align: left;
     display: block;
 }
@@ -379,7 +379,7 @@
     font-size: 32rpx;
     margin-top: 8rpx;
     background:#FFFFFF;
-    border-radius:20rpx 0rpx 20rpx 20rpx;
+    border-radius:0rpx 20rpx 20rpx 20rpx;
     padding: 20rpx;
     color: #333333;
 }

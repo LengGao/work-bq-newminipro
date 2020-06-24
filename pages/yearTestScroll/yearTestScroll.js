@@ -35,8 +35,6 @@ Page({
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2]; 
     let number = 0// 前一个页面
-    // console.log("beforePage");
-    // console.log(beforePage);
     wx.navigateBack({
       success: function () {
         beforePage.wode(number,'nosubmit'); // 执行前一个页面的onLoad方法
@@ -48,8 +46,6 @@ Page({
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2]; 
     let number = e.currentTarget.dataset.index// 前一个页面
-    // console.log("beforePage");
-    // console.log(beforePage);
     wx.navigateBack({
       success: function () {
         beforePage.wode(number,'nosubmit'); // 执行前一个页面的onLoad方法
@@ -82,9 +78,9 @@ Page({
         [nums1]:res.real_number,
         [nums2]:res.error_number,
         [nums3]:res.not_doing,
-        singleNum:res.radio.length==0?false:res.radio,
-        multipleNum:res.multi.length==0?false:res.multi,
-        judgmentNum:res.judge.length==0?false:res.judge,
+        singleNum:res.radio ==''?false:res.radio,
+        multipleNum:res.multi ==''?false:res.multi,
+        judgmentNum:res.judge == ''?false:res.judge,
         allScroll:res.total_scores
       })
     },

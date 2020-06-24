@@ -32,9 +32,10 @@ Page({
        that.setData({
         actions1: res
        })
-      // console.log(that.data.actions1)
+      console.log(that.data.actions1)
       }
     })
+   
   },
   handleCancel1 () {
     this.setData({
@@ -76,7 +77,6 @@ Page({
           resolve(res)
         } , fail: function (n) {
           reject(n)
-        
        }
       })
     })
@@ -107,13 +107,11 @@ Page({
     this.setData({
       titleCount: value.length,
       title:value
-    })
-    
+    })  
     // this.data.title = value
     // this.data.titleCount = value.length
     // $digest(this)
   },
-
   handleContentInput(e) {
     const value = e.detail.value
     this.setData({

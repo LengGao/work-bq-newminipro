@@ -1,5 +1,5 @@
 // pages/challengRate/challengRate.js
-let app = getApp(), api= require("../../api.js");
+let app = getApp(), api= require("../../api.js"), util = require("../../utils/util.js");
 Page({
 
   /**
@@ -103,8 +103,11 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    let date = util.getDates(1, new Date())
+    console.log(date)
     this.setData({
-      courseId:options.courseId
+      courseId:options.courseId,
+      time: date
      })
     this.MyRankeEdition()
     this.getRankeEdition()

@@ -11,16 +11,14 @@
             <cover-view class="video-titles">清晰度</cover-view>
         </cover-view>
     </live-player> -->
-      <live-player autoplay="true" class="liveplay" id="video-livePlayer" src="{{videoUrl}}" bindstatechange="dostatechange" bindfullscreenchange="doFullScreen" bindtap="doPause">
+    <live-player autoplay="true" class="liveplay" id="video-livePlayer" src="{{videoUrl}}" bindstatechange="dostatechange" bindfullscreenchange="doFullScreen" bindtap="doPause" bindnetstatus='bindnetstatus'>
         <!-- 暂停 -->
         <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-play00.png" class="pause_cover" wx:if="{{isFullscreen && isPause}}"  bindtap="doPauseBtn"></cover-image>
         <cover-image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-pause00.png" class="pause_cover" wx:if="{{isFullscreen && !isPause}}"  bindtap="doPauseBtn"></cover-image>
-        
         <cover-view class="video-control" wx:if="{{isFullscreen}}" bindtap="doExitFull" >
           <cover-image class="video_jt" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/left_jt.png"></cover-image>
           <cover-view class="video-title">{{video_title}}</cover-view>
         </cover-view>
-
     </live-player>
     <!-- <view class="video-operator"  bindtap="onFullScreenClick">
             <text class="speed">倍速</text>
