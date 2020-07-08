@@ -93,7 +93,14 @@ let apiurl = {
     ad: e +'api/v1/system/ad',
     removeCourse:e + 'api/v1/course/removeCourse',
     getLiveStatus:'https://api.beiqujy.com/edu/Playnotify/getLiveStatus',
-    lockAnswerEvents:e + 'api/v1/answe/lockAnswerEvents'
+    lockAnswerEvents:e + 'api/v1/answe/lockAnswerEvents',
+    getSubscribePower: e + '/api/v1/getSubscribePower',
+    getTimeList:e + '/api/v1/getTimeList',
+    getSubscribeList:e + '/api/v1/getSubscribeList',
+    getSubscribeInfo:e + '/api/v1/getSubscribeInfo',
+    insertSubscribe:e + '/api/v1/insertSubscribe',
+    getMySubscribe:e+'/api/v1/getMySubscribe',
+    updateSubscribeMemberStatus:e +'/api/v1/updateSubscribeMemberStatus'
   },
   user: {
     newLogin: bq + "api/v1/login",

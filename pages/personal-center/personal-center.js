@@ -14,7 +14,7 @@ Page({
       },
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiazai.png',
-        name:'收藏夹',
+        name:'面授约课',
         action:'likes'
       },
       {
@@ -72,14 +72,16 @@ Page({
   },
   learns() {
     let id = this.data.courseId
+    console.log(id)
     wx.navigateTo({
       url: `../learnStatus/learnStatus?courseId=${id}`
     })
   },
   likes() {
     let courseId = this.data.courseId
+    console.log(courseId)
     wx.navigateTo({
-      url: `../collectionAll/collectionAll?number=2&courseId=${courseId}`
+      url: `../faceTeach/faceTeach?number=2&courseId=${courseId}`
     })
   },
   myclass() {

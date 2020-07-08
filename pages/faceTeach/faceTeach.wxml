@@ -1,0 +1,31 @@
+<view style="width:100%;over-">
+  <view class="boom" style="width:750rpx;position:relative">
+      <view class='nav-title' style="position:absolute;left:46rpx;z-index:100;top:104rpx">
+        <text id="gl1" bindtap="goback"></text>
+      </view>
+            <image style="width:750rpx;height:450rpx;position:absolute;top:-6rpx" src="../../imgs/appointCourse.png" />   
+    </view>
+    <!--面约授课btn-->
+    <view class="appint_main">
+      <view class="face_btn" bindtap="tofaceMessage">面约授课<image class="clock" src="../../imgs/clock.png"/></view>
+      
+      <view class="order_btn" bindtap="tomineOrder">我的预约<image class="calend" src="../../imgs/file.png"/></view>
+      
+     
+      <!--面授约课说明-->
+      <view class="appint_explain">
+      <text class="explain_h1">————   面授约课说明    ————</text>
+      <view class="explain_text">
+        <text>●  预约成功后不能再预约时间冲突或者相同内容的的课程  </text>
+        <text>●  因相同内容导致预约失败者，如需重修请提交申请</text>
+        <text>●  如果您临时有</text>
+      </view>
+      </view>
+    </view>
+    <view>
+    </view>
+     <!--modal-->
+   <!-- <i-modal visible="{{ visible2 }}" bind:ok="handleClose2" bind:cancel="handleClose2">
+    <view>这是一个无标题的对话框</view>
+</i-modal> -->
+</view>

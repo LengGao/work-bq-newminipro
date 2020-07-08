@@ -406,7 +406,7 @@ Page({
       data: option,
       success: function (res) {
         let courseInfo = res;
-        var a = courseInfo.about + "<span> </span>";
+        var a = courseInfo.about + "<span></span>";
         wxParse.wxParse("content", "html", a, that, 5);
         that.setData({
           courseInfo: res
