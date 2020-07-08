@@ -7,7 +7,6 @@ page{
     border-top: 1rpx solid #cecece;
     padding:27rpx 30rpx ;
     display: flex;
-    
 }
 #gl1{
     text-align: center;

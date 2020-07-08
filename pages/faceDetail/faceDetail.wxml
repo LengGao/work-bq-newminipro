@@ -1,0 +1,70 @@
+<view wx:for="{{ funlist }}" wx:key="index"
+wx:for="{{ funlist }}" wx:key="index">
+<!--header-->
+  <view class="detail_head" >
+     <image style="width:142rpx;height:80rpx;margin-right:20rpx" src="{{item.image}}" />   
+    <view>
+    <view class="detail-h1">{{item.classroomName}}</view>
+    <text>{{item.dateTime}}</text>
+    </view>
+  </view>
+  <!--主要内容-->
+  <view class="detail_main" >
+  <view class="detail_course">
+  <text class="detail_area">上课内容</text>
+  <view class="detail_content">{{item.chapter}}</view>
+  </view>
+  <view class="detail_course">
+  <text class="detail_area">上课老师</text>
+  <view class="detail_content">{{item.teacherName}}</view>
+  </view>
+   <view class="detail_course">
+  <text class="detail_area">上课地点</text>
+  <view class="detail_content">{{item.address	}}</view>
+  </view>
+   <view class="detail_course">
+  <text class="detail_area">报名人数</text>
+  <view class="detail_content">{{item.intoNum}}</view>
+  </view>
+   <view class="detail_course">
+  <text class="detail_area">预约人</text>
+  <view class="detail_content">{{item.nickname}}</view>
+  </view>
+   <view class="detail_course">
+  <text class="detail_area">预约号码</text>
+  <view class="detail_content">{{item.mobile}}</view>
+  </view>
+  </view>
+  
+<!--footer-->
+<view class="explain">
+  <view class="explain_title">
+  预约说明:
+  </view>
+  <view class="explain_content">
+    <view> ●  预约成功后不能再预约时间冲突或者相同内容的的课程  </view>
+     <view>●  因相同内容导致预约失败者，如需重修请提交申请 </view>
+      <view>●  因相同内容导致预约失败者，如需重修请提交申请 </view>
+       <view>●  因相同内容导致预约失败者，如需重修请提交申请</view>
+        <view> ●  预约成功后不能再预约时间冲突或者相同内容的的课程  </view>
+  </view>
+  <view class="explain_btn" 
+  bindtap="explain_btn" 
+  data-id="{{item.id}}" 
+  data-subscribeStatus="{{item.subscribeStatus}}"
+  hidden="{{status}}"
+  >
+  {{item.subscribeStatus==null?'确定预约':'取消预约'}}
+  </view>
+  <view class="{{explain_bg!=''?'explain_btn explain_bg':'explain_btn'}}" 
+  hidden="{{subscribeStatushave}}"
+  bindtap="explain_btn" 
+  data-id="{{item.id}}" 
+  data-subscribeStatus="{{item.subscribeStatus}}"
+  >
+  {{explain_btn}}
+  </view>
+  <!-- <view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" hidden= "" data-subscribeStatus="{{item.subscribeStatus}}"  hidden="{{status=='-1'||item.subscribeStatus=='-1'}}">{{explain_btn}}</view> -->
+</view>
+<i-toast id="toast" />
+</view>

@@ -1,0 +1,72 @@
+.detail_head{
+  padding:30rpx 35rpx 30rpx 30rpx !important;
+  display: flex;
+  background: #fff;
+  align-items: center;
+  font-size: 28rpx;
+  color:#333;
+}
+.detail-h1{
+  font-size: 32rpx;
+  padding-bottom: 18rpx;
+  font-weight: bold;
+}
+.detail_main{
+  padding:0 30rpx 0 29rpx ;
+  margin-top:20rpx ;
+  background: #fff;
+}
+.detail_course{
+  display: flex;
+  padding:25rpx 0 26rpx 0;
+  border-bottom: 1px solid #eeeeee;
+  justify-content: space-between;
+}
+.detail_area{
+  font-size: 28rpx;
+  font-weight: 400;
+  font-family:PingFang SC;
+  color:#999999 ;
+}
+.detail_content{
+  max-width: 498rpx;
+  font-size: 28rpx;
+  font-weight: 400;
+  font-family:PingFang SC;
+  color:#333333 ;
+}
+.explain{
+  padding: 30rpx 34rpx 50rpx 30rpx;
+  margin-top: 20rpx;
+  background: #fff;
+}
+.explain_title{
+  font-size: 24rpx;
+  color:#333333;
+  font-family:PingFang SC;
+  margin-bottom: 10rpx;
+  font-weight:400;
+}
+.explain_content{
+  font-size:24rpx;
+  line-height:48rpx ;
+  font-family:'PingFang SC';
+  font-weight:500;
+  color:#999999;
+}
+.explain_btn{
+ width: 500rpx;
+ height: 80rpx;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ font-size:36rpx;
+background: #199FFF;
+ font-family:'PingFang SC';
+ color:#fff;
+ margin:41rpx 0 0 95rpx;
+ border-radius: 40rpx;
+}
+.explain_bg{
+  background: #ccc!important;
+}

@@ -1,0 +1,94 @@
+/* .nav-title{
+height: 128rpx;
+width: 100%;
+background: #199FFF;
+position:fixed;
+z-index: 400;
+top:0
+}
+#gl1{
+  text-align: center;
+  width: 24rpx;
+  height: 24rpx;
+  position: absolute;
+  top: 80rpx;
+  left: 30rpx;
+  border-left: 4rpx solid #FFFFFF;
+  border-bottom: 4rpx solid #FFFFFF;
+  -webkit-transform: translate(0,-50%) rotate(-135deg);
+  transform: translate(0,-50%) rotate(45deg);
+}
+#gl1::before{
+  content:"";
+  position:absolute;
+  top:-20rpx;
+  left:-20rpx;
+  bottom:-20rpx;
+  right:-20rpx;
+  } */
+.orderlist{
+  color:#333;
+  font-size: 24rpx !important;
+  font-weight: normal ;
+  line-height: 40rpx;
+}
+.coursetitle{
+  color:#999 !important;
+  font-size: 24rpx !important;
+  font-weight: normal ;
+  padding-right: 33rpx !important;
+}
+.courseStatus{
+  font-size: 24rpx !important;
+  font-weight: normal ;
+  color:#199FFF !important;
+  /* cursor: pointer !important; */
+}
+.card_title{
+  font-size: 30rpx;
+  color:#333333;
+  /* border-left: 4rpx solid #199FFF; */
+  padding-left:10rpx;
+  font-weight: bold;
+}
+.fenlei-menu{
+  width: 750rpx;
+  height: 88rpx;
+  background:rgba(255,255,255,1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.fenlei-menu text {
+ 
+  font-size: 28rpx;
+  color:#333333 ;
+  font-family:PingFang-SC-Medium ;
+  font-weight: 400;
+  display: inline-block;
+  /* margin: 0 24rpx; */
+  position: relative;
+  height: 88rpx;
+  font-family:PingFang SC;
+  line-height: 32rpx;
+}
+.fenlei-menu .thismenu {
+  color: #1bcc14;
+  font-weight: 500;
+  font-family:PingFang SC;
+}
+.teamnum{
+  font-size: 32rpx;
+}
+.fenlei-menu .thismenu::after {
+  content: '';
+  display: inline-block;
+  width:50%;
+  height: 4rpx;
+  border-radius: 6rpx;
+  background: #1bcc14;
+  position: absolute;
+  bottom: 0rpx;
+  left:46%;
+  transform: translateX(-50%);
+}

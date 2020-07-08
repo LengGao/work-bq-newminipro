@@ -1,0 +1,12 @@
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTitleText": "扫码签到",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "i-card": "../../utils/iview/card/index" ,
+    "i-cell-group": "../../utils/iview/cell-group/index",
+    "i-cell": "../../utils/iview/cell/index"
+  }
+  
+}

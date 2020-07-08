@@ -16,7 +16,7 @@ Page({
     });
   },
   onLoad: function (e) {
-    // wx.getStorageSync("store");
+    // wx.getSync("store");
     // this.getLogo();
 
   },

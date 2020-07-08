@@ -1,0 +1,35 @@
+<view>
+<!--header-->
+ <!-- <view  class="nav-title">
+   <text id="gl1" bindtap="gobefor"></text>
+  </view> -->
+
+<view style="width:100%;">
+<scroll-view scroll-x="true" scroll-with-animation="true">
+<view class="fenlei-menu" >
+    <text bindtap="tabFun" data-status="{{item.status}}" data-isFail="{{item.isFail}}"
+    class="teamnum {{tabId==item.id?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}"
+    >
+        {{item.name}}
+    </text>
+</view>
+</scroll-view>
+</view>
+
+
+<view  wx:for="{{courseInfor}}" wx:key="id" style="margin-top:40rpx">
+ <i-card title="{{item.classroomName}}" i-class="card_title" data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" bindtap="tofaceDetail" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}">
+  <view slot="content"  class="orderlist"><text class="coursetitle">课程内容:</text>{{item.chapterNames}}</view>
+   <view slot="content" class="orderlist"><text class="coursetitle">上课时间:</text>{{item.dateTime}}</view>
+    <view slot="content" class="orderlist"><text class="coursetitle">上课老师:</text>{{item.teacherName}}</view>
+     <view slot="content" class="orderlist"><text class="coursetitle">上课地点:</text>{{item.organizationName}}</view>
+        <view slot="content" class="orderlist" style="display:flex;justify-content:space-between;align-item:center">
+        <view>
+            <text class="coursetitle">报名人数:</text>{{item.num}} 人
+        </view>
+        <view class="courseStatus">{{item.statusName}}</view>
+        </view>
+ </i-card>
+</view>
+
+</view>

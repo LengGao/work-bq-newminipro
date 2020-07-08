@@ -1,0 +1,84 @@
+/* pages/faceTeach/faceTeach.wxss */
+
+#gl1 {
+  text-align: center;
+  width: 25rpx;
+  height: 25rpx;
+  position: absolute;
+  top: 50%;
+  border-left: 4rpx solid #FFFFFF;
+  border-bottom: 4rpx solid #FFFFFF;
+  -webkit-transform: translate(0, -50%) rotate(-135deg);
+  transform: translate(0, -50%) rotate(45deg);
+}
+#gl1::before {
+  content: "";
+  position: absolute;
+  top: -20rpx;
+  left: -20rpx;
+  bottom: -20rpx;
+  right: -20rpx;
+}
+.appint_main{
+  position:absolute;
+  top:430rpx;
+  background: #fff;
+  height:904rpx;
+  width:100%;
+  border-radius: 20rpx 20rpx 0 0 ;
+  padding: 100rpx 70rpx 0 70rpx;
+}
+.face_btn{
+  width:610rpx;
+  height:100rpx;
+  background:rgba(25,159,255,1);
+  border-radius:10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40rpx;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+ .clock{
+  position: absolute;
+  width: 100rpx;
+  height: 100rpx;
+  right: -39rpx;
+}
+.order_btn{
+  width:610rpx;
+  height:100rpx;
+  background:#4CDAAC;
+  border-radius:10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40rpx;
+  color: #FFFFFF;
+  position: relative;
+  margin-top:70rpx;
+  overflow: hidden;
+}
+ .calend{
+  position: absolute;
+  
+  width: 100rpx;
+  height: 100rpx;
+  right: -39rpx;
+}
+.appint_explain{
+  padding: 129rpx 0 0 9rpx;
+  color:#999999 ;
+ 
+}
+.explain_h1{
+  font-size: 28rpx;
+  padding-left:67rpx;
+}
+.explain_text{
+  margin-top:47rpx;
+  font-size: 24rpx;
+  line-height: 48rpx;
+}
