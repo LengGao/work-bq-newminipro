@@ -1,8 +1,10 @@
 <view>
-<!--header-->
- <!-- <view  class="nav-title">
-   <text id="gl1" bindtap="gobefor"></text>
-  </view> -->
+<view class="nav bg-white" style="height:{{navH}}px">
+   	<view class="nav-title">
+   		<text class="biaoti" >{{ chapterName }}</text>
+   		<text id="gl1" bindtap="gobefor"></text>
+   	</view>
+   </view>
 
 <view style="width:100%;">
 <scroll-view scroll-x="true" scroll-with-animation="true">

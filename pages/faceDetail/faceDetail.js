@@ -15,7 +15,9 @@ Page({
     datetime:'',
     sy:false,
     explain_bg:'',
-    subscribeStatushave:''
+    subscribeStatushave:'',
+    navH:'',
+    chapterName:'预约详情'
   },
 
   /**
@@ -23,12 +25,23 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    if(options.updatethisid){
+      this.setData({
+        id:options.updatethisid
+      })
+    }else if(options.id){
+      this.setData({
+        id:options.id
+      })
+    }
     this.setData({
+      navH: app.globalData.navHeight,
       subscribeId:options.subscribeId,
-     status:options.status,
-      id:options.id,
+      status:options.status,
+   
       datetime:options.datetime,
-      subscribeStatushave:options.subscribeStatushave
+      subscribeStatushave:options.subscribeStatushave,
+      newDataTime:options.newDataTime
     })
     // console.log(options.subscribeStatushave)
     console.log(options.status)
@@ -97,6 +110,16 @@ Page({
 
     this.getSubscribeInfo(options.subscribeId)
   },
+  gobefor(e){
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+     let datatime = this.data.newDataTime
+    wx.navigateBack({
+      success: function () {
+        beforePage.afterTapDay('detail',datatime); 
+      }
+    });
+  },
   //面授课详情
   getSubscribeInfo(subscribeId){
     let that = this
@@ -145,11 +168,17 @@ Page({
     console.log()
     if(this.data.subscribeStatushave==1){
       if(subscribeStatus==null){
+        //确定预约
         this.confirmAppoint()
-      }else{
+      }else if(subscribeStatus==0||subscribeStatus==1){
         console.log(111)
+        
          //取消预约
         this.cancelappoint()
+      }else if(subscribeStatus==1){
+
+      }else if(subscribeStatus==2){
+
       }
     }
     if(this.data.status=="1"&&this.data.sy==false){
@@ -213,6 +242,7 @@ cancelappoint(){
 
    //更新学生状态
    updateSubscribeMemberStatus(status){
+    let that = this
       let option = {
         id: this.data.id - 0,
         status:status - 0
@@ -225,7 +255,7 @@ cancelappoint(){
         success: function (res) {
         console.log(res)
         wx.navigateTo({
-          url: '../faceOrder/mineOrder',
+          url: `../faceOrder/mineOrder?subscribeId=${that.data.subscribeId}`
         })
         // wx.navigateBack({
         //   delta: 1
@@ -261,8 +291,9 @@ cancelappoint(){
               icon: 'success',
               duration: 2000
             })
+            let datatime = this.data.newDataTime
             wx.navigateTo({
-              url: `../faceSuccess/faceSuccess?message=${message}&code=${code}`,
+              url: `../faceSuccess/faceSuccess?message=${message}&code=${code}&datatime=${datatime}`,
             })
           }else {
           

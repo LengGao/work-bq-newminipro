@@ -32,7 +32,7 @@ Page({
    //初始化今天的日期点击事件
    let daytime = {detail:{year:new Date().getFullYear(),month:new Date().getMonth()+1,day:new Date().getDate()}}
    console.log(daytime)
-  this.afterTapDay(daytime)
+  this.afterTapDay(daytime,0)
   },
   doSomething(a,b){
     let courseId  =wx.getStorageSync('courseId').courseId
@@ -124,17 +124,21 @@ Page({
     // console.log('onTapDay', e.detail)
   },
   //点击日期时触发
-  afterTapDay(e) {
-    console.log('初始话')
+  afterTapDay(e,newdatatime) {
+    console.log('初始话',newdatatime)
   //  console.log('afterTapDay', e.detail);
    function Appendzero(obj){
         if(obj<10) return "0" +""+ obj;
         else return obj;
     }
-   
-     let month=Appendzero(e.detail.month)+''
-     let day = Appendzero(e.detail.day)+''
-     let daytime = e.detail.year+month+day
+     let daytime
+     if(newdatatime){
+       daytime = newdatatime
+     }else{
+      let month=Appendzero(e.detail.month)+''
+      let day = Appendzero(e.detail.day)+''
+      daytime = e.detail.year+month+day
+     }
      console.log(daytime)
      let courseId  =wx.getStorageSync('courseId').courseId
    this.getSubscribeList(courseId, daytime) 
@@ -176,7 +180,9 @@ Page({
       dateTime:daytime-0
     }
     console.log(option)
-   
+   that.setData({
+     newDataTime:daytime-0
+   })
     app.encryption({
       url: api.default.getSubscribeList,
       method: "GET",
@@ -248,19 +254,21 @@ Page({
 
 
 //点击日历标题日期选择器事件:dateChange
-dateChange: function (event) {
-  let currentMonth=event.detail.currentMonth
-  let currentYear=event.detail.currentYear
- this.getTimeList(this.data.courseId ,currentMonth,currentYear)
-},
+// dateChange: function (event) {
+//   let currentMonth=event.detail.currentMonth
+//   let currentYear=event.detail.currentYear
+//  this.getTimeList(this.data.courseId ,currentMonth,currentYear)
+// },
   tofaceDetail(e){
-    console.log(e)
+    console.log(e.currentTarget.dataset)
     let courseid =e.currentTarget.dataset.courseid
     let datetime =e.currentTarget.dataset.datetime
+    let updatethisid= e.currentTarget.dataset.updatethisid
     let subscribeStatushave = 1
+    let newDataTime = this.data.newDataTime
     console.log(datetime)
     wx.navigateTo({
-      url: `../faceDetail/faceDetail?subscribeId=${courseid}&datetime=${datetime}&subscribeStatushave=${subscribeStatushave}`,
+      url: `../faceDetail/faceDetail?subscribeId=${courseid}&datetime=${datetime}&subscribeStatushave=${subscribeStatushave}&updatethisid=${updatethisid}&newDataTime=${newDataTime}`
     })
   },
   /**
@@ -288,7 +296,7 @@ dateChange: function (event) {
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    // this.doSomething()
   },
 
   /**

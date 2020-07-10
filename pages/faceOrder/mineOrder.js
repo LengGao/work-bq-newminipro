@@ -10,6 +10,8 @@ Page({
     courseId:'',
     tabId:'0',
     courseInfor:[],
+    navH:'',
+    chapterName:'我的预约',
     topSelect:[
       {
         name:'全部预约',
@@ -57,10 +59,22 @@ Page({
   onLoad: function (options) {
     let courseId  =wx.getStorageSync('courseId').courseId
     this.setData({
-      courseId:courseId
+      courseId:courseId,
+      navH: app.globalData.navHeight,
+      subscribeId:options.subscribeId
     })
-    console.log(courseId)
+    console.log(options)
     this.getMySubscribe(courseId)
+  },
+  gobefor(e){
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+     let subscribeId = this.data.subscribeId
+    wx.navigateBack({
+      success: function () {
+        beforePage.getSubscribeInfo(subscribeId); 
+      }
+    });
   },
   //我的预约列表
   getMySubscribe(courseId){

@@ -20,7 +20,7 @@
 </view>
 <view  wx:for="{{courseInfor}}" wx:key="id" style="margin:10rpx 30rpx 30rpx 30rpx">
 <!--面授课列表--->
-<view class="card" bindtap="tofaceDetail" data-courseId="{{item.id}}" data-datetime="{{item.datetime}}"  >
+<view class="card" bindtap="tofaceDetail" data-courseId="{{item.id}}" data-datetime="{{item.timeInfo}}" data-updateThisId="{{item.updateThisId}}" >
 <view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">
 <view class="card_head">{{item.courseName}}</view>
 </view>
@@ -47,7 +47,7 @@
      <view class="line_title">报名人数</view>
       <view>{{item.intoNum}} </view>人   
     </view>
-    <view class="{{item.hasSubscribed==1?'courseStatus':'courseStatus2'}}">{{item.hasSubscribed==1?'已预约':'预约'}}</view>
+    <view class="{{item.hasSubscribed==1?'courseStatus':''}}">{{item.hasSubscribed==1?'已预约':''}}</view>
       
 </view>
 </view>

@@ -3,7 +3,7 @@
     "navigationBarBackgroundColor": "#199FFF",
     "navigationBarTitleText": "我的预约",
     "navigationBarTextStyle": "white",
-   
+    "navigationStyle": "custom",
     "usingComponents": {
       "i-tabs": "../../utils/iview/tabs/index",
       "i-tab": "../../utils/iview/tab/index",
