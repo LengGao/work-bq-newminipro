@@ -35,10 +35,10 @@ Page({
       success: function (res) {
         
         console.log(res)  
-        if(res.data.code!='200'){
+        if(res.data.code!=200){
           wx.showModal({
         title: '提示',
-        content: '你还不是正式学员，请购买课程后再预约面授课？',
+        content: '你还不是正式学员，请购买课程后再预约面授课!',
         showCancel: true,//是否显示取消按钮
         cancelText: "返回",//默认是“取消”
         cancelColor: '#199FFF',//取消文字的颜色

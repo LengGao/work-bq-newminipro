@@ -13,7 +13,7 @@ Page({
         action:'myclass'
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiazai.png',
+        url:'../../imgs/alarm.png',
         name:'面授约课',
         action:'likes'
       },

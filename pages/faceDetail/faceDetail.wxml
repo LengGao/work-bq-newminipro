@@ -2,10 +2,10 @@
 wx:for="{{ funlist }}" wx:key="index">
 <!--header-->
   <view class="detail_head" >
-     <image style="width:142rpx;height:80rpx;margin-right:20rpx" src="{{item.image}}" />   
+     <image style="width:160rpx;height:90rpx;margin-right:20rpx" src="{{item.image}}" />   
     <view>
     <view class="detail-h1">{{item.classroomName}}</view>
-    <text>{{item.dateTime}}</text>
+    <text>{{item.timeInfo}}</text>
     </view>
   </view>
   <!--主要内容-->
@@ -42,11 +42,11 @@ wx:for="{{ funlist }}" wx:key="index">
   预约说明:
   </view>
   <view class="explain_content">
-    <view> ●  预约成功后不能再预约时间冲突或者相同内容的的课程  </view>
-     <view>●  因相同内容导致预约失败者，如需重修请提交申请 </view>
-      <view>●  因相同内容导致预约失败者，如需重修请提交申请 </view>
-       <view>●  因相同内容导致预约失败者，如需重修请提交申请</view>
-        <view> ●  预约成功后不能再预约时间冲突或者相同内容的的课程  </view>
+    <view> <text class="content_dot">●</text>  预约成功后不能再预约时间冲突或者相同内容的的课程  </view>
+     <view><text class="content_dot">●</text>  因相同内容导致预约失败者，如需重修请提交申请 </view>
+      <view><text class="content_dot">●</text>  如果您临时有事不能上课，可以在开课前取消预约 </view>
+       <view><text class="content_dot">●</text>  如果您上课迟到或者忘记签到，可以申请补签到</view>
+        <view> <text class="content_dot">●</text>  如果您没有取消预约也没有准时上课则视为失约，失约将影响您下次的预约操作</view>
   </view>
   <view class="explain_btn" 
   bindtap="explain_btn" 

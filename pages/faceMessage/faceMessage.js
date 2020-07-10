@@ -1,5 +1,5 @@
 
-let app = getApp(), api = require("../../api.js")
+let app = getApp(), api = require("../../api.js"),util =  require("../../utils/util.js")
  import { getCurrentYM } from '../calendar/index.js';
 Page({
 
@@ -12,9 +12,9 @@ Page({
       theme: 'elegant',
       markToday: '今',
       highlightToday: true,
-      // hideHeadOnWeekMode: true, 
+      hideHeadOnWeekMode: false, 
       showHandlerOnWeekMode: true,
-      defaultDay: '2020-7-6'
+      defaultDay: ''
     },
 
     courseId:0,
@@ -158,7 +158,8 @@ Page({
   dropdown(){
     console.log(111)
     this.setData({
-      calendarShow:!this.data.calendarShow
+      calendarShow:!this.data.calendarShow,
+      'calendarConfig.hideHeadOnWeekMode':!this.data.calendarConfig.hideHeadOnWeekMode
     })
    
   },
@@ -186,7 +187,10 @@ Page({
       if(courbox==undefined){
         courbox=[]
       }
-    
+        for(let k in courbox)
+        {
+          courbox[k].timeInfo = util.dateToSubstr2(courbox[k].dateTime,courbox[k].startTime,courbox[k].endTime)
+        }
         that.setData({
           courseInfor:courbox
         })
@@ -284,9 +288,7 @@ dateChange: function (event) {
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // this.afterCalendarRender()
-    // const ym =getCurrentYM();
-    // console.log(ym)
+  
   },
 
   /**

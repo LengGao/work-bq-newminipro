@@ -45,13 +45,43 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
-		"miniprogram": {
+		"gamePlugin": {
 			"current": -1,
 			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": 0,
+					"name": "pages/personal-center/personal-center",
+					"pathName": "pages/personal-center/personal-center",
+					"query": "id=17& status",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "pages/faceCode/faceCode",
+					"pathName": "pages/faceCode/faceCode",
+					"query": "id=97&status=2",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "pages/faceTeach/faceTeach",
+					"pathName": "pages/faceTeach/faceTeach",
+					"query": "",
+					"scene": null
+				}
+			]
 		}
 	}
 }

@@ -1,5 +1,5 @@
 const { $Message ,$Toast} = require('../../utils/iview/base/index');
-let app = getApp(), api = require("../../api.js")
+let app = getApp(), api = require("../../api.js"),util =  require("../../utils/util.js")
 Page({
   /**
    * 页面的初始数据
@@ -30,7 +30,7 @@ Page({
       datetime:options.datetime,
       subscribeStatushave:options.subscribeStatushave
     })
-    console.log(options.subscribeStatushave)
+    // console.log(options.subscribeStatushave)
     console.log(options.status)
     let todayTime = new Date()
     let y = todayTime.getFullYear().toString()
@@ -46,11 +46,21 @@ Page({
     }
     let  dateTime = y + m + d
     console.log(dateTime)
+    function dateToSubstr(str){
+
+      var year = str.substr(0,4);
+      console.log(year)
+      var month = str.substr(5,2);
+      var day = str.substr(8,2);
+      console.log(day)
+    
+      return year +  month + day
+  }
     //我的预约传过来的时间
-    console.log(options.datetime.length)
-    let timeyear = options.datetime.split(" ")[0]
-    console.log(timeyear)
-console.log(timeyear>dateTime)
+    console.log(options.datetime)
+    let timeyear = dateToSubstr(options.datetime)
+     console.log(timeyear)
+// console.log(timeyear>dateTime)
     if(timeyear<dateTime){
       //失约
       this.setData({
@@ -99,9 +109,13 @@ console.log(timeyear>dateTime)
       method: "GET",
       data:option,
       success: function (res) {
-      console.log(res)
+      console.log(res.info)
+      let courbox =res.info
+          courbox.timeInfo = util.dateToSubstr2(courbox.dateTime,courbox.startTime,courbox.endTime)
+       
+        console.log(courbox)
       let arr = []
-      arr.push(res.info)
+      arr.push(courbox)
         that.setData({
           funlist:arr
         })

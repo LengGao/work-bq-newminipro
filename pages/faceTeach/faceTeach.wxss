@@ -1,5 +1,7 @@
 /* pages/faceTeach/faceTeach.wxss */
-
+page {
+  background: #ffffff;
+}
 #gl1 {
   text-align: center;
   width: 25rpx;
@@ -81,4 +83,7 @@
   margin-top:47rpx;
   font-size: 24rpx;
   line-height: 48rpx;
+}
+.content_dot{
+  font-size: 16rpx;
 }

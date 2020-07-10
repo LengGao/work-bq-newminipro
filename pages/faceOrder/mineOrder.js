@@ -1,4 +1,4 @@
-let app = getApp(), api = require("../../api.js")
+let app = getApp(), api = require("../../api.js"),util =  require("../../utils/util.js")
 Page({
 
   /**
@@ -12,7 +12,7 @@ Page({
     courseInfor:[],
     topSelect:[
       {
-        name:'全部订单',
+        name:'全部预约',
         id:'0',
         isFail:'0',
         status:-2
@@ -80,6 +80,11 @@ Page({
       console.log(res)
       // let arr = []
       // arr.push(res.info)
+        for(let k in res.list)
+        {
+          var a  = util.dateToSubstr(res.list[k].dateTime)
+          res.list[k].dateTime = a;
+        }
         that.setData({
           courseInfor:res.list?res.list:[]
         })
