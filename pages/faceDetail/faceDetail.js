@@ -134,7 +134,7 @@ Page({
       success: function (res) {
       console.log(res.info)
       let courbox =res.info
-          courbox.timeInfo = util.dateToSubstr2(courbox.dateTime,courbox.startTime,courbox.endTime)
+      courbox.timeInfo = util.dateToSubstr2(courbox.dateTime,courbox.startTime,courbox.endTime)
        
         console.log(courbox)
       let arr = []

@@ -188,6 +188,7 @@ Page({
       method: "GET",
       data:option,
       success: function (res) {
+        console.log(res.list)
       let courbox =res.list
       console.log(courbox==undefined)
       if(courbox==undefined){
@@ -202,7 +203,7 @@ Page({
         })
        
 
-        console.log(res.list)
+       
       },
       fail: function (t) {
       

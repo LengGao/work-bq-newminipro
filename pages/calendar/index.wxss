@@ -190,7 +190,7 @@
 }
 
 .todo-dot.todo-dot-bottom-always {
-    bottom: -10rpx;
+    bottom: 7rpx;
 }
 
 /* 日期描述文字（待办文字/农历）相关样式 */

@@ -2,17 +2,17 @@
 wx:for="{{ funlist }}" wx:key="index">
 <!--header-->
   <view class="detail_head" >
-     <image style="width:142rpx;height:80rpx;margin-right:20rpx" src="{{item.image}}" />   
+     <image style="width:142rpx;height:80rpx;margin-right:20rpx" src="{{item.courseImage}}" />   
     <view>
     <view class="detail-h1">{{item.classroomName}}</view>
-    <text>{{item.dateTime}}</text>
+    <text>{{item.timeInfo}}</text>
     </view>
   </view>
   <!--主要内容-->
   <view class="detail_main" >
   <view class="detail_course">
   <text class="detail_area">上课内容</text>
-  <view class="detail_content">{{item.chapter}}</view>
+  <view class="detail_content">{{item.courseName}}</view>
   </view>
   <view class="detail_course">
   <text class="detail_area">上课老师</text>
@@ -28,11 +28,11 @@ wx:for="{{ funlist }}" wx:key="index">
   </view>
    <view class="detail_course">
   <text class="detail_area">预约人</text>
-  <view class="detail_content">{{item.nickname}}</view>
+  <view class="detail_content">{{nickname}}</view>
   </view>
    <view class="detail_course">
   <text class="detail_area">预约号码</text>
-  <view class="detail_content">{{item.mobile}}</view>
+  <view class="detail_content">{{mobile}}</view>
   </view>
   </view>
   

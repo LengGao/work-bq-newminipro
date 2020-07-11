@@ -106,7 +106,7 @@ page{
   color:#333333 ;
 }
 .explain{
-  padding: 30rpx 34rpx 100rpx 30rpx;
+  padding: 30rpx 34rpx 150rpx 30rpx;
   margin-top: 20rpx;
   background: #fff;
 }

@@ -22,6 +22,15 @@ Page({
       newDataTime:options.datatime
     })
     if(options.code=='200'){
+      wx.setNavigationBarTitle({
+        title: '预约成功' 
+      })
+    }else{
+      wx.setNavigationBarTitle({
+        title: '预约失败' 
+      })
+    }
+    if(options.code=='200'){
       this.setData({
         continueName:'继续预约'
       })
@@ -85,6 +94,7 @@ Page({
           console.log(res)
           let message=res.data.message
           if(res.data.code=="200"){
+          
             wx.showToast({
               title: res.data.message,
               icon: 'success',
@@ -94,6 +104,9 @@ Page({
             //   url: `../faceSuccess/faceSuccess?message=${message}`,
             // })
           }else {
+            wx.setNavigationBarTitle({
+              title: '预约失败' 
+            })
             // let code = res.data.code
             wx.showToast({
               title: res.data.message,
