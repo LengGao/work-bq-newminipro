@@ -1,5 +1,5 @@
 const { $Message ,$Toast} = require('../../utils/iview/base/index');
-let app = getApp(), api = require("../../api.js")
+let app = getApp(), api = require("../../api.js"),util =  require("../../utils/util.js")
 Page({
   /**
    * 页面的初始数据
@@ -15,7 +15,9 @@ Page({
     datetime:'',
     sy:false,
     explain_bg:'',
-    subscribeStatushave:''
+    subscribeStatushave:'',
+    navH:'',
+    chapterName:'预约详情'
   },
 
   /**
@@ -23,14 +25,25 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    if(options.updatethisid){
+      this.setData({
+        id:options.updatethisid
+      })
+    }else if(options.id){
+      this.setData({
+        id:options.id
+      })
+    }
     this.setData({
+      navH: app.globalData.navHeight,
       subscribeId:options.subscribeId,
-     status:options.status,
-      id:options.id,
+      status:options.status,
+   
       datetime:options.datetime,
-      subscribeStatushave:options.subscribeStatushave
+      subscribeStatushave:options.subscribeStatushave,
+      newDataTime:options.newDataTime
     })
-    console.log(options.subscribeStatushave)
+    // console.log(options.subscribeStatushave)
     console.log(options.status)
     let todayTime = new Date()
     let y = todayTime.getFullYear().toString()
@@ -46,11 +59,21 @@ Page({
     }
     let  dateTime = y + m + d
     console.log(dateTime)
+    function dateToSubstr(str){
+
+      var year = str.substr(0,4);
+      console.log(year)
+      var month = str.substr(5,2);
+      var day = str.substr(8,2);
+      console.log(day)
+    
+      return year +  month + day
+  }
     //我的预约传过来的时间
-    console.log(options.datetime.length)
-    let timeyear = options.datetime.split(" ")[0]
-    console.log(timeyear)
-console.log(timeyear>dateTime)
+    console.log(options.datetime)
+    let timeyear = dateToSubstr(options.datetime)
+     console.log(timeyear)
+// console.log(timeyear>dateTime)
     if(timeyear<dateTime){
       //失约
       this.setData({
@@ -87,6 +110,16 @@ console.log(timeyear>dateTime)
 
     this.getSubscribeInfo(options.subscribeId)
   },
+  gobefor(e){
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2]; 
+     let datatime = this.data.newDataTime
+    wx.navigateBack({
+      success: function () {
+        beforePage.afterTapDay('detail',datatime); 
+      }
+    });
+  },
   //面授课详情
   getSubscribeInfo(subscribeId){
     let that = this
@@ -99,9 +132,13 @@ console.log(timeyear>dateTime)
       method: "GET",
       data:option,
       success: function (res) {
-      console.log(res)
+      console.log(res.info)
+      let courbox =res.info
+      courbox.timeInfo = util.dateToSubstr2(courbox.dateTime,courbox.startTime,courbox.endTime)
+       
+        console.log(courbox)
       let arr = []
-      arr.push(res.info)
+      arr.push(courbox)
         that.setData({
           funlist:arr
         })
@@ -131,11 +168,17 @@ console.log(timeyear>dateTime)
     console.log()
     if(this.data.subscribeStatushave==1){
       if(subscribeStatus==null){
+        //确定预约
         this.confirmAppoint()
-      }else{
+      }else if(subscribeStatus==0||subscribeStatus==1){
         console.log(111)
+        
          //取消预约
         this.cancelappoint()
+      }else if(subscribeStatus==1){
+
+      }else if(subscribeStatus==2){
+
       }
     }
     if(this.data.status=="1"&&this.data.sy==false){
@@ -199,6 +242,7 @@ cancelappoint(){
 
    //更新学生状态
    updateSubscribeMemberStatus(status){
+    let that = this
       let option = {
         id: this.data.id - 0,
         status:status - 0
@@ -211,7 +255,7 @@ cancelappoint(){
         success: function (res) {
         console.log(res)
         wx.navigateTo({
-          url: '../faceOrder/mineOrder',
+          url: `../faceOrder/mineOrder?subscribeId=${that.data.subscribeId}`
         })
         // wx.navigateBack({
         //   delta: 1
@@ -247,8 +291,9 @@ cancelappoint(){
               icon: 'success',
               duration: 2000
             })
+            let datatime = this.data.newDataTime
             wx.navigateTo({
-              url: `../faceSuccess/faceSuccess?message=${message}&code=${code}`,
+              url: `../faceSuccess/faceSuccess?message=${message}&code=${code}&datatime=${datatime}`,
             })
           }else {
           

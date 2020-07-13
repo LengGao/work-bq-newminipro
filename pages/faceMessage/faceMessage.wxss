@@ -1,3 +1,6 @@
+page {
+  background: #ffffff;
+}
 .faceMessage{
   height: 100%;
   width: 100%;
@@ -128,9 +131,20 @@ padding:70rpx 232rpx 156rpx 228rpx;
 .courseStatus{
   font-size: 24rpx !important;
   font-weight: normal ;
+  padding-right: 10rpx;
   color:#199FFF !important;
   /* cursor: pointer !important; */
 }
+.courseStatus2{
+  font-size: 20rpx !important;
+  font-weight: normal ;
+  padding: 5rpx 30rpx;
+  border-radius: 15rpx;
+  color: #fff !important;
+  background: #199FFF;
+  /* cursor: pointer !important; */
+}
+
 .card_title{
   font-size: 30rpx;
   color:#333333;
@@ -143,7 +157,7 @@ padding:70rpx 232rpx 156rpx 228rpx;
   background:rgba(255,255,255,1);
   border-radius:20rpx 20rpx 0 0;
   position: absolute;
-  top:231rpx;
+  top:150rpx;
   /* padding-top:70rpx ; */
 }
 .message-main2{
@@ -154,3 +168,45 @@ padding:70rpx 232rpx 156rpx 228rpx;
   top:620rpx;
   /* padding-top:70rpx ; */
 }
+.card{
+  width:690rpx;
+  height:353rpx;
+  background:rgba(255,255,255,1);
+  box-shadow:0 0 12rpx 0 rgba(163,217,255,0.4);
+  border-radius:20rpx;
+  padding: 30rpx;
+  font-size: 24rpx;
+}
+.card .card_head{
+  height:30rpx;
+  /* line-height: 97rpx; */
+  font-size:28rpx;
+  font-family:PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+  padding-left:10rpx;
+  border-left:4rpx solid #199FFF;
+  
+
+}
+.card_content{
+  padding-top:20rpx;
+}
+.card_line{
+  display: flex;
+  padding-bottom:10rpx;
+  /* justify-content: space-between; */
+  /* align-items: center; */
+}
+.card_line .line_title{
+  width: 96rpx;
+  font-size: 24rpx;
+  color: #999999;
+  margin-right: 33rpx;
+}
+.flexbox{
+  
+  justify-content: space-between;
+  align-items: center;
+}
+

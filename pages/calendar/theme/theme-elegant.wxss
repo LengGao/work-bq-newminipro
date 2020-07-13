@@ -11,9 +11,10 @@
     border:1rpx solid #fff
 }
 
+
 .elegant_choosed {
-    color: #000;
-    background-color: #e2e2e2;
+    color: #199FFF;
+    background-color: #FFF;
 }
 
 .elegant_date-disable {
@@ -23,7 +24,7 @@
 .elegant_prev-month-date,
 .elegant_next-month-date {
     color: #e2e2e2;
-    opacity: 0.6;
+    opacity: 0;
 }
 
 .elegant_normal-date {

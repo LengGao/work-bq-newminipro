@@ -7,7 +7,8 @@ Page({
     message:'',
     code:'重新预约',
     continueName:'',
-    subscribeId:''
+    subscribeId:'',
+    newDataTime:''
   },
   /**
    * 生命周期函数--监听页面加载
@@ -17,8 +18,18 @@ Page({
     this.setData({
       message:options.message,
       code:options.code,
-      subscribeId:options.subscribeId
+      subscribeId:options.subscribeId,
+      newDataTime:options.datatime
     })
+    if(options.code=='200'){
+      wx.setNavigationBarTitle({
+        title: '预约成功' 
+      })
+    }else{
+      wx.setNavigationBarTitle({
+        title: '预约失败' 
+      })
+    }
     if(options.code=='200'){
       this.setData({
         continueName:'继续预约'
@@ -39,14 +50,26 @@ Page({
       })
     }
   },
+  // gobefor(){
+  //   let pages = getCurrentPages(); // 当前页面
+  //   let beforePage = pages[pages.length - 3]; 
+  //    let datatime = this.data.newDataTime
+  //   wx.navigateBack({
+  //     da
+  //     success: function () {
+  //       beforePage.afterTapDay('detail',datatime); 
+  //     }
+  //   });
+  // },
   //继续预约
   continue(){
     if(this.data.code=='70003'||this.data.code=='70001'){
       this.confirmAppoint()
     }else{
-      wx.navigateBack({
-        delta: 2
-      })
+      // this.gobefor()
+    wx.navigateTo({
+      url: '../faceMessage/faceMessage',
+    })
     }
   
   },
@@ -71,6 +94,7 @@ Page({
           console.log(res)
           let message=res.data.message
           if(res.data.code=="200"){
+          
             wx.showToast({
               title: res.data.message,
               icon: 'success',
@@ -80,6 +104,9 @@ Page({
             //   url: `../faceSuccess/faceSuccess?message=${message}`,
             // })
           }else {
+            wx.setNavigationBarTitle({
+              title: '预约失败' 
+            })
             // let code = res.data.code
             wx.showToast({
               title: res.data.message,

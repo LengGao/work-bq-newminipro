@@ -1,6 +1,24 @@
 function t(t) {
     return (t = t.toString())[1] ? t : "0" + t;
 }
+
+function dateToSubstr(str){
+
+    var year = str.substr(0,4);
+    var month = str.substr(4,2);
+    var day = str.substr(6,2);
+    var time = str.substr(9);
+    return year + "年" + month + "月" + day + "日" + " " + time;
+}
+function dateToSubstr2(str,startTime,endTime){
+
+    var year = str.substr(0,4);
+    var month = str.substr(4,2);
+    var day = str.substr(6,2);
+    var time =  startTime + "~" + endTime;
+    return year + "年" + month + "月" + day + "日" + " " + time;
+}
+
 function js_date_time(unixtime) {
     console.log(unixtime*1000)
     var date = new Date(unixtime*1000);
@@ -41,6 +59,8 @@ function js_date_time(unixtime) {
   }
 module.exports = {
     js_date_time: js_date_time,
+    dateToSubstr:dateToSubstr,
+    dateToSubstr2:dateToSubstr2,
     getDates:getDates,
     formatTime: function(e) {
         var r = e.getFullYear(), n = e.getMonth() + 1, o = e.getDate(), u = e.getHours(), a = e.getMinutes(), g = e.getSeconds();

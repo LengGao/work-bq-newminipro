@@ -1,16 +1,19 @@
+page{
+  background: #fff;
+}
 .success{
-  padding: 160rpx 105rpx 60rpx 145rpx;
+  padding: 160rpx 125rpx 60rpx 125rpx;
   background: #fff;
 }
 .success_img{
   width: 300rpx;
-  margin:0 0 70rpx 80rpx;
+  margin:0 0 70rpx 100rpx;
 }
 .success_h1{
   font-size: 50rpx;
   color:#199FFF;
   font-family:PingFang SC;
-  margin:0  0 49rpx 132rpx;
+  margin:0  0 49rpx 150rpx;
   font-weight:600;
 }
 .success_h2{
@@ -20,7 +23,8 @@
   font-family:PingFang SC;
   font-weight:400;
   display: flex;
-  text-align: center;
+  justify-content: center;
+  /* text-align: center; */
 }
 .button{
   margin-top:221rpx;

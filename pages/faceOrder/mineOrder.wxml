@@ -1,8 +1,10 @@
 <view>
-<!--header-->
- <!-- <view  class="nav-title">
-   <text id="gl1" bindtap="gobefor"></text>
-  </view> -->
+<view class="nav bg-white" style="height:{{navH}}px">
+   	<view class="nav-title">
+   		<text class="biaoti" >{{ chapterName }}</text>
+   		<text id="gl1" bindtap="gobefor"></text>
+   	</view>
+   </view>
 
 <view style="width:100%;">
 <scroll-view scroll-x="true" scroll-with-animation="true">
@@ -17,8 +19,40 @@
 </view>
 
 
-<view  wx:for="{{courseInfor}}" wx:key="id" style="margin-top:40rpx">
- <i-card title="{{item.classroomName}}" i-class="card_title" data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" bindtap="tofaceDetail" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}">
+<view  wx:for="{{courseInfor}}" wx:key="id" style="margin:40rpx 30rpx  30rpx">
+<view class="card"  data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}" bindtap="tofaceDetail">
+<view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">
+<view class="card_head">{{item.classroomName}}</view>
+</view>
+
+<view class="card_content" >
+<view class="card_line">
+    <view class="line_title">课程内容</view>
+      <view>{{item.chapterNames}}</view>
+</view>
+<view class="card_line">
+    <view class="line_title">课程时间</view>
+      <view>{{item.dateTime}}</view>
+</view>
+<view class="card_line">
+    <view class="line_title">上课老师</view>
+      <view> {{item.teacherName}}</view>
+</view>
+<view class="card_line">
+    <view class="line_title">上课地点</view>
+      <view>{{item.organizationName}}</view>
+</view>
+<view class="card_line flexbox">
+    <view style="display:flex">
+     <view class="line_title">报名人数</view>
+      <view>{{item.num}} </view>人   
+    </view>
+    <view class="courseStatus">{{item.statusName}}</view>
+      
+</view>
+</view>
+</view>
+ <!-- <i-card title="{{item.classroomName}}" i-class="card_title" data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" bindtap="tofaceDetail" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}">
   <view slot="content"  class="orderlist"><text class="coursetitle">课程内容:</text>{{item.chapterNames}}</view>
    <view slot="content" class="orderlist"><text class="coursetitle">上课时间:</text>{{item.dateTime}}</view>
     <view slot="content" class="orderlist"><text class="coursetitle">上课老师:</text>{{item.teacherName}}</view>
@@ -29,7 +63,7 @@
         </view>
         <view class="courseStatus">{{item.statusName}}</view>
         </view>
- </i-card>
+ </i-card> -->
 </view>
 
 </view>
