@@ -3,6 +3,7 @@
   "navigationBarBackgroundColor": "#199FFF",
   "navigationBarTitleText": "预约详情",
   "navigationBarTextStyle": "white",
+  "navigationStyle": "custom",
   "usingComponents": {
     "i-card": "../../utils/iview/card/index" ,
     "i-cell-group": "../../utils/iview/cell-group/index",

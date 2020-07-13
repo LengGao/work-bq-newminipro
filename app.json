@@ -1,5 +1,6 @@
 {
   "pages": [ 
+  
     "pages/index/index",
     "pages/yearTestScroll/yearTestScroll",
     "pages/Myclass/Myclass",

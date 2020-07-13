@@ -7,18 +7,20 @@
     </view>
     <!--面约授课btn-->
     <view class="appint_main">
-      <view class="face_btn" bindtap="tofaceMessage">面约授课<image class="clock" src="../../imgs/clock.png"/></view>
+      <view class="face_btn" bindtap="tofaceMessage">面授约课<image class="clock" src="../../imgs/clock.png"/></view>
       
       <view class="order_btn" bindtap="tomineOrder">我的预约<image class="calend" src="../../imgs/file.png"/></view>
-      
-     
       <!--面授约课说明-->
       <view class="appint_explain">
-      <text class="explain_h1">————   面授约课说明    ————</text>
+      <text class="explain_h1"> <text style="padding-right:20rpx"> ———— </text>   面授约课说明    <text style="padding-left:20rpx">————</text> </text>
+      
       <view class="explain_text">
-        <text>●  预约成功后不能再预约时间冲突或者相同内容的的课程  </text>
-        <text>●  因相同内容导致预约失败者，如需重修请提交申请</text>
-        <text>●  如果您临时有</text>
+        <view><text class="content_dot">●</text>  预约成功后不能再预约时间冲突或者相同内容的的课程</view>
+        <view><text class="content_dot">●</text>  因相同内容导致预约失败者，如需重修请提交申请</view>
+        <view><text class="content_dot">●</text>  如果您临时有事不能上课，可以在开课前取消预约</view>
+         <view><text class="content_dot">●</text>   如果您上课迟到或者忘记签到，可以申请补签到</view>
+          <view><text class="content_dot">●</text>   如果您没有取消预约也没有准时上课则视为失约，失约将影响您下次的预约操作 </view>
+        
       </view>
       </view>
     </view>

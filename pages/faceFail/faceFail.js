@@ -15,6 +15,15 @@ Page({
    this.setData({
      code:options.code
    })
+   if(options.code=='200'){
+    wx.setNavigationBarTitle({
+      title: '预约成功' 
+    })
+   }else{
+    wx.setNavigationBarTitle({
+      title: '预约失败' 
+    })
+   }
   },
   //我的预约
   mineorder(){

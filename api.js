@@ -100,7 +100,8 @@ let apiurl = {
     getSubscribeInfo:e + '/api/v1/getSubscribeInfo',
     insertSubscribe:e + '/api/v1/insertSubscribe',
     getMySubscribe:e+'/api/v1/getMySubscribe',
-    updateSubscribeMemberStatus:e +'/api/v1/updateSubscribeMemberStatus'
+    updateSubscribeMemberStatus:e +'/api/v1/updateSubscribeMemberStatus',
+    getQrcodeSubscribeInfo:e+'/api/v1/getQrcodeSubscribeInfo'
   },
   user: {
     newLogin: bq + "api/v1/login",

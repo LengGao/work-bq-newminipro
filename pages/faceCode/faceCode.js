@@ -1,4 +1,4 @@
-let app = getApp(), api = require("../../api.js")
+let app = getApp(), api = require("../../api.js"),util =  require("../../utils/util.js")
 Page({
   /**
    * 页面的初始数据
@@ -10,34 +10,98 @@ Page({
     subscribeId:'',
     rommId:'',
     status:2,
-    id:97,
-    explain_btn:'确定预约'
+    id:0,
+    nickname:'',
+    mobile:'',
+    explain_btn:'确定预约',
+    courseId:0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    let subscribeId=17
-   this.getSubscribeInfo(subscribeId)
-  },
+  onLoad (query) {
+    // const {query} = wx.getLaunchOptionsSync()
+    // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
+     let scene = decodeURIComponent(query.scene)
+   
+    var sceneArr = scene.split(',')
+    console.log(sceneArr)
+    // let id = sceneArr.split('-')[1]
+   
+    var para = {};
+    for (var i in sceneArr) {
+      var name = sceneArr[i].slice(0, sceneArr[i].indexOf('-'));
+      console.log(name)
+      var value = sceneArr[i].slice(sceneArr[i].indexOf('-') + 1);
+      console.log(name=="id")
+      if(name=="id"){
+        console.log(value)
+        this.setData({
+          subscribeId:value
+        })
+      }
+      para[name] = value
+      
+    }
+    console.log(this.data.subscribeId)
+    this.getQrcodeSubscribeInfo()
+  } ,
+  // onLoad: function (options) {
+  //   console.log(options)
+  //   let subscribeId=options.subscribeId
+  //   this.setData({
+  //    ids:options.ids,
+  //     id:options.id
+  //   })
+  //  this.getQrcodeSubscribeInfo(options.id)
+  // },
   //面授课详情
-  getSubscribeInfo(subscribeId){
+  getQrcodeSubscribeInfo(){
     let that = this
     let option= {
-      subscribeId	:subscribeId-0
+      subscribeId	:this.data.subscribeId-0
     }
+    console.log(option)
    
     app.encryption({
-      url: api.default.getSubscribeInfo,
+      url: api.default.getQrcodeSubscribeInfo,
       method: "GET",
       data:option,
       success: function (res) {
-      console.log(res)
+        console.log(res)
+        let classroom = res.classroom
+        classroom.timeInfo = util.dateToSubstr2(classroom.dateTime,classroom.startTime,classroom.endTime)
+        let member =res.member
+        for(var i in member){
+          console.log(member[i])
+          if(i == 'nickname'){
+            that.setData({
+              nickname:member[i]
+            })
+          }else if(i == 'mobile'){
+            that.setData({
+              mobile:member[i]
+            })
+          }
+        
+        }
+        for(var k in classroom){
+       
+          if(k == 'id'){
+            console.log(classroom[k])
+            that.setData({
+              courseId:classroom[k]
+            })
+          }
+        }
+     console.log(this.data.courseId)
       let arr = []
-      arr.push(res.info)
+      arr.push(classroom)
+      console.log(arr)
         that.setData({
-          funlist:arr
+          funlist:arr,
+
         })
         
       },
@@ -67,13 +131,12 @@ Page({
   
   //签到
   signin(){
-  
     this.updateSubscribeMemberStatus()
   },
    //更新学生状态
    updateSubscribeMemberStatus(){
       let option = {
-        id: this.data.id - 0,
+        id: this.data.courseId - 0,
         status:this.data.status - 0
       }
       console.log(option)
