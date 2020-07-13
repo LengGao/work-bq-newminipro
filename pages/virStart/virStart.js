@@ -485,7 +485,17 @@ Page({
   onLoad: function (options = {}) {
     console.log(options)
     var that = this;
-    let times = new Date().getTime()
+    let times = new Date().getTime();
+    wx.getSystemInfo({
+      success(res) {
+        let height = res.screenHeight * 2;
+        let topheight = that.data.navH;
+        let questionHeight = height - topheight * 2 - 98*2 - 56 * 2 - 40 - 40
+        that.setData({
+          questionHeight: questionHeight
+        })
+      }
+    })
     that.setData({
       targetTime2:times + 100000,
       navH: app.globalData.navHeight,

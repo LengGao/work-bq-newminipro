@@ -15,7 +15,7 @@
     </view>
     <text class="marks">{{ current_no }}/{{ all_current_no }}</text>
 </view>
-<view hidden="{{ randerTitle.problemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd">
+<view hidden="{{ randerTitle.problemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
     <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <radio-group class="checked padding">
@@ -44,7 +44,7 @@
         </view>
     </radio-group>
 </view>
-<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ randerTitle.problemType == '2'?false:true }}">
+<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ randerTitle.problemType == '2'?false:true }}" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <radio-group class="checked padding">
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
@@ -75,7 +75,7 @@
         </view>
     </radio-group>
 </view>
-<view hidden="{{ randerTitle.problemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd">
+<view hidden="{{ randerTitle.problemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
     <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <radio-group class="checked padding">
@@ -114,7 +114,7 @@
         </view>
     </radio-group>
 </view>
-<view hidden="{{ randerTitle.problemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd">
+<view hidden="{{ randerTitle.problemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
     <view class="text-type padding"><template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}" ></template></view>
     <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入你的答案"></textarea>
