@@ -22,7 +22,7 @@
 <!--面授课列表--->
 <view class="card" bindtap="tofaceDetail" data-courseId="{{item.id}}" data-datetime="{{item.timeInfo}}" data-updateThisId="{{item.updateThisId}}" >
 <view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">
-<view class="card_head">{{item.courseName}}</view>
+<view class="card_head">{{item.classroomName}}</view>
 </view>
 
 <view class="card_content" >
