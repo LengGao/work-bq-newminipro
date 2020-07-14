@@ -117,6 +117,11 @@ Page({
      let datatime = this.data.newDataTime
     wx.navigateBack({
       success: function () {
+        console.log()
+        if(typeof( beforePage.afterTapDay) == 'undefined'){
+          beforePage
+          return
+        }
         beforePage.afterTapDay('detail',datatime); 
       }
     });
@@ -291,8 +296,8 @@ cancelappoint(){
           //   url: `../faceOrder/mineOrder?subscribeId=${that.data.subscribeId}`
           // })
           if(res.data.code==200){
-            wx.redirectTo({
-              url: '../faceOrder/mineOrder',
+            wx.reLaunch({
+              url: '../faceTeach/faceTeach',
         })       
           }else{
             wx.showToast({
