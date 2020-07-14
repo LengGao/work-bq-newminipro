@@ -26,7 +26,7 @@
             <view class="wrapper-bottom">
                 <view style="width:150rpx" class="progress-item"> <i-progress percent="{{ item.progress }}" status="active"  hide-info stroke-width='3'></i-progress> </view>  
                 <view style="margin-left:8rpx"><text class="wrapper-info">{{ item.rate }}</text> </view>
-                <text class="ratesText" style="margin-left:25rpx">准确率:</text><text class="rates" style="margin-left:15rpx">{{ item.trueProgress }}%</text>
+                <!-- <text class="ratesText" style="margin-left:25rpx">准确率:</text><text class="rates" style="margin-left:15rpx">{{ item.trueProgress }}%</text> -->
             </view>
         </view>
         <view id="gl1"></view>

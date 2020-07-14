@@ -13,6 +13,7 @@ Page({
     randerTitle: [],
     allRender: [],
     indexs: 0,
+    noexist:false,
     option: '',
     disabled: false,
     showAny: true,
@@ -23,7 +24,7 @@ Page({
     formId: '',
     tabItems: [
       {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
         name: '上一题',
         action: 'lastQU',
         class: '',
@@ -72,8 +73,24 @@ Page({
     let name = 'tabItems[2].name'//以上为收藏按钮数据
     let current_no = that.data.current_no//获取当前标题数
     let allRenders = that.data.allRender//获取所有已经渲染的数据
-    console.log(allRenders)
-    if (current_no < 1) {//如果下标小于等于1则提示当前已经是第一题
+    console.log(allRenders.length)
+    current_no = current_no - 1 //获取上一题的下标（局部）
+
+    // if (that.data.noexist) {
+    //   let datas = that.data.originTitle[current_no]
+    //   let randerTitle = app.testWxParse(that, datas)
+    //   this.setData({
+    //     randerTitle: randerTitle,
+    //     current_no: current_no,
+    //     answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    //     activeAnswer: 'defaultAnswer',
+    //     correctoption: '',
+    //     ProblemType: randerTitle.ProblemType
+    //   })
+    //   return
+    // }
+    console.log(current_no)
+    if (current_no < 0) {//如果下标小于等于1则提示当前已经是第一题
       wx.showToast({
         title: '已经是第一题了',
         icon: 'none',
@@ -86,9 +103,8 @@ Page({
       })
       return
     }
-    current_no = current_no - 1 //获取上一题的下标（局部）
-    console.log(current_no)
-    if (allRenders[current_no].isCollect && allRenders[current_no].isCollect == '1') { //已收藏 
+
+    if (typeof (allRenders[current_no].isCollect) != undefined && allRenders[current_no].isCollect == '1') { //已收藏 
       that.setData({
         likes: true,
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
@@ -107,12 +123,12 @@ Page({
     if (allRenders[current_no].done) {
       that.setData({
         showAny: 0,
-        multishowAny:0
+        multishowAny: 0
       })
     } else {
       that.setData({
         showAny: true,
-        multishowAny:true
+        multishowAny: true
       })
     }
     this.setData({
@@ -124,8 +140,8 @@ Page({
       ProblemType: allRenders[current_no].ProblemType
     })
     this.showAnswer()
-      if(allRenders[current_no].yourAnswer && allRenders[current_no].yourAnswer!= '' ){ //如果改题目已经做过
-        that.init(allRenders[current_no].yourAnswer)
+    if (allRenders[current_no].yourAnswer && allRenders[current_no].yourAnswer != '') { //如果改题目已经做过
+      that.init(allRenders[current_no].yourAnswer)
     }
   },
   cards() {
@@ -139,27 +155,44 @@ Page({
     })
   },
   wode(number) {
+    wx.showLoading({
+      title: '请耐心等待',
+    })
     let that = this
-    let allRenders = that.data.allRender//获取所有已经渲染的数据
+    let arrData = that.data.allRender
+    // let noexist = arrData.findIndex(ite => ite.ProblemId === number)
+    let allRenders = that.data.originTitle//获取所有已经渲染的数据
     number = allRenders.findIndex(ite => ite.ProblemId === number)
-    if (number == -1) {
-      wx.showToast({
-        title: '不能查看未做题目',
-        icon: 'none',
-        duration: 2000
-      })
-
-      return
+    console.log(number)
+    for (let i = 0; i < number; i++) {
+      if(!arrData.includes(allRenders[i])){
+        let randerTitls = app.testWxParse(that,allRenders[i])//解析所有已经加载的题目,从第一道题开始
+        that.data.allRender.push(randerTitls)//向页面渲染集合推送已做过的题目,
+      }
     }
-    if (!allRenders[number].done == true) {
+    let randerTitle = app.testWxParse(that, allRenders[number])
+    if (number > 0) {
+      let icon = 'tabItems[0].icon'
+      this.setData({
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+      })
+    }
+    // if (noexist == -1) { // 不存在已渲染的数组中
+    //  that.setData({
+    //   noexist: true
+    //  })
+    // }
+    // console.log(noexist)
+    if (typeof (randerTitle.done) != undefined && !randerTitle.done == true) {
       this.setData({
         showAny: true
       })
     }
+    wx.hideLoading()
     this.setData({
-      randerTitle: allRenders[number],
+      randerTitle: randerTitle,
       current_no: number,
-      ProblemType: allRenders[number].ProblemType
+      ProblemType: randerTitle.ProblemType
     })
   },
   likes() {
@@ -169,7 +202,6 @@ Page({
     let name = 'tabItems[2].name'
     let current_no = that.data.current_no
     let allRender = that.data.allRender//页面已经渲染的数据集合
-    console.log(current_no, allRender)
     if (this.data.tabItems[2].class == 'active') {
       let option = {
         problemId: this.data.randerTitle.ProblemId,
@@ -182,7 +214,19 @@ Page({
         dataType: "json",
         success: function (res) {
           if (res.data.code == 200) {
-            allRender[current_no - 1].isCollect = 0
+            // if (that.data.noexist) {
+            //   //表明当前题目与实际渲染之间存在较大差值
+            //   let datas = that.data.originTitle[current_no]
+            //   let randerTitle = app.testWxParse(that, datas)
+            //   if (typeof (randerTitle.isCollect) != 'undefined') {
+            //     randerTitle.isCollect = 0
+            //   }
+            // }else{
+             
+            // }
+            if (typeof (allRender[current_no].isCollect) != 'undefined') {
+              allRender[current_no].isCollect = 0
+            }
             that.setData({
               likes: false,//表示当前题目未收藏
               [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
@@ -206,7 +250,6 @@ Page({
             icon: 'none',
             duration: 2000
           })
-
         },
         fail: function (n) {
           console.log('333333')
@@ -225,7 +268,18 @@ Page({
       dataType: "json",
       success: function (res) {
         if (res.data.code == 200) {
-          allRender[current_no - 1].isCollect = 1
+          if (that.data.noexist) {
+            //表明当前题目与实际渲染之间存在较大差值
+            let datas = that.data.originTitle[current_no]
+            let randerTitle = app.testWxParse(that, datas)
+            if (typeof (randerTitle.isCollect) != 'undefined') {
+              randerTitle.isCollect = 0
+            }
+          }else{
+            if (typeof (allRender[current_no].isCollect) != 'undefined') {
+              allRender[current_no].isCollect = 0
+            }
+          }
           that.setData({
             likes: true,
             [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
@@ -323,7 +377,7 @@ Page({
     let current_no = that.data.current_no + 1
     let curReander = that.data.originTitle[current_no]//获取下一题的原始数据
     let allRender = that.data.allRender//页面已经渲染的数据集合
-    console.log(curReander.done)
+    console.log(current_no,curReander)
     if (curReander.done == true) {
       that.setData({
         showAny: 0
@@ -365,11 +419,12 @@ Page({
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
-
       })
     } else {//如果存在则直接拿取已存在的数据渲染
       // let isShow
+      console.log(allRender,current_no)
       randerTitle = allRender[current_no]
+      console.log(randerTitle)
       // if (randerTitle.done){
       //   isShow = false //如果当前题目已做，则展示答案
       // }else{
@@ -408,8 +463,8 @@ Page({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
-      if(randerTitle.yourAnswer && randerTitle.yourAnswer!= '' ){ //如果改题目已经做过
-        that.init(randerTitle.yourAnswer)
+    if (randerTitle.yourAnswer && randerTitle.yourAnswer != '') { //如果改题目已经做过
+      that.init(randerTitle.yourAnswer)
     }
   },
   //选择答案
@@ -549,9 +604,9 @@ Page({
     let color = randerTitle.content[index];//获取当前点击选项的数组
     console.log(option)
     this.setData({
-       option: option,//声名点击选项
-       showAny: 0,//尚未操作前，隐藏答案
-       multishowAny:0
+      option: option,//声名点击选项
+      showAny: 0,//尚未操作前，隐藏答案
+      multishowAny: 0
     })
     color.color = false//新增当前点击选项的color
     color.err = false//新增当前点击选项的err
@@ -608,12 +663,12 @@ Page({
               beforePage.onLoad({ courseId: courseId });
             }
           });
-        
+
           //点击取消,默认隐藏弹框
         } else {
           console.log('点击了事件二')
           let option = {
-            formId:formId
+            formId: formId
           }
           console.log(option)
           app.encryption({
@@ -646,10 +701,10 @@ Page({
     })
   },
   onLoad: function (options = {}) {
-  let that = this
+    let that = this
     console.log(options)
-    let redo = 0
-    if(options.hasdone == 1){
+    let redo = 1
+    if (options.hasdone == 1) {
       wx.showModal({
         title: '提示',
         content: '检测到你上次保存过做题记录，是否继续上次开始做题？',
@@ -660,17 +715,17 @@ Page({
         confirmColor: '#333333',//确定文字的颜色
         success: function (res) {
           if (res.cancel) {
-              redo = 1 //重新开始
+            redo = 1 //重新开始
             //点击取消,默认隐藏弹框
           } else {
             redo = 0 //继续上次
           }
-          that.initAlldata(options,redo)
+          that.initAlldata(options, redo)
         }
       })
-    }else{
-      
-      that.initAlldata(options,redo)
+    } else {
+
+      that.initAlldata(options, redo)
     }
   },
   onReady: function () { },
@@ -690,7 +745,7 @@ Page({
       touchY: e.changedTouches[0].clientY
     });
   },
-  initAlldata(options,redo){
+  initAlldata(options, redo) {
     wx.showLoading({
       title: '正在加载中...',
     })
@@ -704,7 +759,7 @@ Page({
       success(res) {
         let height = res.screenHeight * 2;
         let topheight = that.data.navH;
-        let questionHeight = height - topheight * 2 - 98 - 56 * 2 - 40 - 40
+        let questionHeight = height - topheight * 2 - 98 - 56 * 2 - 40 
         that.setData({
           questionHeight: questionHeight
         })
@@ -716,7 +771,7 @@ Page({
     let option = {
       courseId: options.courseId,
       chapterId: options.chapter_id,
-      redo:redo
+      redo: redo
     }//以上为初始化加载参数
     console.log(option)
     app.encryption({//初始化加载函数获取所有题目
@@ -730,27 +785,27 @@ Page({
         let curindex = 0 //声明首次加载的下标
         let randerTitle = app.testWxParse(that, res.list[0])//初始化并解析第一道题目,默认是从第一道题开始加载渲染
         that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
-        if(redo == 0){
-        for (let item of res.list.entries()) {//遍历所有原始数据并初始化首次加载数据集合
-          if (item[1].ProblemId == res.lastProblemId) {//如果发现了此lastProblemId则需要初始化所有之前的题目
-            curtitle = item[1]
-            curindex = item[0]//初始化加载下标
-            console.log(curindex)
-            randerTitle = app.testWxParse(that, curtitle)//初始化首次加载页面数据
-            if (curindex >= 1) {
-              let icon = 'tabItems[0].icon'
-              that.setData({
-                [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
-              })
-            }
-            that.data.allRender.length = 0
-            for (let i = 0; i <= curindex; i++) {
-              let randerTitle = app.testWxParse(that, res.list[i])//解析所有已经加载的题目,从第一道题开始
-              that.data.allRender.push(randerTitle)//向页面渲染集合推送已做过的题目,
+        if (redo == 0) {
+          for (let item of res.list.entries()) {//遍历所有原始数据并初始化首次加载数据集合
+            if (item[1].ProblemId == res.lastProblemId) {//如果发现了此lastProblemId则需要初始化所有之前的题目
+              curtitle = item[1]
+              curindex = item[0]//初始化加载下标
+              console.log(curindex)
+              randerTitle = app.testWxParse(that, curtitle)//初始化首次加载页面数据
+              if (curindex >= 1) {
+                let icon = 'tabItems[0].icon'
+                that.setData({
+                  [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+                })
+              }
+              that.data.allRender.length = 0
+              for (let i = 0; i <= curindex; i++) {
+                let randerTitle = app.testWxParse(that, res.list[i])//解析所有已经加载的题目,从第一道题开始
+                that.data.allRender.push(randerTitle)//向页面渲染集合推送已做过的题目,
+              }
             }
           }
-        }
-         }//遍历所有题目并将上一次做过的题目找到，如果此前有记录，则需要把所有做过的题目推送到已经渲染的集合（即要初始化allRender）
+        }//遍历所有题目并将上一次做过的题目找到，如果此前有记录，则需要把所有做过的题目推送到已经渲染的集合（即要初始化allRender）
         wx.hideLoading()
         that.setData({
           originTitle: res.list,//为所有原始数据
@@ -779,11 +834,6 @@ Page({
         console.log('初始化失败')
       }
     })
-
-
-
-
-
   },
   touchEnd(e) {
     let d = this.data;
