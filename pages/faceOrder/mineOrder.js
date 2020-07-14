@@ -70,10 +70,15 @@ Page({
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2]; 
      let subscribeId = this.data.subscribeId
+     console.log(beforePage.route)
     wx.navigateBack({
       success: function () {
+      if(beforePage.route == 'pages/faceDetail/faceDetail'){
         beforePage.getSubscribeInfo(subscribeId); 
+      }else{
+        beforePage
       }
+    }
     });
   },
   //我的预约列表

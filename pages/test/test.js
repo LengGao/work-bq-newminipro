@@ -591,18 +591,27 @@ Page({
       title: '提示',
       content: '你正在进行章节练习，是否保存当前做题记录？',
       showCancel: true,//是否显示取消按钮
-      cancelText: "取消",//默认是“取消”
+      cancelText: "重做",//默认是“取消”
       cancelColor: '#199FFF',//取消文字的颜色
-      confirmText: "确认",//默认是“确定”
+      confirmText: "保存",//默认是“确定”
       confirmColor: '#333333',//确定文字的颜色
       success: function (res) {
-        // wx.redirectTo({
-        //   url:'../chapter/chapter'
-        // })
         if (res.cancel) {
+          console.log('点击了事件一')
           wx.showLoading({
             title: '正在清除进度...',
           })
+          let pages = getCurrentPages(); // 当前页面
+          let beforePage = pages[pages.length - 2];
+          wx.navigateBack({
+            success: function () {
+              beforePage.onLoad({ courseId: courseId });
+            }
+          });
+        
+          //点击取消,默认隐藏弹框
+        } else {
+          console.log('点击了事件二')
           let option = {
             formId:formId
           }
@@ -632,25 +641,60 @@ Page({
               console.log('333333')
             }
           })
-          //点击取消,默认隐藏弹框
-        } else {
-          let pages = getCurrentPages(); // 当前页面
-          let beforePage = pages[pages.length - 2];
-          wx.navigateBack({
-            success: function () {
-              beforePage.onLoad({ courseId: courseId });
-            }
-          });
         }
       }
     })
   },
   onLoad: function (options = {}) {
-    var that = this;
+  let that = this
     console.log(options)
+    let redo = 0
+    if(options.hasdone == 1){
+      wx.showModal({
+        title: '提示',
+        content: '检测到你上次保存过做题记录，是否继续上次开始做题？',
+        showCancel: true,//是否显示取消按钮
+        cancelText: "重新开始",//默认是“取消”
+        cancelColor: '#199FFF',//取消文字的颜色
+        confirmText: "继续上次",//默认是“确定”
+        confirmColor: '#333333',//确定文字的颜色
+        success: function (res) {
+          if (res.cancel) {
+              redo = 1 //重新开始
+            //点击取消,默认隐藏弹框
+          } else {
+            redo = 0 //继续上次
+          }
+          that.initAlldata(options,redo)
+        }
+      })
+    }else{
+      
+      that.initAlldata(options,redo)
+    }
+  },
+  onReady: function () { },
+  onShow: function () { },
+  onHide: function () {
+    clearTimeout(t);
+  },
+  onUnload: function () {
+    clearTimeout(t);
+  },
+  onPullDownRefresh: function () { },
+  onReachBottom: function () { },
+  // 左右滑动事件
+  touchStart(e) {
+    this.setData({
+      touchX: e.changedTouches[0].clientX,
+      touchY: e.changedTouches[0].clientY
+    });
+  },
+  initAlldata(options,redo){
     wx.showLoading({
       title: '正在加载中...',
     })
+    var that = this;
     this.setData({
       chapterName: options.name,
       navH: app.globalData.navHeight,
@@ -671,8 +715,10 @@ Page({
     let name = 'tabItems[2].name'//以上为获取收藏按钮状态
     let option = {
       courseId: options.courseId,
-      chapterId: options.chapter_id
+      chapterId: options.chapter_id,
+      redo:redo
     }//以上为初始化加载参数
+    console.log(option)
     app.encryption({//初始化加载函数获取所有题目
       url: api.default.getProblems,
       data: option,
@@ -684,6 +730,7 @@ Page({
         let curindex = 0 //声明首次加载的下标
         let randerTitle = app.testWxParse(that, res.list[0])//初始化并解析第一道题目,默认是从第一道题开始加载渲染
         that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
+        if(redo == 0){
         for (let item of res.list.entries()) {//遍历所有原始数据并初始化首次加载数据集合
           if (item[1].ProblemId == res.lastProblemId) {//如果发现了此lastProblemId则需要初始化所有之前的题目
             curtitle = item[1]
@@ -702,7 +749,8 @@ Page({
               that.data.allRender.push(randerTitle)//向页面渲染集合推送已做过的题目,
             }
           }
-        }//遍历所有题目并将上一次做过的题目找到，如果此前有记录，则需要把所有做过的题目推送到已经渲染的集合（即要初始化allRender）
+        }
+         }//遍历所有题目并将上一次做过的题目找到，如果此前有记录，则需要把所有做过的题目推送到已经渲染的集合（即要初始化allRender）
         wx.hideLoading()
         that.setData({
           originTitle: res.list,//为所有原始数据
@@ -731,23 +779,11 @@ Page({
         console.log('初始化失败')
       }
     })
-  },
-  onReady: function () { },
-  onShow: function () { },
-  onHide: function () {
-    clearTimeout(t);
-  },
-  onUnload: function () {
-    clearTimeout(t);
-  },
-  onPullDownRefresh: function () { },
-  onReachBottom: function () { },
-  // 左右滑动事件
-  touchStart(e) {
-    this.setData({
-      touchX: e.changedTouches[0].clientX,
-      touchY: e.changedTouches[0].clientY
-    });
+
+
+
+
+
   },
   touchEnd(e) {
     let d = this.data;

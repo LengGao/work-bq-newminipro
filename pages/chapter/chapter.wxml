@@ -19,7 +19,7 @@
 </view>
 <view class="card">
     <!-- <navigator class="chapter-item" hoverClass="none" url="../test/test?id=1&chapter_id=1"> -->
-    <view wx:for="{{ reader }}" wx:key="index" class="wrapper-class" data-cid = '{{ item.chapterId}}' bindtap='gopri' data-name="{{ item.chapterName }}">
+    <view wx:for="{{ reader }}" wx:key="index" class="wrapper-class" data-cid = '{{item.chapterId}}' bindtap='gopri' data-hasdone='{{item.hasFile}}' data-name="{{ item.chapterName }}">
         <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/reader.png" style="width:26rpx;height:26rpx;margin-top:8rpx"/>
         <view class="card-items" class="wrapper-content">
             <text class="title-card">{{ item.chapterName }}</text>

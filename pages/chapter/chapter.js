@@ -37,8 +37,9 @@ Page({
     // },
     gopri(t){
         let courseId = this.data.courseId
+        console.log(t.currentTarget.dataset.hasdone)
         wx.navigateTo({
-            url: `../test/test?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&name=${t.currentTarget.dataset.name}`
+            url: `../test/test?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&name=${t.currentTarget.dataset.name}&hasdone=${t.currentTarget.dataset.hasdone}`
         })
     },
     getChapterInfo: function(courseId,resolve, reject) {

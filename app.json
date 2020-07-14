@@ -6,6 +6,7 @@
     "pages/Myclass/Myclass",
     "pages/yeartestReload/yeartestReload",
     "pages/answerCardPir/answerCardPir",
+    "pages/errorCardPir/errorCardPir",
     "pages/buyStatus/buyStatus",
     "pages/learnStatus/learnStatus",
     "pages/AllTestScore/AllTestScore",
