@@ -292,7 +292,7 @@ cancelappoint(){
               duration: 2000
             })
             let datatime = this.data.newDataTime
-            wx.navigateTo({
+            wx.redirectTo({
               url: `../faceSuccess/faceSuccess?message=${message}&code=${code}&datatime=${datatime}`,
             })
           }else {

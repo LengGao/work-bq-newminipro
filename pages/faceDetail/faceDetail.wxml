@@ -29,7 +29,7 @@
    		</view>
    		<view class="detail_course">
    			<text class="detail_area">报名人数</text>
-   			<view class="detail_content">{{item.intoNum}}</view>
+   			<view class="detail_content">{{item.intoNum}}人</view>
    		</view>
    		<view class="detail_course">
    			<text class="detail_area">预约人</text>
@@ -57,7 +57,7 @@
    		<view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}" hidden="{{status}}" wx:elif="{{item.subscribeStatus=='0'|| item.subscribeStatus=='1'}}">取消预约</view>
    		<view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}" hidden="{{status}}" wx:elif="{{item.subscribeStatus=='2'}}">已签到</view>
 
-   		<view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}" hidden="{{status}}" wx:else>已取消</view>
+   		<view class="explain_btn explain_bg" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}" hidden="{{status}}" wx:else>已取消</view>
 
 
 
