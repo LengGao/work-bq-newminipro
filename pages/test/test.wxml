@@ -104,7 +104,7 @@
                 <text class="correctanswer">正确答案：</text>
                 {{ randerTitle.answer }}
                 <text class="youranswer">你的答案：</text>
-                {{ option }}
+                {{ randerTitle.option }}
             </view>
             <view class="referData">答案解析</view>
             <view class="topRefer">
