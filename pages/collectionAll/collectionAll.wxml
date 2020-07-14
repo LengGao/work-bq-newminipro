@@ -46,7 +46,7 @@
                 <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
             </view>
             <view class="cata-list" wx:if="{{item.isShow}}">
-                <view bindtap="select_date" class="cata-item flex-st {{chapterId == vitem.chapterId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='error' data-name='错题集' data-id ='{{ vitem.problemId }}'>
+                <view bindtap="goforError" class="cata-item flex-st {{chapterId == vitem.chapterId ?'selected com_color':''}}" data-cid="{{vitem.chapterId}}" wx:for="{{item.content}}" wx:for-item="vitem" wx:key="index" data-type='error' data-name='错题集' data-id ='{{ vitem.problemId }}'>
                     <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                     <view class="cata-content twoline">

@@ -30,6 +30,10 @@ Page({
         title: '预约失败' 
       })
     }
+    //70001,[],"该课程已经无效，无法预约"
+    //70001,[],"您已经预约过课程,请勿重复预约"
+    //70002,[],"您预约时间与课程:'{$classroomName}'的时间出现冲突"
+    //70003,[],"预约申请失败"
     if(options.code=='200'){
       this.setData({
         continueName:'继续预约'
@@ -40,12 +44,12 @@ Page({
       })
     }else if(options.code=='70003'){
       this.setData({
-        continueName:'申请重修',
+        continueName:'重新预约',
 
       })
     }else if(options.code=='70001'){
       this.setData({
-        continueName:'申请重修',
+        continueName:'重新预约',
 
       })
     }
@@ -63,19 +67,19 @@ Page({
   // },
   //继续预约
   continue(){
-    if(this.data.code=='70003'||this.data.code=='70001'){
-      this.confirmAppoint()
-    }else{
+    // if(this.data.code=='70003'||this.data.code=='70001'){
+    //   this.confirmAppoint()
+    // }else{
       // this.gobefor()
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../faceMessage/faceMessage',
     })
-    }
+    // }
   
   },
   //我的预约
   mineorder(){
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../faceOrder/mineOrder',
     })
   },
