@@ -18,7 +18,10 @@
 </scroll-view>
 </view>
 
-
+<view class="noface" hidden="{{courseInfor.length>0?true:false}}">
+<image src="../../imgs/noface.png" style="width:290rpx;height:290rpx"></image>
+<view class="noface_text">暂无面授课安排</view>
+</view>
 <view  wx:for="{{courseInfor}}" wx:key="id" style="margin:40rpx 30rpx  30rpx">
 <view class="card"  data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}" bindtap="tofaceDetail">
 <view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">

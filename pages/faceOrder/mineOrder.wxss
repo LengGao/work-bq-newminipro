@@ -119,6 +119,17 @@
   font-weight: 500;
   font-family:PingFang SC;
 }
+.noface{
+  padding:70rpx 232rpx 156rpx 228rpx;
+  }
+  .noface .noface_text{
+    padding:39rpx 0 0 65rpx;
+    font-size:24rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(170,170,170,1);
+    line-height:8rpx;
+  }
 .teamnum{
   font-size: 32rpx;
 }
