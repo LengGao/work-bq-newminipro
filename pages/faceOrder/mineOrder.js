@@ -67,19 +67,10 @@ Page({
     this.getMySubscribe(courseId)
   },
   gobefor(e){
-    let pages = getCurrentPages(); // 当前页面
-    let beforePage = pages[pages.length - 2]; 
-     let subscribeId = this.data.subscribeId
-     console.log(beforePage.route)
-    wx.navigateBack({
-      success: function () {
-      if(beforePage.route == 'pages/faceDetail/faceDetail'){
-        beforePage.getSubscribeInfo(subscribeId); 
-      }else{
-        beforePage
-      }
-    }
-    });
+    wx.reLaunch({
+      url: '../faceTeach/faceTeach',
+})       
+   
   },
   //我的预约列表
   getMySubscribe(courseId){
