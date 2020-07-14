@@ -14,6 +14,7 @@ Page({
     explain_bg:'',
     datetime:'',
     sy:false,
+    cancelId:0,
     explain_bg:'',
     subscribeStatushave:'',
     navH:'',
@@ -134,9 +135,11 @@ Page({
       success: function (res) {
       console.log(res.info)
       let courbox =res.info
-      courbox.timeInfo = util.dateToSubstr2(courbox.dateTime,courbox.startTime,courbox.endTime)
-       
-        console.log(courbox)
+      courbox.timeInfo = util.dateToSubstr2(courbox.dateTime,courbox.startTime,courbox.endTime) 
+      console.log(courbox.id)
+      that.setData({
+        cancelId:courbox.updateThisId
+      })
       let arr = []
       arr.push(courbox)
         that.setData({
@@ -171,14 +174,15 @@ Page({
         //确定预约
         this.confirmAppoint()
       }else if(subscribeStatus==0||subscribeStatus==1){
-        console.log(111)
-        
+        console.log(111)     
          //取消预约
         this.cancelappoint()
       }else if(subscribeStatus==1){
 
       }else if(subscribeStatus==2){
 
+      }else{
+        this.reSubscribeClassroom()
       }
     }
     if(this.data.status=="1"&&this.data.sy==false){
@@ -189,9 +193,9 @@ Page({
       //   explain_btn:'等待确认',
       // })
     }else if(this.data.status=="-1"){
-     wx.navigateTo({
-       url: '../faceMessage/faceMessage',
-     })
+      //重新预约
+      this.reSubscribeClassroom()
+   
       // this.setData({
       //   explain_btn:'重新预约',
       // })
@@ -270,6 +274,47 @@ cancelappoint(){
         }
       })
     },
+    //重新预约
+    reSubscribeClassroom(subscribeStatus){
+      let that = this
+        let option = {
+          id: this.data.cancelId
+        }
+        console.log(option)
+        app.encryption({
+          url: api.default.reSubscribeClassroom,
+          method: "POST",
+          data:option,
+          success: function (res) {
+          console.log(res)
+          // wx.navigateTo({
+          //   url: `../faceOrder/mineOrder?subscribeId=${that.data.subscribeId}`
+          // })
+          if(res.data.code==200){
+            wx.redirectTo({
+              url: '../faceOrder/mineOrder',
+        })       
+          }else{
+            wx.showToast({
+              title: res.data.message,//提示文字
+              duration: 1300,//显示时长
+              mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+              icon: 'none', //图标，支持"success"、"loading"  
+              success: function () { },//接口调用成功
+              fail: function () { },  //接口调用失败的回调函数  
+              complete: function () { } //接口调用结束的回调函数  
+            })
+          }
+      
+          },
+          fail: function (res) {
+          console.log(res)
+          },
+          complete: function () {
+    
+          }
+        })
+      },
   //确定预约
   confirmAppoint(){
     let options = {
