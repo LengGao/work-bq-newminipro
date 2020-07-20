@@ -297,7 +297,7 @@ cancelappoint(){
           // })
           if(res.data.code==200){
             wx.reLaunch({
-              url: '../faceTeach/faceTeach',
+              url: '../faceOrder/mineOrder',
         })       
           }else{
             wx.showToast({

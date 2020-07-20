@@ -7,8 +7,8 @@ let config = {
   // bqUrl:'http://api.bq.cc/', 
    // bqUrl:'http://api.eduwin.local/',
    bqUrl:'https://testapi.abacc.cn/',
-   sock:'wss://testapi.abacc.cn/'
-  //  sock:"wss://apps.beiqujy.com/",
-  //  bqUrl:'https://apps.beiqujy.com/'
+   sock:'wss://testapi.abacc.cn/',
+    //sock:"wss://apps.beiqujy.com/",
+    //bqUrl:'https://apps.beiqujy.com/'
 }
 export default config;
