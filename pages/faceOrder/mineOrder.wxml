@@ -43,7 +43,7 @@
 </view>
 <view class="card_line">
     <view class="line_title">上课地点</view>
-      <view>{{item.organizationName}}</view>
+      <view>{{item.address}}</view>
 </view>
 <view class="card_line flexbox">
     <view style="display:flex">
