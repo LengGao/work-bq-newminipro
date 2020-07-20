@@ -108,7 +108,6 @@ Page({
         explain_btn:'申请补签到',
       })
     }
-
     this.getSubscribeInfo(options.subscribeId)
   },
   gobefor(e){
