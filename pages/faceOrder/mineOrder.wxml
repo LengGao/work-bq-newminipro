@@ -31,7 +31,7 @@
 <view class="card_content" >
 <view class="card_line">
     <view class="line_title">课程内容</view>
-      <view>{{item.chapterNames}}</view>
+      <view class="line_content">{{item.chapterNames}}</view>
 </view>
 <view class="card_line">
     <view class="line_title">课程时间</view>

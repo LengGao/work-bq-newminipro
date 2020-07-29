@@ -28,6 +28,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
    this.doSomething()
    //初始化今天的日期点击事件
    let daytime = {detail:{year:new Date().getFullYear(),month:new Date().getMonth()+1,day:new Date().getDate()}}
