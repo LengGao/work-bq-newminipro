@@ -170,7 +170,6 @@ padding:70rpx 232rpx 156rpx 228rpx;
 }
 .card{
   width:690rpx;
-  height:353rpx;
   background:rgba(255,255,255,1);
   box-shadow:0 0 12rpx 0 rgba(163,217,255,0.4);
   border-radius:20rpx;
@@ -203,6 +202,9 @@ padding:70rpx 232rpx 156rpx 228rpx;
   font-size: 24rpx;
   color: #999999;
   margin-right: 33rpx;
+}
+.line_content{
+  max-width: 500rpx;
 }
 .flexbox{
   

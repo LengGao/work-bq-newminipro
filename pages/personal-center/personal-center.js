@@ -80,7 +80,10 @@ Page({
   likes() {
     let courseId = this.data.courseId
     console.log(courseId)
-    this.getSubscribePower(courseId)
+    wx.navigateTo({
+      url: `../faceTeach/faceTeach?number=2&courseId=${courseId}`
+    })
+    //  this.getSubscribePower(courseId)
   
   },
   myclass() {
@@ -115,7 +118,6 @@ Page({
       data: option,
       method: 'GET',
       success: function (res) {
-        
         console.log(res)  
         if(res.data.code!=200){
           wx.showModal({
