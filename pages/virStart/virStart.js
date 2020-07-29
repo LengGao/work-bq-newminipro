@@ -99,28 +99,6 @@ Page({
       ProblemType:allRenders[number].problemType
     })
   },
-  // wode(number, nosubmit = 0) {
-  //   let that = this
-  //   let allRenders = that.data.originTitle//获取所有的数据
-  //   console.log(allRenders)
-  //   // allRenders.forEach(element => {
-  //   //   app.testWxParse(that, element)
-  //   // });
-  //   number = allRenders.findIndex(ite => ite.problemId == number)
-  //   if(number >=1 ){
-  //     let icon = 'tabItems[0].icon'
-  //     this.setData({
-  //       [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
-  //     })
-  //   }
-  //   console.log(number, nosubmit)
-  //   let randerTitle = app.testWxParse(that, allRenders[number])
-  //   this.setData({
-  //     randerTitle: randerTitle,
-  //     current_no: number + 1,
-  //     allRenders:allRenders
-  //   })
-  // },
   lastQU() {
     let that = this
     let current_no = that.data.current_no//获取上一题的下标
@@ -178,6 +156,7 @@ Page({
     })
   },
   myLinsterner(e) {
+    let that = this
     wx.showModal({
       title: '提示',
       content: '考试时间到，系统自动交卷！',
@@ -329,6 +308,7 @@ Page({
         answer: answer,
         examLogId:this.data.examLogId
        }
+       console.log(option)
        app.encryption({//初始化加载函数获取所有题目
         url: api.default.examinationQuestions,
         data: option,

@@ -1248,7 +1248,6 @@ Page({
     // 监听WebSocket关闭
     that.SocketTaskcount.onClose(res => {
       console.log('监听到 WebSocket 已关闭！' + ':' + res)
-      console.log(that.route)
       that.Countreconnect();
     })
     // websocket打开
