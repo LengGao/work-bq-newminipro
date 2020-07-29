@@ -12,7 +12,7 @@
 <view class="{{calendarShow ?'message-main2':'message-main'}}">
 <!--下拉-->
  <view class="dropdown" bindtap="dropdown"> 
-<text id="{{calendarShow ?'gl1':'gl2'}}"></text> 
+<text id="{{calendarShow ?'gl2':'gl1'}}"></text> 
 </view>
 <view class="noface" hidden="{{courseInfor.length>0?true:false}}">
 <image src="../../imgs/noface.png" style="width:290rpx;height:290rpx"></image>
@@ -28,7 +28,7 @@
 <view class="card_content" >
 <view class="card_line">
     <view class="line_title">课程内容</view>
-      <view>{{item.chapterName}}</view>
+      <view class="line_content">{{item.chapterName}}</view>
 </view>
 <view class="card_line">
     <view class="line_title">课程时间</view>

@@ -15,6 +15,7 @@ Page({
     mobile:'',
     explain_btn:'确定预约',
     courseId:0,
+    memberId:0,
   },
 
   /**
@@ -70,39 +71,65 @@ Page({
       data:option,
       success: function (res) {
         console.log(res)
-        let classroom = res.classroom
-        classroom.timeInfo = util.dateToSubstr2(classroom.dateTime,classroom.startTime,classroom.endTime)
-        let member =res.member
-        for(var i in member){
-          console.log(member[i])
-          if(i == 'nickname'){
-            that.setData({
-              nickname:member[i]
-            })
-          }else if(i == 'mobile'){
-            that.setData({
-              mobile:member[i]
-            })
-          }
-        
-        }
-        for(var k in classroom){
-       
-          if(k == 'id'){
-            console.log(classroom[k])
-            that.setData({
-              courseId:classroom[k]
-            })
-          }
-        }
-     console.log(this.data.courseId)
-      let arr = []
-      arr.push(classroom)
-      console.log(arr)
-        that.setData({
-          funlist:arr,
+       if(res.data){
 
-        })
+       }
+        if(res.data != undefined){
+          console.log('我景来')
+          wx.showModal({
+            title: '提示',
+             content: res.data.message,
+            success (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: `../faceTeach/faceTeach`,
+                })
+              } else if (res.cancel) {
+                wx.redirectTo({
+                  url: `../faceTeach/faceTeach`,
+                })
+              }
+            }
+          })
+        }else{
+          let classroom = res.classroom
+          classroom.timeInfo = util.dateToSubstr2(classroom.dateTime,classroom.startTime,classroom.endTime)
+          let member =res.member
+          that.setData({
+            memberId:member.id
+          })
+          console.log(that.data.memberId)
+          console.log(member.id)
+          for(var i in member){
+            if(i == 'nickname'){
+              that.setData({
+                nickname:member[i]
+              })
+            }else if(i == 'mobile'){
+              that.setData({
+                mobile:member[i]
+              })
+            }
+          
+          }
+          for(var k in classroom){
+            if(k == 'id'){
+              console.log(classroom[k])
+              that.setData({
+                courseId:classroom[k]
+              })
+            }
+          }
+       console.log(this.data.courseId)
+        let arr = []
+        arr.push(classroom)
+        console.log(arr)
+          that.setData({
+            funlist:arr,
+          })
+        }
+       
+        
         
       },
       fail: function (t) {
@@ -136,7 +163,7 @@ Page({
    //更新学生状态
    updateSubscribeMemberStatus(){
       let option = {
-        id: this.data.courseId - 0,
+        id: this.data.memberId - 0,
         status:this.data.status - 0
       }
       console.log(option)
@@ -151,9 +178,7 @@ Page({
               wx.navigateTo({
                           url: `../faceFail/faceFail?&code=${code}`,
                         })
-          }
-
-         
+          } 
         console.log(res)
         // let arr = []
         // arr.push(res.info)
