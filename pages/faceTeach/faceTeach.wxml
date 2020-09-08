@@ -20,7 +20,6 @@
         <view><text class="content_dot">●</text>  如果您临时有事不能上课，可以在开课前取消预约</view>
          <view><text class="content_dot">●</text>   如果您上课迟到或者忘记签到，可以申请补签到</view>
           <view><text class="content_dot">●</text>   如果您没有取消预约也没有准时上课则视为失约，失约将影响您下次的预约操作 </view>
-        
       </view>
       </view>
     </view>

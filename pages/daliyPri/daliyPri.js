@@ -514,6 +514,7 @@ Page({
       method: 'POST',
       dataType: "json",
       success: function (res) {
+        console.log(res)
         if( res.data != undefined && res.data.code == '50003'){
           wx.showModal({
             title: '提示',
