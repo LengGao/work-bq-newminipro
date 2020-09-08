@@ -138,8 +138,8 @@ padding:70rpx 232rpx 156rpx 228rpx;
 .courseStatus2{
   font-size: 20rpx !important;
   font-weight: normal ;
-  padding: 5rpx 30rpx;
-  border-radius: 15rpx;
+  padding: 7rpx 20rpx;
+  border-radius: 20rpx;
   color: #fff !important;
   background: #199FFF;
   /* cursor: pointer !important; */
