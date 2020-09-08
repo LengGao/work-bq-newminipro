@@ -29,6 +29,12 @@ Page({
       },
     ],
     funlist:[
+      // {
+      //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
+      //   tosome:'../assignTopic/assignTopic',
+      //   name:'自主出题',
+      //   option:['名师掌舵考前押题']
+      // },
       {
         url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiugaiziliao.png',
         tosome:'../personalInfor/personalInfor',

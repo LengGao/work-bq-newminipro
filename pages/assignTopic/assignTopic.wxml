@@ -1,0 +1,23 @@
+<!-- pages/virTest/virTest.wxml -->
+<view class="topImage-vir">
+   <image src="http://weidingyifenzu1594719612.oss-cn-shenzhen.aliyuncs.com/115c6a14a1f19cfa495185f9337b5300" style="width:690rpx;height:320rpx;margin-left:30rpx;margin-top:30rpx;border-radius:20rpx;" />
+</view>
+<view style="margin-top:35rpx;" wx:if="{{ datas  }}">
+    <view class="vir-top-wrapper" wx:for="{{ history }}" wx:key="index" style="position:relative" bindtap="gointro" data-chapterId = '{{ item.chapterId }}' data-chapterName = '{{ item.chapterName }}'>
+        <image style="width:26rpx;height:26rpx;margin-top:10rpx" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kaoshi.png" />
+        <view style="margin-left:10rpx;display:flex;flex-direction:column;justify-content:space-between">
+            <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(102,102,102,1)">2018年机考真题</view>  
+            <view style="display:flex;margin-top:11rpx">
+                <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#cccccc;">2020年3月18日</view>
+                <!-- <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF; margin-left:15rpx">{{ item.difficulty }}</view> -->
+                <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-left:30rpx;margin-right:5rpx">{{ item.do_number }}</view>
+                <view style="font-size:24rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#cccccc;">人做过</view>
+            </view>
+        </view>
+        <text id="gl1"></text>
+    </view>
+</view>
+<view style="width:750rpx;120rpx;display:flex;justify-content:center;align-items:center;margin-top:85rpx;display:flex;flex-direction: column;" wx:else="{{ datas  }}">
+  <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/zanwujilv.png" style="width:120rpx;height:120rpx"  />
+  <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(221,221,221,1);margin-top:39rpx">暂无记录</text>
+</view>

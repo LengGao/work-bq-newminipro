@@ -1,0 +1,45 @@
+/* pages/virStartIntro/virStartIntro.wxss */
+.topintros{
+  width: 690rpx;
+  height: 645rpx;
+  margin-left: 30rpx;
+  position: relative;
+  margin-top: 30rpx;
+}
+.topintrosimg{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.topNames{
+  font-size:32rpx;
+  font-family:PingFang SC;
+  font-weight:bold;
+  color:rgba(25,159,255,1);
+}
+.introProduct{
+  position: absolute;
+  top: 84rpx;
+  left: 50rpx;
+  width: 600rpx;
+}
+.topTopic{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.every-topTopic{
+  margin-top:28rpx ;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.topTopicSpc{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
