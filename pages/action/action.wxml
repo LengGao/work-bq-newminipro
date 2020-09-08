@@ -1,7 +1,6 @@
 <view class="dividing"></view>
 <view class="position_top"></view>
 <view class="statistics-data" style="height:240rpx;">
-
         <!-- <view class="statistics-item line">
             <view class="score flex-ce">
                 <text style="color:#ffb174">{{index_data.paper_count}}</text>

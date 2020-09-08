@@ -1,6 +1,5 @@
 {
-  "pages": [ 
-  
+  "pages": [
     "pages/index/index",
     "pages/yearTestScroll/yearTestScroll",
     "pages/Myclass/Myclass",
@@ -54,7 +53,10 @@
     "pages/faceOrder/mineOrder",
     "pages/faceDetail/faceDetail",
     "pages/faceSuccess/faceSuccess",
-    "pages/faceCode/faceCode"
+    "pages/faceCode/faceCode",
+    "pages/assignTopic/assignTopic",
+    "pages/assignTestIntro/assignTestIntro",
+    "pages/assignTestStart/assignTestStart"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -62,8 +64,7 @@
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
   },
-  "plugins": {
-  },
+  "plugins": {},
   "usingComponents": {},
   "sitemapLocation": "sitemap.json"
 }

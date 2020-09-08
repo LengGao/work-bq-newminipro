@@ -50,7 +50,6 @@ Page({
     }else if(options.code=='70001'){
       this.setData({
         continueName:'重新预约',
-
       })
     }
   },

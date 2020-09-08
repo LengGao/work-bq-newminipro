@@ -47,7 +47,7 @@
      <view class="line_title">报名人数</view>
       <view>{{item.intoNum}} </view>人   
     </view>
-    <view class="{{item.hasSubscribed==1?'courseStatus':''}}">{{item.hasSubscribed==1?'已预约':''}}</view>
+    <view class="{{item.hasSubscribed==1?'courseStatus':'courseStatus2'}}">{{item.hasSubscribed==1?'已预约':'我要预约'}}</view>
       
 </view>
 </view>

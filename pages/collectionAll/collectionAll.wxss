@@ -60,7 +60,7 @@ page{
 .cata-content{
     display: flex;
     width: 750rpx;
-    border-top: 1rpx solid #cecece77;
+    /* border-top: 1rpx solid #cecece77; */
     align-items: flex-start;
     padding-left: 29rpx;
     padding-right: 29rpx;

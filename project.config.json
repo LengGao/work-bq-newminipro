@@ -83,10 +83,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "pages/faceSuccess/faceSuccess",
-					"pathName": "pages/faceSuccess/faceSuccess",
-					"query": "scene=id-3,r-xxx",
+					"id": 3,
+					"name": "pages/assignTopic/assignTopic",
+					"pathName": "pages/assignTopic/assignTopic",
+					"query": "",
 					"scene": null
 				}
 			]
