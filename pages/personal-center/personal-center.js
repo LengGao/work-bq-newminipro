@@ -6,29 +6,29 @@ Page({
   data: {
     user_info: {},
     info: {},
-    funsel:[
+    funsel: [
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/banji.png',
-        name:'我的班级',
-        action:'myclass'
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/banji.png',
+        name: '我的班级',
+        action: 'myclass'
       },
       {
-        url:'../../imgs/alarm.png',
-        name:'面授约课',
-        action:'likes'
+        url: '../../imgs/alarm.png',
+        name: '面授约课',
+        action: 'likes'
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xuexibaogao.png',
-        name:'学习报告',
-        action:'learns'
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xuexibaogao.png',
+        name: '学习报告',
+        action: 'learns'
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumaijilu.png',
-        name:'购买记录',
-        action:'recorders'
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumaijilu.png',
+        name: '购买记录',
+        action: 'recorders'
       },
     ],
-    funlist:[
+    funlist: [
       // {
       //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
       //   tosome:'../assignTopic/assignTopic',
@@ -36,10 +36,10 @@ Page({
       //   option:['名师掌舵考前押题']
       // },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiugaiziliao.png',
-        tosome:'../personalInfor/personalInfor',
-        name:'个人资料',
-        option:['身份证、','毕业证']
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiugaiziliao.png',
+        tosome: '../component/pages/personalInfor/personalInfor',
+        name: '个人资料',
+        option: ['身份证、', '毕业证']
       },
       // {
       //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/wodekaoshi.png',
@@ -53,70 +53,70 @@ Page({
       //   name:'积分统计',
       // },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xitongshezhi.png',
-        tosome:'../switchScore/switchScore',
-        name:'提醒设置',
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xitongshezhi.png',
+        tosome: '../component/pages/switchScore/switchScore',
+        name: '提醒设置',
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
-        tosome:'../problem/problem',
-        name:'意见反馈',
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
+        tosome: '../component/pages/problem/problem',
+        name: '意见反馈',
       },
       {
-        url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lianxikefu.png',
-        tosome:'',
-        name:'联系客服',
-        id:1
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lianxikefu.png',
+        tosome: '',
+        name: '联系客服',
+        id: 1
       }
     ]
   },
   recorders() {
     let courseId = this.data.courseId
     wx.navigateTo({
-      url: `../buyStatus/buyStatus?courseId=${courseId}`
+      url: `../component/pages/buyStatus/buyStatus?courseId=${courseId}`
     })
   },
   learns() {
     let id = this.data.courseId
     console.log(id)
     wx.navigateTo({
-      url: `../learnStatus/learnStatus?courseId=${id}`
+      url: `../component/pages/learnStatus/learnStatus?courseId=${id}`
     })
   },
   likes() {
     let courseId = this.data.courseId
     console.log(courseId)
     wx.navigateTo({
-      url: `../faceTeach/faceTeach?number=2&courseId=${courseId}`
+      url: `../component/pages/faceTeach/faceTeach?number=2&courseId=${courseId}`
     })
     //  this.getSubscribePower(courseId)
-  
+
   },
   myclass() {
     let courseId = this.data.courseId
     wx.navigateTo({
-      url: `../Myclass/Myclass?courseId=${courseId}`
+      url: `../component/pages/Myclass/Myclass?courseId=${courseId}`
     })
   },
   onLoad: function (e) {
     n.tabbar("tabBar", 0, this, "usercenter");
     var t = wx.getStorageSync("user_info");
-    if(app.globalData.info_show  == 1){
-      this.data.funlist.splice(0,1)
+    if (app.globalData.info_show == 1) {
+      this.data.funlist.splice(0, 1)
     }
     this.setData({
-      funlist:this.data.funlist
+      funlist: this.data.funlist
     })
-   
+
     this.setData({
       user_info: t,
       courseId: wx.getStorageSync("courseId").courseId
     });
   },
   //获得约课权限
-  getSubscribePower(courseId){
+  getSubscribePower(courseId) {
     let option = {
-      courseId:wx.getStorageSync('courseId').courseId
+      courseId: wx.getStorageSync('courseId').courseId
     }
     console.log(option)
     app.encryption({
@@ -124,34 +124,34 @@ Page({
       data: option,
       method: 'GET',
       success: function (res) {
-        console.log(res)  
-        if(res.data.code!=200){
+        console.log(res)
+        if (res.data.code != 200) {
           wx.showModal({
-        title: '提示',
-        content: '你还不是正式学员，请购买课程后再预约面授课!',
-        showCancel: true,//是否显示取消按钮
-        cancelText: "返回",//默认是“取消”
-        cancelColor: '#199FFF',//取消文字的颜色
-        confirmText: "发现好课",//默认是“确定”
-        confirmColor: '#199FFF',//确定文字的颜色
-        success (res) {
-          if (res.confirm) {
-            
-           wx.navigateTo({
-             url: '../index/index',
-           })
-          } else if (res.cancel) {
-            wx.navigateBack({
-              delta: 1
-            })
-          }
-      }
-    })
-        }else{
-            wx.navigateTo({
-                 url: `../faceTeach/faceTeach?number=2&courseId=${courseId}`
-               })
-        }      
+            title: '提示',
+            content: '你还不是正式学员，请购买课程后再预约面授课!',
+            showCancel: true,//是否显示取消按钮
+            cancelText: "返回",//默认是“取消”
+            cancelColor: '#199FFF',//取消文字的颜色
+            confirmText: "发现好课",//默认是“确定”
+            confirmColor: '#199FFF',//确定文字的颜色
+            success(res) {
+              if (res.confirm) {
+
+                wx.navigateTo({
+                  url: '../index/index',
+                })
+              } else if (res.cancel) {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
+            }
+          })
+        } else {
+          wx.navigateTo({
+            url: `../component/pages/faceTeach/faceTeach?number=2&courseId=${courseId}`
+          })
+        }
       },
       fail: function (n) {
         console.log('333333')
@@ -169,39 +169,39 @@ Page({
   onReachBottom: function () { },
   onShareAppMessage: function () {
     return {
-      path: "/pages/index/index?pid=" + wx.getStorageSync("user_info").user_id
+      path: "../component/pages/index/index?pid=" + wx.getStorageSync("user_info").user_id
     };
   },
   userCenter: function () {
-      //     wx.login({
-      //         success: function(n) {
-      //             if (n.code) {
-      //                 var t = n.code;
-      //                 console.log(n)
+    //     wx.login({
+    //         success: function(n) {
+    //             if (n.code) {
+    //                 var t = n.code;
+    //                 console.log(n)
 
-      //     app.request({
-      //       url: api.user.newLogin,
-      //       data:{code:t},
-      //       method:'POST',
-      //       dataType:'',
-      //       success: function(e) {
-      //         console.log(e)
-      //      },
-      //     fail: function(e) {
-      //         wx.showModal({
-      //             title: "警告",
-      //             content: e.msg,
-      //             showCancel: !1
-      //         });
-      //     },
-      //     complete: function() {
-      //         wx.hideLoading();
-      //     }
-      //     })    
-      //   }
-      // }
+    //     app.request({
+    //       url: api.user.newLogin,
+    //       data:{code:t},
+    //       method:'POST',
+    //       dataType:'',
+    //       success: function(e) {
+    //         console.log(e)
+    //      },
+    //     fail: function(e) {
+    //         wx.showModal({
+    //             title: "警告",
+    //             content: e.msg,
+    //             showCancel: !1
+    //         });
+    //     },
+    //     complete: function() {
+    //         wx.hideLoading();
+    //     }
+    //     })    
+    //   }
+    // }
     // })
-},
+  },
   tabBarRedirect: function (e) {
     wx.reLaunch({
       url: e.currentTarget.dataset.url

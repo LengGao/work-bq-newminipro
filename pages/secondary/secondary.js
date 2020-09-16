@@ -20,7 +20,7 @@ Page({
     funsel: [
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ruankaojisuanji.png',
-       title: '软考',
+        title: '软考',
         id: '1'
       },
       {
@@ -55,33 +55,7 @@ Page({
       }
     ],
     freeCourse: [],
-    hotpoint: [
-      // {
-      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/05.jpg',
-      //   title: '系统集成项目管理工程师',
-      //   price: '6666',
-      //   personal: '2564',
-      //   id: '123'
-      // },
-      // {
-      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/06.jpg',
-      //   title: '系统集成项目管理工程师',
-      //   price: '5646',
-      //   personal: '1654'
-      // },
-      // {
-      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg',
-      //   title: '系统集成项目管理工程师',
-      //   price: '8947',
-      //   personal: '56971'
-      // },
-      // {
-      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg',
-      //   title: '系统集成项目管理工程师',
-      //   price: '5612',
-      //   personal: '89745'
-      // },
-    ]
+    hotpoint: []
   },
   selectmenuAll() {
     this.setData({
@@ -97,7 +71,7 @@ Page({
   godetails(e) {
     console.log(e.currentTarget.dataset.keys)
     wx.navigateTo({
-      url: `../../pages/AllTestPir/AllTestPir?id=${e.currentTarget.dataset.keys}&name=${e.currentTarget.dataset.name}`
+      url: `../component/pages/AllTestPir/AllTestPir?id=${e.currentTarget.dataset.keys}&name=${e.currentTarget.dataset.name}`
     });
   },
   selectmenu: function (t) {
@@ -164,12 +138,12 @@ Page({
   },
   checkAll(e, f) {
     wx.navigateTo({
-      url: "../../pages/AllTestPir/AllTestPir?id=2&name=免费课程"
+      url: "../component/pages/pages/AllTestPir/AllTestPir?id=2&name=免费课程"
     });
   },
   checkAlls(e, f) {
     wx.navigateTo({
-      url: "../../pages/AllTestPir/AllTestPir?id=1&name=热门推荐"
+      url: "../component/pages/AllTestPir/AllTestPir?id=1&name=热门推荐"
     });
   },
   freeCourse() {
@@ -227,15 +201,15 @@ Page({
       }
     })
   },
-  banner(adGroupId){
+  banner(adGroupId) {
     let that = this
     let option = {
-      adGroupId:adGroupId	
+      adGroupId: adGroupId
     }
     app.encryption({
       url: api.default.banner,
       method: "POST",
-      data:option,
+      data: option,
       success: function (res) {
         console.log(res)
         // if (res.data == undefined) {

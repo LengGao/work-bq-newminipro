@@ -25,10 +25,10 @@
 		},
 		"useIsolateContext": true,
 		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false
+		"userConfirmedUseCompilerModuleSwitch": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.11.2",
+	"libVersion": "2.12.2",
 	"appid": "wx0eb278739baa3ca1",
 	"projectname": "school",
 	"debugOptions": {
