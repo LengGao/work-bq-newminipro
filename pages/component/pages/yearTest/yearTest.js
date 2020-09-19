@@ -22,17 +22,18 @@ Page({
   },
   getyearTest(courseId) {
     let option = {
-      course_id: courseId
+      problem_course_id: courseId,
+      chapter_type:'2'
     }, that = this
     app.encryption({
-      url: api.default.yearstruth,
+      url:  api.default.getChapters,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
         try {
           that.setData({
-            history: res
+            history: res.list
           })
         } catch (err) {
           wx.showToast({

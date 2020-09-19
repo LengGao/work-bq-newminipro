@@ -1,17 +1,17 @@
 <import src="../../../../wxParse/wxParse.wxml"></import>
 <view class="title">
     <view class="marks">
-        {{ randerTitle.problemType == '1'?'单选题':randerTitle.problemType =='2'?'多选题':randerTitle.problemType =='3'?'判断题':'简答题'}}
+        {{ ProblemType == '1'?'单选题':ProblemType =='2'?'多选题':ProblemType =='3'?'判断题':'简答题'}}
     </view>
-    <text class="marks">{{ current_no }}/{{ all_current_no }}</text>
+    <text class="marks">{{ curIndexNumber == 0 ?'1':curIndexNumber }}/{{ all_current_no }}</text>
 </view>
-<view hidden="{{ randerTitle.problemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd">
+<view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
     <view class="text-type padding">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
-        <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.problemId}}">
+        <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                 <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                     {{vItem.option}}
@@ -23,13 +23,13 @@
                 </view>
             </view>
         </label>
-        <view hidden="{{ showAny }}" style="margin-bottom:98rpx">
+        <view hidden="{{ !randerTitle.done }}" style="margin-bottom:98rpx">
             <view class="referData">参考答案</view>
             <view class="topRefer">
                 <text class="correctanswer">正确答案：</text>
                 {{ randerTitle.answer }}
                 <text class="youranswer">你的答案：</text>
-                {{ option }}
+                {{ randerTitle.option }}
             </view>
             <view class="referData">答案解析</view>
             <view class="topRefer">
@@ -40,25 +40,26 @@
         </view>
     </radio-group>
 </view>
-<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ randerTitle.problemType == '2'?false:true }}">
+<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ ProblemType == '2'?false:true }}" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
-        <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.problemId}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
-                <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
+        <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
+                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}" wx:if="{{ !correctAnswer  ? true: false }}">
                     {{vItem.option}}
                 </view>
-                <image wx:if="{{ vItem.color ? true: false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
-                <image wx:if="{{ vItem.err ? true : false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
-                <view class="rich_text_box test_rich {{ vItem.color ? 'correcttext':'' && vItem.err ? errorText: '' }}">
+                <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
+                <image wx:if="{{ correctAnswer && vItem.color ? true: false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
+                <image wx:if="{{ wrongAnswer && vItem.err ? true : false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
+                <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
                     <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
                 </view>
             </view>
         </label>
         <view class="wrapper-option" bindtap="showAnswer">
-            <view class="correctoption {{ correctoption }}">
+            <view class="correctoptions {{ correctoption }}">
                 <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
                 <text class=" {{activeAnswer}}">答案</text>
             </view>
@@ -80,13 +81,13 @@
         </view>
     </radio-group>
 </view>
-<view hidden="{{ randerTitle.problemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd">
+<view hidden="{{ ProblemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
     <view class="text-type padding">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
-        <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-id="{{randerTitle.problemId}}" data-index="{{index}}">
+        <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-id="{{randerTitle.ProblemId}}" data-index="{{index}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                 <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                     {{vItem.option}}
@@ -104,7 +105,7 @@
                 <text class="correctanswer">正确答案：</text>
                 {{ randerTitle.answer }}
                 <text class="youranswer">你的答案：</text>
-                {{ option }}
+                {{ randerTitle.option }}
             </view>
             <view class="referData">答案解析</view>
             <view class="topRefer">
@@ -115,7 +116,7 @@
         </view>
     </radio-group>
 </view>
-<view hidden="{{ randerTitle.problemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd">
+<view hidden="{{ ProblemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
     <view class="text-type padding">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
@@ -137,12 +138,14 @@
         </view>
         <view class="referData">答案解析</view>
         <view class="topRefer">
-            <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
+            <view class="anyAnswer">
+                <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}"></template>
+            </view>
         </view>
     </view>
 </view>
 <view class="tabbottom">
-    <view class="tabItem" wx:for="{{ tabItems }}" wx:key="index" bindtap='{{ item.action }}'>
+    <view class="tabItem" wx:for="{{ tabItems }}" wx:key="id" bindtap='{{ item.action }}'>
         <image mode="widthFix" style="width:50rpx;height:50rpx" src="{{ item.icon }}" />
         <text class="default {{ item.class }}">{{ item.name }}</text>
     </view>

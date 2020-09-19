@@ -47,17 +47,17 @@ Page({
             title: "加载中"
         });
         let option = {
-            courseId: courseId
+            problem_course_id: courseId,
+            chapter_type:'1'
         }
         app.encryption({
             url: api.default.getChapterInfo,
             method: "GET",
             data: option,
             success: function (res) {
-
                 console.log(res)
                 that.setData({
-                    title_list: res
+                    title_list: res.info
                 })
             },
             fail: function (t) {
@@ -81,6 +81,7 @@ Page({
             problem_course_id: courseId,
             chapter_type:'1'
         }
+        console.log(option)
         app.encryption({
             url: api.default.getChapters,
             method: "GET",
@@ -88,9 +89,8 @@ Page({
             success: function (res) {
                 console.log(res)
                 that.setData({
-                    reader: res
+                    reader: res.list
                 })
-
             },
             fail: function (t) {
                 wx.showModal({

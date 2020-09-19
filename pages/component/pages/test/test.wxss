@@ -91,6 +91,13 @@ page {
     margin-top: 40rpx;
     overflow-y: scroll;
 }
+.questions-sencebox{
+    box-sizing: border-box;
+    width: 670rpx;
+    margin-left: 40rpx;
+    margin-top: 30rpx;
+    overflow-y: scroll;
+}
 .test_rich{
     flex: 1;
 }

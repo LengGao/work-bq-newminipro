@@ -6,34 +6,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    history: [
-      {
-        name: '模拟考试卷三',
-        time: '2020年3月20日',
-        marks: '90分'
-      },
-      {
-        name: '模拟考试卷二',
-        time: '2020年3月20日',
-        marks: '90分'
-      },
-      {
-        name: '模拟考试卷一',
-        time: '2020年3月20日',
-        marks: '90分'
-      }
-    ],
+    history: [],
     nodeUrl: '../virStart/virStart',
     datas: false
   },
   getExaminationList(options) {
     let that = this
     let option = {
-      page: 0,
-      courseId: options.courseId
+      page: 1,
+      problem_course_id: options.courseId
     }//以上为初始化加载参数
+    console.log(option)
     app.encryption({//初始化加载函数获取所有题目
-      url: api.default.getExaminationList,
+      url: api.test.getTestExamList,
       data: option,
       method: 'GET',
       dataType: "json",
@@ -50,7 +35,7 @@ Page({
         }
         {
           that.setData({
-            history: res,
+            history: res.list,
             datas: true
           })
         }

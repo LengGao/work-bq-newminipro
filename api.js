@@ -21,7 +21,7 @@ let apiurl = {
     makeCollection: e + '/answe/makeCollection',
     answerEvents: e + '/answe/answerEvents',
     getChapters: e + '/problem/getChapter',
-    getChapterInfo: e + '/answe/getChapterInfo',
+    getChapterInfo: e + '/problem/ChapterPracticeStatistics',
     requestExamination: e + '/answe/requestExamination',
     examinationQuestions: e + '/answe/examinationQuestions',
     getFacePlatess: e + '/answe/getFacePlatess',
@@ -171,6 +171,20 @@ let apiurl = {
     order_video: e + "ordervideo",
     ship_detail: e + "shipdetail",
     buy_vip: e + "buyvip"
+  },
+  test:{
+    createPracticeData:e + '/problem/createPracticeData',
+    getProblemDetail:e + '/problem/getProblem',
+    insertCollection:e + '/problem/insertCollection',
+    removeCollection:e +'/problem/removeCollection',
+    submitAnswer:e +'/problem/submitAnswer',
+    getLogAnswer:e +'/problem/getLogAnswer',
+    archivePracticeData:e +'/problem/archivePracticeData',
+    getPracticeDRecordBoard:e +'/problem/getPracticeDRecordBoard',
+    getTestExamList:e +'/problem/getTestExamList',
+    getPunchPanelData:e +'/problem/getPunchPanelData',
+    createPunchData:e +'/problem/createPunchData',
+    getProblemErrorCollectionChapter:e +'/problem/getProblemErrorCollectionChapter'
   }
 };
 

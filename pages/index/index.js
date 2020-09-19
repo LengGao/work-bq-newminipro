@@ -46,7 +46,8 @@ Page({
     nomyCourse: true,
     noliving: true,
     images: {},
-    allData:{}
+    allData:{},
+    problem_course_id:''
   },
   gocollection(number) {
     let courseId = this.data.courseId
@@ -76,25 +77,25 @@ Page({
   },
   // 点击下拉显示框
   prictive() {
-    let id = this.data.courseId
+    let id = this.data.problem_course_id
     wx.navigateTo({
       url: `../component/pages/chapter/chapter?courseId=${id}`
     })
   },
   yearText() {
-    let courseId = this.data.courseId
+    let courseId = this.data.problem_course_id
     wx.navigateTo({
       url: `../component/pages/yearTest/yearTest?courseId=${courseId}`
     })
   },
   virText() {
-    let id = this.data.courseId
+    let id = this.data.problem_course_id
     wx.navigateTo({
       url: `../component/pages/virTest/virTest?courseId=${id}`
     })
   },
   changll() {
-    let courseId = this.data.courseId
+    let courseId = this.data.problem_course_id
     wx.navigateTo({
       url: `../component/pages/dailyChallenge/dailyChallenge?courseId=${courseId}`
     })
@@ -199,10 +200,11 @@ Page({
     wx.setStorageSync("courseId", {
       courseId: courseId.courseId
     });
-    that.getSubject()
-    that.getHomePanel()
-    that.getclasslive()
-    that.getMycourse()
+    // that.getSubject()
+    // that.getHomePanel()
+    // that.getclasslive()
+    // that.getMycourse()
+    that.getALLData()
   },
   addStory() {
     wx.navigateTo({
@@ -277,7 +279,6 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-
         let topmenu0 = 'topmenu[0].number'
         let topmenu1 = 'topmenu[1].number'
         let topmenu2 = 'topmenu[2].number'
@@ -286,7 +287,8 @@ Page({
           [topmenu1]: res.info.fail_question,                                   
           [topmenu2]: res.info.history,
           accuracy: res.info.correct_rate,
-          allData:res.info
+          allData:res.info,
+          problem_course_id:res.info.problem_course_id //以此ID获取习题模式
         })
          if(res.info.has_video == 0){
             that.setData({

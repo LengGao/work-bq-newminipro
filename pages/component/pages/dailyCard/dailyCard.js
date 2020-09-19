@@ -8,17 +8,17 @@ Page({
   data: {
     everyDate: [
       {
-        name: '12',
+        name: '00',
         title: '累计打卡天数',
         desc: '天'
       },
       {
-        name: '15:30',
+        name: '00:00',
         title: '平均打卡时间',
         desc: ''
       },
       {
-        name: '68',
+        name: '00',
         title: '今天打卡人数',
         desc: '人'
       }
@@ -55,10 +55,10 @@ Page({
   getTodayStatus() {
     let that = this
     let option = {
-      courseId: that.data.courseId
+      problem_course_id: that.data.courseId
     }
     app.encryption({
-      url: api.default.getTodayStatus,
+      url: api.test.getPunchPanelData,
       method: "GET",
       data: option,
       success: function (res) {
@@ -66,11 +66,11 @@ Page({
         let allData = 'everyDate[0].name', allData1 = 'everyDate[1].name', allData2 = 'everyDate[2].name'
         if (res.data == undefined) {
           that.setData({
-            [allData]: res.punchCount,
-            [allData1]: res.useTime,
-            [allData2]: res.todayCount,
-            isCrard: res.isPunch,
-            accuracy: res.accuracy
+            [allData]: res.info.total_num,
+            [allData1]: res.info.use_time,
+            [allData2]: res.info.total_people,
+            isCrard: res.info.has_clock_in,
+            accuracy: res.info.correct_rate
           })
         } else {
 

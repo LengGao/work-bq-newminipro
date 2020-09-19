@@ -29,51 +29,8 @@ Page({
       curHdIndex: 1,
       curBdIndex: 1
     },
-    chapter: [
-      {
-        charper: '2020年3月19日',
-        list: [
-          {
-            name: '第一章信息化知识',
-            rate: '27%',
-            time: '10分5秒'
-          }
-        ]
-      },
-      {
-        charper: '2020年3月20日',
-        list: [{
-          name: '第一章信息化知识',
-          rate: '27%',
-          time: '10分5秒'
-        }]
-      },
-      {
-        charper: '2020年3月21日',
-        list: [{
-          name: '第一章信息化知识',
-          rate: '27%',
-          time: '10分5秒'
-        }]
-      }
-    ],
-    catalist: [
-      {
-        charper: '第一章',
-        name: '信息化知识',
-        num: '5'
-      },
-      {
-        charper: '第二章',
-        name: '信息化知识',
-        num: '15'
-      },
-      {
-        charper: '第三章',
-        name: '信息化知识',
-        num: '25'
-      }
-    ],
+    chapter: [],
+    catalist: [],
     errordata: null,
     chapterName: '答题数据'
   },
@@ -143,32 +100,32 @@ Page({
   getErrorTopicFeedbac() {
     let that = this
     let option = {
-      courseId: that.data.courseId
+      problem_course_id: that.data.courseId
     }
     console.log(option)
     app.encryption({
-      url: api.default.getErrorTopicFeedbac,
+      url: api.test.getProblemErrorCollectionChapter,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
-        if (res.data != undefined && res.data.code == 30000) {
-          that.setData({
-            errornodata: false
-          })
-        } else {
-          for (let i of res) {
-            i.content.forEach(element => {
-              element.content = [{ A: 'lalala' }],
-                element.stem = element.analyse
-              app.testWxParse(that, element)
-            });
-            console.log(i)
-          }
-          that.setData({
-            errordata: res
-          })
-        }
+        // if (res.data != undefined && res.data.code == 30000) {
+        //   that.setData({
+        //     errornodata: false
+        //   })
+        // } else {
+        //   for (let i of res) {
+        //     i.content.forEach(element => {
+        //       element.content = [{ A: 'lalala' }],
+        //         element.stem = element.analyse
+        //       app.testWxParse(that, element)
+        //     });
+        //     console.log(i)
+        //   }
+        //   that.setData({
+        //     errordata: res
+        //   })
+        // }
       },
       fail: function (t) {
       },
@@ -250,9 +207,9 @@ Page({
       [tabArr0]: options.number,
       [tabArr1]: options.number,
     })
-    this.getCollection(),
-      this.getErrorTopicFeedbac()
-    this.getBehaviorLogList()
+    // this.getCollection(),
+    this.getErrorTopicFeedbac()
+    // this.getBehaviorLogList()
   },
 
   /**

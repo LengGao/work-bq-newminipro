@@ -17,15 +17,15 @@ Page({
     })
   },
   gobefor(e) {
-    console.log(e.currentTarget.dataset.index)
+    console.log(e.currentTarget.dataset.problem_id)
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
-    let number = e.currentTarget.dataset.index// 前一个页面
+    let problem_id = e.currentTarget.dataset.problem_id// 前一个页面
     // console.log("beforePage");
     // console.log(beforePage);
     wx.navigateBack({
       success: function () {
-        beforePage.wode(number); // 执行前一个页面的onLoad方法
+        beforePage.checkout(problem_id); // 执行前一个页面的onLoad方法
       }
     });
   },
@@ -34,30 +34,29 @@ Page({
    */
   onLoad: function (options) {
     let that = this
-    let multipleNum = JSON.parse(options.multipleNum)
-    let singleNum = JSON.parse(options.singleNum)
-    let judgmentNum = JSON.parse(options.judgmentNum)
-    console.log(singleNum, multipleNum, judgmentNum)
     wx.setNavigationBarTitle({
       title: options.name
     })
     let option = {
-      formId: options.formId
+      practice_id: options.practice_id
     }//以上为初始化加载参数
     console.log(option)
     app.encryption({//初始化加载函数获取所有题目
-      url: api.default.getFacePlatess,
+      url: api.test.getPracticeDRecordBoard,
       data: option,
       method: 'GET',
       dataType: "json",
       success: function (res) {
         console.log(res)
-        if (typeof (res.data) != 'undefined') {
+        if (typeof (res.info.list) != 'undefined') {
           console.log('1')
           that.setData({
-            multipleNum: multipleNum,
-            singleNum: singleNum,
-            judgmentNum: judgmentNum
+            multipleNum: res.info.list.multiple_problem,
+            singleNum: res.info.list.single_problem,
+            judgmentNum: res.info.list.judge_problem,
+            fill_problem: res.info.list.fill_problem,
+            scenes_problem: res.info.list.scenes_problem,
+            short_problem: res.info.list.short_problem
           })
         } else {
           console.log('2')
