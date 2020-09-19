@@ -84,8 +84,8 @@
 				},
 				{
 					"id": 3,
-					"name": "pages/assignTopic/assignTopic",
-					"pathName": "pages/assignTopic/assignTopic",
+					"name": "pages/assignTestStart/assignTestStart",
+					"pathName": "pages/assignTestStart/assignTestStart",
 					"query": "",
 					"scene": null
 				}
