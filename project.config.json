@@ -18,6 +18,8 @@
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
 		"compileHotReLoad": false,
+		"useMultiFrameRuntime": false,
+		"useApiHook": false,
 		"babelSetting": {
 			"ignore": [],
 			"disablePlugins": [],
@@ -25,10 +27,12 @@
 		},
 		"useIsolateContext": true,
 		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false
+		"userConfirmedUseCompilerModuleSwitch": true,
+		"packNpmManually": false,
+		"packNpmRelationList": []
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.11.2",
+	"libVersion": "2.12.2",
 	"appid": "wx0eb278739baa3ca1",
 	"projectname": "school",
 	"debugOptions": {
@@ -70,8 +74,8 @@
 				},
 				{
 					"id": 1,
-					"name": "pages/faceCode/faceCode",
-					"pathName": "pages/faceCode/faceCode",
+					"name": "pages/faceMessage/faceMessage",
+					"pathName": "pages/faceMessage/faceMessage",
 					"query": "scene=id-9,r-xxx",
 					"scene": null
 				},
@@ -84,8 +88,15 @@
 				},
 				{
 					"id": 3,
-					"name": "pages/assignTestStart/assignTestStart",
-					"pathName": "pages/assignTestStart/assignTestStart",
+					"name": "pages/assignTopic/assignTopic",
+					"pathName": "pages/assignTopic/assignTopic",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
 					"query": "",
 					"scene": null
 				}

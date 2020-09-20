@@ -1,9 +1,0 @@
-{
-  "backgroundTextStyle": "light",
-  "navigationBarBackgroundColor": "#fff",
-  "navigationBarTitleText": "考勤打卡",
-  "navigationBarTextStyle": "black",
-  "usingComponents": {
-    "calendar": "/commons/calendar/index"
-  }
-}

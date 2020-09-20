@@ -1,0 +1,129 @@
+<!-- <view bindtap="tabFun" class="price-menu">
+    <view class="menu-item {{tabArr.curHdIndex==0?'priceactive':''}}" data-id="0" id="tab-hd01">普通课程</view>
+    <view class="menu-item {{tabArr.curHdIndex==1?'priceactive':''}}" data-id="1" id="tab-hd02">拼团课程</view>
+</view> -->
+<!-- <view style="height:88rpx;"></view> -->
+<view class="put-list menu-child {{tabArr.curBdIndex=='0'?'tactive':''}}">
+    <block wx:for="{{video}}">
+        <view class="putong flex-st" bindtap="toLive" data-item="{{item}}">
+            <view class="left-photo">
+                <image class="left-photo" src="{{item.Picture}}"></image>
+                <view class="putong_text" wx:if="{{item.isLiveIng}}">进入直播...</view>
+            </view>
+            <view class="right-text">
+                <text class="c-name">{{item.title}}</text>
+                <!-- <view class="o-price">
+                    <text>笔记数（</text>
+                    <text>{{item.noteNum}}</text>
+                    <text>）</text>
+                </view> -->
+                <!-- <view class="o-price">
+                    <text>课程学习进度（</text>
+                    <text>{{item.lessoning}}</text>
+                    <text>%）</text>
+                </view> -->
+                <navigator class="course" hoverClass="none" url="{{'../timetable/timetable?id=' + item.id}}" catchtap="true">
+                    <button class='classroom_button'>课程表</button>
+                </navigator>
+                <navigator class="course" hoverClass="none" url="{{'../clockIn/clockIn?id=' + item.id}}" catchtap="true" hover-stop-propagation="true">
+                    <button class='classroom_button'>考勤打卡</button>
+                </navigator>
+                <navigator class="course" hoverClass="none" url="{{'../course-class-detail/course-class-detail?video_id=' + item.id}}" catchtap="true" wx:if="{{item.review}}">
+                    <button class='classroom_button' style="margin-left:0">直播回顾</button>
+                </navigator>
+            </view>
+        </view>
+        <!-- <navigator class="putong flex-st" hoverClass="none" url="../course-detail/course-detail?video_id={{item.id}}" wx:if="{{item.style!=3}}">
+            <image class="left-photo" src="{{item.Picture}}"></image>
+            <view class="right-text">
+                <text class="c-name">{{item.title}}</text>
+                <view class="o-price">
+                    <text>￥</text>
+                    <text>{{item.present_price}}</text>
+                </view>
+            </view>
+        </navigator> -->
+    </block>
+</view>
+<!-- <view class="wripper menu-child {{tabArr.curBdIndex=='1'?'tactive':''}}">
+    <block wx:for="{{pintuan_video}}">
+        <navigator class="order-item" hoverClass="none" url="../live-class/live-class?video_id={{item.video_id}}" wx:if="{{item.video.style==3}}">
+            <view class="pin-result flex-be">
+                <view class="success flex-st" wx:if="{{item.pintuan_status==99}}">
+                    <image mode="widthFix" src="../../images/success-icon.png"></image>
+                    <text>拼团成功</text>
+                </view>
+                <view class="success flex-st" wx:if="{{item.pintuan_status==1}}">
+                    <image mode="widthFix" src="../../images/success-icon.png"></image>
+                    <text>拼团中</text>
+                </view>
+                <view class="success flex-st" wx:if="{{item.pintuan_status==2}}">
+                    <image mode="widthFix" src="../../images/failded-icon.png"></image>
+                    <text>拼团失败</text>
+                </view>
+                <view class="delete-btn">
+                    <image mode="widthFix" src="../../images/delete-pint.png"></image>
+                </view>
+            </view>
+            <view class="order-detail flex-st">
+                <image class="left-photo" src="{{item.video.pic_url}}"></image>
+                <view class="right-text">
+                    <text class="c-name">{{item.video.title}}</text>
+                    <text class="price-one">单买价：￥{{item.video.present_price}}</text>
+                    <view class="team-pin">
+                        <view class="team-info flex-st">
+                            <image mode="widthFix" src="../../images/pin-detail.png"></image>
+                            <text>{{item.need_num}}人拼</text>
+                        </view>
+                        <view class="team-price">
+                            <text>￥</text>
+                            <text>{{item.price}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+        <navigator class="order-item" hoverClass="none" url="../course-detail/course-detail?video_id={{item.video_id}}" wx:if="{{item.video.style!=3}}">
+            <view class="pin-result flex-be">
+                <view class="success flex-st" wx:if="{{item.pintuan_status==99}}">
+                    <image mode="widthFix" src="../../images/success-icon.png"></image>
+                    <text>拼团成功</text>
+                </view>
+                <view class="success flex-st" wx:if="{{item.pintuan_status==1}}">
+                    <image mode="widthFix" src="../../images/success-icon.png"></image>
+                    <text>拼团中</text>
+                </view>
+                <view class="success flex-st" wx:if="{{item.pintuan_status==2}}">
+                    <image mode="widthFix" src="../../images/failded-icon.png"></image>
+                    <text>拼团失败</text>
+                </view>
+                <view class="delete-btn">
+                    <image mode="widthFix" src="../../images/delete-pint.png"></image>
+                </view>
+            </view>
+            <view class="order-detail flex-st">
+                <image class="left-photo" src="{{item.video.pic_url}}"></image>
+                <view class="right-text">
+                    <text class="c-name">{{item.video.title}}</text>
+                    <text class="price-one">单买价：￥{{item.video.present_price}}</text>
+                    <view class="team-pin">
+                        <view class="team-info flex-st">
+                            <image mode="widthFix" src="../../images/pin-detail.png"></image>
+                            <text>{{item.need_num}}人拼</text>
+                        </view>
+                        <view class="team-price">
+                            <text>￥</text>
+                            <text>{{item.price}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+    </block>
+</view> -->
+<view class="page-nodata" wx:if="{{video.length == 0}}">
+    <image class="leftimg" mode="widthFix" src="../../images/page-no-data.png"></image>
+    <view>暂无数据</view>
+</view>
+<import src="../tab-bar/tab-bar.wxml"></import>
+<template is="tabBar" data="{{tabBar:bindData.tabBar}}"></template>

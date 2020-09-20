@@ -1,0 +1,65 @@
+<view>
+	<view class="nav bg-white" style="height:{{navH}}px">
+		<view class="nav-title">
+			<text class="biaoti" >{{ chapterName }}</text>
+			<text id="gl1" bindtap="gobefor"></text>
+		</view>
+	</view>
+
+	<view style="width:100%;">
+		<scroll-view scroll-x="true" scroll-with-animation="true">
+			<view class="fenlei-menu">
+				<text bindtap="tabFun" data-status="{{item.status}}" data-isFail="{{item.isFail}}"
+    class="teamnum {{tabId==item.id?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}"
+    >
+				{{item.name}}
+				</text>
+			</view>
+		</scroll-view>
+	</view>
+
+	<view class="noface" hidden="{{courseInfor.length>0?true:false}}">
+		<image src="../../imgs/noface.png" style="width:290rpx;height:290rpx"></image>
+		<view class="noface_text">暂无面授课安排</view>
+	</view>
+	<view wx:for="{{courseInfor}}" wx:key="id" style="margin:40rpx 30rpx  30rpx">
+		<!-- <view class="card"  data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}" bindtap="tofaceDetail"> -->
+		<view class="card" bindtap="tofaceDetail" data-subscribe_classroom_id="{{item.subscribe_classroom_id}}">
+			<view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">
+				<view class="card_head">{{item.subscribe_classroom_name}}</view>
+			</view>
+			<view class="card_content">
+				<view class="card_line">
+					<view class="line_title">课程内容</view>
+					<view class="line_content">{{item.chapter_name}}</view>
+				</view>
+				<view class="card_line">
+					<view class="line_title">课程时间</view>
+					<view>{{item.specific_time_range}}</view>
+				</view>
+				<view class="card_line">
+					<view class="line_title">上课老师</view>
+					<view> {{item.teacher_name}}</view>
+				</view>
+				<view class="card_line">
+					<view class="line_title">上课地点</view>
+					<view>{{item.address}}</view>
+				</view>
+				<view class="card_line">
+					<view class="line_title">结束时间</view>
+					<view>{{item.close_time}}</view>
+				</view>
+				<view class="card_line flexbox">
+					<view style="display:flex">
+						<view class="line_title">报名人数</view>
+						<view>{{item.subscribe_num}}/{{item.max_num}} </view>人
+					</view>
+					<view class="courseStatus">{{item.statusName}}</view>
+
+				</view>
+			</view>
+		</view>
+	</view>
+    <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>  
+<view class="loading" hidden="{{!searchLoadingComplete}}">已加载全部</view>
+</view>

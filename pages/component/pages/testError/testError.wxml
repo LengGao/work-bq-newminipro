@@ -1,0 +1,122 @@
+<import src="../../../../wxParse/wxParse.wxml"></import>
+<view class="text-top flex-be">
+    <view class="left-side flex-be">
+        <text class="time-count">{{limited_time}}</text>
+        <view bindtap="showcardpop" class="fu-icon">
+            <image class="test_imgs" src="../../images/ic-answer-card.png"></image>
+        </view>
+    </view>
+    <view class="left-side flex-be">
+        <!-- bindtap="submitPaper" -->
+        <button bindtap="showcardpop" class="hand-in com_bgcolor" hoverClass="none">题卡</button>
+        <view class="fr collect_right" bindtap="doCollect">
+            <block wx:if="{{question_list[current_no].isCollect}}">
+                <image src="../../images/collect_yi.png"></image>
+                <text class="com_color">已收藏</text>
+            </block>
+            <block wx:else>
+                <image src="../../images/collect.png"></image>
+                收藏
+            </block>
+        </view>
+    </view>
+</view>
+<view style="height:100rpx;"></view>
+<view class="share-pop" wx:if="{{pusher}}">
+    <button openType="share">
+        <view class="pop-item flex-st">
+            <image mode="widthFix" src="../../images/share-to.png"></image>
+            <text>分享</text>
+        </view>
+    </button>
+    <view bindtap="collect" class="pop-item flex-st">
+        <image mode="widthFix" src="../../images/ic-like000.png" wx:if="{{is_collect==false}}"></image>
+        <image mode="widthFix" src="../../images/ic-like111.png" wx:if="{{is_collect==true}}"></image>
+        <text>收藏</text>
+    </view>
+</view>
+<!-- <view class="share-box">
+    <view>
+        <button class="none" openType="share">
+            <image mode="widthFix" src="../../images/ic-share.png"></image>
+        </button>
+    </view>
+    <view bindtap="collect">
+        <image mode="widthFix" src="../../images/ic-like11.png" wx:if="{{is_collect==true}}"></image>
+        <image mode="widthFix" src="../../images/ic-like00.png" wx:if="{{is_collect==false}}"></image>
+    </view>
+</view> -->
+<view class="answer-card" hidden="{{flag}}">
+    <view class="header0 flex-be">
+        <view class="describe0 flex-st">
+            <text class="circle1 com_bgcolor"></text>
+            <text>已回答</text>
+            <text class="circle2"></text>
+            <text>未回答</text>
+        </view>
+        <view bindtap="hidecardpop" class="close0">关闭</view>
+    </view>
+    <scroll-view scrollY class="text-state">
+        <view class="title00">选择题</view>
+        <view class="answer-num">
+            <text bindtap="selectQuestion" data-index="{{index}}" class="{{item.disabled ?'choosed com_bgcolor':''}}" wx:for="{{question_list}}" wx:key="index">
+                {{index + 1}}
+            </text>
+        </view>
+    </scroll-view>
+    <!-- <button bindtap="submitPaper" class="tijiao-test">交卷</button> -->
+</view>
+<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd">
+    <view class="text-type padding">
+        {{current_no + 1}}、{{question_list[current_no].problem_typeName}}
+    </view>
+    <view class="padding">
+        <!-- <text>{{current_no + 1}}、{{question_list[current_no].problem_stem}}</text> -->
+        <view class="rich_text_box">
+            <template is="wxParse" data="{{wxParseData:question_list[current_no].problem_stem_wx.nodes}}"></template>
+        </view>
+    </view>
+    <radio-group class="checked padding">
+        <label bindtap="selectAnswer" wx:for="{{question_list[current_no].problem_content}}" wx:key="index" wx:for-item="vItem" class="checkbox flex-st {{ vItem.select ?'selected com_selected':''}}" data-option="{{vItem.option}}" data-index="{{index}}">
+            <view>
+                <text>
+                    <text class="letter">{{vItem.option}}</text>
+                    <!-- {{vItem.content}} -->
+                </text>
+                <view class="rich_text_box test_rich">
+                    <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
+                </view>
+            </view>
+        </label>
+    </radio-group>
+    <view class="right-answer" wx:if="{{question_list[current_no].disabled}}">
+        <view class="lower-title flex-st">
+            <view class="lower-sub">
+                <text>参考答案</text>
+                <text style="color:#1ec91e;">{{question_list[current_no].problem_answer}}</text>
+            </view>
+            <view class="lower-sub">
+                <text>您的答案</text>
+                <text style="color:#ef505b">{{question_list[current_no].userAnswer}}</text>
+            </view>
+        </view>
+        <view class="analysis">
+            <view class="jiexi-title">答案解析</view>
+            <view class="jiexi-text">
+                <view class="rich_text_box">
+                    <template is="wxParse" data="{{wxParseData:question_list[current_no].problem_analyse_wx.nodes}}"></template>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="pre-button" hidden="{{current_no==0}}">
+    <button bindtap="preQuestion" class="com_bgcolor btn">上一题</button>
+</view>
+<view class="qd-button" hidden="{{question_list[current_no].problem_type != 2}}">
+    <button bindtap="selectType" class="com_bgcolor btn">确定答案</button>
+</view>
+<view class="next-button" hidden="{{current_no==question_list.length-1}}">
+    <button bindtap="nextQuestion" class="com_bgcolor btn">下一题</button>
+</view>
+<!-- <wxs module="tools" src="../../utils/util.wxs" /> -->

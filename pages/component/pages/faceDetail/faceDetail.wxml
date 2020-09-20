@@ -1,0 +1,78 @@
+   <view class="nav bg-white" style="height:{{navH}}px">
+   	<view class="nav-title">
+   		<text class="biaoti" >{{ chapterName }}</text>
+   		<text id="gl1" bindtap="gobefor"></text>
+   	</view>
+   </view>
+   <view wx:for="{{ funlist }}" wx:key="index" wx:for="{{ funlist }}" wx:key="index">
+   	<!--header-->
+   	<view class="detail_head">
+   		<image style="width:160rpx;height:90rpx;margin-right:20rpx" src="{{item.image}}" />
+   	<view>
+   			<view class="detail-h1">{{item.subscribe_classroom_name}}</view>
+   			<text>{{item.specific_time_range}}</text>
+   		</view>
+   	</view>
+   	<!--主要内容-->
+   	<view class="detail_main">
+   		<view class="detail_course">
+   			<text class="detail_area">上课内容</text>
+   			<view class="detail_content">{{item.chapter_name}}</view>
+   		</view>
+   		<view class="detail_course">
+   			<text class="detail_area">上课老师</text>
+   			<view class="detail_content">{{item.teacher_name}}</view>
+   		</view>
+   		<view class="detail_course">
+   			<text class="detail_area">上课地点</text>
+   			<view class="detail_content">{{item.address }}</view>
+   		</view>
+			 	<view class="detail_course">
+   			<text class="detail_area">预约时间</text>
+   			<view class="detail_content">{{item.show_time }}</view>
+   		</view>
+			 	<view class="detail_course">
+   			<text class="detail_area">结束时间</text>
+   			<view class="detail_content">{{item.close_time }}</view>
+   		</view>
+   		<view class="detail_course">
+   			<text class="detail_area">报名人数</text>
+   			<view class="detail_content">{{item.subscribe_num}}/{{item.max_num}}人</view>
+   		</view>
+   		<!-- <view class="detail_course">
+   			<text class="detail_area">预约人</text>
+   			<view class="detail_content">{{item.nickname}}</view>
+   		</view> -->
+   		<!-- <view class="detail_course">
+   			<text class="detail_area">预约号码</text>
+   			<view class="detail_content">{{item.mobile}}</view>
+   		</view> -->
+   	</view>
+
+   	<!--footer-->
+   	<view class="explain">
+   		<view class="explain_title">
+   			预约说明:
+   		</view>
+   		<view class="explain_content">
+   			<view> <text class="content_dot">●</text> 预约成功后不能再预约时间冲突或者相同内容的的课程 </view>
+   			<view><text class="content_dot">●</text> 因相同内容导致预约失败者，如需重修请提交申请 </view>
+   			<view><text class="content_dot">●</text> 如果您临时有事不能上课，可以在开课前取消预约 </view>
+   			<view><text class="content_dot">●</text> 如果您上课迟到或者忘记签到，可以申请补签到</view>
+   			<view> <text class="content_dot">●</text> 如果您没有取消预约也没有准时上课则视为失约，失约将影响您下次的预约操作</view>
+   		</view>
+   		<view class="{{explain_bg}}" bindtap="explain_btn" >{{item.tips}}</view>
+   		<!-- <view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}" hidden="{{status}}" wx:elif="{{item.subscribeStatus=='0'|| item.subscribeStatus=='1'}}">取消预约</view>
+   		<view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}" hidden="{{status}}" wx:elif="{{item.subscribeStatus=='2'}}">已签到</view>
+
+   		<view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}" hidden="{{status}}" wx:else>重新预约</view> -->
+
+
+
+   		<!-- <view class="{{explain_bg!=''?'explain_btn explain_bg':'explain_btn'}}" hidden="{{subscribeStatushave}}" bindtap="explain_btn" data-id="{{item.id}}" data-subscribeStatus="{{item.subscribeStatus}}">
+   			{{explain_btn}}
+   		</view> -->
+   		<!-- <view class="explain_btn" bindtap="explain_btn" data-id="{{item.id}}" hidden= "" data-subscribeStatus="{{item.subscribeStatus}}"  hidden="{{status=='-1'||item.subscribeStatus=='-1'}}">{{explain_btn}}</view> -->
+   	</view>
+   	<i-toast id="toast" />
+   </view>

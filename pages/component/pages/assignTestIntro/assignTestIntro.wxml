@@ -1,0 +1,73 @@
+<!-- pages/virStartIntro/virStartIntro.wxml -->
+<view class="topintros">
+    <image src="http://weidingyifenzu1594719612.oss-cn-shenzhen.aliyuncs.com/0ec0c17afa0a027ae5ed0e2caeedf68f" mode="widthFix" class="topintrosimg" />
+    <view class="introProduct">
+        <view class="topNames">{{ chapterName }}</view>
+        <view style="height:1rpx;background:#cecece;margin-top:20rpx"></view>
+        <view class="topTopic">
+            <view class="every-topTopic">
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/timeLonger.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    考试时长:
+                </view>
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-left:18rpx">
+                    {{exam_length}}分钟
+                </view>
+            </view>
+            <view class="every-topTopic">
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/allTotal.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    考试总分:
+                </view>
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-left:18rpx">
+                    {{ total_point }}分
+                </view>
+            </view>
+            <view class="every-topTopic">
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jigefenshu.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    及格分数:
+                </view>
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-left:18rpx">
+                    {{ pass_scores }}分
+                </view>
+            </view>
+            <view class="every-topTopic">
+                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jigefenshu.png" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx">
+                    题型分布:
+                </view>
+            </view>
+            <view class="every-topTopic" style="margin:0">
+                <image mode="widthFix" src="" style="width:26rpx;height:26rpx" />
+                <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#666666;margin-left:14rpx;display:flex;flex-direction: column;">
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">
+                        单选题{{ radio.number }}题, 一题{{ radio.scores }}分
+                    </view>
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">
+                        多选题{{ multi.number }}题, 一题{{ multi.scores }}分
+                    </view>
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">
+                        判断题{{ judge.number }}题, 一题{{ judge.scores }}分
+                    </view>
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">
+                        填空题{{ judge.number }}题, 一题{{ judge.scores }}分
+                    </view>
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">
+                        简答题{{ judge.number }}题, 一题{{ judge.scores }}分
+                    </view>
+                    <view style="font-size:28rpx;font-family:PingFang-SC-Medium;font-weight:500;color:#199FFF;margin-top:24rpx">
+                        案例分析题{{ judge.number }}题, 一题{{ judge.scores }}分
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view style=" display:flex;justify-content:centert;position:relative;top:260rpx;left:72rpx;">
+    <!-- <view style="width:270rpx;border-radius:40rpx;border:1px solid rgba(25,159,255,1);height:80rpx;font-size:36rpx;font-family:PingFang SC;font-weight:500;color:#199FFF;display:flex;align-items:center;justify-content:center" bindtap='goshuati'>刷题模式</view>
+<view style="width:270rpx;border-radius:40rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);background:rgba(25,159,255,1);display:flex;align-items:center;justify-content:center;margin-left:70rpx" bindtap="gokaoshi">考试模式</view> -->
+    <view style="width:420rpx;border-radius:40rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);background:rgba(25,159,255,1);display:flex;align-items:center;justify-content:center;margin-left:80rpx" bindtap="gokaoshi">
+        开始考试
+    </view>
+</view>
