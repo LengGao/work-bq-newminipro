@@ -58,9 +58,21 @@ Page({
     ],
     ProblemType: '',
     answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     activeAnswer: 'defaultAnswer',
+    multishowFillAny: true,
+    activeSenceAnswer: 'defaultAnswer',
+    activeFillAnswer: 'defaultAnswer',
+    activeShortAnswer: 'defaultAnswer',
+    multishowShortAny: true,
+    correcShorttoption: '',
     correctoption: '',
+    correctFilloption: '',
+    correcSencetoption: '',
     multishowAny: true,
+    multiSenceshowAny: true,
     multiselecting: [],
     multiselect: '',
     multiID: '',
@@ -69,63 +81,60 @@ Page({
     questionHeight: "",
     correctAnswer: false,
     wrongAnswer: false,
-    curID:'',
-    curIndexNumber:'',
-    practice_id:'',
-    alltestID:[],
-    answer_location:"",
-    is_lock:'',
-    senceNum:1,
-    senceIndex:1,
-    
+    curID: '',
+    curIndexNumber: '',
+    practice_id: '',
+    alltestID: [],
+    answer_location: "",
+    is_lock: '',
+    senceNum: 0,
+    senceIndex: 0,
+    multishowFillAny: true,
+    nameMap: '',
+    shortMap: ''
+
   },
   starDrag(event) {
     console.log(event);
     this.data.start[1] = event.touches[0].clientY - event.target.offsetTop + this.data.moveY; //记录开始至位置
   },
-endDrag(event) {
+  endDrag(event) {
     let tag = event.touches;
-   
+
     // if () {
     //   tag[0].clientY = this.data.windowHeight
     // }
-     this.data.moveY = Math.abs(this.data.start[1] - tag[0].clientY)  ;
-     if (this.data.moveY < 50 ) {
-         this.data.moveY = 100
+    this.data.moveY = Math.abs(this.data.start[1] - tag[0].clientY);
+    if (this.data.moveY < 50) {
+      this.data.moveY = 100
     }
-    if (tag[0].clientY <=  66 ){
-       this.data.moveY =  this.data.windowHeight-20 
+    if (tag[0].clientY <= 66) {
+      this.data.moveY = this.data.windowHeight - 20
     }
-     this.setData({
-      moveY:this.data.moveY,
+    this.setData({
+      moveY: this.data.moveY,
     })
-    console.log(this.data.moveY,tag);
+    console.log(this.data.moveY, tag);
   },
   lastQU() {
     let that = this
     let curID = this.data.curID
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
-    console.log(that.data.randerTitle)
-    if(that.data.randerTitle.problem_type == 2){ //多选题在此提交答案
-      if(that.data.randerTitle.hasSubmit){ // 表明已提交过答案
-      }else{
-        let multiselect = that.data.multiselect
-        that.submitAnswer(multiselect,curID)
-      }
-    }
-    if(curindex  < 1){
+    this.common()
+    if (curindex < 1) {
       return
     }
     let curId = that.data.alltestID[curindex - 1] // 获取上一题ID
-     that.findcurIndex(curId,that.data.alltestID);
-     // 开启缓存，并去重,传入当前数据，而非下一题数据
-    
-     that.saveRander(curID)
-     //开始加载题目详情
-     that.initText(curId);
+    that.findcurIndex(curId, that.data.alltestID);
+    // 开启缓存，并去重,传入当前数据，而非下一题数据
+
+    that.saveRander(curID)
+    //开始加载题目详情
+    that.initText(curId);
   },
   cards() {
+    this.common()
     let name = this.data.chapterName
     let practice_id = this.data.practice_id
     wx.navigateTo({
@@ -134,7 +143,7 @@ endDrag(event) {
   },
   checkout(problem_id) {
     let that = this
-    that.findcurIndex(problem_id,that.data.alltestID);
+    that.findcurIndex(problem_id, that.data.alltestID);
     //开始加载题目详情
     that.initText(problem_id);
   },
@@ -167,12 +176,12 @@ endDrag(event) {
               icon: 'none',
               duration: 2000
             })
-           let randerTitle = that.data.allRender.find((value) => value.problem_id == curid);
-           if(randerTitle != undefined){
-            randerTitle.isCollect = 0;
-           }else{
-             that.data.randerTitle.isCollect = 0
-           }
+            let randerTitle = that.data.allRender.find((value) => value.problem_id == curid);
+            if (randerTitle != undefined) {
+              randerTitle.isCollect = 0;
+            } else {
+              that.data.randerTitle.isCollect = 0
+            }
             return
           }
           wx.showToast({
@@ -210,11 +219,11 @@ endDrag(event) {
           })
           let randerTitle = that.data.allRender.find((value) => value.problem_id == curid)
           console.log(randerTitle)
-          if(randerTitle != undefined){
+          if (randerTitle != undefined) {
             randerTitle.isCollect = 1;
-           }else{
-             that.data.randerTitle.isCollect = 1
-           }
+          } else {
+            that.data.randerTitle.isCollect = 1
+          }
           return
         }
         wx.showToast({
@@ -228,45 +237,76 @@ endDrag(event) {
       }
     })
   },
+  common(){ //判断当前题目是否已经提交，若没有则提交当前题目
+    let that = this
+    let curID = that.data.curID
+    if (that.data.randerTitle.problem_type == 2) {//多选题在此提交答案
+      if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
+      } else {
+        let multiselect = that.data.multiselect
+        if (multiselect == '') {
+        } else {
+          that.submitAnswer(multiselect, curID)
+        }
+      }
+    }
+    if (that.data.randerTitle.problem_type == 6) { //场景提交
+      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
+      } else {
+        this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
+      }
+    }
+    if (that.data.randerTitle.hasSubmit) { // 其他模式表明已提交过答案
+    } else {
+      if (this.data.nameMap == '') {
+      } else {
+        let answer = this.data.nameMap
+        that.submitAnswer(answer, curID)
+      }
+      if (this.data.shortMap == '') {
+      } else {
+        let answer = this.data.shortMap
+        that.submitAnswer(answer, curID)
+      }
+    }
+  },
   nextQU() {
     let that = this
     let curID = that.data.curID
-    console.log(that.data.randerTitle)
-    if(that.data.randerTitle.problem_type == 2){ //多选题在此提交答案
-      if(that.data.randerTitle.hasSubmit){ // 表明已提交过答案
-      }else{
-        let multiselect = that.data.multiselect
-        that.submitAnswer(multiselect,curID)
-      }
-    }
-     // 开启缓存，并去重,传入当前数据，而非下一题数据
+    this.common()
+    // 开启缓存，并去重,传入当前数据，而非下一题数据
     that.saveRander(curID)
     //首先获取下一题的ID
     let curindex = that.data.curIndexNumber - 1; // 当前下标
-    if(curindex + 1  > that.data.all_current_no -1 ){
+    if (curindex + 1 > that.data.all_current_no - 1) {
       return
     }
     let curId = that.data.alltestID[curindex + 1]; // 获取下一题ID
-    that.findcurIndex(curId,that.data.alltestID);
+    that.findcurIndex(curId, that.data.alltestID);
     //开始加载题目详情
     that.initText(curId);
   },
-  saveRander(ID){
+  saveRander(ID) {
     let that = this
     let curRander = this.data.randerTitle;
     let result = that.hasBeenLoad(ID);//检查本地是否已缓存
-    if(result == undefined){  // 未缓存
+    if (result == undefined) {  // 未缓存
       this.data.allRender.push(curRander)
       console.log(this.data.allRender)
       return
     }
   },
-  saveScenceRander(ID){
+  saveScenceRander(ID) {
     // console.log(ID)
     let index = this.data.senceIndex
     let hasBeenLoad = this.data.randerTitle.child[index];//本地缓存
-    let result = hasBeenLoad.find((value) => value.problem_id == ID);
-    console.log(result)
+    if (hasBeenLoad.done != undefined && hasBeenLoad.done == true) { //已缓存
+
+    } else {
+
+    }
+    // let result = hasBeenLoad.find((value) => value.problem_id == ID);
+    // console.log(result)
   },
   //选择答案
   selectAnswer(e) {
@@ -293,7 +333,7 @@ endDrag(event) {
         randerTitle: this.data.randerTitle//缓存改变后的渲染数据
       })
     }
-    if(this.data.ProblemType == 1 || this.data.ProblemType == 3 ){ // 单选题直接提交答案
+    if (this.data.ProblemType == 1 || this.data.ProblemType == 3) { // 单选题直接提交答案
       console.log('进入单选题模式')
       this.submitAnswer(option)
       return
@@ -324,24 +364,27 @@ endDrag(event) {
       })
     }
     let curindex = this.data.senceIndex - 1
-    if(this.data.randerTitle.child[curindex].problem_child_type == 1 || this.data.randerTitle.child[curindex].problem_child_type == 3 ){ // 单选题直接提交答案
+    if (this.data.randerTitle.child[curindex].problem_child_type == 1 || this.data.randerTitle.child[curindex].problem_child_type == 3) { // 单选题直接提交答案
       console.log('进入单选题模式')
+      this.setData({
+        curID: this.data.randerTitle.child[curindex].problem_id
+      })
       this.submitAnswer(option)
       return
     }
   },
   multiselectAnswer(e) {
-    if (!this.data.multishowAny) {
-      return
-    }
+    // if (!this.data.multishowAny) {
+    //   return
+    // }
     let color
     let option = e.currentTarget.dataset.option;
     let answer = e.currentTarget.dataset.answer;
     let index = e.currentTarget.dataset.index;
-    if( this.data.randerTitle.content != undefined){
-        color = this.data.randerTitle.content[index];
-    }else{
-        color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
+    if (this.data.randerTitle.content != undefined) {
+      color = this.data.randerTitle.content[index];
+    } else {
+      color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
     }
     this.setData({
       multiAnswer: answer
@@ -350,10 +393,10 @@ endDrag(event) {
     let multiselect = this.data.multiselecting
     if (!multiselect.includes(option)) {
       multiselect.push(option)
-      if( this.data.randerTitle.content != undefined){
+      if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = true
         this.data.randerTitle.done = true
-      }else{
+      } else {
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
         this.data.randerTitle.child[this.data.senceIndex - 1].done = true
       }
@@ -391,17 +434,34 @@ endDrag(event) {
         multishowAny: false
       })
     }
-    this.setData({
-      wrongAnswer: true,
-      correctAnswer: true
-    })
+    // this.setData({
+    //   wrongAnswer: true,
+    //   correctAnswer: true
+    // })
 
   },
-  getLogAnswer(log_id){
-    let that = this 
+  showSenceAnswer() {
+    if (this.data.activeSenceAnswer == 'activeAnswer') {
+      this.setData({
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeSenceAnswer: 'defaultAnswer',
+        correcSencetoption: '',
+        multiSenceshowAny: true
+      })
+    } else {
+      this.setData({
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        activeSenceAnswer: 'activeAnswer',
+        correcSencetoption: 'activeoption',
+        multiSenceshowAny: false
+      })
+    }
+  },
+  getLogAnswer(log_id) {
+    let that = this
     let option = {
-      log_id:log_id,
-      mode:4
+      log_id: log_id,
+      mode: 4
     }
     console.log(option)
     app.encryption({//初始化加载函数获取所有题目ID
@@ -410,44 +470,45 @@ endDrag(event) {
       method: 'GET',
       dataType: "json",
       success: function (res) {
-           console.log(res)
-           let index = res.list.findIndex((value)=> value.problem_id == that.data.answer_location)
-           for(let i = 0 ; i<=index ; i++){
-             if(res.list[i].problem_id == that.data.randerTitle.problem_id){
-               let answer = res.list[i].answer.split(',');
-               console.log(answer)
-               for(let j = 0 ; j < that.data.randerTitle.content.length; j++){
-                 for(let k = 0 ; k < answer.length ; k++){
-                  //  console.log(that.data.randerTitle.content[j].option,answer[k])
-                  //  console.log(that.data.randerTitle.content[j]==option,answer[k])
-                    console.log(that.data.randerTitle.content[j])
-                    if(that.data.randerTitle.content[j].option == answer[k]){
-                      console.log(that.data.randerTitle.answer,answer[k])
-                      console.log(that.data.randerTitle.answer.indexOf(answer[k]))
-                        if(that.data.randerTitle.answer.indexOf(answer[k]) != -1){
-                          that.data.randerTitle.content[j].color = true
-                          that.data.randerTitle.content[j].err = false
-                        }else{
-                          that.data.randerTitle.content[j].color = false
-                          that.data.randerTitle.content[j].err = true
-                        }
-                    }
-                 }
-               }
-               that.data.randerTitle.option = res.list[i].answer
-               that.data.randerTitle.done = true;
-               that.setData({
-                randerTitle:that.data.randerTitle 
-               })
-               console.log( that.data.randerTitle )
-             }
-           }
+        console.log(res)
+        let index = res.list.findIndex((value) => value.problem_id == that.data.answer_location)
+        for (let i = 0; i <= index; i++) {
+          if (res.list[i].problem_id == that.data.randerTitle.problem_id) {
+            let answer = res.list[i].answer.split(',');
+            console.log(answer)
+            for (let j = 0; j < that.data.randerTitle.content.length; j++) {
+              for (let k = 0; k < answer.length; k++) {
+                //  console.log(that.data.randerTitle.content[j].option,answer[k])
+                //  console.log(that.data.randerTitle.content[j]==option,answer[k])
+                console.log(that.data.randerTitle.content[j])
+                if (that.data.randerTitle.content[j].option == answer[k]) {
+                  console.log(that.data.randerTitle.answer, answer[k])
+                  console.log(that.data.randerTitle.answer.indexOf(answer[k]))
+                  if (that.data.randerTitle.answer.indexOf(answer[k]) != -1) {
+                    that.data.randerTitle.content[j].color = true
+                    that.data.randerTitle.content[j].err = false
+                  } else {
+                    that.data.randerTitle.content[j].color = false
+                    that.data.randerTitle.content[j].err = true
+                  }
+                }
+              }
+            }
+            that.data.randerTitle.option = res.list[i].answer
+            that.data.randerTitle.done = true;
+            that.setData({
+              randerTitle: that.data.randerTitle
+            })
+            console.log(that.data.randerTitle)
+          }
+        }
 
-      }})
+      }
+    })
   },
-  getAlltestNumber(options,is_lock){
-    console.log(options,is_lock)
-    let that = this 
+  getAlltestNumber(options, is_lock) {
+    console.log(options, is_lock)
+    let that = this
     that.setData({
       chapterName: options.name,
       navH: app.globalData.navHeight,
@@ -465,44 +526,45 @@ endDrag(event) {
       method: 'POST',
       dataType: "json",
       success: function (res) {
-       let list = res.list
-       let totalNum ;
-       let single_problem = list.single_problem; //单选
-       let fill_problem = list.fill_problem;//填空
-       let judge_problem = list.judge_problem;//判断
-       let multiple_problem = list.multiple_problem;//多选
-       let scenes_problem = list.scenes_problem;//场景
-       let short_problem = list.short_problem;//简答
-       totalNum  = single_problem.length  + multiple_problem.length + scenes_problem.length+ judge_problem.length+ fill_problem.length + short_problem.length;
-       //合并数组
-       let alltestID = [];
-       alltestID = alltestID.concat(single_problem).concat(multiple_problem).concat(scenes_problem).concat(judge_problem).concat(fill_problem).concat(short_problem);
-       that.setData({
-        all_current_no:totalNum,
-        practice_id:res.practice_id,
-        alltestID:alltestID,
-        answer_location:res.answer_location
-       });
-       
-       //开始渲染题目,首先检测缓存是否有当前题目ID，如果有则直接提取作，没有则请求接口获取题目详情
-       let text_location = res.answer_location;//上一次缓存的题目ID,如果没有缓存也代表第一道题
-       //查找当前题目下标
-       that.findcurIndex(text_location,alltestID,0);
-       //开始加载题目详情
-       that.initText(text_location);
-      }}
-      )
+        let list = res.list
+        let totalNum;
+        let single_problem = list.single_problem; //单选
+        let fill_problem = list.fill_problem;//填空
+        let judge_problem = list.judge_problem;//判断
+        let multiple_problem = list.multiple_problem;//多选
+        let scenes_problem = list.scenes_problem;//场景
+        let short_problem = list.short_problem;//简答
+        totalNum = single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
+        //合并数组
+        let alltestID = [];
+        alltestID = alltestID.concat(single_problem).concat(multiple_problem).concat(scenes_problem).concat(judge_problem).concat(fill_problem).concat(short_problem);
+        that.setData({
+          all_current_no: totalNum,
+          practice_id: res.practice_id,
+          alltestID: alltestID,
+          answer_location: res.answer_location
+        });
+
+        //开始渲染题目,首先检测缓存是否有当前题目ID，如果有则直接提取作，没有则请求接口获取题目详情
+        let text_location = res.answer_location;//上一次缓存的题目ID,如果没有缓存也代表第一道题
+        //查找当前题目下标
+        that.findcurIndex(text_location, alltestID, 0);
+        //开始加载题目详情
+        that.initText(text_location);
+      }
+    }
+    )
   },
-  findcurIndex(curId,allId,start = 1){
+  findcurIndex(curId, allId, start = 1) {
     console.log(allId)
     let curIndexNumber = allId.findIndex((value) => value == curId)
     curIndexNumber += 1
     let icon = 'tabItems[0].icon'
     this.setData({
-      curIndexNumber:curIndexNumber
+      curIndexNumber: curIndexNumber
     })
     // 边界值判断
-    if( curIndexNumber <= 1 && start) {
+    if (curIndexNumber <= 1 && start) {
       wx.showToast({
         title: '已经是第一题了',
         icon: 'none',
@@ -512,14 +574,14 @@ endDrag(event) {
       this.setData({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
       })
-    }else if (curIndexNumber >= this.data.all_current_no){
+    } else if (curIndexNumber >= this.data.all_current_no) {
       wx.showToast({
         title: '已经是最后一道题了',
         icon: 'none',
         duration: 2000
       })
       curIndexNumber = this.data.all_current_no
-    }else{
+    } else {
       this.setData({
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
@@ -527,14 +589,14 @@ endDrag(event) {
     console.log(curIndexNumber)
     return curIndexNumber
   },
-  submitAnswer(answer,curID = '0'){
+  submitAnswer(answer, curID = '0') {
     let that = this
     let option = {
-      problem_course_id:this.data.courseId,
-      problem_id:this.data.curID,
-      log_id:this.data.practice_id,
-      mode:4,
-      answer:answer,
+      problem_course_id: this.data.courseId,
+      problem_id: this.data.curID,
+      log_id: this.data.practice_id,
+      mode: 4,
+      answer: answer,
     }
     console.log(option)
     app.encryption({//初始化加载函数获取所有题目ID
@@ -545,90 +607,130 @@ endDrag(event) {
       success: function (res) {
         console.log(res)
         //提交完答案，清空多选题答案数组,并查看是否已缓存，并改变其中的标识符（hasSubmit）
-        if(res.data.code == 200){
-          console.log( that.data.randerTitle)
-         that.data.randerTitle.hasSubmit = true
+        if (res.data.code == 200) {
+          if (that.data.randerTitle.problem_type == 6) {
+            console.log(curID)
+            that.data.randerTitle.child[curID].hasSubmit = true
+          }
+          that.data.randerTitle.hasSubmit = true
           that.setData({
-             multiselect:[],
-             randerTitle: that.data.randerTitle
+            multiselect: [],
+            randerTitle: that.data.randerTitle,
+            nameMap: ''
           })
+          console.log(that.data.randerTitle)
           let curRander = that.data.randerTitle;
           let ID = curID
           let result = that.hasBeenLoad(ID);//检查本地是否已缓存
-          if(result == undefined){  // 未缓存
+          if (result == undefined) {  // 未缓存
             that.data.allRender.push(curRander)
             console.log(that.data.allRender)
             return
-          }else{ //已缓存
-            let find =  that.data.allRender.findIndex((value)=>value.problem_id == ID )
-            console.log(that.data.allRender,ID,find)
+          } else { //已缓存
+            let find = that.data.allRender.findIndex((value) => value.problem_id == ID)
+            console.log(that.data.allRender, ID, find)
             that.data.allRender[find].hasSubmit = true
             that.setData({
-              allRender:that.data.allRender
+              allRender: that.data.allRender
             })
           }
+
         }
-      }}
-    )
-  },
-  bindsenceNext(){
-    console.log(this.data.randerTitle); // 点击下一题增加+1
-    if(this.data.randerTitle.child[ this.data.senceIndex ].problem_child_type == 2){//多选题在此提交答案
-      if(this.data.randerTitle.hasSubmit){ // 表明已提交过答案
-      }else{
-        let multiselect = this.data.multiselect
-        this.submitAnswer(multiselect,curID)
       }
     }
-    this.saveScenceRander()
-    if(this.data.senceIndex <= this.data.senceNum){
+    )
+  },
+  bindsenceNext() {
+    console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
+    // this.saveScenceRander()
+    if (this.data.senceIndex < this.data.senceNum) {
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+        if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
+        } else {
+          let multiselect = this.data.multiselect
+          this.submitAnswer(multiselect, this.data.senceIndex - 1)
+        }
+      }
       this.setData({
-        senceIndex:this.data.senceIndex + 1
+        senceIndex: this.data.senceIndex + 1
       })
-    }else{
+
+    } else {
+
       this.setData({
-        senceIndex:this.data.senceIndex
+        senceIndex: this.data.senceIndex
       })
+      wx.showToast({
+        title: '已经是最后一道题了',
+        icon: 'none',
+        duration: 2000
+      })
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+        if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
+        } else {
+          let multiselect = this.data.multiselect
+          this.submitAnswer(multiselect, this.data.senceIndex - 1)
+        }
+      }
     }
+
     let index = this.data.senceIndex - 1
-    console.log(this.data.randerTitle,index)
     let cid = this.data.randerTitle.child[index].problem_id  //获取ID
     this.setData({
-      curID:cid
+      curID: cid
     })
   },
-  bindsenceLast(){
-    console.log(this.data.randerTitle); // 点击下一题减少-1
-    if(this.data.senceIndex <= 0){
+  bindsenceLast() {
+    console.log(this.data.senceIndex); // 点击下一题减少-1
+    if (this.data.senceIndex <= 1) {
       this.setData({
         senceIndex: 1
       })
-    }else{
+      wx.showToast({
+        title: '已经是第一道题了',
+        icon: 'none',
+        duration: 2000
+      })
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+        if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
+        } else {
+          let multiselect = this.data.multiselect
+          this.submitAnswer(multiselect, this.data.senceIndex - 1)
+        }
+      }
+    } else {
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+        if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
+        } else {
+          let multiselect = this.data.multiselect
+          this.submitAnswer(multiselect, this.data.senceIndex - 1)
+        }
+      }
       this.setData({
-        senceIndex:this.data.senceIndex - 1
+        senceIndex: this.data.senceIndex - 1
       })
     }
     let index = this.data.senceIndex - 1
     let cid = this.data.randerTitle.child[index].problem_id  //获取ID
     this.setData({
-      curID:cid
+      curID: cid
     })
-    this.saveScenceRander(cid) // 缓存
+    // this.saveScenceRander(cid) // 缓存
   },
-  initText(ID){  //getProblemDetail，先去查找本地缓存
+  initText(ID) {  //getProblemDetail，先去查找本地缓存
     let that = this;
     let result = that.hasBeenLoad(ID)
-    if(result != undefined){ //发现有数据
+    if (result != undefined) { //发现有数据
       let randerTitle = result;
       that.collectOrNot(randerTitle);
       that.setData({
-        randerTitle:randerTitle,
-        ProblemType:randerTitle.problem_type,
-        curID:randerTitle.problem_id
+        randerTitle: randerTitle,
+        ProblemType: randerTitle.problem_type,
+        curID: randerTitle.problem_id
       });
-    }else{
+    } else {
       let option = {
-        problem_id:ID,
+        problem_id: ID,
       }
       app.encryption({  // 开始加载题目详情
         url: api.test.getProblemDetail,
@@ -636,53 +738,53 @@ endDrag(event) {
         method: 'GET',
         dataType: "json",
         success: function (res) {
-          console.log(res,res.info.problem_type)
+          console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
-          if(randerTitle.problem_type == 6){
-             if(randerTitle.child != undefined && randerTitle.child.length > 0){
-                randerTitle.child.forEach((val,index) => {
-                   val = app.testWxParse(that, val) //将解析后的赋值
-                });
-             }
-               // 判断当前题目是否已收藏
-             that.collectOrNot(randerTitle)
-             that.setData({
-              randerTitle:randerTitle,
-               senceNum:randerTitle.child.length,
-               senceIndex:1,
-               ProblemType:res.info.problem_type,
-               curID:randerTitle.child[0].problem_id
-             })
-             return
+          if (randerTitle.problem_type == 6) {
+            if (randerTitle.child != undefined && randerTitle.child.length > 0) {
+              randerTitle.child.forEach((val, index) => {
+                val = app.testWxParse(that, val) //将解析后的赋值
+              });
+            }
+            // 判断当前题目是否已收藏
+            that.collectOrNot(randerTitle)
+            that.setData({
+              randerTitle: randerTitle,
+              senceNum: randerTitle.child.length,
+              senceIndex: 1,
+              ProblemType: res.info.problem_type,
+              curID: randerTitle.child[0].problem_id
+            })
+            return
           }
           // 判断当前题目是否已收藏
           that.collectOrNot(randerTitle)
           //判断结束
           that.setData({
-            randerTitle:randerTitle,
-            ProblemType:res.info.problem_type,
-            curID:res.info.problem_id
+            randerTitle: randerTitle,
+            ProblemType: res.info.problem_type,
+            curID: res.info.problem_id
           })
           console.log(that.data.randerTitle)
         }
       })
     }
-    if(that.data.is_lock == 1){ //继续上次，获取记录答案接口
+    if (that.data.is_lock == 1) { //继续上次，获取记录答案接口
       that.getLogAnswer(that.data.practice_id)
     }
   },
-  hasBeenLoad(ID){
+  hasBeenLoad(ID) {
     let hasBeenLoad = this.data.allRender;//本地缓存
     let result = hasBeenLoad.find((value) => value.problem_id == ID);
     return result
   },
-  collectOrNot(randerTitle){
+  collectOrNot(randerTitle) {
     let that = this
     let icon = 'tabItems[2].icon'
     let classes = 'tabItems[2].class'
     let name = 'tabItems[2].name'//以上为获取收藏按钮状态
-    console.log(randerTitle.isCollect,typeof(randerTitle.isCollect))
+    console.log(randerTitle.isCollect, typeof (randerTitle.isCollect))
     if (randerTitle.isCollect != 'undefined' && randerTitle.isCollect == 1) {  //是否已收藏
       that.setData({
         likes: true,
@@ -690,7 +792,7 @@ endDrag(event) {
         [classes]: 'active',
         [name]: '已收藏'
       })
-    }else{
+    } else {
       that.setData({
         likes: true,
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
@@ -761,20 +863,20 @@ endDrag(event) {
       success: function (res) {
         let is_lock
         if (res.cancel) {
-          is_lock  = 0
+          is_lock = 0
           wx.showLoading({
             title: '正在清除进度...',
           })
           //点击取消,默认隐藏弹框
         } else {
-          is_lock  = 1
+          is_lock = 1
           wx.showLoading({
             title: '正在保存进度...',
           })
         }
         let option = {
           practice_id: that.data.practice_id,
-          is_lock:is_lock
+          is_lock: is_lock
         }
         console.log(is_lock)
         console.log(option)
@@ -809,10 +911,10 @@ endDrag(event) {
   },
   onLoad: function (options = {}) {
     this.setData({
-      moveY:313
+      moveY: 313
     })
     //获取屏幕宽高
-    const {windowHeight} = wx.getSystemInfoSync();
+    const { windowHeight } = wx.getSystemInfoSync();
     this.data.windowHeight = windowHeight - 127 - 54
     //先去请求所有题目的id，当点击下一题目的时候用id换题目,获取上次的记录答案
     let that = this
@@ -961,7 +1063,7 @@ endDrag(event) {
       this.lastQU();
     }
   },
-  touchSceneEnd(e){
+  touchSceneEnd(e) {
     let d = this.data;
     let x = e.changedTouches[0].clientX;
     let y = e.changedTouches[0].clientY;
@@ -971,5 +1073,51 @@ endDrag(event) {
     } else if (direction == 'right') {
       this.bindsenceLast();
     }
-  }
+  },
+  showfillAnswer() {
+    if (this.data.activeAnswer == 'activeAnswer') {
+      this.setData({
+        answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeFillAnswer: 'defaultAnswer',
+        correctFilloption: '',
+        multishowFillAny: true
+      })
+    } else {
+      this.setData({
+        answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        activeFillAnswer: 'activeAnswer',
+        correctFilloption: 'activeoption',
+        multishowFillAny: false
+      })
+    }
+  },
+  showShortAnswer() {
+    if (this.data.activeShortAnswer == 'activeAnswer') {
+      this.setData({
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeShortAnswer: 'defaultAnswer',
+        correcShorttoption: '',
+        multishowShortAny: true
+      })
+    } else {
+      this.setData({
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        activeShortAnswer: 'activeAnswer',
+        correcShorttoption: 'activeoption',
+        multishowShortAny: false
+      })
+    }
+  },
+  updateShortValue(event) {
+    let value = event.detail.value
+    this.setData({
+      shortMap: value
+    })
+  },
+  updateValue(event) {
+    let value = event.detail.value
+    this.setData({
+      nameMap: value
+    })
+  },
 });
