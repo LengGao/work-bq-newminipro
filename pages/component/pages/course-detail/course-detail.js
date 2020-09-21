@@ -6,18 +6,14 @@ function t(t, e, a) {
     writable: !0
   }) : t[e] = a, t;
 }
-
 var e, a, o, i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (t) {
   return typeof t;
 } : function (t) {
   return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t;
 };
-
 var n = getApp(), s = require("../../../../api.js"), wxParse = require("../../../../wxParse/wxParse.js");
-
 require("../../../../utils/util.js");
 import { getToken, getVideoList, getVideoById } from '../../../../commons/service/index.js'
-
 const serviceError = function (msg) {
   wx.showToast({
     title: msg || '获取数据出错',
@@ -740,22 +736,22 @@ Page({
   },
   onPullDownRefresh: function () { },
   onReachBottom: function () { },
-  onShareAppMessage: function () {
-    var t = this, e = wx.getStorageSync("user_info");
-    // t.shareSuccess();
-    return {
-      title: t.data.video.title,
-      // path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id + "&pid=" + e.user_id,
-      path: "../course-detail/course-detail?video_id=" + this.data.video_id,
-      // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
-      success: function (t) {
-        console.log("转发成功", t);
-      },
-      fail: function (t) {
-        console.log("转发失败", t);
-      }
-    };
-  },
+  // onShareAppMessage: function () {
+  //   var t = this, e = wx.getStorageSync("user_info");
+  //   // t.shareSuccess();
+  //   return {
+  //     title: t.data.video.title,
+  //     // path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id + "&pid=" + e.user_id,
+  //     path: "../course-detail/course-detail?video_id=" + this.data.video_id,
+  //     // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
+  //     success: function (t) {
+  //       console.log("转发成功", t);
+  //     },
+  //     fail: function (t) {
+  //       console.log("转发失败", t);
+  //     }
+  //   };
+  // },
   canPlay: function () {
     var t = this;
     wx.hideLoading(), t.setData({
@@ -1086,7 +1082,6 @@ Page({
     })
     console.log(currentVideoResource)
     this.setData({
-
       currentPoster,
       currentVideoTitle,
       currentResource,
@@ -1152,8 +1147,7 @@ Page({
           pageIndex: page,
           pageSize: size,
         }
-      })
-        .then(({ data }) => {
+      }).then(({ data }) => {
 
           if (page === 1) {
             this.playVideo(data.videoList[0].videoId)
@@ -1211,7 +1205,6 @@ Page({
         // 转发失败
       },
       complete: function (res) {
-        console.log('xiixixixixixi')
       }
     }
   }
