@@ -957,12 +957,10 @@ Page({
             redo = 1 //继续上次
           }
           that.getAlltestNumber(options, redo)
-          // that.initAlldata(options, redo)
         }
       })
     } else {
       that.getAlltestNumber(options, redo)
-      // that.initAlldata(options, redo)
     }
   },
   onReady: function () { },

@@ -134,7 +134,7 @@ let apiurl = {
     getlivestatus: 'testapi.abacc.cn/getlivestatus',
     listen: e + '/course/listen',
     getvideoinfo: e + '/video/getvideoinfo',
-    play: e + '/course/play',
+    play: e + '/video/play',
     my_collect: e + "myvideocollect",
     // add_comment: e + "addcomment",
     live_list: e + "livelist",
