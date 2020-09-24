@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    code: ''
+    code: '',
+    message:''
   },
 
   /**
@@ -13,7 +14,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      code: options.code
+      code: options.code,
+      message:options.message
     })
     if (options.code == '200') {
       wx.setNavigationBarTitle({

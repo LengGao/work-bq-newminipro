@@ -6,13 +6,13 @@
     </view>
     <view class="success_h1">{{code=='200'?'签到成功':'签到失败'}}</view>
     <view class="success_h2">
-      <block wx:if='{{code!=200}}'>
+      <!-- <block wx:if='{{code!=200}}'>
         <view style="padding-left:75rpx">已经过了上课时间</view>
         <view style="padding:5rpx 0 0 34rpx">请输入理由申请补签到</view>
-      </block>
-      <block wx:if='{{code==200}}'>
-        <view style="padding-left:75rpx">恭喜你已成功签到</view>
-        <view style="padding:5rpx 0 0 34rpx">请开始遨游知识的海洋！</view>
+      </block> -->
+      <block>
+        <view style="padding-left:75rpx">{{message}}</view>
+      
       </block>
     </view>
   </view>

@@ -39,7 +39,7 @@
 margin-top:20rpx;
 background: #fff;
 width: 100%;
-padding:151rpx 265rpx 141rpx 265rpx;
+padding:151rpx 265rpx 236rpx 265rpx;
 }
 .code .code_img{
   width: 220rpx;

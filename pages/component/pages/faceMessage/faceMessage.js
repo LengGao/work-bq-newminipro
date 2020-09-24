@@ -6,6 +6,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    hidden:false,
+    page: 1,
+    size: 20,
+    hasMore:true,
+    hasRefesh:false,
     //日历组件
     calendarConfig: {
       theme: 'elegant',
@@ -15,39 +20,90 @@ Page({
       showHandlerOnWeekMode: true,
       defaultDay: ''
     },
-
     courseId: 0,
     // nofaceShow:false,
     calendarShow: true,
     dayStyle: [],
     courseInfor: [],
-    courseStatus:''
+    courseStatus:'',
+    daytime:'',
+    problem_course_id:'',
+    pageTotal:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
+    this.setData({
+      problem_course_id:problem_course_id
+    })
     this.doSomething()
     //初始化今天的日期点击事件
     let daytime = { detail: { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() } }
     console.log(daytime)
     this.afterTapDay(daytime, 0)
   },
+//加载更多
+loadMore: function(e) {
+  console.log(111)
+  this.getSubscribeList()
+  // var that = this;
+  this.setData({
+  hasRefesh:true,});
+  if (!this.data.hasMore) return
+  // var url = 'http://v.juhe.cn/weixin/query?key=f16af393a63364b729fd81ed9fdd4b7d&pno='+(++that.data.page)+'&ps=10';
+  // network_util._get(url,
+  // function(res){
+  // that.setData({
+  // list: that.data.list.concat(res.data.result.list),
+  // hidden: true,
+  // hasRefesh:false,
+  // });
+  // },function(res){
+  // console.log(res);
+  // })
+ },
+ //刷新处理
+refesh: function(e) {
+  console.log(222)
+  var that = this;
+  that.setData({
+  hasRefesh:true,
+  });
+  this.setData({
+    page : 1
+  })
+  this.getSubscribeList()
+  // var url = 'http://v.juhe.cn/weixin/query?key=f16af393a63364b729fd81ed9fdd4b7d&pno=1&ps=10';
+  // network_util._get(url,
+  // function(res){
+  // that.setData({
+  // list:res.data.result.list,
+  // hidden: true,
+  // page:1,
+  // hasRefesh:false,
+  // });
+  // },function(res){
+  // console.log(res);
+  // })
+ },
+
+
   doSomething(a, b) {
-    let courseId = wx.getStorageSync('courseId').courseId
-    this.setData({
-      courseId: courseId
-    })
+    // let courseId = wx.getStorageSync('courseId').courseId
+    // this.setData({
+    //   courseId: courseId
+    // })
     console.log('onload')
 
     let pro = new Promise((resolve, reject) => {
       let that = this
       let option = {
-        courseId: courseId,
-        month: a - 0,
-        year: b - 0
+        problem_course_id:parseInt (this.data.problem_course_id),
+        // month: a - 0,
+        // year: b - 0
       }
       console.log(option)
       app.encryption({
@@ -55,10 +111,10 @@ Page({
         method: "GET",
         data: option,
         success: function (res) {
-          console.log(res.list)
+          console.log(res)
           let datelist = res.list.map(item => {
-            if (item.hasClass > 0) {
-              return item.dateTime
+            if (item.has_classroom > 0) {
+              return item.date_time
             }
           })
           // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位
@@ -126,7 +182,6 @@ Page({
   },
   //点击日期时触发
   afterTapDay(e, newdatatime) {
-    console.log('初始话', newdatatime)
     //  console.log('afterTapDay', e.detail);
     function Appendzero(obj) {
       if (obj < 10) return "0" + "" + obj;
@@ -140,9 +195,13 @@ Page({
       let day = Appendzero(e.detail.day) + ''
       daytime = e.detail.year + month + day
     }
-    console.log(daytime)
-    let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
-    this.getSubscribeList(problem_course_id, daytime)
+    this.setData({
+      daytime : daytime
+    })
+    this.setData({
+      page : this.data.page
+    })
+    this.getSubscribeList()
   },
   //点击月份时触发
   whenChangeMonth(e) {
@@ -169,21 +228,21 @@ Page({
 
   },
   //获取时间轴
-  getTimeList(courseId, currentMonth, currentYear) {
-    console.log('getTimeList')
+  // getTimeList(courseId, currentMonth, currentYear) {
+  //   console.log('getTimeList')
 
-  },
+  // },
   //面授课堂列表
-  getSubscribeList(courseId, daytime) {
+  getSubscribeList() {
     let that = this
     let option = {
-      problem_course_id: courseId,
-      date_time:parseInt (daytime) ,
-      page:1
+      problem_course_id:parseInt (this.data.problem_course_id),
+      date_time:parseInt(this.data.daytime) ,
+      page:this.data.page
     }
-    console.log(option)
+   console.log(option)
     that.setData({
-      newDataTime: daytime - 0
+      newDataTime:this.data. daytime 
     })
     app.encryption({
       url: api.default.getSubscribeList,
@@ -191,11 +250,17 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
+        console.log(res.total)
+        if(res.total<20){
+          that.setData({
+            page:1,
+            hasMore:false
+           
+          })
+        }else{
+          pageTotal:res.total/20
+        }
          let courbox = res.list
-        // console.log(courbox == undefined)
-        // if (courbox == undefined) {
-        //   courbox = []
-        // }
         for (let k in courbox) {
           courbox[k].show_time = util.js_date_time(courbox[k].show_time)
           courbox[k].close_time = util.js_date_time(courbox[k].close_time)
@@ -211,13 +276,24 @@ Page({
             that.setData({
               courseStatus: 'courseStatus2'
             })
-          }
-            
+          }  
+        }
+        if(this.data.page>1){
+          that.setData({
+            courseInfor:this.data.courseInfor.concat(courbox),
+            hasRefesh:false,
+          })
+        }else{
+          that.setData({
+            courseInfor: courbox,
+            hasRefesh:false,
+          })
         }
         that.setData({
-          courseInfor: courbox
+          courseInfor: courbox,
+          hasRefesh:false,
         })
-
+console.log(this.data.courseInfor)
 
 
       },

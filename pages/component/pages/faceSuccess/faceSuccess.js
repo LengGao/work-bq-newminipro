@@ -38,20 +38,26 @@ Page({
       this.setData({
         continueName:'继续预约'
       })
-    }else if(options.code=='70002'){
+    }else{
       this.setData({
         continueName:'重新预约'
       })
-    }else if(options.code=='70003'){
-      this.setData({
-        continueName:'重新预约',
-
-      })
-    }else if(options.code=='70001'){
-      this.setData({
-        continueName:'重新预约',
-      })
     }
+    
+    // else if(options.code=='70002'){
+    //   this.setData({
+    //     continueName:'重新预约'
+    //   })
+    // }else if(options.code=='70003'){
+    //   this.setData({
+    //     continueName:'重新预约',
+
+    //   })
+    // }else if(options.code=='70001'){
+    //   this.setData({
+    //     continueName:'重新预约',
+    //   })
+    // }
   },
   // gobefor(){
   //   let pages = getCurrentPages(); // 当前页面

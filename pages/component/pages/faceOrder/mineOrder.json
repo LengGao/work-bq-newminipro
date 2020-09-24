@@ -8,6 +8,5 @@
     "i-tabs": "../../../../utils/iview/tabs/index",
     "i-tab": "../../../../utils/iview/tab/index",
     "i-card": "../../../../utils/iview/card/index"
-  },
-  "enablePullDownRefresh": true
+  }
 }

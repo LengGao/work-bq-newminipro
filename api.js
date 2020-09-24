@@ -16,7 +16,7 @@ let apiurl = {
     abouts: e + "abouts",
     foundChat: e + '/chat/foundChat',
     getProblems: e + '/answe/getProblems',
-    getCollection: e + '/answe/getCollection',
+    getCollection: e + '/problem/getProblemCollectionChapter',
     getErrorTopicFeedbac: e + '/answe/getErrorTopicFeedback',
     makeCollection: e + '/answe/makeCollection',
     answerEvents: e + '/answe/answerEvents',
@@ -74,8 +74,8 @@ let apiurl = {
     getindexcategory: e + '/indexcategory/getindexcategory',
     getcoursecategory: e + '/indexcategory/getcoursecategory',
     closeOrder: e + '/order/closeOrder',
-    getMyAllClassroom: e + '/course/getMyAllClassroom',
-    getBehaviorLogList: e + '/answe/getBehaviorLogList',
+    getMyAllClassroom: e + '/User/getMyClassroom',
+    getBehaviorLogList: e + '/problem/getProblemHistory',
     wxauth: e + '/order/buy',
     collectionList: e + '/answe/CollectionList',
     examreport: e + '/answe/examreport',
@@ -91,14 +91,15 @@ let apiurl = {
     getLiveStatus: 'https://api.beiqujy.com/edu/Playnotify/getLiveStatus',
     lockAnswerEvents: e + '/answe/lockAnswerEvents',
     getSubscribePower: e + '//getSubscribePower',
-    getTimeList: e + '//getTimeList',
+    getTimeList: e + '/Reservation/getTimeList',
     getSubscribeList: e + '/Reservation/getFaceToFaceClasses',
     getSubscribeInfo: e + '/Reservation/getClassroomInfo',
     insertSubscribe: e + '/Reservation/appointment',
     getMySubscribe: e + '/Reservation/reservationList',
     cancelAppointment: e + '/Reservation/cancelAppointment',
-    getQrcodeSubscribeInfo: e + '//getQrcodeSubscribeInfo',
-    reSubscribeClassroom: e + '//reSubscribeClassroom'
+    getClassroomInfoFromQrcode: e + '/Reservation/getClassroomInfoFromQrcode',
+    reSubscribeClassroom: e + '//reSubscribeClassroom',
+    subscribeClassroomSignIn:e + '/Reservation/signIn'
   },
   user: {
     // newLogin: bq + "/login",
@@ -184,7 +185,9 @@ let apiurl = {
     getTestExamList:e +'/problem/getTestExamList',
     getPunchPanelData:e +'/problem/getPunchPanelData',
     createPunchData:e +'/problem/createPunchData',
-    getProblemErrorCollectionChapter:e +'/problem/getProblemErrorCollectionChapter'
+    getProblemErrorCollectionChapter:e +'/problem/getProblemErrorCollectionChapter',
+    getErrorProblemList:e +'/problem/getErrorProblemList',
+    getCollectionProblemList:e +'/problem/getCollectionProblemList'
   }
 };
 

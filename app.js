@@ -133,7 +133,7 @@ App({
                     e.success && e.success(n);
                 } else {
                     data = crypto.decrypt(n.data.data['param'], key, uuid)
-                    console.log(data)
+                    // console.log(data)
                     e.success && e.success(data);
                 }
             },
@@ -158,9 +158,70 @@ App({
         }
         return turn;
     },
+    errorWxParse(self ,objData,name){
+       
+        let obj = objData || {};
+        let d = self.data;
+        let msgListArr = [];
+
+     if(name!=undefined){
+         if(name=='history'){
+            wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+            obj.forEach((i,index)=>{
+                wxParse.wxParse("content" + index, "html", i.description, self, 5);  
+                if (index == obj.length - 1) {
+                    wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
+                }
+            })
+            // console.log(d.WxParseListArr)
+            let listArr = d.WxParseListArr;
+            listArr.forEach((item, index) => {
+                obj[index].contentCopy = item;
+                msgListArr.push(obj[index]);
+            })
+            // console.log(msgListArr)
+            obj= msgListArr;
+         }else{
+            wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+            obj.forEach((i,index)=>{
+                wxParse.wxParse("content" + index, "html", i.problem_description, self, 5);  
+                if (index == obj.length - 1) {
+                    wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
+                }
+            })
+            // console.log(d.WxParseListArr)
+            let listArr = d.WxParseListArr;
+            listArr.forEach((item, index) => {
+                obj[index].contentCopy = item;
+                msgListArr.push(obj[index]);
+            })
+            // console.log(msgListArr)
+            obj= msgListArr;
+         }
+      
+     }else{
+        wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+        obj.forEach((i,index)=>{
+            wxParse.wxParse("content" + index, "html", i.chapter_name, self, 5);  
+            if (index == obj.length - 1) {
+                wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
+            }
+        })
+        // console.log(d.WxParseListArr)
+        let listArr = d.WxParseListArr;
+        listArr.forEach((item, index) => {
+            obj[index].contentCopy = item;
+            msgListArr.push(obj[index]);
+        })
+        // console.log( msgListArr)
+        obj= msgListArr;
+     }
+      
+        return obj;
+    },
     testWxParse(self, objData) {
         let obj = objData || {};
-        console.log(obj.content != undefined)
+        // console.log(obj.content != undefined)
         let d = self.data;
         let msgListArr = [];
         if( obj.content != undefined){
@@ -175,7 +236,6 @@ App({
                     wxParse.wxParseTemArray("WxParseListArr", 'content', obj.content.length, self);
                 }
             })
-       
         let listArr = d.WxParseListArr;
         listArr.forEach((item, index) => {
             obj.content[index].contentCopy = item;

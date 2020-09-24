@@ -1,7 +1,7 @@
 <view>
 	<view class="nav bg-white" style="height:{{navH}}px">
 		<view class="nav-title">
-			<text class="biaoti" >{{ chapterName }}</text>
+			<text class="biaoti">{{ chapterName }}</text>
 			<text id="gl1" bindtap="gobefor"></text>
 		</view>
 	</view>
@@ -10,9 +10,9 @@
 		<scroll-view scroll-x="true" scroll-with-animation="true">
 			<view class="fenlei-menu">
 				<text bindtap="tabFun" data-status="{{item.status}}" data-isFail="{{item.isFail}}"
-    class="teamnum {{tabId==item.id?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}"
-    >
-				{{item.name}}
+					class="teamnum {{tabId==item.id?'thismenu com_color com_after':''}}" data-key="{{item}}"
+					wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}">
+					{{item.name}}
 				</text>
 			</view>
 		</scroll-view>
@@ -22,44 +22,58 @@
 		<image src="../../imgs/noface.png" style="width:290rpx;height:290rpx"></image>
 		<view class="noface_text">暂无面授课安排</view>
 	</view>
-	<view wx:for="{{courseInfor}}" wx:key="id" style="margin:40rpx 30rpx  30rpx">
-		<!-- <view class="card"  data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}" bindtap="tofaceDetail"> -->
-		<view class="card" bindtap="tofaceDetail" data-subscribe_classroom_id="{{item.subscribe_classroom_id}}">
-			<view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">
-				<view class="card_head">{{item.subscribe_classroom_name}}</view>
-			</view>
-			<view class="card_content">
-				<view class="card_line">
-					<view class="line_title">课程内容</view>
-					<view class="line_content">{{item.chapter_name}}</view>
+	<!-- <loading hidden="{{hidden}}" bindchange="loadingChange">
+		加载中...
+	</loading> -->
+	<scroll-view scroll-y="true" style="height: 80%;" bindscrolltolower="loadMore" bindscrolltoupper="refesh">
+		
+		<view wx:if="{{hasRefesh}}"
+			style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
+			<icon type="waiting" size="45" /><text>刷新中...</text></view>
+		<view wx:else style="display:none"><text></text></view>
+		<view wx:for="{{courseInfor}}" wx:key="id" style="margin:40rpx 30rpx  30rpx">
+			<!-- <view class="card"  data-subscribeId="{{item.subscribeId}}" data-id="{{item.id}}" data-status="{{item.status}}" data-dateTime="{{item.dateTime}}" bindtap="tofaceDetail"> -->
+			<view class="card" bindtap="tofaceDetail" data-subscribe_classroom_id="{{item.subscribe_classroom_id}}">
+				<view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">
+					<view class="card_head">{{item.subscribe_classroom_name}}</view>
 				</view>
-				<view class="card_line">
-					<view class="line_title">课程时间</view>
-					<view>{{item.specific_time_range}}</view>
-				</view>
-				<view class="card_line">
-					<view class="line_title">上课老师</view>
-					<view> {{item.teacher_name}}</view>
-				</view>
-				<view class="card_line">
-					<view class="line_title">上课地点</view>
-					<view>{{item.address}}</view>
-				</view>
-				<view class="card_line">
-					<view class="line_title">结束时间</view>
-					<view>{{item.close_time}}</view>
-				</view>
-				<view class="card_line flexbox">
-					<view style="display:flex">
-						<view class="line_title">报名人数</view>
-						<view>{{item.subscribe_num}}/{{item.max_num}} </view>人
+				<view class="card_content">
+					<view class="card_line">
+						<view class="line_title">课程内容</view>
+						<view class="line_content">{{item.chapter_name}}</view>
 					</view>
-					<view class="courseStatus">{{item.statusName}}</view>
+					<view class="card_line">
+						<view class="line_title">课程时间</view>
+						<view>{{item.specific_time_range}}</view>
+					</view>
+					<view class="card_line">
+						<view class="line_title">上课老师</view>
+						<view> {{item.teacher_name}}</view>
+					</view>
+					<view class="card_line">
+						<view class="line_title">上课地点</view>
+						<view>{{item.address}}</view>
+					</view>
+					<view class="card_line">
+						<view class="line_title">结束时间</view>
+						<view>{{item.close_time}}</view>
+					</view>
+					<view class="card_line flexbox">
+						<view style="display:flex">
+							<view class="line_title">报名人数</view>
+							<view>{{item.subscribe_num}}/{{item.max_num}} </view>人
+						</view>
+						<view class="courseStatus">{{item.statusName}}</view>
 
+					</view>
 				</view>
 			</view>
 		</view>
-	</view>
-    <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>  
-<view class="loading" hidden="{{!searchLoadingComplete}}">已加载全部</view>
+		<view class="tips1">
+ <view wx:if="{{hasMore}}" style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
+ <icon type="waiting" size="45"/><text>玩命的加载中...</text></view>
+ <view wx:else><text>没有更多内容了</text></view>
+ </view>
+	</scroll-view>
+
 </view>

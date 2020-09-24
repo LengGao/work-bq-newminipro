@@ -58,8 +58,10 @@
         "pages/faceDetail/faceDetail",
         "pages/faceSuccess/faceSuccess",
         "pages/faceCode/faceCode",
+        "pages/faceFail/faceFail",
         "pages/assignTopic/assignTopic",
         "pages/assignTestIntro/assignTestIntro"
+        
       ]
     }
   ],

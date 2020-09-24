@@ -4,10 +4,10 @@
    		<text id="gl1" bindtap="gobefor"></text>
    	</view>
    </view>
-   <view wx:for="{{ funlist }}" wx:key="index" wx:for="{{ funlist }}" wx:key="index">
+   <view wx:for="{{ funlist }}" wx:key="index">
    	<!--header-->
    	<view class="detail_head">
-   		<image style="width:160rpx;height:90rpx;margin-right:20rpx" src="{{item.image}}" />
+   		<image style="width:160rpx;height:90rpx;margin-right:20rpx" src="{{item.cover_img}}" />
    	<view>
    			<view class="detail-h1">{{item.subscribe_classroom_name}}</view>
    			<text>{{item.specific_time_range}}</text>

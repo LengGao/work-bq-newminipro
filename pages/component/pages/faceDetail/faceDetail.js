@@ -156,7 +156,7 @@ Page({
             that.setData({
               explain_bg: 'explain_bg'
             })
-            info.tips='确定预约'
+            // info.tips='确定预约'
           }else if(info.tips_type==2||info.tips_type==3||info.tips_type==5){
             that.setData({
               explain_bg: 'explain_bg2'
@@ -165,12 +165,12 @@ Page({
             that.setData({
               explain_bg: 'explain_bg'
             })
-            info.tips='取消预约'
+            // info.tips='取消预约'
             
           }
         let arr = []
         arr.push(info)
-        console.log(arr)
+        // console.log(arr)
         that.setData({
           funlist: arr
         })
@@ -257,6 +257,7 @@ Page({
       problem_course_id,problem_course_id,
       subscribe_classroom_id:parseInt (this.data.subscribe_classroom_id) ,
     }
+    console.log(options)
     let that = this
     app.encryption({
       url: api.default.insertSubscribe,

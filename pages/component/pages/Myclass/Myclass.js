@@ -22,11 +22,12 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        res.forEach(res => {
-          res.time = util.js_date_time(res.time)
+        console.log(res.list)
+        res.list.forEach(i => {
+          i.join_time = util.js_date_time(i.join_time)
         })
         that.setData({
-          myclass: res
+          myclass: res.list
         })
         console.log('nimenhao', that.data.nodata)
         if (res.data != undefined) {

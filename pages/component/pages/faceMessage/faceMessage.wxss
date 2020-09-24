@@ -1,6 +1,12 @@
 page {
   background: #ffffff;
 }
+.loading{  
+  padding: 10rpx;  
+  font-size: 26rpx;
+  color:#666;
+  text-align: center;  
+}
 .faceMessage{
   height: 100%;
   width: 100%;
