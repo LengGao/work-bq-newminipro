@@ -34,15 +34,25 @@ Page({
    */
   onLoad: function (options) {
     let that = this
+    console.log(options)
     wx.setNavigationBarTitle({
       title: options.name
     })
-    let option = {
-      practice_id: options.practice_id
-    }//以上为初始化加载参数
-    console.log(option)
+    let option,url
+    if(options.type==1){//历年真题
+      option = {
+        real_topic_log_id: options.practice_id
+      };//以上为初始化加载参数
+      url = api.test.getRealTopicRecordBoard
+    }else if (options.type==0){// 章节练习
+      option = {
+        practice_id: options.practice_id
+      };//以上为初始化加载参数
+      url = api.test.getPracticeDRecordBoard
+    }
+    console.log(option,url)
     app.encryption({//初始化加载函数获取所有题目
-      url: api.test.getPracticeDRecordBoard,
+      url: url,
       data: option,
       method: 'GET',
       dataType: "json",
@@ -87,58 +97,45 @@ Page({
             judgmentNum: judgmentNum
           })
         }
-        console.log(that.data.singleNum)
       },
       fail: function (n) {
         console.log('初始化失败')
       }
     })
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
   },
-
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
   },
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
   },
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
   }
 })

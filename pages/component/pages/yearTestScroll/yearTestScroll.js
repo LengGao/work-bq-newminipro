@@ -13,51 +13,71 @@ Page({
     topmenu: [
       {
         name: '正确题数:',
-        number: '45',
+        number: '00',
         class: 'green',
         color: 'greens'
       },
       {
         name: '错误题数:',
-        number: '45',
+        number: '00',
         class: 'red',
         color: 'reds'
       },
       {
         name: '未回答题数:',
-        number: '45',
+        number: '00',
         class: 'gray',
         color: 'grays'
       }
     ],
+    ID:''
   },
   goToTest(e) {
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
-    let number = 0// 前一个页面
-    wx.navigateBack({
-      success: function () {
-        beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
+    let number = this.data.ID// 前一个页面
+    wx.showModal({
+      title: '提示',
+      content: '查看详情后，将不能查看当前信息，是否查看详情？',
+      showCancel: true,//是否显示取消按钮
+      confirmText: "确认",//默认是“确定”
+      confirmColor: '#199FFF',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+        } else {
+          wx.navigateBack({
+            success: function () {
+              beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
+            }
+      
+         })
+        }
       }
-    });
+  })
   },
   gobefor(e) {
     console.log(e.currentTarget.dataset.index)
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
     let number = e.currentTarget.dataset.index// 前一个页面
-    wx.navigateBack({
-      success: function () {
-        beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
+    wx.showModal({
+      title: '提示',
+      content: '查看详情后，将不能查看当前信息，是否查看详情？',
+      showCancel: true,//是否显示取消按钮
+      confirmText: "确认",//默认是“确定”
+      confirmColor: '#199FFF',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+        } else {
+          wx.navigateBack({
+            success: function () {
+              beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
+            }
+      
+         })
+        }
       }
-    });
-    // let that = this
-    // let chapterName= that.data.chapterName;
-    // let course_id= that.data.courseId;
-    // let chapter_id= that.data.chapterId;
-    // wx.navigateTo({
-    //   url:`/pages/yeartestReload/yeartestReload?chapterName=${chapterName}&courseId=${course_id}&chapterId=${chapter_id}`
-    // })
+ })
   },
   generalScoring(courseId) {
     let that = this
@@ -71,18 +91,7 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-        let nums1 = 'topmenu[0].number'
-        let nums2 = 'topmenu[1].number'
-        let nums3 = 'topmenu[2].number'
-        that.setData({
-          [nums1]: res.real_number,
-          [nums2]: res.error_number,
-          [nums3]: res.not_doing,
-          singleNum: res.radio == '' ? false : res.radio,
-          multipleNum: res.multi == '' ? false : res.multi,
-          judgmentNum: res.judge == '' ? false : res.judge,
-          allScroll: res.total_scores
-        })
+      
       },
       fail: function (t) {
         return reject()
@@ -93,21 +102,71 @@ Page({
     })
   },
   goback() {
-    wx.reLaunch({
-      url: '/pages/index/index'
-    });
+    wx.showModal({
+      title: '提示',
+      content: '返回将回到首页，是否返回？',
+      showCancel: true,//是否显示取消按钮
+      confirmText: "确认",//默认是“确定”
+      confirmColor: '#199FFF',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+        } else {
+          wx.reLaunch({
+            url: '/pages/index/index'
+          });
+        }
+      }
+ })
+   
   },
+  settlementRealTopicResult(options){
+    let that = this
+      let option = {
+        real_topic_log_id: options.real_topic_log_id,
+        problem_course_id: parseInt(options.course_id),
+        problem_chapter_id: parseInt(options.chapter_id)
+      }
+      console.log(option)
+      app.encryption({//交卷动作
+        url: api.test.settlementRealTopicResult,
+        data: option,
+        method: 'POST',
+        dataType: "json",
+        success: function (res) {
+          console.log(res)
+          let nums1 = 'topmenu[0].number'
+          let nums2 = 'topmenu[1].number'
+          let nums3 = 'topmenu[2].number'
+          that.setData({
+            [nums1]: res.info.right_problem,
+            [nums2]: res.info.fail_problem,
+            [nums3]: res.info.unanswered,
+            singleNum: res.list.single_problem.length == 0 ? [] : res.list.single_problem,//单选
+            multipleNum: res.list.multiple_problem.length == 0 ? [] : res.list.multiple_problem,//多选
+            judgmentNum: res.list.judge_problem.length == 0 ? [] : res.list.judge_problem,//判断
+            short_problem: res.list.short_problem.length == 0 ? [] : res.list.short_problem,//简答
+            fill_problem: res.list.fill_problem.length == 0 ? [] : res.list.fill_problem,//填空
+            scenes_problem: res.list.scenes_problem.length == 0 ? [] : res.list.scenes_problem,//场景
+            allScroll: res.info.mark,
+            ID:res.list.single_problem[0].problem_id
+          })
+        },
+        fail: function (n) {
+          console.log('初始化失败')
+        }
+      })
+      },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log(options)
-    this.generalScoring(options.exam_identity)
+    this.settlementRealTopicResult(options)
     this.setData({
       navH: app.globalData.navHeight,
       chapterName: options.chapterName,
       courseId: options.course_id,
-      chapterId: options.chapter_id
+      chapterId: options.chapter_id,
     })
   },
 

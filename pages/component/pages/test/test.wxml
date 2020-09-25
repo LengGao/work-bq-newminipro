@@ -13,7 +13,7 @@
 </view>
 <view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
@@ -47,7 +47,7 @@
     </radio-group>
 </view>
 <view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ ProblemType == '2'?false:true }}" style='height:{{questionHeight}}rpx'>
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
@@ -89,7 +89,7 @@
 </view>
 <view hidden="{{ ProblemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
@@ -123,7 +123,7 @@
     </radio-group>
 </view>
 <view hidden="{{ ProblemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <block wx:for="{{  randerTitle.answer_num }}" wx:key="option" wx:for-item="vItem" wx:for-index="index">
@@ -152,7 +152,7 @@
     </view>
 </view>
 <view hidden="{{ ProblemType == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-  <view class="text-type padding">
+  <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
   </view>
   <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入答案" bindinput="updateShortValue" data-name='content' value="{{randerTitle.shortMap}}"></textarea>
@@ -177,7 +177,7 @@
     </view>
 </view>
 <view hidden="{{ ProblemType == '6'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
    <view style="position:absolute;bottom:54px;left:0;background:#ffffff;width:100%;">
@@ -229,7 +229,7 @@
                     </radio-group>
                 </view>
                 <view class="questions-box"  bindtouchstart='touchStart' catchtouchend="touchSceneEnd" hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '2'?false:true }}" style='height:100%'>
-                    <view class="text-type padding">
+                    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
                         <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                     </view>
                     <radio-group class="checked padding">
@@ -271,7 +271,7 @@
                 </view>
                 <view hidden="{{  randerTitle.child[senceIndex - 1].problem_child_type == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
                     <!-- 单选题 -->
-                    <view class="text-type padding">
+                    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
                         <template is="wxParse" data="{{ wxParseData: randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                     </view>
                     <radio-group class="checked padding">
@@ -306,7 +306,7 @@
                 </view>
                 <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
                     <!-- 单选题 -->
-                    <view class="text-type padding">
+                    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
                         <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                     </view>
                     <!-- <textarea name="scene" id="scene" cols="30" rows="10" placeholder="多个答案请用逗号隔开" bindinput="updateSceneValue" data-name='content' value="{{SceneValue}}" style="border:2px" auto-focus adjust-position="true"></textarea> -->
@@ -334,7 +334,7 @@
                     </view>
                 </view>
                 <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
-                   <view class="text-type padding">
+                   <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
                     <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                      </view>
                     <textarea name="" id="sceneShort" cols="30" rows="10" placeholder="请输入答案" bindinput="updateShorScenetValue" data-name='content' value="{{shortSceneMap}}"></textarea>

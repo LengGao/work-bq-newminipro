@@ -10,8 +10,8 @@ let config = {
   //  sock:'wss://testapi.abacc.cn/'
   sock: "wss://count.beiqujy.com/",
   // bqUrl: 'https://apps.beiqujy.com/'
-  bqUrl: 'http://dongpei.local/wechat/v2',//孝华
-  // bqUrl: 'http://www.tp.cn/wechat/v2',//
+  // bqUrl: 'http://dongpei.local/wechat/v2',//孝华
+  bqUrl: 'http://www.tp.cn/wechat/v2',//
 
 }
 export default config;

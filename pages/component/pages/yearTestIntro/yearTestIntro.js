@@ -14,39 +14,43 @@ Page({
     let courseId = this.data.courseId;
     let chapterName = this.data.chapterName
     wx.navigateTo({
-      url: `../yearTestPir/yearTestPir?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
+      url: `../yearTestPir/yearTestPir?chapter_id=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
     })
   },
   gokaoshi() {
     let chapterId = this.data.chapterId;
-    let courseId = this.data.courseId;
+    let courseId = this.data.courseId;//courseID
     let chapterName = this.data.chapterName
+    let exam_length = this.data.exam_length //考试时长
     wx.navigateTo({
-      url: `../yearTestStart/yearTestStart?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
+      url: `../yearTestStart/yearTestStart?chapter_id=${chapterId}&courseId=${courseId}&chapterName=${chapterName}&exam_length=${exam_length}`
     })
   },
   gettruthinfo(options) {
     let that = this
     let option = {
-      course_id: options.courseId,
-      chapter_id: options.chapterId
+      problem_course_id: options.courseId,
+      problem_chapter_id: options.chapterId,
+      
     }
     app.encryption({
-      url: api.default.gettruthinfo,
+      url: api.test.getRealTopicExamConfig,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
         try {
-          if (res.exam_length) {
+          if (res.info) {
             that.setData({
-              exam_length: res.exam_length,
-              pass_scores: res.pass_scores,
-              total_point: res.total_point,
-              judge: res.question_info.judge,
-              multi: res.question_info.multi,
-              radio: res.question_info.radio,
-
+              exam_length: res.info.duration,
+              pass_scores: res.info.pass_score,
+              total_point: res.info.problem_score,
+              judge: res.info.exam_extends.judge,
+              multi: res.info.exam_extends.multiple,
+              radio: res.info.exam_extends.single,
+              fill_vacancy: res.info.exam_extends.fill_vacancy,
+              brief: res.info.exam_extends.brief,
+              scene: res.info.exam_extends.scene,
             })
           }
         } catch (err) {
@@ -70,7 +74,6 @@ Page({
     })
     this.gettruthinfo(options)
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

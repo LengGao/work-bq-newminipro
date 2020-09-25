@@ -35,7 +35,7 @@ let apiurl = {
     getSubject: e + '/course/getSubject',
     insertCourse: e + '/Course/insertCourseCollection',
     yearstruth: e + '/answe/yearstruth',
-    gettruthinfo: e + '/answe/gettruthinfo',
+  
     gettruthquestion: e + '/answe/gettruthquestion',
     answersave: e + '/answe/answersave',
     brushGenerationChallenge: e + '/answe/brushGenerationChallenge',
@@ -184,7 +184,11 @@ let apiurl = {
     getTestExamList:e +'/problem/getTestExamList',
     getPunchPanelData:e +'/problem/getPunchPanelData',
     createPunchData:e +'/problem/createPunchData',
-    getProblemErrorCollectionChapter:e +'/problem/getProblemErrorCollectionChapter'
+    getProblemErrorCollectionChapter:e +'/problem/getProblemErrorCollectionChapter',
+    getRealTopicExamConfig:e +'/problem/getRealTopicExamConfig',
+    createRealTopicData:e +'/problem/createRealTopicData',
+    getRealTopicRecordBoard:e +'/problem/getRealTopicRecordBoard',
+    settlementRealTopicResult:e +'/problem/settlementRealTopicResult'
   }
 };
 

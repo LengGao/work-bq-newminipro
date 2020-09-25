@@ -132,14 +132,17 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    this.common()
+    if(this.data.is_lock == 1){
+    }else{
+      this.common()
+    }
     if (curindex < 1) {
       return
     }
+     // 开启缓存，并去重,传入当前数据，而非下一题数据
+    that.saveRander(curID)
     let curId = that.data.alltestID[curindex - 1] // 获取上一题ID
     that.findcurIndex(curId, that.data.alltestID);
-    // 开启缓存，并去重,传入当前数据，而非下一题数据
-    that.saveRander(curID)
     //开始加载题目详情
     that.initText(curId);
   },
@@ -148,7 +151,7 @@ Page({
     let name = this.data.chapterName
     let practice_id = this.data.practice_id
     wx.navigateTo({
-      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}`
+      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}&type=0`
     })
   },
   checkout(problem_id) {
@@ -293,7 +296,10 @@ Page({
   nextQU() {
     let that = this
     let curID = that.data.curID
-    this.common()
+    if(this.data.is_lock == 1){
+    }else{
+      this.common()
+    }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
     that.saveRander(curID)
     //首先获取下一题的ID
@@ -390,7 +396,6 @@ Page({
         curID: this.data.randerTitle.child[curindex].problem_id
       })
       this.submitAnswer(option)
-      return
     }
   },
   multiselectAnswer(e) {
@@ -436,7 +441,7 @@ Page({
         randerTitle: this.data.randerTitle
       })
     }
-    console.log(this.data.multiselect)
+    console.log(this.data.randerTitle.content)
   },
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
@@ -786,13 +791,14 @@ Page({
             ProblemType: res.info.problem_type,
             curID: res.info.problem_id
           })
+          if (that.data.is_lock == 1) { //继续上次，获取记录答案接口
+            that.getLogAnswer(that.data.practice_id)
+          }
           console.log(that.data.randerTitle)
         }
       })
     }
-    if (that.data.is_lock == 1) { //继续上次，获取记录答案接口
-      that.getLogAnswer(that.data.practice_id)
-    }
+   
   },
   hasBeenLoad(ID) {
     let hasBeenLoad = this.data.allRender;//本地缓存
