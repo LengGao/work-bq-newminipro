@@ -26,13 +26,13 @@
       "outputPath": ""
     },
     "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
+    "useCompilerModule": false,
+    "userConfirmedUseCompilerModuleSwitch": true,
     "packNpmManually": false,
     "packNpmRelationList": []
   },
   "compileType": "miniprogram",
-  "libVersion": "2.11.2",
+  "libVersion": "2.12.2",
   "appid": "wx0eb278739baa3ca1",
   "projectname": "school",
   "debugOptions": {
@@ -74,15 +74,15 @@
         },
         {
           "id": 1,
-          "name": "pages/faceCode/faceCode",
-          "pathName": "pages/faceCode/faceCode",
+          "name": "pages/faceMessage/faceMessage",
+          "pathName": "pages/faceMessage/faceMessage",
           "query": "scene=id-9,r-xxx",
           "scene": null
         },
         {
           "id": 2,
-          "name": "pages/faceTeach/faceTeach",
-          "pathName": "pages/faceTeach/faceTeach",
+          "name": "pages/component/pages/faceTeach/faceTeach",
+          "pathName": "pages/component/pages/faceTeach/faceTeach",
           "query": "",
           "scene": null
         },
@@ -90,6 +90,48 @@
           "id": 3,
           "name": "pages/assignTopic/assignTopic",
           "pathName": "pages/assignTopic/assignTopic",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 5,
+          "name": "pages/component/pages/faceCode/faceCode",
+          "pathName": "pages/component/pages/faceCode/faceCode",
+          "query": "scene=subscribe_classroom_id@1",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/component/pages/collectionAll/collectionAll",
+          "pathName": "pages/component/pages/collectionAll/collectionAll",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 7,
+          "name": "pages/component/pages/faceMessage/faceMessage",
+          "pathName": "pages/component/pages/faceMessage/faceMessage",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/component/pages/faceOrder/mineOrder",
+          "pathName": "pages/component/pages/faceOrder/mineOrder",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 9,
+          "name": "pages/component/pages/faceFail/faceFail",
+          "pathName": "pages/component/pages/faceFail/faceFail",
           "query": "",
           "scene": null
         }

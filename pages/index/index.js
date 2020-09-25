@@ -1,7 +1,6 @@
 require("../../utils/requestapi.js");
 let app = getApp();
 var api = require("../../api.js"), t = (require("../../utils/util.js"), require("../tab-bar/tab-bar.js"));
-import config from '../../config.js';
 Page({
   data: {
     isIOS: app.globalData.isIOS,
@@ -21,47 +20,14 @@ Page({
         id: '0'
       }
     ],
-    topmenu: [
-      {
-        name: '收藏夹',
-        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png',
-        number: '0',
-        num: '2'
-      },
-      {
-        name: '错题集',
-        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xingxing.png',
-        number: '0',
-        num: '1'
-      },
-      {
-        name: '做题历史',
-        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png',
-        number: '0',
-        num: '0'
-      }
+    topmenu: [{ name: '收藏夹', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png', number: '0', num: '2' },
+    { name: '错题集', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xingxing.png', number: '0', num: '1' },
+    { name: '做题历史', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png', number: '0', num: '0' }
     ],
-    fun_list: [
-      {
-        name: '章节练习',
-        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/zhangjielianxi.png',
-        action: 'prictive'
-      },
-      {
-        name: '历年真题',
-        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/linianzhenti.png',
-        action: 'yearText'
-      },
-      {
-        name: '模拟考试',
-        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/monikaoshi.png',
-        action: 'virText'
-      },
-      {
-        name: '刷题挑战',
-        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/shuatitiaozhan.png',
-        action: 'changll'
-      },
+    fun_list: [{ name: '章节练习', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/zhangjielianxi.png', action: 'prictive' },
+    { name: '历年真题', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/linianzhenti.png', action: 'yearText' },
+    { name: '模拟考试', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/monikaoshi.png', action: 'virText' },
+    { name: '刷题挑战', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/shuatitiaozhan.png', action: 'changll' },
     ],
     defaultImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png',
     selectShow: false,//控制下拉列表的显示隐藏，false隐藏、true显示
@@ -79,13 +45,15 @@ Page({
     optionsGo: 'toliveclass',
     nomyCourse: true,
     noliving: true,
-    images: {}
+    images: {},
+    allData:{},
+    problem_course_id:''
   },
   gocollection(number) {
     let courseId = this.data.courseId
     console.log(number.currentTarget.dataset.number)
     wx.navigateTo({
-      url: `../collectionAll/collectionAll?number=${number.currentTarget.dataset.number}&courseId=${courseId}`
+      url: `../component/pages/collectionAll/collectionAll?number=${number.currentTarget.dataset.number}&courseId=${courseId}`
     })
   },
   errorFunction(e) {
@@ -109,27 +77,27 @@ Page({
   },
   // 点击下拉显示框
   prictive() {
-    let id = this.data.courseId
+    let id = this.data.problem_course_id
     wx.navigateTo({
-      url: `../chapter/chapter?courseId=${id}`
+      url: `../component/pages/chapter/chapter?courseId=${id}`
     })
   },
   yearText() {
-    let courseId = this.data.courseId
+    let courseId = this.data.problem_course_id
     wx.navigateTo({
-      url: `../yearTest/yearTest?courseId=${courseId}`
+      url: `../component/pages/yearTest/yearTest?courseId=${courseId}`
     })
   },
   virText() {
-    let id = this.data.courseId
+    let id = this.data.problem_course_id
     wx.navigateTo({
-      url: `../virTest/virTest?courseId=${id}`
+      url: `../component/pages/virTest/virTest?courseId=${id}`
     })
   },
   changll() {
-    let courseId = this.data.courseId
+    let courseId = this.data.problem_course_id
     wx.navigateTo({
-      url: `../dailyChallenge/dailyChallenge?courseId=${courseId}`
+      url: `../component/pages/dailyChallenge/dailyChallenge?courseId=${courseId}`
     })
   },
   handleCancel1() {
@@ -140,13 +108,13 @@ Page({
   toliveclass() {
     let video_id = this.data.banjiID
     wx.navigateTo({
-      url: `../live-class-room/live-class-room?video_id=${video_id}`
+      url: `../component/pages/live-class-room/live-class-room?video_id=${video_id}`
     })
   },
   toVideoroom() {
     let video_id = this.data.myCourse['courseId']
     wx.navigateTo({
-      url: `../course-detail/course-detail?video_id=${video_id}&courseId=${video_id}`
+      url: `../component/pages/course-detail/course-detail?video_id=${video_id}&courseId=${video_id}`
     })
   },
   handleClickItem1({ detail }) {
@@ -174,7 +142,7 @@ Page({
   clickin() {
     let id = this.data.courseId
     wx.navigateTo({
-      url: `../dailyCard/dailyCard?courseId=${id}`
+      url: `../component/pages/dailyCard/dailyCard?courseId=${id}`
     })
   },
   // 点击下拉列表
@@ -201,10 +169,10 @@ Page({
   },
   moveTo: function () {
     let subLeft = this.data.moveParams.subLeft;
-    let screenHalfWidth = 750/ 2 ;
+    let screenHalfWidth = 750 / 2;
     let subHalfWidth = this.data.moveParams.subHalfWidth;
     let scrollLeft = this.data.moveParams.scrollLeft;
-    let distance =subLeft - (screenHalfWidth - subHalfWidth);
+    let distance = subLeft - (screenHalfWidth - subHalfWidth);
     scrollLeft = distance;
 
     this.setData({
@@ -213,6 +181,7 @@ Page({
   },
   selectmenu: function (t) {
     let ele = 'scroll-item-' + t.currentTarget.dataset.index
+    console.log(t.currentTarget.dataset)
     this.getRect('#' + ele);
     let that = this
     let key = t.currentTarget.dataset.key;
@@ -232,14 +201,15 @@ Page({
     wx.setStorageSync("courseId", {
       courseId: courseId.courseId
     });
-    that.getSubject()
-    that.getHomePanel()
-    that.getclasslive()
-    that.getMycourse()
+    // that.getSubject()
+    // that.getHomePanel()
+    // that.getclasslive()
+    // that.getMycourse()
+    that.getALLData()
   },
   addStory() {
     wx.navigateTo({
-      url: '../addCourse/addCourse'
+      url: '../component/pages/addCourse/addCourse'
     })
     // wx.showToast({
     //   title: '暂未开放',//提示文字
@@ -260,80 +230,89 @@ Page({
   },
   gettopINfor(resolve, reject) {
     let that = this
-    console.log('8888')
     app.encryption({
       url: api.default.getCollectionCourses,
       method: "GET",
       success: function (res) {
         console.log(res)
-        if (res.data && res.data.data.length == 0) {
-          console.log('213131231')
-          that.setData({
-            nomyCourse: false,
-            noliving: false
-          })
-          return
-        }
+        res = res.list
         for (let i = 0; i < res.length; i++) {
-          res[i].name = res[i].courseName
+          res[i].name = res[i].course_name
         }
         that.setData({
           course_list: res,
-          menuTop: res[0].courseId,
-          courseId: res[0].courseId,
-          biaoti: res[0].courseName
+          menuTop: res[0].course_id,
+          courseId: res[0].course_id,
+          biaoti: res[0].course_name
         })
-        // wx.setStorageSync("courseId", {
-        //   courseId: res[0].courseId
-        // });
         if (wx.getStorageSync('topInfo')) {
           wx.getStorageSync('topInfo').forEach((item) => {
             console.log(item)
             if (item.haschoose) {
               that.setData({
-                menuTop: item.courseId,
-                courseId: item.courseId,
-                biaoti: item.courseName
+                menuTop: item.course_id,
+                courseId: item.course_id,
+                biaoti: item.course_name
               })
             }
           })
         }
-        that.getHomePanel()
-        that.getSubject()
-        that.getclasslive()
-        resolve()
+        that.getALLData()
       },
       fail: function (t) {
         return reject
       },
       complete: function () {
-
+        return resolve()
       }
     })
   },
-  getMycourse() {
+  getALLData(){
     let that = this
+    let courseId = this.data.menuTop
     let option = {
-      courseId: that.data.courseId
+      course_id: courseId
     }
+    console.log(option)
     app.encryption({
-      url: api.default.getMyCourse,
+      url: api.user.getAllData,
       method: "GET",
       data: option,
       success: function (res) {
+        let problem_course_id=res.info.problem_course_id
+        console.log(res.info.problem_course_id)
+        wx.setStorageSync("problem_course_id", {
+          problem_course_id: problem_course_id
+        });
         console.log(res)
-        if (res.data == undefined) {
+        let topmenu0 = 'topmenu[0].number'
+        let topmenu1 = 'topmenu[1].number'
+        let topmenu2 = 'topmenu[2].number'
+        that.setData({
+          [topmenu0]: res.info.favorites,
+          [topmenu1]: res.info.fail_question,                                   
+          [topmenu2]: res.info.history,
+          accuracy: res.info.correct_rate,
+          allData:res.info,
+          problem_course_id:res.info.problem_course_id //以此ID获取习题模式
+        })
+         if(res.info.has_video == 0){
+            that.setData({
+            nomyCourse:false
+            })
+          }else{
+            that.setData({
+              myCourse:res.info.video_info
+            })
+          }
+        if(res.info.has_classroom == 1){
           that.setData({
-            myCourse: res,
-            nomyCourse: true
-          })
-        } else {
-          that.setData({
-            nomyCourse: false
-          })
-        }
+            noliving:false
+           })
+         }
       },
       fail: function (t) {
+
       },
       complete: function () {
 
@@ -431,44 +410,13 @@ Page({
     let courseId = this.data.banjiID
     console.log(courseId)
     wx.reLaunch({
-      url: `../course-class-detail/course-class-detail?video_id=${courseId}`
+      url: `../component/pages/course-class-detail/course-class-detail?video_id=${courseId}`
     })
   },
   goindex() {
     wx.navigateTo({
-      url: '../secondary/secondary'
+      url: '../component/pages/secondary/secondary'
     });
-  },
-  getHomePanel() {
-    let that = this
-    let courseId = this.data.menuTop
-    let option = {
-      courseId: courseId
-    }
-    console.log(option)
-    app.encryption({
-      url: api.user.getHomePanel,
-      method: "GET",
-      data: option,
-      success: function (res) {
-        console.log(res)
-        let topmenu0 = 'topmenu[0].number'
-        let topmenu1 = 'topmenu[1].number'
-        let topmenu2 = 'topmenu[2].number'
-        that.setData({
-          [topmenu0]: res.collectionCount,
-          [topmenu1]: res.errorCount,
-          [topmenu2]: res.logNumber,
-          accuracy: res.accuracy
-        })
-      },
-      fail: function (t) {
-
-      },
-      complete: function () {
-
-      }
-    })
   },
   onLoad: function (e) {
     let that = this
@@ -476,7 +424,6 @@ Page({
       title: '加载中',
       mask: true
     })
-
     let promise = new Promise((resolve, reject) => {
       wx.login({ // 判断是否授权，，没有则授权
         success: function (n) {
@@ -488,8 +435,8 @@ Page({
               method: 'POST',
               success: function (e) {
                 console.log(e)
-                if(e.data.param.info_show){
-                  app.globalData.info_show = 1;  
+                if (e.data.param.info_show) {
+                  app.globalData.info_show = 1;
                 }
                 if (e.code == '10001') {
                   wx.showModal({
@@ -510,7 +457,7 @@ Page({
                   uuid: e.data.param.uuid,
                   token: e.data.param.token
                 });
-                resolve()
+
               },
               fail: function (e) {
                 wx.showModal({
@@ -520,6 +467,7 @@ Page({
                 });
               },
               complete: function () {
+                return resolve()
               }
             })
           }
@@ -532,14 +480,12 @@ Page({
       })
       promise1.then(function (resolve) {
         that.getMycourse()
-        resolve()
       })
     });
     Promise.all([promise]).then((result) => {
-
       console.log(wx.getStorageSync('topInfo'))
       //更新头部状态
-      wx.hideLoading();               //['成功了', 'success']
+      wx.hideLoading();
     }).catch((error) => {
       console.log(error)
     })

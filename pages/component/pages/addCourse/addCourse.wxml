@@ -1,0 +1,37 @@
+<view class="nav bg-white" style="height:{{navH}}px">
+  <view class="nav-title">
+    <text class="biaoti">{{ chapterName }}</text>
+    <text id="gl1" bindtap="gobefor"></text>
+  </view>
+</view>
+<view class='help'>
+  <view class='help_item' wx:for='{{maskData}}' wx:key='index' wx:for-item="i">
+    <view class='title' data-index='{{index + 1}}' catchtap='panel'>
+      <view class='title_1'>
+        <view>
+          <image style="width:32rpx;height:32rpx;margin-right:20rpx;margin-top:7rpx" src="{{ i.icon }}" />
+        </view>
+        <view style="display:flex;flex-direction:column;padding-top:4rpx">
+          <view style="height:32rpx;line-height:32rpx;font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">
+            {{i.category_name}}
+          </view>
+          <view style="height:24rpx;line-height:24rpx;font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin-top:10rpx">
+            {{ i.describe }}
+          </view>
+        </view>
+      </view>
+      <view class='title_2'>
+        <view class="{{showIndex == index + 1 ? 'up':'down'}}"></view>
+      </view>
+    </view>
+    <view class='detail' wx:if="{{showIndex == index + 1 ?true:false}}">
+      <view wx:for='{{i.course_list}}' wx:for-item="j" wx:key='keys' class="wrapper-items" data-courseId='{{j.course_id}}' catchtap="{{ j.is_checked == 1 ?'cancel':'insertCourse'}}">
+        <view>{{ j.course_name }}</view>
+        <view wx:if="{{ j.is_checked == 1?true:false}}">
+          <checkbox checked="{{j.is_checked == 1?true:''}}" color="rgba(25,159,255,1)" class="cb"></checkbox>
+        </view>
+      </view>
+      <view class="none-items" wx:if="{{ i.child.length == 0?true:false}}">当前分类还没有课程!</view>
+    </view>
+  </view>
+</view>

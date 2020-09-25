@@ -1,0 +1,191 @@
+<import src="../../../../wxParse/wxParse.wxml"></import>
+<view class='nav bg-white' style='height:{{navH}}px'>
+    <view class='nav-title'>
+        <text class="biaoti">{{ chapterName }}</text>
+        <text id="gl1" catchtap="gobefor"></text>
+    </view>
+</view>
+<!--收藏夹-->
+<view class="fenlei-menu">
+    <text catchtap="tabFun" class="teamnum {{tabArr.curHdIndex == item.id ?'thismenu com_color com_after':''}}"
+        data-key="{{item}}" wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}">
+        {{item.name}}
+    </text>
+</view>
+<view class="catalogue fix-out-box {{tabArr.curBdIndex == '2'?'tactive':''}}">
+    <block wx:if="{{ nodata }}">
+        <block wx:key="index" wx:for="{{collectionList}}" wx:key="index">
+            <view class="cata-title" catchtap="ifShow" data-index="{{index}}" data-chapter_id="{{item.chapter_id}}">
+                <template is="wxParse" data="{{wxParseData:item.contentCopy}}"></template>
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png"
+                    class="{{ item.isShow ? 'transf' : '' }}"></image>
+            </view>
+
+            <view class="cata-list" wx:if="{{item.isShow}}">
+                <scroll-view scroll-y="true" style="height: 600rpx;" catchscrolltolower="colloadMore"
+                    catchscrolltoupper="collrefesh">
+                    <view wx:if="{{collecthasRefesh}}"
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                        <icon type="waiting" size="20" /><text>刷新中...</text></view>
+                    <view wx:else style="display:none"><text></text></view>
+                    <view catchtap="select_date"
+                        class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}"
+                        data-cid="{{vitem.chapterId}}" wx:for="{{collectList}}" wx:for-item="vitem" 
+                        wx:key="index"
+                        data-type='collection' data-name='收藏夹' data-id='{{ vitem.problemId }}'>
+                        <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
+                <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
+                        <view class="cata-content ">
+                            <view class="cata-names">{{index+1}}、</view>
+                            <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
+                        </view>
+                    </view>
+                    <view class="tips1">
+                    <view wx:if="{{collecthasMore}}"
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center; margin:30rpx 0;color:#ccc">
+                        <icon type="waiting" size="20" /><text>玩命的加载中...</text></view>
+                    <view wx:else
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                        <text>没有更多内容了</text></view>
+                </view>
+                </scroll-view>
+            </view>
+
+        </block>
+    </block>
+    <block wx:if="{{ !nodata }}">
+        <view
+            style="width:280rpx;height:300rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center">
+            <view style="width:280rpx;height:264rpx;">
+                <image style="width:100%;height:100%"
+                    src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+            </view>
+            <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
+                暂无数据
+            </text>
+        </view>
+    </block>
+</view>
+<!--错题集-->
+<view class="catalogue fix-out-box {{tabArr.curBdIndex == '1'?'tactive':''}}">
+    <block wx:if="{{ errornodata }}">
+
+        <block wx:key="index" wx:for="{{errordata}}" wx:key="index">
+
+            <view class="cata-title" catchtap="Showif" data-index="{{index}}" data-chapter_id="{{item.chapter_id}}">
+                <template is="wxParse" data="{{wxParseData:item.contentCopy}}"></template>
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png"
+                    class="{{ item.isShow ? 'transf' : '' }}"></image>
+            </view>
+            <scroll-view scroll-y="true" style="{{ item.isShow ? 'height:600rpx' : 'height:0rpx' }}"
+                catchscrolltolower="loadMore" catchscrolltoupper="refesh">
+                <view wx:if="{{hasRefesh}}"
+                    style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                    <icon type="waiting" size="20" /><text>刷新中...</text></view>
+                <view wx:else style="display:none"><text></text></view>
+                <view class="cata-list" wx:if="{{item.isShow}}">
+                    <view catchtap="goforError"
+                        class="cata-item flex-st {{problem_id == vitem.problem_id ?'selected com_color':''}}"
+                        data-cid="{{vitem.problem_id}}" wx:for="{{wrongList}}" wx:for-item="vitem" wx:key="index"
+                        data-type='error' data-name='错题集' data-id='{{ vitem.problemId }}'>
+                        <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
+                <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
+                        <view class="cata-content">
+                            <view class="cata-names">{{index+1}}、</view>
+                            <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
+                            <!-- <text class="cata-time">{{vitem.time}}</text> -->
+                        </view>
+                    </view>
+                </view>
+                <view class="tips1">
+                    <view wx:if="{{hasMore}}"
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                        <icon type="waiting" size="20" /><text>玩命的加载中...</text></view>
+                    <view wx:else
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center; margin:35rpx 0;color:#ccc">
+                        <text>没有更多内容了</text></view>
+                </view>
+            </scroll-view>
+
+        </block>
+
+    </block>
+    <block wx:if="{{ !errornodata }}">
+        <view
+            style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center"
+            hidden="{{ false }}">
+            <view style="width:280rpx;height:264rpx;">
+                <image style="width:100%;height:100%"
+                    src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+            </view>
+            <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
+                暂无数据
+            </text>
+        </view>
+    </block>
+</view>
+<!--做题历史-->
+<view class="catalogue fix-out-box {{tabArr.curBdIndex == '0'?'tactive':''}}">
+    <loading hidden="{{hidden3}}" catchchange="loadingChange">
+        加载中...
+    </loading>
+    <scroll-view scroll-y="true" style="height: 800rpx;" catchscrolltolower="historyloadMore"
+        catchscrolltoupper="historyrefesh">
+        <view wx:if="{{historyhasRefesh}}"
+            style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
+            <icon type="waiting" size="30" /><text>刷新中...</text></view>
+        <view wx:else style="display:none"><text></text></view>
+        <block wx:key="index" wx:for="{{hisdata}}" wx:key="index" wx:if="{{ nohisdata }}">
+            <!-- <view class="cata-title">{{item.charper}}</view> -->
+            <view class="cata-list" style="border-top:1rpx solid #EEEEEE">
+                <view class="history-wrapper" data-key="index">
+                    <view class="history-content">
+                        <view style="display:flex">
+                            <template is="wxParse" data="{{wxParseData:item.contentCopy}}"></template>
+                        </view>
+                        <view style="display:flex;margin-top:11rpx;align-items:center">
+                            <view style="display:flex;align-items:center">
+                                <text class="time-title">{{item.create_time}}</text>
+                                <!-- <text class="cata-name2" style="color:#CCCCCC;font-size:24rpx;margin-left:30rpx">
+                                正确率：
+                            </text> -->
+                                <text class="cata-name2" style="color:#199FFF;font-size:24rpx">
+                                    {{item.accuracy}}
+                                </text>
+                            </view>
+                            <!-- <view style="display:flex;margin-left:45rpx">
+                            <text class="cata-name2" style="color:#CCCCCC;font-size:24rpx">
+                                用时：
+                            </text>
+                            <text class="cata-name3 " style="color:#199FFF;font-size:24rpx">
+                                {{item.time}}
+                            </text>
+                        </view> -->
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <view class="tips1">
+            <view wx:if="{{historyhasMore}}"
+                style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
+                <icon type="waiting" size="30" /><text>玩命的加载中...</text></view>
+            <view wx:else
+                style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
+                <text>没有更多内容了</text></view>
+        </view>
+    </scroll-view>
+    <block wx:if="{{ !nohisdata }}">
+        <view
+            style="width:280rpx;height:264rpx;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center"
+            hidden="{{ false }}">
+            <view style="width:280rpx;height:264rpx;">
+                <image style="width:100%;height:100%"
+                    src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
+            </view>
+            <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
+                暂无数据
+            </text>
+        </view>
+    </block>
+</view>

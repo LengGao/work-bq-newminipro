@@ -1,0 +1,12 @@
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "意见反馈",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "i-cell": "../../../utils/iview/cell/index",
+    "i-message": "../../../utils/iview/message/index",
+    "i-action-sheet": "../../../utils/iview/action-sheet/index",
+    "i-toast": "../../../utils/iview/toast/index"
+  }
+}

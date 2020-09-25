@@ -1,0 +1,40 @@
+<view class="chapter-list">
+    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/tops.png" style="height:100%;width:100%"/>
+    <view class="chapter-list-img">
+        <view class="process">
+           <view> <text class="top">{{title_list.achieve_chapter}}/{{ title_list.total_chapter }}</text></view> 
+            <text class="fon">章节进度</text>
+        </view>
+        <view class="fenge"></view>
+        <view class="process">
+              <text class="top">{{ title_list.achieve_problem_num }}</text>
+            <text class="fon">做题数</text>
+        </view>
+        <view class="fenge"></view>
+        <view class="process">
+              <view><text class="top">{{ title_list.correctRate }}</text><text style="color:rgba(255,255,255,1)"> %</text> </view>
+            <text class="fon">准确率</text>
+        </view>
+    </view>
+</view>
+<view class="card">
+    <!-- <navigator class="chapter-item" hoverClass="none" url="../test/test?id=1&chapter_id=1"> -->
+    <view wx:for="{{ reader }}" wx:key="index" class="wrapper-class" data-cid = '{{item.problem_chapter_id}}' bindtap='gopri' data-hasdone='{{item.is_lock}}' data-name="{{ item.chapter_name }}">
+        <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/reader.png" style="width:26rpx;height:26rpx;margin-top:8rpx"/>
+        <view class="card-items" class="wrapper-content">
+            <text class="title-card">{{ item.chapter_name }}</text>
+            <view class="wrapper-bottom">
+                <view style="width:150rpx" class="progress-item"> <i-progress percent="{{ item.percentage }}" status="active"  hide-info stroke-width='3'></i-progress> </view>  
+                <view style="margin-left:8rpx"><text class="wrapper-info">{{ item.progress }}</text> </view>
+                <!-- <text class="ratesText" style="margin-left:25rpx">准确率:</text><text class="rates" style="margin-left:15rpx">{{ item.trueProgress }}%</text> -->
+            </view>
+        </view>
+        <view id="gl1"></view>
+    </view>
+    <!-- </navigator> -->
+</view>
+<!-- <view class="page-nodata" wx:if="{{reader.length == 0}}">
+    <image class="leftimg" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/page-no-data.png"></image>
+    <view>暂无数据</view>
+</view> -->
+

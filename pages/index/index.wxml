@@ -1,12 +1,12 @@
 <view class="top-classify">
     <view class="scrow-view">
-        <scroll-view scroll-x="true"  bindscroll="scrollMove" scroll-with-animation="true">
+        <scroll-view scroll-x="true" bindscroll="scrollMove" scroll-with-animation="true">
             <view class="fenlei-menu">
-                <text bindtap="selectmenu" class="teamnum {{menuTop == item.courseId ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{course_list}}"wx:key='index' id="scroll-item-{{index}}" data-index="{{index}}">{{item.courseName}} </text>
+                <text bindtap="selectmenu" class="teamnum {{menuTop == item.course_id ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{course_list}}" wx:key='index' id="scroll-item-{{index}}" data-index="{{index}}">{{item.course_name}}</text>
             </view>
         </scroll-view>
     </view>
-     <!-- <view wx:if="{{ true }}" style="font-size:18rpx;" class="scrow-view">请点击右侧添加图表</view> -->
+    <!-- <view wx:if="{{ true }}" style="font-size:18rpx;" class="scrow-view">请点击右侧添加图表</view> -->
     <view class="imgs" bindtap="addStory">
         <image mode="widthFix" class="jiaimg " src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiahao.png"></image>
     </view>
@@ -37,15 +37,15 @@
         </view>
         <view class="right-content">
             <view class="right-menu">
-                <view class="every-menu" wx:for="{{topmenu}}" wx:key="index"  bindtap='gocollection' data-number = '{{ item.num }}'>
+                <view class="every-menu" wx:for="{{topmenu}}" wx:key="index" bindtap='gocollection' data-number='{{ item.num }}'>
                     <view class="menu-img">
                         <image mode="widthFix" class="jiaimg" src="{{ item.img }}"></image>
                     </view>
                     <text class="menu-name">{{ item.name }}</text>
                 </view>
             </view>
-            <view class="right-number"  >
-                <view class="every-number" wx:for="{{topmenu}}" wx:key="index" bindtap='gocollection'  data-number = '{{ item.num }}'>
+            <view class="right-number">
+                <view class="every-number" wx:for="{{topmenu}}" wx:key="index" bindtap='gocollection' data-number='{{ item.num }}'>
                     <text class="number">{{  item.number }}</text>
                     <text id="gl"></text>
                 </view>
@@ -81,21 +81,23 @@
 </view>
 <view class="myCourse">
     <view class="myCourse-title">我的课程</view>
-    <view class="myCourse-content" wx:if="{{ nomyCourse }}"  bindtap='toVideoroom'>
-        <view class="img-myCourse"><image  style="width:100%;height:100%" src="{{ myCourse.courseImage }}" /></view>
+    <view class="myCourse-content" wx:if="{{ nomyCourse }}" bindtap='toVideoroom'>
+        <view class="img-myCourse">
+            <image style="width:100%;height:100%" src="{{ allData.cover_img }}" />
+        </view>
         <view class="myCourse-info">
-            <view class="myCourse-content-title">{{ myCourse.courseName}}</view>
+            <view class="myCourse-content-title">{{ myCourse.video_name}}</view>
             <view>
                 <text class="myCourse-name" style="display:none">会计</text>
-                <text class="myCourse-time">{{myCourse.courseLesson }}课时</text>
-                 <text class="myCourse-times">{{myCourse.number}}人已学习</text>
+                <text class="myCourse-time">{{myCourse.lesson }}课时</text>
+                <text class="myCourse-times">{{myCourse.learn_num}}人已学习</text>
             </view>
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
-                <view  style="width:32rpx;height:32rpx;">
-                  <image mode="scaleToFill" class="personal-img-myCourse" src="{{ myCourse.teacherImage == '' ? '/static/img/default.jpg':  myCourse.teacherImage}}" binderror="errorFunction" ></image>
-                </view>
-                    <text class="personal-name">{{ myCourse.teacherName }}</text>
+                    <view style="width:32rpx;height:32rpx;">
+                        <image mode="scaleToFill" class="personal-img-myCourse" src="{{ myCourse.lecturer_img == '' ? '/static/img/default.jpg':  myCourse.lecturer_img}}" binderror="errorFunction"></image>
+                    </view>
+                    <text class="personal-name">{{ myCourse.lecturer_name }}</text>
                 </view>
                 <!-- <text class="havelearn">{{myCourse.number}}人已学习</text> -->
             </view>
@@ -103,31 +105,38 @@
     </view>
     <view class="nomyCourse-content" wx:else>
         <view style="display:flex;justify-content:center;align-items:center;flex-direction:column">
-            <text style="font-size:24rpx;color:#cecece;letter-spacing:1rpx"> 还没有找到你的课程 </text>
-            <view style="font-size:28rpx;color:#199FFF;margin-top:20rpx;border:1rpx solid #199FFF;padding:5rpx 10rpx;border-radius:15rpx;letter-spacing:1rpx" bindtap='goindex'> 发现好课 </view>
+            <text style="font-size:24rpx;color:#cecece;letter-spacing:1rpx">还没有找到你的课程</text>
+            <view style="font-size:28rpx;color:#199FFF;margin-top:20rpx;border:1rpx solid #199FFF;padding:5rpx 10rpx;border-radius:15rpx;letter-spacing:1rpx" bindtap='goindex'>
+                发现好课
+            </view>
         </view>
     </view>
 </view>
 <view class="myCourse" style="margin-bottom:40rpx;margin-top: 20rpx;">
     <view class="title-course">
-        <text class="myCourse-title-live" style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">班级直播</text>
+        <text class="myCourse-title-live" style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">
+            班级直播
+        </text>
         <!-- <text class="course-data" style="display:none">查看课程表</text> -->
     </view>
-<view class="myCourse-content" bindtap='{{ optionsGo }}'  wx:if="{{ noliving }}">
- <view class="img-myCourse"  > 
-     <image   src="{{ living.Picture }}" style="width:100%;height:100%"></image></view>
+    <view class="myCourse-content" bindtap='{{ optionsGo }}' wx:if="{{ noliving }}">
+        <view class="img-myCourse">
+            <image src="{{ living.Picture }}" style="width:100%;height:100%"></image>
+        </view>
         <view class="myCourse-info">
             <text class="myCourse-content-title">{{living.title}}</text>
             <view class="">
                 <!-- <text class="myCourse-name">会计</text> -->
-                <text class="myCourse-time" style="background:#fff;padding:0;font-size:24rpx;margin:0" wx:if="{{ living.isLiveIng==1?true:false }}">直播时间：{{ living.live_time }}</text>
+                <text class="myCourse-time" style="background:#fff;padding:0;font-size:24rpx;margin:0" wx:if="{{ living.isLiveIng==1?true:false }}">
+                    直播时间：{{ living.live_time }}
+                </text>
                 <text class="live-review" wx:if="{{ living.review==1?true:false }}">直播回顾</text>
             </view>
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
-                 <view style="width:32rpx;height:32rpx;">
-                  <image  mode="scaleToFill" class="personal-img-myCourse" src="{{living.img == '' ? '/static/img/default.jpg': living.img }}"  binderror="errorLiving"></image>
-                </view>
+                    <view style="width:32rpx;height:32rpx;">
+                        <image mode="scaleToFill" class="personal-img-myCourse" src="{{living.img == '' ? '/static/img/default.jpg': living.img }}" binderror="errorLiving"></image>
+                    </view>
                     <text class="personal-name">{{living.teacher}}</text>
                 </view>
                 <!-- <view class="remindMes">
@@ -140,12 +149,12 @@
             </view>
         </view>
     </view>
-        <view class="nomyCourse-content" wx:else>
-            <view style="display:flex;justify-content:center;align-items:center;flex-direction:column">
-                <text style="font-size:24rpx;color:#cecece;letter-spacing:1rpx">你还没有加入班级</text>
-                <!-- <button   bindcontact="handleContact"  openType="contact" style="font-size:28rpx;color:#199FFF;margin-top:20rpx;border:1rpx solid #199FFF;padding:6rpx 12rpx;border-radius:15rpx;letter-spacing:1rpx;line-height:28rpx;background:#fff"> 直播开通 </button> -->
-            </view>
+    <view class="nomyCourse-content" wx:else>
+        <view style="display:flex;justify-content:center;align-items:center;flex-direction:column">
+            <text style="font-size:24rpx;color:#cecece;letter-spacing:1rpx">你还没有加入班级</text>
+            <!-- <button   bindcontact="handleContact"  openType="contact" style="font-size:28rpx;color:#199FFF;margin-top:20rpx;border:1rpx solid #199FFF;padding:6rpx 12rpx;border-radius:15rpx;letter-spacing:1rpx;line-height:28rpx;background:#fff"> 直播开通 </button> -->
         </view>
+    </view>
 </view>
 <import src="../tab-bar/tab-bar.wxml"></import>
 <template is="tabBar" data="{{tabBar:bindData.tabBar}}"></template>
