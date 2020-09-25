@@ -22,15 +22,16 @@
             </view>
 
             <view class="cata-list" wx:if="{{item.isShow}}">
-                <scroll-view scroll-y="true" style="height: 600rpx;" bindscrolltolower="loadMore"
-                    bindscrolltoupper="refesh">
-                    <view wx:if="{{hasRefesh}}"
-                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
-                        <icon type="waiting" size="45" /><text>刷新中...</text></view>
+                <scroll-view scroll-y="true" style="height: 600rpx;" bindscrolltolower="colloadMore"
+                    bindscrolltoupper="collrefesh">
+                    <view wx:if="{{collecthasRefesh}}"
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                        <icon type="waiting" size="20" /><text>刷新中...</text></view>
                     <view wx:else style="display:none"><text></text></view>
                     <view bindtap="select_date"
                         class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}"
-                        data-cid="{{vitem.chapterId}}" wx:for="{{collectList}}" wx:for-item="vitem" wx:key="index"
+                        data-cid="{{vitem.chapterId}}" wx:for="{{collectList}}" wx:for-item="vitem" 
+                        wx:key="index"
                         data-type='collection' data-name='收藏夹' data-id='{{ vitem.problemId }}'>
                         <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
@@ -39,6 +40,14 @@
                             <template is="wxParse" data="{{wxParseData:vitem.contentCopy}}"></template>
                         </view>
                     </view>
+                    <view class="tips1">
+                    <view wx:if="{{collecthasMore}}"
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center; margin:30rpx 0;color:#ccc">
+                        <icon type="waiting" size="20" /><text>玩命的加载中...</text></view>
+                    <view wx:else
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                        <text>没有更多内容了</text></view>
+                </view>
                 </scroll-view>
             </view>
 
@@ -63,7 +72,7 @@
 
         <block wx:key="index" wx:for="{{errordata}}" wx:key="index">
 
-            <view class="cata-title" bindtap="Showif" data-index="{{index}}" data-chapter_id="{{item.chapter_id}}">
+            <view class="cata-title" catchtap="Showif" data-index="{{index}}" data-chapter_id="{{item.chapter_id}}">
                 <template is="wxParse" data="{{wxParseData:item.contentCopy}}"></template>
                 <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png"
                     class="{{ item.isShow ? 'transf' : '' }}"></image>
@@ -71,13 +80,13 @@
             <scroll-view scroll-y="true" style="{{ item.isShow ? 'height:600rpx' : 'height:0rpx' }}"
                 bindscrolltolower="loadMore" bindscrolltoupper="refesh">
                 <view wx:if="{{hasRefesh}}"
-                    style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
-                    <icon type="waiting" size="30" /><text>刷新中...</text></view>
+                    style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                    <icon type="waiting" size="20" /><text>刷新中...</text></view>
                 <view wx:else style="display:none"><text></text></view>
                 <view class="cata-list" wx:if="{{item.isShow}}">
                     <view bindtap="goforError"
-                        class="cata-item flex-st {{chapterId == vitem.chapterId ?'selected com_color':''}}"
-                        data-cid="{{vitem.chapterId}}" wx:for="{{wrongList}}" wx:for-item="vitem" wx:key="index"
+                        class="cata-item flex-st {{problem_id == vitem.problem_id ?'selected com_color':''}}"
+                        data-cid="{{vitem.problem_id}}" wx:for="{{wrongList}}" wx:for-item="vitem" wx:key="index"
                         data-type='error' data-name='错题集' data-id='{{ vitem.problemId }}'>
                         <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
@@ -90,10 +99,10 @@
                 </view>
                 <view class="tips1">
                     <view wx:if="{{hasMore}}"
-                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
-                        <icon type="waiting" size="30" /><text>玩命的加载中...</text></view>
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
+                        <icon type="waiting" size="20" /><text>玩命的加载中...</text></view>
                     <view wx:else
-                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
+                        style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center; margin:35rpx 0;color:#ccc">
                         <text>没有更多内容了</text></view>
                 </view>
             </scroll-view>

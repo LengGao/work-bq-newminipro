@@ -332,15 +332,17 @@ Page({
   },
   onLoad: function (options = {}) {
     console.log(options)
+
     this.setData({
       navH: app.globalData.navHeight,
     })
     var that = this;
     let id = options.id
     let option = {
-      type: options.type,
-      courseId: parseInt(options.courseId),
-      chapterId: parseInt(options.chapter_id)
+      problem_id	:options.problem_id	
+      // type: options.type,
+      // courseId: parseInt(options.courseId),
+      // chapterId: parseInt(options.chapter_id)
     }//以上为初始化加载参数
     console.log(option)
     app.encryption({//初始化加载函数获取所有题目

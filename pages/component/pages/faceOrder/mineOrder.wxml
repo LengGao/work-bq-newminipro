@@ -22,11 +22,10 @@
 		<image src="../../imgs/noface.png" style="width:290rpx;height:290rpx"></image>
 		<view class="noface_text">暂无面授课安排</view>
 	</view>
-	<!-- <loading hidden="{{hidden}}" bindchange="loadingChange">
+	<loading hidden="{{hidden}}" bindchange="loadingChange">
 		加载中...
-	</loading> -->
-	<scroll-view scroll-y="true" style="height: 80%;" bindscrolltolower="loadMore" bindscrolltoupper="refesh">
-		
+	</loading>
+	<scroll-view scroll-y="true" style="height: 700rpx;" bindscrolltolower="loadMore" bindscrolltoupper="refesh">
 		<view wx:if="{{hasRefesh}}"
 			style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
 			<icon type="waiting" size="45" /><text>刷新中...</text></view>

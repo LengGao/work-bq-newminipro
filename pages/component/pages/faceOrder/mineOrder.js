@@ -75,78 +75,34 @@ Page({
     })
   },
   //加载更多
-  loadMore: function(e) {
-    console.log(2222)
-   
-    that.setData({
-    hasRefesh:true,});
-    // if (!this.data.hasMore) return
-    
-    let that = this
-    let option = {
-      page: 2,
-      status: this.data.status,
-    }
-    app.encryption({
-      url: api.default.getMySubscribe,
-      method: "GET",
-      data: option,
-      success: function (res) {
-        console.log(res)
-        // let arr = []
-        // arr.push(res.info)
-        let list = res.list
-        for (let k in list) {
-          list[k].close_time = util.js_date_time(list[k].close_time);
-        }
-        that.setData({
-          courseInfor: list ? list : []
-        })
-      },
-      fail: function (t) {
-
-      },
-      complete: function () {
-
-      }
-    })
-
-
-    // var url = 'http://v.juhe.cn/weixin/query?key=f16af393a63364b729fd81ed9fdd4b7d&pno='+(++that.data.page)+'&ps=10';
-    // network_util._get(url,
-    // function(res){
-    // that.setData({
-    // list: that.data.list.concat(res.data.result.list),
-    // hidden: true,
-    // hasRefesh:false,
-    // });
-    // },function(res){
-    // console.log(res);
-    // })
+  loadMore() {
+    this.getMySubscribe()
    },
  //刷新处理
-refesh: function(e) {
- 
-  var that = this;
-  that.setData({
-  hasRefesh:true,
+refesh() {
+  this.setData({
+    hasRefesh: true,
+    page: 1,
+    hasMore: true,
   });
-  // var url = 'http://v.juhe.cn/weixin/query?key=f16af393a63364b729fd81ed9fdd4b7d&pno=1&ps=10';
-  // network_util._get(url,
-  // function(res){
-  // that.setData({
-  // list:res.data.result.list,
-  // hidden: true,
-  // page:1,
-  // hasRefesh:false,
-  // });
-  // },function(res){
-  // console.log(res);
-  // })
+  this.getMySubscribe()
  },
   //我的预约列表
   getMySubscribe() {
     let that = this
+    if (!this.data.hasMore) return
+    if(this.data.page==1){
+      this.setData({
+        hasRefesh: false,
+      });
+    }else{
+      this.setData({
+        hasRefesh: true,
+      });
+    }
+    this.setData({
+      hidden:false
+    })
     let option = {
       page: 1,
       status: this.data.status,
@@ -156,16 +112,52 @@ refesh: function(e) {
       method: "GET",
       data: option,
       success: function (res) {
+        let total = res.total
+        let pageNum = Math.ceil(total / 20)
+        that.setData({
+          hidden:true
+        })
         console.log(res)
-        // let arr = []
-        // arr.push(res.info)
         let list = res.list
         for (let k in list) {
           list[k].close_time = util.js_date_time(list[k].close_time);
         }
-        that.setData({
-          courseInfor: list ? list : []
-        })
+
+        if(pageNum<2){
+          that.setData({
+            courseInfor: list ? list : [],
+            hasRefesh: false,
+            pageNum: pageNum, 
+            hasMore:false,
+            page: that.data.page + 1
+          })
+         }
+         if (that.data.page == 1) {
+          that.setData({
+            courseInfor: list ? list : [],
+            hasRefesh: false,
+            pageNum: pageNum, 
+            page: that.data.page + 1
+          })
+     
+        } else if (that.data.page > 1 && that.data.page <= pageNum) {
+          console.log(worongTitle)
+          if (that.data.page == pageNum) {
+            that.setData({
+              hasMore: false
+            })
+          }
+          that.setData({
+            courseInfor: that.data.courseInfor.concat( list ),
+            hasRefesh: false,
+            pageNum: pageNum,
+            page: that.data.page + 1
+          })
+        
+        }
+        // that.setData({
+        //   courseInfor: list ? list : []
+        // })
       },
       fail: function (t) {
 
@@ -182,8 +174,12 @@ refesh: function(e) {
     let status = e.currentTarget.dataset.key.status;
     this.setData({
       isFail: isFail,
-      status: status
+      status: status,
+      page: 1,
+      hasMore:true,
+      hasRefesh: false
     })
+    console.log(this.data.status)
     this.getMySubscribe(this.data.courseId)
     this.setData({
       tabId: id,

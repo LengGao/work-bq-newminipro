@@ -77,7 +77,7 @@ let apiurl = {
     getMyAllClassroom: e + '/User/getMyClassroom',
     getBehaviorLogList: e + '/problem/getProblemHistory',
     wxauth: e + '/order/buy',
-    collectionList: e + '/answe/CollectionList',
+    collectionList: e + '/problem/getProblem',
     examreport: e + '/answe/examreport',
     examinationResultsStatistics: e + '/answe/examinationResultsStatistics',
     wxpay: e + '/order/wxpay',
