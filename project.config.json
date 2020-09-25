@@ -1,95 +1,99 @@
 {
-	"description": "项目配置文件",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": false,
-		"es6": true,
-		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": true,
-		"coverView": true,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"compileHotReLoad": false,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useIsolateContext": true,
-		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.11.2",
-	"appid": "wx0eb278739baa3ca1",
-	"projectname": "school",
-	"debugOptions": {
-		"hidedInDevtools": []
-	},
-	"isGameTourist": false,
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"currentL": -1,
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "pages/personal-center/personal-center",
-					"pathName": "pages/personal-center/personal-center",
-					"query": "id=17& status",
-					"scene": null
-				},
-				{
-					"id": 1,
-					"name": "pages/faceCode/faceCode",
-					"pathName": "pages/faceCode/faceCode",
-					"query": "scene=id-9,r-xxx",
-					"scene": null
-				},
-				{
-					"id": 2,
-					"name": "pages/faceTeach/faceTeach",
-					"pathName": "pages/faceTeach/faceTeach",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 3,
-					"name": "pages/assignTopic/assignTopic",
-					"pathName": "pages/assignTopic/assignTopic",
-					"query": "",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": []
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.11.2",
+  "appid": "wx0eb278739baa3ca1",
+  "projectname": "school",
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "isGameTourist": false,
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "plugin": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "currentL": -1,
+      "list": []
+    },
+    "gamePlugin": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": [
+        {
+          "id": 0,
+          "name": "pages/personal-center/personal-center",
+          "pathName": "pages/personal-center/personal-center",
+          "query": "id=17& status",
+          "scene": null
+        },
+        {
+          "id": 1,
+          "name": "pages/faceCode/faceCode",
+          "pathName": "pages/faceCode/faceCode",
+          "query": "scene=id-9,r-xxx",
+          "scene": null
+        },
+        {
+          "id": 2,
+          "name": "pages/faceTeach/faceTeach",
+          "pathName": "pages/faceTeach/faceTeach",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 3,
+          "name": "pages/assignTopic/assignTopic",
+          "pathName": "pages/assignTopic/assignTopic",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
 }
