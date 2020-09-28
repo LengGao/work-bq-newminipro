@@ -77,14 +77,9 @@
                 <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png"
                     class="{{ item.isShow ? 'transf' : '' }}"></image>
             </view>
-<<<<<<< HEAD
-            <scroll-view scroll-y="true" style="{{ item.isShow ? 'height:600rpx' : 'height:0rpx' }}"
-                catchscrolltolower="loadMore" catchscrolltoupper="refesh">
-=======
             <view wx:if="{{item.isShow}}">
             <scroll-view scroll-y="true" style="height:600rpx"
                 bindscrolltolower="loadMore" bindscrolltoupper="refesh">
->>>>>>> 518456982f2b8b1db57c922e8ffd62ada3329d2a
                 <view wx:if="{{hasRefesh}}"
                     style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
                     <icon type="waiting" size="20" /><text>刷新中...</text></view>
@@ -135,13 +130,8 @@
     <loading hidden="{{hidden3}}" catchchange="loadingChange">
         加载中...
     </loading>
-<<<<<<< HEAD
-    <scroll-view scroll-y="true" style="height: 800rpx;" catchscrolltolower="historyloadMore"
-        catchscrolltoupper="historyrefesh">
-=======
     <scroll-view scroll-y="true" style="height: 1000rpx;" bindscrolltolower="historyloadMore"
         bindscrolltoupper="historyrefesh">
->>>>>>> 518456982f2b8b1db57c922e8ffd62ada3329d2a
         <view wx:if="{{historyhasRefesh}}"
             style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
             <icon type="waiting" size="30" /><text>刷新中...</text></view>
