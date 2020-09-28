@@ -156,7 +156,7 @@ Page({
             that.setData({
               explain_bg: 'explain_bg'
             })
-            // info.tips='确定预约'
+            info.tips='确定预约'
           }else if(info.tips_type==2||info.tips_type==3||info.tips_type==5){
             that.setData({
               explain_bg: 'explain_bg2'
@@ -165,7 +165,7 @@ Page({
             that.setData({
               explain_bg: 'explain_bg'
             })
-            // info.tips='取消预约'
+            info.tips='取消预约'
             
           }
         let arr = []
@@ -236,13 +236,21 @@ Page({
       method: "POST",
       data: option,
       success: function (res) {
-        console.log(res)
+       if(res.data.code=="200"){
         wx.navigateTo({
           url: `../faceOrder/mineOrder?subscribeId=${that.data.subscribeId}`
         })
+       }else{
+        wx.showToast({
+          title: res.data.message,
+          icon: 'fail',
+          duration: 2000
+        })
+       }
+       
       },
       fail: function (t) {
-
+      
       },
       complete: function () {
 

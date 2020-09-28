@@ -8,6 +8,7 @@ Page({
   data: {
     status: -2,
     isFail: '0',
+    noContent:false,
     // courseId: '',
     tabId: '0',
     courseInfor: [],
@@ -122,13 +123,13 @@ refesh() {
         for (let k in list) {
           list[k].close_time = util.js_date_time(list[k].close_time);
         }
-
         if(pageNum<2){
           that.setData({
             courseInfor: list ? list : [],
             hasRefesh: false,
             pageNum: pageNum, 
             hasMore:false,
+            noContent:false ,
             page: that.data.page + 1
           })
          }
@@ -139,12 +140,12 @@ refesh() {
             pageNum: pageNum, 
             page: that.data.page + 1
           })
-     
         } else if (that.data.page > 1 && that.data.page <= pageNum) {
           console.log(worongTitle)
           if (that.data.page == pageNum) {
             that.setData({
-              hasMore: false
+              hasMore: false,
+              noContent:true 
             })
           }
           that.setData({
