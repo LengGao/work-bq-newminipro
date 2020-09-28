@@ -154,7 +154,6 @@ Page({
     })
   },
   Showif(e) {
-    console.log(111)
     let d = this.data;
     let problem_chapter_id = e.currentTarget.dataset.chapter_id
     let WoringData = d.errordata
@@ -168,10 +167,11 @@ Page({
     this.setData({
       errordata: WoringData,
       problem_chapter_id: problem_chapter_id,
-      page: 1,
       hasMore: true,
-      hasRefesh: false
+      hasRefesh: false,
+      page: 1,
     })
+    console.log(this.data.hasMore)
     this.getErrorQues()
   },
   //获取错题集列表
@@ -211,6 +211,7 @@ Page({
             hasRefesh: false,
             pageNum: pageNum,
             hasMore: false,
+            page: that.data.page + 1
           })
         }
         if (that.data.page == 1) {
@@ -221,12 +222,14 @@ Page({
             page: that.data.page + 1
           })
         } else if (that.data.page > 1 && that.data.page <= pageNum) {
-       
+          console.log(that.data.page == pageNum)
           if (that.data.page == pageNum) {
             that.setData({
               hasMore: false
             })
           }
+          console.log(that.data.hasMore)
+          console.log(11)
           that.setData({
             wrongList: that.data.wrongList.concat(worongTitle),
             hasRefesh: false,
@@ -418,13 +421,15 @@ Page({
       [tabArr1]: options.number,
     })
     this.getCollection(),
-    this.getErrorTopicFeedbac()
+      this.getErrorTopicFeedbac()
     this.getBehaviorLogList()
   },
   loadMore() {
+    console.log('进入了下拉加载')
     this.getErrorQues()
   },
   refesh() {
+    console.log('进入了刷新')
     this.setData({
       hasRefesh: true,
       hasMore: true,

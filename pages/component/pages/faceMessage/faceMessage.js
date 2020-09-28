@@ -55,10 +55,13 @@ Page({
   },
   //加载更多
   loadMore() {
+    console.log('xia拉加载')
     this.getSubscribeList()
   },
+
   //刷新处理
   refesh: function (e) {
+    console.log('刷新')
     this.setData({
       hasRefesh: true,
       page: 1,
