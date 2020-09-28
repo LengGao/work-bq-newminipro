@@ -191,3 +191,9 @@
   justify-content: space-between;
   align-items: center;
 }
+.loading{  
+  padding: 10rpx;  
+  font-size: 26rpx;
+  color:#666;
+  text-align: center;  
+}

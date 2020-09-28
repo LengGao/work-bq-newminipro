@@ -16,7 +16,7 @@ let apiurl = {
     abouts: e + "abouts",
     foundChat: e + '/chat/foundChat',
     getProblems: e + '/answe/getProblems',
-    getCollection: e + '/answe/getCollection',
+    getCollection: e + '/problem/getProblemCollectionChapter',
     getErrorTopicFeedbac: e + '/answe/getErrorTopicFeedback',
     makeCollection: e + '/answe/makeCollection',
     answerEvents: e + '/answe/answerEvents',
@@ -74,10 +74,10 @@ let apiurl = {
     getindexcategory: e + '/indexcategory/getindexcategory',
     getcoursecategory: e + '/indexcategory/getcoursecategory',
     closeOrder: e + '/order/closeOrder',
-    getMyAllClassroom: e + '/course/getMyAllClassroom',
-    getBehaviorLogList: e + '/answe/getBehaviorLogList',
+    getMyAllClassroom: e + '/User/getMyClassroom',
+    getBehaviorLogList: e + '/problem/getProblemHistory',
     wxauth: e + '/order/buy',
-    collectionList: e + '/answe/CollectionList',
+    collectionList: e + '/problem/getProblem',
     examreport: e + '/answe/examreport',
     examinationResultsStatistics: e + '/answe/examinationResultsStatistics',
     wxpay: e + '/order/wxpay',
@@ -91,14 +91,15 @@ let apiurl = {
     getLiveStatus: 'https://api.beiqujy.com/edu/Playnotify/getLiveStatus',
     lockAnswerEvents: e + '/answe/lockAnswerEvents',
     getSubscribePower: e + '//getSubscribePower',
-    getTimeList: e + '//getTimeList',
-    getSubscribeList: e + '//getSubscribeList',
-    getSubscribeInfo: e + '//getSubscribeInfo',
-    insertSubscribe: e + '//insertSubscribe',
-    getMySubscribe: e + '//getMySubscribe',
-    updateSubscribeMemberStatus: e + '//updateSubscribeMemberStatus',
-    getQrcodeSubscribeInfo: e + '//getQrcodeSubscribeInfo',
-    reSubscribeClassroom: e + '//reSubscribeClassroom'
+    getTimeList: e + '/Reservation/getTimeList',
+    getSubscribeList: e + '/Reservation/getFaceToFaceClasses',
+    getSubscribeInfo: e + '/Reservation/getClassroomInfo',
+    insertSubscribe: e + '/Reservation/appointment',
+    getMySubscribe: e + '/Reservation/reservationList',
+    cancelAppointment: e + '/Reservation/cancelAppointment',
+    getClassroomInfoFromQrcode: e + '/Reservation/getClassroomInfoFromQrcode',
+    reSubscribeClassroom: e + '//reSubscribeClassroom',
+    subscribeClassroomSignIn:e + '/Reservation/signIn'
   },
   user: {
     // newLogin: bq + "/login",
@@ -201,7 +202,10 @@ let apiurl = {
     getTodayChallengeForMyself:e +"/problem/getTodayChallengeForMyself",
     createChallengePoster:e + "/Share/createChallengePoster",
     getTestExamConfig:e + "/problem/getTestExamConfig",
-    createTestExamData:e + "/problem/createTestExamData"
+    createTestExamData:e + "/problem/createTestExamData",
+    getErrorProblemList:e +'/problem/getErrorProblemList',
+    getCollectionProblemList:e +'/problem/getCollectionProblemList',
+    settlementTestExamResult:e + "/problem/settlementTestExamResult"
   }
 };
 

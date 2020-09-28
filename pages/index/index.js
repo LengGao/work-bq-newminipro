@@ -181,6 +181,7 @@ Page({
   },
   selectmenu: function (t) {
     let ele = 'scroll-item-' + t.currentTarget.dataset.index
+    console.log(t.currentTarget.dataset)
     this.getRect('#' + ele);
     let that = this
     let key = t.currentTarget.dataset.key;
@@ -278,6 +279,11 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
+        let problem_course_id=res.info.problem_course_id
+        console.log(res.info.problem_course_id)
+        wx.setStorageSync("problem_course_id", {
+          problem_course_id: problem_course_id
+        });
         console.log(res)
         let topmenu0 = 'topmenu[0].number'
         let topmenu1 = 'topmenu[1].number'

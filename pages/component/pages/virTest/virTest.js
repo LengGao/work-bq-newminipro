@@ -1,7 +1,6 @@
 // pages/virTest/virTest.js
-let app = getApp(), api = require("../../../../api.js"), utils = require("../../../../utils/util.js"),page = 0
+let app = getApp(), api = require("../../../../api.js"), utils = require("../../../../utils/util.js"),pages = 0
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -14,9 +13,9 @@ Page({
   },
   getExaminationList() {
     let that = this
-     page +=1
+     pages = pages + 1
     let option = {
-      page: page,
+      page: pages,
       problem_course_id: this.data.nondeID
     }//以上为初始化加载参数
     console.log(option)
@@ -27,24 +26,16 @@ Page({
       dataType: "json",
       success: function (res) {
         console.log(res)
-        if(res){
-
+        if( res.list!=undefined&&res.list.length != 0){
+          res.list.forEach( (value)=>{
+            value.create_time = utils.js_date_time(value.create_time)
+          })
+          that.data.history.push.apply(that.data.history,res.list)
+          that.setData({
+            history: that.data.history,
+            datas: true
+          })
         }
-        // if (res.data != undefined) {
-        //   that.setData({
-        //     datas: false
-        //   })
-        //   return
-        // }
-        // for (let item of res) {
-        //   item.updateTime = utils.js_date_time(item.updateTime)
-        // }
-        // {
-        //   that.setData({
-        //     history: res.list,
-        //     datas: true
-        //   })
-        // }
       },
       fail: function (n) {
         console.log('初始化失败')
@@ -90,7 +81,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+      
   },
 
   /**
@@ -111,7 +102,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    pages = 0
   },
 
   /**

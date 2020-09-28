@@ -186,11 +186,11 @@ Page({
   },
   cards() {
     this.common()
-    let name = this.data.chapterName
+    let name = "模拟考试"
     let practice_id = this.data.exam_log_id
     console.log(practice_id,name)
     wx.navigateTo({
-      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}&type=1`
+      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}&type=4`
     })
   },
   checkout(problem_id) {
@@ -324,7 +324,7 @@ Page({
             index: ''
           })
         } else {
-          let chapterName = that.data.chapterName;
+          let chapterName = "模拟考试";
           let course_id = that.data.courseId;
           let chapter_id = that.data.chapter_id;
           let exam_log_id = that.data.exam_log_id;
@@ -333,7 +333,7 @@ Page({
             clearTimer: true
           });
           wx.navigateTo({
-            url: `../yearTestScroll/yearTestScroll?exam_log_id=${exam_log_id}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
+            url: `../yearTestScroll/yearTestScroll?real_topic_log_id=${exam_log_id}&chapterName=${chapterName}&course_id=${course_id}&type=4`
           })
         }
       },
@@ -636,12 +636,12 @@ Page({
         console.log(res)
         let list = res.info.list
         let totalNum;
-        let single_problem = list.single_problem; //单选
-        let fill_problem = list.fill_problem;//填空
-        let judge_problem = list.judge_problem;//判断
-        let multiple_problem = list.multiple_problem;//多选
-        let scenes_problem = list.scenes_problem;//场景
-        let short_problem = list.short_problem;//简答
+        let single_problem = list.single_problem || []; //单选
+        let fill_problem = list.fill_problem || [];//填空
+        let judge_problem = list.judge_problem || [];//判断
+        let multiple_problem = list.multiple_problem || [];//多选
+        let scenes_problem = list.scenes_problem || [];//场景
+        let short_problem = list.short_problem || [];//简答
         totalNum = single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
         //合并数组
         let alltestID = [];
@@ -701,7 +701,7 @@ Page({
       problem_course_id: this.data.courseId,
       problem_id: this.data.curID,
       log_id: this.data.exam_log_id,
-      mode: 1,
+      mode: 2,
       answer: answer,
     }
     console.log(option)

@@ -121,14 +121,25 @@ Page({
   },
   settlementRealTopicResult(options){
     let that = this
-      let option = {
+    let option , url
+    if(options.type == 4){ //模拟考试
+      option = {
+        exam_log_id: options.real_topic_log_id,
+        problem_course_id: parseInt(options.course_id)
+      }
+      url = api.test.settlementTestExamResult
+    }else if (options.type == 5){
+      option = {
         real_topic_log_id: options.real_topic_log_id,
         problem_course_id: parseInt(options.course_id),
         problem_chapter_id: parseInt(options.chapter_id)
       }
+      url = api.test.settlementRealTopicResult
+    }
+       
       console.log(option)
       app.encryption({//交卷动作
-        url: api.test.settlementRealTopicResult,
+        url: url,
         data: option,
         method: 'POST',
         dataType: "json",
@@ -137,19 +148,21 @@ Page({
           let nums1 = 'topmenu[0].number'
           let nums2 = 'topmenu[1].number'
           let nums3 = 'topmenu[2].number'
-          that.setData({
-            [nums1]: res.info.right_problem,
-            [nums2]: res.info.fail_problem,
-            [nums3]: res.info.unanswered,
-            singleNum: res.list.single_problem.length == 0 ? [] : res.list.single_problem,//单选
-            multipleNum: res.list.multiple_problem.length == 0 ? [] : res.list.multiple_problem,//多选
-            judgmentNum: res.list.judge_problem.length == 0 ? [] : res.list.judge_problem,//判断
-            short_problem: res.list.short_problem.length == 0 ? [] : res.list.short_problem,//简答
-            fill_problem: res.list.fill_problem.length == 0 ? [] : res.list.fill_problem,//填空
-            scenes_problem: res.list.scenes_problem.length == 0 ? [] : res.list.scenes_problem,//场景
-            allScroll: res.info.mark,
-            ID:res.list.single_problem[0].problem_id
-          })
+            that.setData({
+              [nums1]: res.info.right_problem,
+              [nums2]: res.info.fail_problem,
+              [nums3]: res.info.unanswered,
+              singleNum: res.list.single_problem.length == 0 ? [] : res.list.single_problem,//单选
+              multipleNum: res.list.multiple_problem.length == 0 ? [] : res.list.multiple_problem,//多选
+              judgmentNum: res.list.judge_problem.length == 0 ? [] : res.list.judge_problem,//判断
+              short_problem: res.list.short_problem.length == 0 ? [] : res.list.short_problem,//简答
+              fill_problem: res.list.fill_problem.length == 0 ? [] : res.list.fill_problem,//填空
+              scenes_problem: res.list.scenes_problem.length == 0 ? [] : res.list.scenes_problem,//场景
+              allScroll: res.info.mark,
+              ID:res.list.single_problem[0].problem_id
+            })
+       
+         
         },
         fail: function (n) {
           console.log('初始化失败')

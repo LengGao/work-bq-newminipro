@@ -124,7 +124,7 @@ page{
   font-weight:500;
   color:#999999;
 }
-.explain_btn{
+.explain_bg{
  width: 500rpx;
  height: 80rpx;
  display: flex;
@@ -138,11 +138,24 @@ background: #199FFF;
  border-radius: 40rpx;
  position: fixed;
  bottom: 30rpx;
+}
 
-}
-.explain_bg{
-  background: #ccc!important;
-}
+.explain_bg2{
+  width: 500rpx;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size:36rpx;
+  background: #ccc;
+  font-family:'PingFang SC';
+  color:#fff;
+  margin:41rpx 0 0 95rpx;
+  border-radius: 40rpx;
+  position: fixed;
+  bottom: 30rpx;
+ }
+
 .content_dot{
   font-size: 16rpx;
 }

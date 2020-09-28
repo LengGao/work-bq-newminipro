@@ -333,7 +333,7 @@ Page({
             clearTimer: true
           });
           wx.navigateTo({
-            url: `../yearTestScroll/yearTestScroll?real_topic_log_id=${real_topic_log_id}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
+            url: `../yearTestScroll/yearTestScroll?real_topic_log_id=${real_topic_log_id}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}&type=5`
           })
         }
       },

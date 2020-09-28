@@ -60,6 +60,11 @@ Page({
         challenge_id: options.practice_id
       };//以上为初始化加载参数
       url = api.test.getChallengeRecordBoard
+    }else if (options.type==4){
+      option = {
+        exam_log_id: options.practice_id
+      };//以上为初始化加载参数
+      url = api.test.getTestExamRecordBoard
     }
     console.log(option,url)
     app.encryption({//初始化加载函数获取所有题目

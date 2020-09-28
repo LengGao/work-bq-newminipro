@@ -1,11 +1,18 @@
-
-let app = getApp(), api = require("../../../../api.js"), util = require("../../../../utils/util.js")
+let app = getApp(),
+  api = require("../../../../api.js"),
+  util = require("../../../../utils/util.js")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    hidden: true,
+    page: 1,
+    pageNum:'',
+    hasMore: true,
+    hasRefesh: false,
+    noContent:false,
     //日历组件
     calendarConfig: {
       theme: 'elegant',
@@ -15,38 +22,68 @@ Page({
       showHandlerOnWeekMode: true,
       defaultDay: ''
     },
-
     courseId: 0,
     // nofaceShow:false,
     calendarShow: true,
     dayStyle: [],
-    courseInfor: []
+    courseInfor: [],
+    courseStatus: '',
+    daytime: '',
+    problem_course_id: '',
+    pageTotal: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
+    this.setData({
+      problem_course_id: problem_course_id
+    })
     this.doSomething()
     //初始化今天的日期点击事件
-    let daytime = { detail: { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() } }
+    let daytime = {
+      detail: {
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+        day: new Date().getDate()
+      }
+    }
     console.log(daytime)
     this.afterTapDay(daytime, 0)
   },
-  doSomething(a, b) {
-    let courseId = wx.getStorageSync('courseId').courseId
+  //加载更多
+  loadMore() {
+    console.log('xia拉加载')
+    this.getSubscribeList()
+  },
+
+  //刷新处理
+  refesh: function (e) {
+    console.log('刷新')
     this.setData({
-      courseId: courseId
-    })
+      hasRefesh: true,
+      page: 1,
+      hasMore: true,
+    });
+    this.getSubscribeList()
+  },
+
+
+  doSomething(a, b) {
+    // let courseId = wx.getStorageSync('courseId').courseId
+    // this.setData({
+    //   courseId: courseId
+    // })
     console.log('onload')
 
     let pro = new Promise((resolve, reject) => {
       let that = this
       let option = {
-        courseId: courseId,
-        month: a - 0,
-        year: b - 0
+        problem_course_id: parseInt(this.data.problem_course_id),
+        // month: a - 0,
+        // year: b - 0
       }
       console.log(option)
       app.encryption({
@@ -54,10 +91,10 @@ Page({
         method: "GET",
         data: option,
         success: function (res) {
-          console.log(res.list)
+          console.log(res)
           let datelist = res.list.map(item => {
-            if (item.hasClass > 0) {
-              return item.dateTime
+            if (item.has_classroom > 0) {
+              return item.date_time
             }
           })
           // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位
@@ -85,7 +122,11 @@ Page({
             } else {
               day = datenum[6] + datenum[7]
             }
-            let dayStyle = { year: year, month: month, day: day }
+            let dayStyle = {
+              year: year,
+              month: month,
+              day: day
+            }
             dayStyle3.push(dayStyle)
           });
           resolve(dayStyle3)
@@ -116,16 +157,16 @@ Page({
   },
 
   /**
- * 选择日期后执行的事件
- * currentSelect 当前点击的日期
- * allSelectedDays 选择的所有日期（当multi为true时，allSelectedDays有值）
- */
+   * 选择日期后执行的事件
+   * currentSelect 当前点击的日期
+   * allSelectedDays 选择的所有日期（当multi为true时，allSelectedDays有值）
+   */
   onTapDay(e) {
     // console.log('onTapDay', e.detail)
   },
   //点击日期时触发
   afterTapDay(e, newdatatime) {
-    console.log('初始话', newdatatime)
+   
     //  console.log('afterTapDay', e.detail);
     function Appendzero(obj) {
       if (obj < 10) return "0" + "" + obj;
@@ -139,9 +180,15 @@ Page({
       let day = Appendzero(e.detail.day) + ''
       daytime = e.detail.year + month + day
     }
-    console.log(daytime)
-    let courseId = wx.getStorageSync('courseId').courseId
-    this.getSubscribeList(courseId, daytime)
+    this.setData({
+      daytime: daytime,
+      hasMore:true,
+      page:1
+    })
+    // this.setData({
+    //   page: this.data.page
+    // })
+    this.getSubscribeList()
   },
   //点击月份时触发
   whenChangeMonth(e) {
@@ -168,39 +215,115 @@ Page({
 
   },
   //获取时间轴
-  getTimeList(courseId, currentMonth, currentYear) {
-    console.log('getTimeList')
+  // getTimeList(courseId, currentMonth, currentYear) {
+  //   console.log('getTimeList')
 
-  },
+  // },
   //面授课堂列表
-  getSubscribeList(courseId, daytime) {
+  getSubscribeList() {
     let that = this
     let option = {
-      courseId: courseId,
-      dateTime: daytime - 0
+      problem_course_id: parseInt(this.data.problem_course_id),
+      date_time: parseInt(this.data.daytime),
+      page: this.data.page
+    }
+    if (!this.data.hasMore) return
+    if(this.data.page==1){
+      this.setData({
+        hasRefesh: false,
+      });
+    }else{
+      this.setData({
+        hasRefesh: true,
+      });
     }
     console.log(option)
     that.setData({
-      newDataTime: daytime - 0
+      newDataTime: this.data.daytime,
+      hidden: false
     })
     app.encryption({
       url: api.default.getSubscribeList,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res.list)
-        let courbox = res.list
-        console.log(courbox == undefined)
-        if (courbox == undefined) {
-          courbox = []
-        }
-        for (let k in courbox) {
-          courbox[k].timeInfo = util.dateToSubstr2(courbox[k].dateTime, courbox[k].startTime, courbox[k].endTime)
-        }
+        console.log(res)
+        let total = res.total
+        let pageNum = Math.ceil(total / 20)
         that.setData({
-          courseInfor: courbox
+          hidden: true
         })
+      
+        let courbox = res.list
+        for (let k in courbox) {
+          courbox[k].show_time = util.js_date_time(courbox[k].show_time)
+          courbox[k].close_time = util.js_date_time(courbox[k].close_time)
+          if (courbox[k].tips_type == 0 || courbox[k].tips_type == 1) {
+            that.setData({
+              courseStatus: 'courseStatus'
+            })
+          } else if (courbox[k].tips_type == 2 || courbox[k].tips_type == 3) {
+            that.setData({
+              courseStatus: 'courseStatus3'
+            })
+          } else {
+            that.setData({
+              courseStatus: 'courseStatus2'
+            })
+          }
+        }
+        if(pageNum<2){
+          that.setData({
+            courseInfor: courbox,
+            hasRefesh: false,
+            pageNum: pageNum, 
+            hasMore:false,
+            noContent:false ,
+            page: that.data.page + 1
+          })
+         }
+        if (that.data.page == 1) {
+          that.setData({
+            courseInfor: courbox,
+            hasRefesh: false,
+            pageNum: pageNum, 
+             hasRefesh: false,
+            page: that.data.page + 1,
+         
+          })
+        } else if (that.data.page > 1 && that.data.page <= pageNum) {
+         
+          if (that.data.page == pageNum) {
+            that.setData({
+              hasMore: false,
+            noContent:true 
+            })
+          }
+          that.setData({
+            courseInfor: that.data.courseInfor.concat(courbox),
+            hasRefesh: false,
+            pageNum: pageNum,
+            page: that.data.page + 1
+          })
+        }
 
+
+        // if (this.data.page > 1) {
+        //   that.setData({
+        //     courseInfor: this.data.courseInfor.concat(courbox),
+        //     hasRefesh: false,
+        //   })
+        // } else {
+        //   that.setData({
+        //     courseInfor: courbox,
+        //     hasRefesh: false,
+        //   })
+        // }
+        // that.setData({
+        //   courseInfor: courbox,
+        //   hasRefesh: false,
+        // })
+        // console.log(this.data.courseInfor)
 
 
       },
@@ -213,23 +336,22 @@ Page({
     })
   },
   tofaceDetail(e) {
-    console.log(e.currentTarget.dataset)
-    let courseid = e.currentTarget.dataset.courseid
-    let datetime = e.currentTarget.dataset.datetime
-    let updatethisid = e.currentTarget.dataset.updatethisid
-    let subscribeStatushave = 1
-    let newDataTime = this.data.newDataTime
-    console.log(datetime)
+    console.log(e.currentTarget)
+    // let courseid = e.currentTarget.dataset.courseid
+    // let datetime = e.currentTarget.dataset.datetime
+    // let updatethisid = e.currentTarget.dataset.updatethisid
+    // let subscribeStatushave = 1
+    // let newDataTime = this.data.newDataTime
+    let subscribe_classroom_id = e.currentTarget.dataset.subscribe_classroom_id
+
+    // wx.navigateTo({
+    //   url: `../faceDetail/faceDetail?subscribeId=${courseid}&datetime=${datetime}&subscribeStatushave=${subscribeStatushave}&updatethisid=${updatethisid}&newDataTime=${newDataTime}`
+    // })
     wx.navigateTo({
-      url: `../faceDetail/faceDetail?subscribeId=${courseid}&datetime=${datetime}&subscribeStatushave=${subscribeStatushave}&updatethisid=${updatethisid}&newDataTime=${newDataTime}`
+      url: `../faceDetail/faceDetail?subscribe_classroom_id=${subscribe_classroom_id}`
     })
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
 
-  },
   //日历渲染完成之后
   afterCalendarRender(daylist) {
     console.log(111)
@@ -243,47 +365,5 @@ Page({
       showLabelAlways: true, // 点击时是否显示待办事项（圆点/文字），在 circle 为 true 及当日历配置 showLunar 为 true 时，此配置失效
       days: daylist
     });
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    // this.doSomething()
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
 })

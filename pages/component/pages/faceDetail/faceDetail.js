@@ -10,104 +10,110 @@ Page({
     rommId: '',
     status: '',
     id: '',
-    explain_btn: '',
-    explain_bg: '',
+
     datetime: '',
     sy: false,
     cancelId: 0,
-    explain_bg: '',
+   
     subscribeStatushave: '',
     navH: '',
-    chapterName: '预约详情'
+    chapterName: '预约详情',
+    explain_bg:'',
+    tips_type:'',
+    subscribe_classroom_id:'',
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log(options)
-    if (options.updatethisid) {
-      this.setData({
-        id: options.updatethisid
-      })
-    } else if (options.id) {
-      this.setData({
-        id: options.id
-      })
-    }
+    // if (options.updatethisid) {
+    //   this.setData({
+    //     id: options.updatethisid
+    //   })
+    // } else if (options.id) {
+    //   this.setData({
+    //     id: options.id
+    //   })
+    // }
+    this.setData({
+      subscribe_classroom_id: options.subscribe_classroom_id
+        })
+
     this.setData({
       navH: app.globalData.navHeight,
-      subscribeId: options.subscribeId,
-      status: options.status,
+      subscribe_classroom_id: options.subscribe_classroom_id,
+      // status: options.status,
 
-      datetime: options.datetime,
-      subscribeStatushave: options.subscribeStatushave,
-      newDataTime: options.newDataTime
+      // datetime: options.datetime,
+      // subscribeStatushave: options.subscribeStatushave,
+      // newDataTime: options.newDataTime
     })
     // console.log(options.subscribeStatushave)
-    console.log(options.status)
-    let todayTime = new Date()
-    let y = todayTime.getFullYear().toString()
-    let m = todayTime.getMonth() + 1
-    if (m < 10) {
-      let z = 0
-      m = z.toString() + m.toString()
-    }
-    let d = todayTime.getDate().toString()
-    if (d < 10) {
-      let z = 0
-      d = z.toString() + d.toString()
-    }
-    let dateTime = y + m + d
-    console.log(dateTime)
-    function dateToSubstr(str) {
+    // console.log(options.status)
+    // let todayTime = new Date()
+    // let y = todayTime.getFullYear().toString()
+    // let m = todayTime.getMonth() + 1
+    // if (m < 10) {
+    //   let z = 0
+    //   m = z.toString() + m.toString()
+    // }
+    // let d = todayTime.getDate().toString()
+    // if (d < 10) {
+    //   let z = 0
+    //   d = z.toString() + d.toString()
+    // }
+    // let dateTime = y + m + d
+    // console.log(dateTime)
+    // function dateToSubstr(str) {
 
-      var year = str.substr(0, 4);
-      console.log(year)
-      var month = str.substr(5, 2);
-      var day = str.substr(8, 2);
-      console.log(day)
+    //   var year = str.substr(0, 4);
+    //   console.log(year)
+    //   var month = str.substr(5, 2);
+    //   var day = str.substr(8, 2);
+    //   console.log(day)
 
-      return year + month + day
-    }
+    //   return year + month + day
+    // }
     //我的预约传过来的时间
-    console.log(options.datetime)
-    let timeyear = dateToSubstr(options.datetime)
-    console.log(timeyear)
+    // console.log(options.datetime)
+    // let timeyear = dateToSubstr(options.datetime)
+    // console.log(timeyear)
     // console.log(timeyear>dateTime)
-    if (timeyear < dateTime) {
-      //失约
-      this.setData({
-        sy: true
-      })
-    } else {
-      this.setData({
-        sy: false
-      })
-    }
-    if (options.status == "1" && this.data.sy == false) {
-      this.setData({
-        explain_btn: '取消预约',
-      })
-    } else if (options.status == "0") {
-      this.setData({
-        explain_btn: '等待确认',
-        explain_bg: 'explain_bg'
-      })
-    } else if (options.status == "-1") {
-      this.setData({
-        explain_btn: '重新预约',
-      })
-    } else if (options.status == "2") {
-      this.setData({
-        explain_btn: '已签到',
-        explain_bg: 'explain_bg'
-      })
-    } else if (options.status == "1" && this.data.sy == true) {
-      this.setData({
-        explain_btn: '申请补签到',
-      })
-    }
-    this.getSubscribeInfo(options.subscribeId)
+    // if (timeyear < dateTime) {
+    //   //失约
+    //   this.setData({
+    //     sy: true
+    //   })
+    // } else {
+    //   this.setData({
+    //     sy: false
+    //   })
+    // }
+    // if (options.status == "1" && this.data.sy == false) {
+    //   this.setData({
+    //     explain_btn: '取消预约',
+    //   })
+    // } else if (options.status == "0") {
+    //   this.setData({
+    //     explain_btn: '等待确认',
+    //     explain_bg: 'explain_bg'
+    //   })
+    // } else if (options.status == "-1") {
+    //   this.setData({
+    //     explain_btn: '重新预约',
+    //   })
+    // } else if (options.status == "2") {
+    //   this.setData({
+    //     explain_btn: '已签到',
+    //     explain_bg: 'explain_bg'
+    //   })
+    // } else if (options.status == "1" && this.data.sy == true) {
+    //   this.setData({
+    //     explain_btn: '申请补签到',
+    //   })
+    // }
+    this.getSubscribeInfo(options.subscribe_classroom_id)
   },
   gobefor(e) {
     let pages = getCurrentPages(); // 当前页面
@@ -125,26 +131,46 @@ Page({
     });
   },
   //面授课详情
-  getSubscribeInfo(subscribeId) {
+  getSubscribeInfo(subscribe_classroom_id) {
     let that = this
+    let problem_course_id=wx.getStorageSync('problem_course_id').problem_course_id
     let option = {
-      subscribeId: subscribeId - 0
+      subscribe_classroom_id:parseInt(subscribe_classroom_id),
+      problem_course_id:problem_course_id
     }
-
     app.encryption({
       url: api.default.getSubscribeInfo,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res.info)
-        let courbox = res.info
-        courbox.timeInfo = util.dateToSubstr2(courbox.dateTime, courbox.startTime, courbox.endTime)
-        console.log(courbox.id)
+        let info = res.info
         that.setData({
-          cancelId: courbox.updateThisId
+          tips_type: info.tips_type
         })
+        info.show_time= util.js_date_time(info.show_time)
+        info.close_time= util.js_date_time(info.close_time)
+          // courbox[k].show_time = util.js_date_time(courbox[k].show_time)
+          // courbox[k].close_time = util.js_date_time(courbox[k].close_time)
+          if(info.tips_type==0||info.tips_type==1){
+            that.setData({
+              explain_bg: 'explain_bg'
+            })
+            info.tips='确定预约'
+          }else if(info.tips_type==2||info.tips_type==3||info.tips_type==5){
+            that.setData({
+              explain_bg: 'explain_bg2'
+            })
+          }else if(info.tips_type==4){
+            that.setData({
+              explain_bg: 'explain_bg'
+            })
+            info.tips='取消预约'
+            
+          }
         let arr = []
-        arr.push(courbox)
+        arr.push(info)
+        // console.log(arr)
         that.setData({
           funlist: arr
         })
@@ -160,71 +186,20 @@ Page({
   },
   //explain_btn按钮单机事件
   explain_btn(e) {
-    console.log(e)
     let rommId = e.currentTarget.dataset.id
     let subscribeStatus = e.currentTarget.dataset.subscribestatus
-    // // let  subscribeStatushave= e.currentTarget.dataset.subscribestatus
-    console.log(subscribeStatus)
     this.setData({
       rommId: rommId,
       // subscribeStatushave:subscribeStatushave
     })
-
     let _that = this
-    console.log()
-    if (this.data.subscribeStatushave == 1) {
-      if (subscribeStatus == null) {
-        //确定预约
-        this.confirmAppoint()
-      } else if (subscribeStatus == 0 || subscribeStatus == 1) {
-        console.log(111)
-        //取消预约
-        this.cancelappoint()
-      } else if (subscribeStatus == 1) {
-
-      } else if (subscribeStatus == 2) {
-
-      } else {
-        this.reSubscribeClassroom()
-      }
-    }
-    if (this.data.status == "1" && this.data.sy == false) {
-      //取消预约
+    if(this.data.tips_type==0||this.data.tips_type==1){
+      this.confirmAppoint()
+    }else if(this.data.tips_type==4){
       this.cancelappoint()
-    } else if (this.data.status == "0") {
-      // this.setData({
-      //   explain_btn:'等待确认',
-      // })
-    } else if (this.data.status == "-1") {
-      //重新预约
-      this.reSubscribeClassroom()
-
-      // this.setData({
-      //   explain_btn:'重新预约',
-      // })
-    } else if (this.data.status == "2") {
-      // this.setData({
-      //   explain_btn:'已签到',
-      // })
-    } else if (this.data.status == "1" && this.data.sy == true) {
-      $Toast({
-        content: '请找老师补签',
-        type: 'warning'
-      });
-      // this.setData({
-      //   explain_btn:'申请补签到',
-      // })
     }
-
-    // if(this.data.status=="0"||subscribeStatus=="-1"){
-    // this.setData({
-    //   explain_btn:'取消预约'
-    // })
-    // }else{
-    // this.confirmAppoint()
-    // }
   },
-  //取消预约
+  // //取消预约
   cancelappoint() {
     let _that = this
     let status = '-1'
@@ -239,7 +214,7 @@ Page({
       success(res) {
         console.log(res)
         if (res.confirm) {
-          _that.updateSubscribeMemberStatus(status)
+          _that.cancelAppointment()
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
@@ -247,82 +222,50 @@ Page({
     })
   },
 
-  //更新学生状态
-  updateSubscribeMemberStatus(status) {
+
+  cancelAppointment(status) {
     let that = this
+    let problem_course_id=wx.getStorageSync('problem_course_id').problem_course_id
     let option = {
-      id: this.data.id - 0,
-      status: status - 0
+      subscribe_classroom_id:this.data. subscribe_classroom_id,
+      problem_course_id:problem_course_id
     }
     console.log(option)
     app.encryption({
-      url: api.default.updateSubscribeMemberStatus,
+      url: api.default.cancelAppointment,
       method: "POST",
       data: option,
       success: function (res) {
-        console.log(res)
+       if(res.data.code=="200"){
         wx.navigateTo({
           url: `../faceOrder/mineOrder?subscribeId=${that.data.subscribeId}`
         })
-        // wx.navigateBack({
-        //   delta: 1
-        // })
-
+       }else{
+        wx.showToast({
+          title: res.data.message,
+          icon: 'fail',
+          duration: 2000
+        })
+       }
+       
       },
       fail: function (t) {
-
+      
       },
       complete: function () {
 
       }
     })
   },
-  //重新预约
-  reSubscribeClassroom(subscribeStatus) {
-    let that = this
-    let option = {
-      id: this.data.cancelId
-    }
-    console.log(option)
-    app.encryption({
-      url: api.default.reSubscribeClassroom,
-      method: "POST",
-      data: option,
-      success: function (res) {
-        console.log(res)
-        // wx.navigateTo({
-        //   url: `../faceOrder/mineOrder?subscribeId=${that.data.subscribeId}`
-        // })
-        if (res.data.code == 200) {
-          wx.reLaunch({
-            url: '../faceOrder/mineOrder',
-          })
-        } else {
-          wx.showToast({
-            title: res.data.message,//提示文字
-            duration: 1300,//显示时长
-            mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
-            icon: 'none', //图标，支持"success"、"loading"  
-            success: function () { },//接口调用成功
-            fail: function () { },  //接口调用失败的回调函数  
-            complete: function () { } //接口调用结束的回调函数  
-          })
-        }
 
-      },
-      fail: function (res) {
-        console.log(res)
-      },
-      complete: function () {
-
-      }
-    })
-  },
   //确定预约
   confirmAppoint() {
+    let problem_course_id=wx.getStorageSync('problem_course_id').problem_course_id
     let options = {
-      subscribeId: this.data.subscribeId - 0,
+      problem_course_id,problem_course_id,
+      subscribe_classroom_id:parseInt (this.data.subscribe_classroom_id) ,
     }
+    console.log(options)
     let that = this
     app.encryption({
       url: api.default.insertSubscribe,
@@ -344,7 +287,6 @@ Page({
             url: `../faceSuccess/faceSuccess?message=${message}&code=${code}&datatime=${datatime}`,
           })
         } else {
-
           wx.showToast({
             title: res.data.message,
             icon: 'fail',

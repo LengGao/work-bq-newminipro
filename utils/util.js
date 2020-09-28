@@ -20,7 +20,7 @@ function dateToSubstr2(str, startTime, endTime) {
 }
 
 function js_date_time(unixtime) {
-  console.log(unixtime * 1000)
+  // console.log(unixtime * 1000)
   var date = new Date(unixtime * 1000);
   var y = date.getFullYear();
   var m = date.getMonth() + 1;

@@ -1,7 +1,7 @@
 <import src="../../../../wxParse/wxParse.wxml"></import>
 <view class='nav bg-white' style='height:{{navH}}px'>
     <view class='nav-title'>
-     <text class="biaoti" >{{ chapterName }}</text>  
+     <text class="biaoti" >模拟考试</text>  
       <text id="gl1" bindtap="{{lettering}}"></text>
      
     </view>

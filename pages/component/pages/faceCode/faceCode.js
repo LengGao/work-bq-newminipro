@@ -7,7 +7,7 @@ Page({
     funlist: [
       { chapter: 'hjkshfjhf' }
     ],
-    subscribeId: '',
+    subscribe_classroom_id : '',
     rommId: '',
     status: 2,
     id: 0,
@@ -24,26 +24,30 @@ Page({
   onLoad(query) {
     // const {query} = wx.getLaunchOptionsSync()
     // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
+    
     let scene = decodeURIComponent(query.scene)
-    var sceneArr = scene.split(',')
-    console.log(sceneArr)
+    console.log(scene)
+    var sceneArr = scene.split('@')
+    console.log(sceneArr[1])
     // let id = sceneArr.split('-')[1]
-    var para = {};
-    for (var i in sceneArr) {
-      var name = sceneArr[i].slice(0, sceneArr[i].indexOf('-'));
-      console.log(name)
-      var value = sceneArr[i].slice(sceneArr[i].indexOf('-') + 1);
-      console.log(name == "id")
-      if (name == "id") {
-        console.log(value)
-        this.setData({
-          subscribeId: value
-        })
-      }
-      para[name] = value
-
-    }
-    console.log(this.data.subscribeId)
+    // var para = {};
+    // for (var i in sceneArr) {
+    //   var name = sceneArr[i].slice(0, sceneArr[i].indexOf('-'));
+    //   console.log(name)
+    //   var value = sceneArr[i].slice(sceneArr[i].indexOf('-') + 1);
+    //   console.log(name == "id")
+    //   if (name == "id") {
+    //     console.log(value)
+    //     this.setData({
+    //       subscribe_classroom_id : value
+    //     })
+    //   }
+    //   para[name] = value
+    // }
+    this.setData({
+             subscribe_classroom_id : sceneArr[1]
+         })
+    console.log(this.data.subscribe_classroom_id )
     this.getQrcodeSubscribeInfo()
   },
   // onLoad: function (options) {
@@ -55,24 +59,22 @@ Page({
   //   })
   //  this.getQrcodeSubscribeInfo(options.id)
   // },
-  //面授课详情
+
   getQrcodeSubscribeInfo() {
     let that = this
     let option = {
-      subscribeId: this.data.subscribeId - 0
+      subscribe_classroom_id :parseInt (this.data.subscribe_classroom_id ) 
     }
     console.log(option)
 
     app.encryption({
-      url: api.default.getQrcodeSubscribeInfo,
+      url: api.default.getClassroomInfoFromQrcode,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
-        if (res.data) {
-
-        }
-        if (res.data != undefined) {
+       
+        if (res.info == undefined) {
           console.log('我景来')
           wx.showModal({
             title: '提示',
@@ -90,35 +92,35 @@ Page({
             }
           })
         } else {
-          let classroom = res.classroom
-          classroom.timeInfo = util.dateToSubstr2(classroom.dateTime, classroom.startTime, classroom.endTime)
-          let member = res.member
-          that.setData({
-            memberId: member.id
-          })
-          console.log(that.data.memberId)
-          console.log(member.id)
-          for (var i in member) {
-            if (i == 'nickname') {
-              that.setData({
-                nickname: member[i]
-              })
-            } else if (i == 'mobile') {
-              that.setData({
-                mobile: member[i]
-              })
-            }
+          let classroom = res.info
+          // classroom.timeInfo = util.dateToSubstr2(classroom.dateTime, classroom.startTime, classroom.endTime)
+          // let member = res.member
+          // that.setData({
+          //   memberId: member.id
+          // })
+          // console.log(that.data.memberId)
+          // console.log(member.id)
+          // for (var i in member) {
+          //   if (i == 'nickname') {
+          //     that.setData({
+          //       nickname: member[i]
+          //     })
+          //   } else if (i == 'mobile') {
+          //     that.setData({
+          //       mobile: member[i]
+          //     })
+          //   }
 
-          }
-          for (var k in classroom) {
-            if (k == 'id') {
-              console.log(classroom[k])
-              that.setData({
-                courseId: classroom[k]
-              })
-            }
-          }
-          console.log(this.data.courseId)
+          // }
+          // for (var k in classroom) {
+          //   if (k == 'id') {
+          //     console.log(classroom[k])
+          //     that.setData({
+          //       courseId: classroom[k]
+          //     })
+          //   }
+          // }
+          // console.log(this.data.courseId)
           let arr = []
           arr.push(classroom)
           console.log(arr)
@@ -142,26 +144,32 @@ Page({
   signin() {
     this.updateSubscribeMemberStatus()
   },
-  //更新学生状态
+  //签到
   updateSubscribeMemberStatus() {
     let option = {
-      id: this.data.memberId - 0,
-      status: this.data.status - 0
+      subscribe_classroom_id: parseInt (this.data.subscribe_classroom_id)
     }
     console.log(option)
     app.encryption({
-      url: api.default.updateSubscribeMemberStatus,
+      url: api.default.subscribeClassroomSignIn,
       method: "POST",
       data: option,
       success: function (res) {
-        console.log(res.data.code)
+        console.log(res.data.message)
         let code = res.data.code
+        let message = res.data.message
         if (res.data.code == '200') {
           wx.navigateTo({
-            url: `../faceFail/faceFail?&code=${code}`,
+            url: `../faceFail/faceFail?&code=${code}&message=${message}`,
+          })
+        }else{
+          wx.showToast({
+            title: res.data.message,
+            icon: 'fail',
+            duration: 2000
           })
         }
-        console.log(res)
+      
         // let arr = []
         // arr.push(res.info)
         //   that.setData({

@@ -313,11 +313,8 @@ Page({
       },
       success: function (e) {
         console.log(e);
-
         if (0 == e.code) {
-
           d.question_list[d.current_no] = app.testWxParse(self, e.data);
-
           self.setData({
             question_list: d.question_list
           })
