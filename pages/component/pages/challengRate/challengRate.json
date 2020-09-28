@@ -3,5 +3,6 @@
   "navigationBarTextStyle": "white",
   "navigationBarTitleText": "刷题挑战榜",
   "backgroundTextStyle": "light",
-  "navigationStyle": "default"
+  "navigationStyle": "default",
+  "enableReachBottom":true
 }

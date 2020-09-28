@@ -1,13 +1,13 @@
 <!-- pages/virTest/virTest.wxml -->
 <view class="topImage-vir">
-    <navigator url="{{ nodeUrl }}?courseId={{ nondeID }}&noneTest=1" hover-class="none">
+    <navigator url="{{ nodeUrl }}?courseId={{ nondeID }}&exam_length={{ exam_length }}" hover-class="none">
         <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/monikaoshi.jpg" style="width:690rpx;height:320rpx;margin-left:30rpx;margin-top:30rpx;border-radius:20rpx;" />
     </navigator>
 </view>
 <view style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(25,159,255,1);margin-left:30rpx;margin-top:64rpx;">
     模拟考试历史记录
 </view>
-<view style="margin-top:35rpx;" wx:if="{{ datas  }}">
+<view style="margin-top:35rpx;" style="display:flex;flex-direction:column" wx:if="{{datas}}">
         <navigator url="../virStart/virStart?courseId={{item.courseId}}&courseName={{item.courseName}}" hover-class="none" class="vir-top-wrapper" wx:for="{{ history }}" wx:key="index" style="position:relative">
             <image style="width:26rpx;height:26rpx;margin-top:10rpx" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kaoshi.png" />
             <view style="margin-left:10rpx;display:flex;flex-direction:column;justify-content:space-between">

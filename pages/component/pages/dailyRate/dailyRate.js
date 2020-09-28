@@ -27,39 +27,49 @@ Page({
     rate: 0
   },
   goshare() {
+    let courseId = this.data.courseId
     wx.navigateTo({
-      url: '../dailyShare/dailyShare'
+      url: `../dailyShare/dailyShare?courseId=${courseId}`
     })
-  },
-  goback() {
-
   },
   getinfo() {
     let that = this
     let option = {
-      courseId: this.data.courseId
+      punch_id: this.data.courseId
     }
     console.log(option)
     app.encryption({
-      url: api.default.getTodayStatus,
-      method: "GET",
+      url: api.test.settlementPunchResult,
+      method: "POST",
       data: option,
       success: function (res) {
         console.log(res)
+        let times = util.setTimes(res.info.use_time)
         let allInfo = 'everyDate[0].name'
         let allInfo1 = 'everyDate[1].name'
         let allInfo2 = 'everyDate[2].name'
         that.setData({
-          [allInfo]: res.punchCount,
-          [allInfo1]: res.useTime,
-          [allInfo2]: res.rank,
-          rate: res.accuracy,
-          singleNum: res.list
+          [allInfo]: res.info.total_num,
+          [allInfo1]: times,
+          [allInfo2]: res.info.num,
+          singleNum: res.info.correct_rate,
+          time: res.info.date_time,
+          multipleNum: res.list.multiple_problem,
+          singleNum: res.list.single_problem,
+          judgmentNum: res.list.judge_problem,
+          fill_problem: res.list.fill_problem,
+          scenes_problem: res.list.scenes_problem,
+          short_problem: res.list.short_problem
         })
-        let date = util.js_date_time(res.createTime)
-        that.setData({
-          time: date
-        })
+        if( res.info.correct_rate < 10){
+          that.setData({
+            rate: res.info.correct_rate
+          })
+        }else{
+          that.setData({
+            rate: Math.round(res.info.correct_rate)
+          })
+        }
       },
       fail: function (t) {
 
@@ -73,10 +83,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     console.log(options)
     this.setData({
-
       courseId: options.courseId
     });
     this.getinfo()

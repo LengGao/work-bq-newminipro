@@ -49,6 +49,17 @@ Page({
         practice_id: options.practice_id
       };//以上为初始化加载参数
       url = api.test.getPracticeDRecordBoard
+    }else if (options.type==3){
+      option = {
+        punch_id: options.practice_id,
+        problem_course_id:options.courseId
+      };//以上为初始化加载参数
+      url = api.test.getRecordBoard
+    }else if (options.type==5){
+      option = {
+        challenge_id: options.practice_id
+      };//以上为初始化加载参数
+      url = api.test.getChallengeRecordBoard
     }
     console.log(option,url)
     app.encryption({//初始化加载函数获取所有题目

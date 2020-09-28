@@ -140,7 +140,7 @@ Page({
     });
   },
   clickin() {
-    let id = this.data.courseId
+    let id = this.data.problem_course_id
     wx.navigateTo({
       url: `../component/pages/dailyCard/dailyCard?courseId=${id}`
     })
@@ -290,6 +290,9 @@ Page({
           allData:res.info,
           problem_course_id:res.info.problem_course_id //以此ID获取习题模式
         })
+        wx.setStorageSync("problem_course_id", {
+          problem_course_id: res.info.problem_course_id
+        });
          if(res.info.has_video == 0){
             that.setData({
             nomyCourse:false

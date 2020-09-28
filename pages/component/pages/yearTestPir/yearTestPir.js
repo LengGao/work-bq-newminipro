@@ -20,7 +20,7 @@ Page({
     noexist: false,
     option: '',
     disabled: false,
-    showAny: true,
+    showAny: true, 
     likes: false,//默认展示未收藏
     singleNum: '0',
     multipleNum: '0',

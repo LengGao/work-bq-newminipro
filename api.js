@@ -188,7 +188,20 @@ let apiurl = {
     getRealTopicExamConfig:e +'/problem/getRealTopicExamConfig',
     createRealTopicData:e +'/problem/createRealTopicData',
     getRealTopicRecordBoard:e +'/problem/getRealTopicRecordBoard',
-    settlementRealTopicResult:e +'/problem/settlementRealTopicResult'
+    settlementRealTopicResult:e +'/problem/settlementRealTopicResult',
+    getRecordBoard:e +'/problem/getPunchRecordBoard',
+    settlementPunchResult:e +'/problem/settlementPunchResult',
+    sharePunchData:e +"/Share/sharePunchData",
+    createPunchPoster:e +"/Share/createPunchPoster",
+    getChallengeRankList: e +"/problem/getChallengeRankList",
+    createChallengeData:e +'/problem/createChallengeData',
+    getTestExamRecordBoard:e +'/problem/getTestExamRecordBoard',
+    getChallengeRecordBoard:e +'/problem/getChallengeRecordBoard',
+    settlementChallengeResult:e +'/problem/settlementChallengeResult',
+    getTodayChallengeForMyself:e +"/problem/getTodayChallengeForMyself",
+    createChallengePoster:e + "/Share/createChallengePoster",
+    getTestExamConfig:e + "/problem/getTestExamConfig",
+    createTestExamData:e + "/problem/createTestExamData"
   }
 };
 
