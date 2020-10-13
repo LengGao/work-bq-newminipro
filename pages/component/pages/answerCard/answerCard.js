@@ -65,7 +65,13 @@ Page({
         exam_log_id: options.practice_id
       };//以上为初始化加载参数
       url = api.test.getTestExamRecordBoard
+    }else if (options.type==6){
+      option = {
+        self_determination_id: options.practice_id
+      };//以上为初始化加载参数
+      url = api.test.getSelfDeterminationBoard
     }
+    
     console.log(option,url)
     app.encryption({//初始化加载函数获取所有题目
       url: url,

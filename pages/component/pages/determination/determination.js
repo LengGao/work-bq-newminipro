@@ -16,16 +16,16 @@ Page({
     let courseId = this.data.courseId
     let chapterName = e.currentTarget.dataset.chaptername
     wx.navigateTo({
-      url: `../yearTestIntro/yearTestIntro?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
+      url: `../determinationIntro/determinationIntro?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
     })
   },
   getyearTest(courseId) {
     let option = {
       problem_course_id: courseId,
-      chapter_type:'2'
+      chapter_type:'3'
     }, that = this
     app.encryption({
-      url:  api.default.getChapters,
+      url:  api.test.getChapter,
       method: "GET",
       data: option,
       success: function (res) {
@@ -36,7 +36,7 @@ Page({
           })
         } catch (err) {
           wx.showToast({
-            title: '获取历年真题失败',//提示文字
+            title: '获取自主真题失败',//提示文字
             duration: 1500,//显示时长
             mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
             icon: 'none', //图标，支持"success"、"loading"  

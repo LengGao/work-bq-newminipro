@@ -16,9 +16,7 @@
         <view class="count-box">
         {{item}}
         </view>
-
         <!-- <view class="content"> 这是第{{item.index + 1}}题</view>
-
         <button class="btn-answer-card" catchtap="onClickAnswerCard">答题卡</button> -->
       </view>
     </swiper-item>
@@ -27,4 +25,4 @@
     <button catchtap="onClickLast">上一题</button>
     <button catchtap="onClickNext">下一题</button>
   </view>
-   </view>
+</view>

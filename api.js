@@ -28,7 +28,7 @@ let apiurl = {
     getExaminationList: e + '/answe/getExaminationList',
     hostcourse: e + '/course/hostcourse',
     freecourse: e + '/course/freecourse',
-    getCollectionCourses: e + '/Course/getCourseCollection',
+
     chapterList: e + '/course/chapterList',
     getMyCourse: e + '/course/getMyCourse',
     getCourse: e + '/Course/getCourse',
@@ -129,7 +129,7 @@ let apiurl = {
     addProblemOrder: bq + "index/course/addProblemOrder",
     vip_list: e + "viplist",
     getHomePanel: e + '/answe/getHomePanel',
-    getAllData: e + '/Course/getCourseInfo'
+
   },
   video: {
     getlivestatus: 'testapi.abacc.cn/getlivestatus',
@@ -174,6 +174,8 @@ let apiurl = {
     buy_vip: e + "buyvip"
   },
   test:{
+    getCollectionCourses: e + '/Course/getCourseCollection',
+    getAllData: e + '/Course/getCourseInfo',
     createPracticeData:e + '/problem/createPracticeData',
     getProblemDetail:e + '/problem/getProblem',
     insertCollection:e + '/problem/insertCollection',
@@ -205,7 +207,12 @@ let apiurl = {
     createTestExamData:e + "/problem/createTestExamData",
     getErrorProblemList:e +'/problem/getErrorProblemList',
     getCollectionProblemList:e +'/problem/getCollectionProblemList',
-    settlementTestExamResult:e + "/problem/settlementTestExamResult"
+    settlementTestExamResult:e + "/problem/settlementTestExamResult",
+    getChapter:e + "/problem/getChapter",
+    getSelfDeterminationExamConfig:e+"/problem/getSelfDeterminationExamConfig",
+    createSelfDeterminationData: e + "/problem/createSelfDeterminationData",
+    settlementSelfDeterminationResult:e+"/problem/settlementSelfDeterminationResult",
+    getSelfDeterminationBoard:e+"/problem/getSelfDeterminationBoard"
   }
 };
 

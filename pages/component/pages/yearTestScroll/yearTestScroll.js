@@ -135,6 +135,13 @@ Page({
         problem_chapter_id: parseInt(options.chapter_id)
       }
       url = api.test.settlementRealTopicResult
+    }else if(options.type == 6){
+      option = {
+        self_determination_id: options.self_determination_id,
+        problem_course_id: parseInt(options.course_id),
+        problem_chapter_id: parseInt(options.chapter_id)
+      }
+      url = api.test.settlementSelfDeterminationResult
     }
        
       console.log(option)
