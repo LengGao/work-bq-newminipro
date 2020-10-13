@@ -204,7 +204,7 @@ Page({
     // that.getSubject()
     // that.getHomePanel()
     // that.getclasslive()
-    // that.getMycourse()
+   
     that.getALLData()
   },
   addStory() {

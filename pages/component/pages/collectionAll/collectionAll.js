@@ -203,8 +203,9 @@ Page({
         console.log(res.list)
         let total = res.total
         let worongTitle = app.errorWxParse(that, res.list, 'wrong')
+        console.log(worongTitle)
         let pageNum = Math.ceil(total / 20)
-        console.log(pageNum)
+       
         if (pageNum < 2) {
           that.setData({
             wrongList: worongTitle,
@@ -281,16 +282,7 @@ Page({
             errornodata: false
           })
         } else {
-          // for (let i of res) {
-          //   i.content.forEach(element => {
-          //     element.content = [{ A: 'lalala' }],
-          //       element.stem = element.analyse
-          //     app.testWxParse(that, element)
-          //   });
-          //   console.log(i)
-          // }
           let errorTitle = app.errorWxParse(that, res.list)
-
           that.setData({
             errordata: errorTitle
           })
@@ -327,7 +319,6 @@ Page({
       success: function (res) {
         console.log(res.total)
         let pageNum = Math.ceil(res.total / 20)
-
         that.setData({
           hidden3: true,
           historyhasRefesh: false,
@@ -341,10 +332,10 @@ Page({
 
         if (pageNum < 2) {
           that.setData({
-            wrongList: worongTitle,
-            hasRefesh: false,
+            hisdata: historyTitle,
+            historyhasRefesh: false,
             pageNum3: pageNum,
-            hasMore: false,
+            historyhasMore: false,
             page: that.data.page + 1
           })
         }
@@ -419,7 +410,7 @@ Page({
       [tabArr1]: options.number,
     })
     this.getCollection(),
-      this.getErrorTopicFeedbac()
+    this.getErrorTopicFeedbac()
     this.getBehaviorLogList()
   },
   loadMore() {
