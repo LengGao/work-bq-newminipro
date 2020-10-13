@@ -51,7 +51,6 @@
         </view>
     </view>
 </view>
-<view style=" display:flex;justify-content:flex-start;position:relative;top:260rpx;left:72rpx;">
-<view style="width:270rpx;border-radius:40rpx;border:1px solid rgba(25,159,255,1);height:80rpx;font-size:36rpx;font-family:PingFang SC;font-weight:500;color:#199FFF;display:flex;align-items:center;justify-content:center" bindtap='goshuati'>刷题模式</view>
-<view style="width:270rpx;border-radius:40rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);background:rgba(25,159,255,1);display:flex;align-items:center;justify-content:center;margin-left:70rpx" bindtap="gokaoshi">考试模式</view>
+<view style=" display:flex;justify-content:center;position:relative;top:260rpx;width:750rpx">
+<view style="width:270rpx;border-radius:40rpx;height:80rpx;font-size:36rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);background:rgba(25,159,255,1);display:flex;align-items:center;justify-content:center;margin-left:70rpx" bindtap="gokaoshi">开始考试</view>
 </view>

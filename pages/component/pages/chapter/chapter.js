@@ -9,6 +9,7 @@ Page({
         courseId: ''
     },
     onLoad: function (t) {
+        console.log(t)
         this.setData({
             courseId: t.courseId
         })
@@ -28,12 +29,6 @@ Page({
     onUnload: function () { },
     onPullDownRefresh: function () { },
     onReachBottom: function () { },
-    // onShareAppMessage: function() {
-    //     var t = wx.getStorageSync("user_info");
-    //     return {
-    //         path: "/pages/chapter/chapter?id=" + this.data.id + "&type=" + this.data.type + "&pid=" + t.user_id
-    //     };
-    // },
     gopri(t) {
         let courseId = this.data.courseId
         console.log(t.currentTarget.dataset.hasdone)

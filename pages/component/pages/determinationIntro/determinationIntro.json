@@ -1,8 +1,8 @@
 {
   "navigationBarBackgroundColor": "#199FFF",
   "navigationBarTextStyle": "white",
-  "navigationBarTitleText": "刷题挑战榜",
+  "navigationBarTitleText": "试卷介绍",
   "backgroundTextStyle": "light",
   "navigationStyle": "default",
-  "enableReachBottom":true
+  "usingComponents": {}
 }

@@ -5,5 +5,7 @@
   "navigationBarTextStyle": "black",
   "usingComponents": {
     "i-message": "../../../../utils/iview/message/index"
-  }
+  },
+  "navigationStyle": "custom",
+  "usingComponents": {}
 }

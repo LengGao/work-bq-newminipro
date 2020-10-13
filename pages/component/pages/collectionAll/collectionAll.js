@@ -374,17 +374,15 @@ Page({
 
   },
   select_date(t) {
-    let courseId = this.data.courseId
-    let id = t.currentTarget.dataset.id
+    let id = t.currentTarget.dataset.cid
     wx.navigateTo({
-      url: `../answerCardPir/answerCardPir?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&type=${t.currentTarget.dataset.type}&name=${t.currentTarget.dataset.name}&id=${id}`
+      url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
     })
   },
   goforError(t) {
-    let courseId = this.data.courseId
-    let id = t.currentTarget.dataset.id
+    let id = t.currentTarget.dataset.cid
     wx.navigateTo({
-      url: `../errorCardPir/errorCardPir?problem_id=${t.currentTarget.dataset.cid}&type=${t.currentTarget.dataset.type}&name=${t.currentTarget.dataset.name}`
+      url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
     })
   },
   gobefor(e) {

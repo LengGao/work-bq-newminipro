@@ -36,6 +36,39 @@ function js_date_time(unixtime) {
   // return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;//年月日时分秒
   return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
 }
+function setTimes(value){
+  var theTime = parseInt(value);//秒
+  var theTime1 = 0;//分
+  var theTime2 = 0;//时
+  if(theTime>60){
+      theTime1 = parseInt(theTime/60);
+      theTime = parseInt(theTime%60);
+      if(theTime1 > 60) {  
+          theTime2 = parseInt(theTime1/60);  
+          theTime1 = parseInt(theTime1%60);  
+      }    
+  };
+  var theTime_y = parseInt(theTime);
+  if(theTime_y<10){
+      theTime_y = '0'+theTime_y   
+  }
+  var results = ""+theTime_y;
+  if(theTime1 > 0||theTime1==0) { 
+      var theTime1_y = parseInt(theTime1);
+      if(theTime1_y<10){
+          theTime1_y = '0'+theTime1_y;
+      } 
+      results = ""+theTime1_y+":"+results;  
+  }  
+  if(theTime2 > 0||theTime2==0) { 
+      var theTime2_y = parseInt(theTime2);
+      if(theTime2_y<10){
+          theTime2_y = '0'+theTime2_y;    
+      } 
+      results = ""+theTime2_y+":"+results;  
+  }  
+  return results;
+};
 function getDates(days, todate) {
   var dateArry = [];
   for (var i = 0; i < days; i++) {
@@ -61,6 +94,7 @@ module.exports = {
   js_date_time: js_date_time,
   dateToSubstr: dateToSubstr,
   dateToSubstr2: dateToSubstr2,
+  setTimes:setTimes,
   getDates: getDates,
   formatTime: function (e) {
     var r = e.getFullYear(), n = e.getMonth() + 1, o = e.getDate(), u = e.getHours(), a = e.getMinutes(), g = e.getSeconds();

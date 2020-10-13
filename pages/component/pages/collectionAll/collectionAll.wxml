@@ -2,12 +2,12 @@
 <view class='nav bg-white' style='height:{{navH}}px'>
     <view class='nav-title'>
         <text class="biaoti">{{ chapterName }}</text>
-        <text id="gl1" bindtap="gobefor"></text>
+        <text id="gl1" catchtap="gobefor"></text>
     </view>
 </view>
 <!--收藏夹-->
 <view class="fenlei-menu">
-    <text bindtap="tabFun" class="teamnum {{tabArr.curHdIndex == item.id ?'thismenu com_color com_after':''}}"
+    <text catchtap="tabFun" class="teamnum {{tabArr.curHdIndex == item.id ?'thismenu com_color com_after':''}}"
         data-key="{{item}}" wx:for="{{topSelect}}" wx:key='index' data-id="{{item.id}}">
         {{item.name}}
     </text>
@@ -15,22 +15,22 @@
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '2'?'tactive':''}}">
     <block wx:if="{{ nodata }}">
         <block wx:key="index" wx:for="{{collectionList}}" wx:key="index">
-            <view class="cata-title" bindtap="ifShow" data-index="{{index}}" data-chapter_id="{{item.chapter_id}}">
+            <view class="cata-title" catchtap="ifShow" data-index="{{index}}" data-chapter_id="{{item.chapter_id}}">
                 <template is="wxParse" data="{{wxParseData:item.contentCopy}}"></template>
                 <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png"
                     class="{{ item.isShow ? 'transf' : '' }}"></image>
             </view>
 
             <view class="cata-list" wx:if="{{item.isShow}}">
-                <scroll-view scroll-y="true" style="height: 600rpx;" bindscrolltolower="colloadMore"
-                    bindscrolltoupper="collrefesh">
+                <scroll-view scroll-y="true" style="height: 600rpx;" catchscrolltolower="colloadMore"
+                    catchscrolltoupper="collrefesh">
                     <view wx:if="{{collecthasRefesh}}"
                         style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;margin:30rpx 0;color:#ccc">
                         <icon type="waiting" size="20" /><text>刷新中...</text></view>
                     <view wx:else style="display:none"><text></text></view>
                     <view bindtap="select_date"
                         class="cata-item flex-st "
-                        data-cid="{{vitem.chapterId}}" wx:for="{{collectList}}" wx:for-item="vitem" 
+                        data-cid="{{vitem.problem_id}}" wx:for="{{collectList}}" wx:for-item="vitem" 
                         wx:key="index"
                         data-type='collection' data-name='收藏夹' data-id='{{ vitem.problemId }}'>
                         <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
@@ -85,7 +85,7 @@
                     <icon type="waiting" size="20" /><text>刷新中...</text></view>
                 <view wx:else style="display:none"><text></text></view>
                 <view class="cata-list" wx:if="{{item.isShow}}">
-                    <view bindtap="goforError"
+                    <view catchtap="goforError"
                         class="cata-item flex-st {{problem_id == vitem.problem_id ?'selected com_color':''}}"
                         data-cid="{{vitem.problem_id}}" wx:for="{{wrongList}}" wx:for-item="vitem" wx:key="index"
                         data-type='error' data-name='错题集' data-id='{{ vitem.problemId }}'>
@@ -127,7 +127,7 @@
 </view>
 <!--做题历史-->
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '0'?'tactive':''}}">
-    <loading hidden="{{hidden3}}" bindchange="loadingChange">
+    <loading hidden="{{hidden3}}" catchchange="loadingChange">
         加载中...
     </loading>
     <scroll-view scroll-y="true" style="height: 1000rpx;" bindscrolltolower="historyloadMore"

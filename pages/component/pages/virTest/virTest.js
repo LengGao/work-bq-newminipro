@@ -1,20 +1,22 @@
 // pages/virTest/virTest.js
-let app = getApp(), api = require("../../../../api.js"), utils = require("../../../../utils/util.js")
+let app = getApp(), api = require("../../../../api.js"), utils = require("../../../../utils/util.js"),pages = 0
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
     history: [],
     nodeUrl: '../virStart/virStart',
-    datas: false
+    datas: false,
+    nondeID:'',
+    exam_length:10
   },
-  getExaminationList(options) {
+  getExaminationList() {
     let that = this
+     pages = pages + 1
     let option = {
-      page: 1,
-      problem_course_id: options.courseId
+      page: pages,
+      problem_course_id: this.data.nondeID
     }//以上为初始化加载参数
     console.log(option)
     app.encryption({//初始化加载函数获取所有题目
@@ -24,18 +26,13 @@ Page({
       dataType: "json",
       success: function (res) {
         console.log(res)
-        if (res.data != undefined) {
-          that.setData({
-            datas: false
+        if( res.list!=undefined&&res.list.length != 0){
+          res.list.forEach( (value)=>{
+            value.create_time = utils.js_date_time(value.create_time)
           })
-          return
-        }
-        for (let item of res) {
-          item.updateTime = utils.js_date_time(item.updateTime)
-        }
-        {
+          that.data.history.push.apply(that.data.history,res.list)
           that.setData({
-            history: res.list,
+            history: that.data.history,
             datas: true
           })
         }
@@ -45,6 +42,27 @@ Page({
       }
     })
   },
+  getTestExamConfig(){
+    let that = this
+    let option = {
+      problem_course_id: this.data.nondeID
+    }//以上为初始化加载参数
+    console.log(option)
+    app.encryption({//初始化加载函数获取所有题目
+      url: api.test.getTestExamConfig,
+      data: option,
+      method: 'GET',
+      dataType: "json",
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          exam_length:res.info.duration
+        })
+        if(res){
+        }
+      }
+  })
+},
   /**
    * 生命周期函数--监听页面加载
    */
@@ -56,13 +74,14 @@ Page({
     console.log(options)
     // this.govirtest()
     this.getExaminationList(options)
+    this.getTestExamConfig(options)
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+      
   },
 
   /**
@@ -83,7 +102,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    pages = 0
   },
 
   /**
@@ -97,7 +116,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+  this.getExaminationList()
   },
 
   /**

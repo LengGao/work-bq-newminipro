@@ -36,7 +36,7 @@ Page({
     ]
   },
   goAny() {
-    let courseId = this.data.courseId
+    let courseId = this.data.punch_id
     wx.navigateTo({
       url: `../dailyRate/dailyRate?courseId=${courseId}`
     })
@@ -65,13 +65,27 @@ Page({
         console.log(res)
         let allData = 'everyDate[0].name', allData1 = 'everyDate[1].name', allData2 = 'everyDate[2].name'
         if (res.data == undefined) {
+         let times = util.setTimes(res.info.use_time)
           that.setData({
             [allData]: res.info.total_num,
-            [allData1]: res.info.use_time,
+            [allData1]:times,
             [allData2]: res.info.total_people,
-            isCrard: res.info.has_clock_in,
-            accuracy: res.info.correct_rate
+            isCrard: res.info.has_clock_in
           })
+          if(res.info.clock_in_info != undefined){ //Math.round()
+            if( res.info.clock_in_info.correct_rate < 10){
+              that.setData({
+                accuracy: res.info.clock_in_info.correct_rate,
+                punch_id:res.info.clock_in_info.punch_id
+              })
+            }else{
+              that.setData({
+                accuracy: Math.round(res.info.clock_in_info.correct_rate),
+                punch_id:res.info.clock_in_info.punch_id
+              })
+            }
+           
+          }
         } else {
 
         }
@@ -99,9 +113,7 @@ Page({
       time: date,
     });
     this.getTodayStatus()
-
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

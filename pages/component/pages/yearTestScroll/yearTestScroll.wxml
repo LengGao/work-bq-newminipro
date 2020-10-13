@@ -29,31 +29,58 @@
         </view>
     </view>
 </view>
-<view class="top-wrapper-pri" wx:if="{{ singleNum }}">
+<view class="top-wrapper-pri" wx:if="{{ singleNum.length }}">
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">单选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}}"  catchtap="gobefor"  data-index='{{ item.ProblemId  }}'>
+    <view wx:for="{{ singleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}}"  catchtap="gobefor"  data-index='{{ item.problem_id  }}'>
         <text > {{index+1}} </text>
     </view>
 </view>
-<view class="top-wrapper-pri" wx:if="{{ multipleNum}}">
+<view class="top-wrapper-pri" wx:if="{{ multipleNum.length }}">
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">多选题</text>
 </view>
 <view class="wrapper-single-option">
-    <view wx:for="{{multipleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.ProblemId }}'>
+    <view wx:for="{{multipleNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.problem_id }}'>
         <text > {{index+1 + singleNum.length}} </text>
     </view>
 </view>
-<view class="top-wrapper-pri" wx:if="{{ judgmentNum }}">
+<view class="top-wrapper-pri" wx:if="{{ scenes_problem.length }}">
+    <text class="top-wrapper-fenge"></text>
+    <text class="top-wrapper-title">场景题</text>
+</view>
+<view class="wrapper-single-option">
+    <view wx:for="{{scenes_problem }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.problem_id }}'>
+        <text > {{index+ 1 + singleNum.length + multipleNum.length}} </text>
+    </view>
+</view>
+<view class="top-wrapper-pri" wx:if="{{ judgmentNum.length }}">
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">判断题</text>
 </view>
+<view class="wrapper-single-option" >
+    <view wx:for="{{ judgmentNum  }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{item.problem_id  }}'>
+        <text > {{index+1+ singleNum.length +  multipleNum.length + scenes_problem.length}} </text>
+    </view>
+</view>
+<view class="top-wrapper-pri" wx:if="{{ fill_problem.length }}">
+    <text class="top-wrapper-fenge"></text>
+    <text class="top-wrapper-title">填空题</text>
+</view>
+<view class="wrapper-single-option">
+    <view wx:for="{{fill_problem }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.problem_id }}'>
+        <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem.length + judgmentNum.length}} </text>
+    </view>
+</view>
+<view class="top-wrapper-pri" wx:if="{{ short_problem.length }}">
+    <text class="top-wrapper-fenge"></text>
+    <text class="top-wrapper-title">简答题</text>
+</view>
 <view class="wrapper-single-option" style="margin-bottom:160rpx">
-    <view wx:for="{{ judgmentNum  }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{item.ProblemId  }}'>
-        <text > {{index+1+ singleNum.length + (multipleNum == false ? 0 : multipleNum.length)}} </text>
+    <view wx:for="{{ short_problem }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.problem_id }}'>
+        <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem.length + judgmentNum.length + fill_problem.length }} </text>
     </view>
 </view>
 <view class="tabbottom">

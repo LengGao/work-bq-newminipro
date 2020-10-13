@@ -21,41 +21,41 @@ Page({
     option: '',
     disabled: false,
     showAny: true,
-    likes: false,//默认展示未收藏
     singleNum: '0',
     multipleNum: '0',
     judgmentNum: '0',
     formId: '',
     tabItems: [
       {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(4).png',
         name: '上一题',
         action: 'lastQU',
         class: '',
-        id: 1
+        click: false
       },
       {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (1).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(1).png',
         name: '答题卡',
         action: 'cards',
         class: '',
-        id: 2
+        click: false
       },
       {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-        name: '收藏',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/alerm.png',
+        name: '',
         action: 'likes',
         class: '',
-        id: 3
+        click: true
       },
       {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(3).png',
         name: '下一题',
         action: 'nextQU',
         class: '',
-        id: 4
+        click: false
       }
     ],
+    lettering: 'goback',
     ProblemType: '',
     answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
@@ -91,17 +91,19 @@ Page({
     wrongAnswer: false,
     curID: '',
     curIndexNumber: '',
-    practice_id: '',
+    self_determination_id: '',
     alltestID: [],
-    answer_location: "",
-    is_lock: '',
+    is_lock: 0,
     senceNum: 0,
     senceIndex: 0,
     multishowFillAny: true,
     shortMap: '',
     SceneValue:'',
     shortSceneMap:'',
-    fillNewAnswer:[]
+    fillNewAnswer:[],
+    nosubmit:0,
+    chapterName:'',
+    clearTimer:false
   },
   starDrag(event) {
     console.log(event);
@@ -125,6 +127,33 @@ Page({
     })
     console.log(this.data.moveY, tag);
   },
+  normalGo() {
+    // let that = this
+    // let chapterName = that.data.chapterName;
+    // let course_id = that.data.courseId;
+    // let chapter_id = that.data.chapter_id;
+    // let self_determination_id = that.data.self_determination_id;
+    // wx.navigateTo({
+    //   url: `../yearTestScroll/yearTestScroll?self_determination_id=${self_determination_id}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}`
+    // })
+       wx.navigateBack({
+      delta: 1
+    })
+  },
+  wode(ID, nosubmit = 0) { //当用户开始回顾时触发此函数
+    console.log('触发')
+    let that = this
+     //首先接受ID作为查找题目参数
+     that.setData({ //更新submit，标志用户进入回顾
+      nosubmit:nosubmit,
+      lettering: 'normalGo',
+      showAny: false
+     })
+     let alltestID = this.data.alltestID;
+     console.log(alltestID)
+     that.findcurIndex(ID, alltestID, 0);
+     that.initText(ID) // 加载题目
+  },
   lastQU() {
     //如果该题目是从上次保存下来则不提交答案
     let that = this
@@ -132,9 +161,18 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if(this.data.is_lock == 1){
+    if(that.data.randerTitle.problem_type == 6){
+      let index = this.data.senceIndex - 1
+      let cid = this.data.randerTitle.child[index].problem_id  //获取ID
+      this.setData({
+        curID: cid
+      })
+      this.sceneCommon()
     }else{
-      this.common()
+      if(this.data.is_lock == 1){
+      }else{
+        this.common()
+      }
     }
     if (curindex < 1) {
       return
@@ -148,11 +186,11 @@ Page({
   },
   cards() {
     this.common()
-    let name = '每日打卡'
-    let practice_id = this.data.practice_id
-    let courseId = this.data.courseId
+    let name = this.data.chapterName
+    let practice_id = this.data.self_determination_id
+    console.log(practice_id,name)
     wx.navigateTo({
-      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}&type=3&courseId=${courseId}`
+      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}&type=6`
     })
   },
   checkout(problem_id) {
@@ -161,100 +199,24 @@ Page({
     //开始加载题目详情
     that.initText(problem_id);
   },
-  likes() {
-    let that = this;
-    let icon = 'tabItems[2].icon';
-    let classes = 'tabItems[2].class';
-    let name = 'tabItems[2].name';
-    let curid = that.data.curID;
-    console.log(curid)
-    if (this.data.tabItems[2].class == 'active') { //取消按钮，应更新缓存状态
-      let option = {
-        problem_id: this.data.curID
-      }
-      app.encryption({
-        url: api.test.removeCollection,
-        data: option,
-        method: 'POST',
-        dataType: "json",
-        success: function (res) {
-          if (res.data.code == 200) {
-            that.setData({
-              likes: false,//表示当前题目未收藏
-              [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-              [classes]: '',
-              [name]: '收藏',
-            })
-            wx.showToast({
-              title: '收藏已取消',
-              icon: 'none',
-              duration: 2000
-            })
-            let randerTitle = that.data.allRender.find((value) => value.problem_id == curid);
-            if (randerTitle != undefined) {
-              randerTitle.isCollect = 0;
-            } else {
-              that.data.randerTitle.isCollect = 0
-            }
-            return
-          }
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none',
-            duration: 2000
-          })
-        },
-        fail: function (n) {
-          console.log('333333')
-        }
-      })
-      return
-    }
-    let option = {
-      problem_id: this.data.curID
-    }
-    app.encryption({
-      url: api.test.insertCollection,
-      data: option,
-      method: 'POST',
-      dataType: "json",
-      success: function (res) {
-        if (res.data.code == 200) {
-          that.setData({
-            likes: true,
-            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-            [classes]: 'active',
-            [name]: '已收藏',
-          })
-          wx.showToast({
-            title: '收藏成功',
-            icon: 'none',
-            duration: 2000
-          })
-          let randerTitle = that.data.allRender.find((value) => value.problem_id == curid)
-          console.log(randerTitle)
-          if (randerTitle != undefined) {
-            randerTitle.isCollect = 1;
-          } else {
-            that.data.randerTitle.isCollect = 1
-          }
-          return
-        }
-        wx.showToast({
-          title: res.data.message,
-          icon: 'none',
-          duration: 2000
-        })
-      },
-      fail: function (n) {
-        console.log('333333')
-      }
-    })
+  myLinsterner(e) {
+    let content = '考试时间到，请点击确定按钮提交答案'
+    this.settlementRealTopicResult(content)
   },
   common(){ //判断当前题目是否已经提交，若没有则提交当前题目
     let that = this
     let curID = that.data.curID
-    console.log(curID)
+    console.log(that.data.randerTitle)
+    if (that.data.randerTitle.problem_type == 1 || that.data.randerTitle.problem_type == 3 ) {//单选题以及多选题在此提交答案
+      if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
+      } else {
+        let answer = that.data.randerTitle.option
+        if (answer == '') {
+        } else {
+          that.submitAnswer(answer, curID)
+        }
+      }
+    }
     if (that.data.randerTitle.problem_type == 2) {//多选题在此提交答案
       if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
       } else {
@@ -295,23 +257,29 @@ Page({
     }
   },
   nextQU() {
+    //考试模式下所有题型都以点击下一题或者上一题为提交答案的入口
     let that = this
     let curID = that.data.curID
-    if(this.data.is_lock == 1){
+    console.log(that.data.randerTitle)
+    if(that.data.randerTitle.problem_type == 6){
+      let index = this.data.senceIndex - 1
+      let cid = this.data.randerTitle.child[index].problem_id  //获取ID
+      this.setData({
+        curID: cid
+      })
+      this.sceneCommon()
     }else{
-      this.common()
+      if(this.data.is_lock == 1){
+      }else{
+        this.common()
+      }
     }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
     that.saveRander(curID)
     //首先获取下一题的ID
     let curindex = that.data.curIndexNumber - 1; // 当前下标
     if (curindex + 1 > that.data.all_current_no - 1) {
-      wx.showToast({
-        title: '已经是最后一道题了',
-        icon: 'none',
-        duration: 2000
-      })
-      this.goback()
+      this.settlementRealTopicResult()
       return
     }
     let curId = that.data.alltestID[curindex + 1]; // 获取下一题ID
@@ -341,159 +309,99 @@ Page({
     // let result = hasBeenLoad.find((value) => value.problem_id == ID);
     // console.log(result)
   },
+  settlementRealTopicResult(content='已经是最后一题了，是否交卷？'){
+    let that = this
+    wx.showModal({
+      title: '提示',
+      content: content,
+      showCancel: true,//是否显示取消按钮
+      confirmText: "确认",//默认是“确定”
+      confirmColor: '#199FFF',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+          this.setData({
+            option: '',
+            index: ''
+          })
+        } else {
+          let chapterName = that.data.chapterName;
+          let course_id = that.data.courseId;
+          let chapter_id = that.data.chapter_id;
+          let self_determination_id = that.data.self_determination_id;
+          clearTimeout(t);
+          that.setData({
+            clearTimer: true
+          });
+          wx.navigateTo({
+            url: `../yearTestScroll/yearTestScroll?self_determination_id=${self_determination_id}&chapterName=${chapterName}&course_id=${course_id}&chapter_id=${chapter_id}&type=6`
+          })
+        }
+      },
+      fail: function (n) {
+        console.log('初始化失败')
+      }
+    })
+  },
   //选择答案
   selectAnswer(e) {
-    if (this.data.randerTitle.done) {//如果已选答案，再次点击不再触发
+    //考试模式分为两种，其一是做题，不显示答案与对错，其二，当从结算页面跳转到试题页面时，展示答案与对错,当做题时可点击多次，回顾时模式不能点击选项与改变已做的答案，考试模式下单选题点击不触发提交答案
+    
+    if(this.data.nosubmit){ //nosubmit标识是否是回顾，默认值为考试,此处只负责隔断
+      //点击加载运行
       return
-    }
-    let option = e.currentTarget.dataset.option;//当前点击选项的option
-    let answer = e.currentTarget.dataset.answer;//当前题目的答案
-    let index = e.currentTarget.dataset.index;//当前点击选项的index
-    let color = this.data.randerTitle.content[index];//获取当前点击选项的数组
-    color.color = false//新增当前点击选项的color
-    color.err = false//新增当前点击选项的err
-    this.data.randerTitle.done = true//表明当前题目已做
-    this.data.randerTitle.option = option
-    if (option == answer) { //单选正确
-      color.color = true//改变当前选项的颜色为true
-      this.setData({
-        randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
-      })
-    } else {
-      color.color = false
-      color.err = true
-      this.setData({
-        randerTitle: this.data.randerTitle//缓存改变后的渲染数据
-      })
-    }
-    if (this.data.ProblemType == 1 || this.data.ProblemType == 3) { // 单选题直接提交答案
-      console.log('进入单选题模式')
-      this.submitAnswer(option)
-      return
-    }
-  },
-  selectSceneAnswer(e) {
-    if (this.data.randerTitle.child[this.data.senceIndex - 1].done) {//如果已选答案，再次点击不再触发
-      return
-    }
-    let option = e.currentTarget.dataset.option;//当前点击选项的option
-    let answer = e.currentTarget.dataset.answer;//当前题目的答案
-    let index = e.currentTarget.dataset.index;//当前点击选项的index
-    let color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];//获取当前点击选项的数组
-    color.color = false//新增当前点击选项的color
-    color.err = false//新增当前点击选项的err
-    this.data.randerTitle.child[this.data.senceIndex - 1].done = true//表明当前题目已做
-    this.data.randerTitle.child[this.data.senceIndex - 1].option = option
-    if (option == answer) { //单选正确
-      color.color = true//改变当前选项的颜色为true
-      this.setData({
-        randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
-      })
-    } else {
-      color.color = false
-      color.err = true
-      this.setData({
-        randerTitle: this.data.randerTitle//缓存改变后的渲染数据
-      })
-    }
-    let curindex = this.data.senceIndex - 1
-    if (this.data.randerTitle.child[curindex].problem_child_type == 1 || this.data.randerTitle.child[curindex].problem_child_type == 3) { // 单选题直接提交答案
-      console.log('进入单选题模式')
-      this.setData({
-        curID: this.data.randerTitle.child[curindex].problem_id
-      })
-      this.submitAnswer(option)
-    }
-  },
-  multiselectAnswer(e) {
-    // if (!this.data.multishowAny) {
-    //   return
-    // }
-    let color
-    let option = e.currentTarget.dataset.option;
-    let answer = e.currentTarget.dataset.answer;
-    let index = e.currentTarget.dataset.index;
-    if (this.data.randerTitle.content != undefined) {
-      color = this.data.randerTitle.content[index];
-    } else {
-      color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
-    }
-    this.setData({
-      multiAnswer: answer
-    })
-    console.log(option, answer, this.data.multiselect)
-    let multiselect = this.data.multiselecting
-    if (!multiselect.includes(option)) {
-      multiselect.push(option)
-      if (this.data.randerTitle.content != undefined) {
-        this.data.randerTitle.content[index].haschose = true
-        this.data.randerTitle.done = true
-      } else {
-        this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
-        this.data.randerTitle.child[this.data.senceIndex - 1].done = true
+    } else{
+      if(this.data.randerTitle.child != undefined){
+        if(this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit){
+          wx.showToast({
+            title: '该题目已经做过了',
+            icon: 'none',
+            duration: 2000
+          })
+          return 
       }
-      this.setData({
-        multiselect: this.data.multiselect + option + ','
-      })
-    }
-    if (answer.includes(option)) {
-      color.color = true
-      this.setData({
-        randerTitle: this.data.randerTitle,
-      })
-    } else {
-      color.color = false
-      color.err = true
-      this.setData({
-        randerTitle: this.data.randerTitle
-      })
-    }
-    console.log(this.data.randerTitle.content)
-  },
-  showAnswer() {
-    if (this.data.activeAnswer == 'activeAnswer') {
-      this.setData({
-        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-        activeAnswer: 'defaultAnswer',
-        correctoption: '',
-        multishowAny: true
-      })
-    } else {
-      this.setData({
-        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-        activeAnswer: 'activeAnswer',
-        correctoption: 'activeoption',
-        multishowAny: false
-      })
-    }
-    // this.setData({
-    //   wrongAnswer: true,
-    //   correctAnswer: true
-    // })
-
-  },
-  showSenceAnswer() {
-    if (this.data.activeSenceAnswer == 'activeAnswer') {
-      this.setData({
-        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-        activeSenceAnswer: 'defaultAnswer',
-        correcSencetoption: '',
-        multiSenceshowAny: true
-      })
-    } else {
-      this.setData({
-        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-        activeSenceAnswer: 'activeAnswer',
-        correcSencetoption: 'activeoption',
-        multiSenceshowAny: false
-      })
+     }else{
+        if(this.data.randerTitle.hasSubmit){
+          wx.showToast({
+            title: '该题目已经做过了',
+            icon: 'none',
+            duration: 2000
+          })
+          return 
+        }
+     }
+      let option = e.currentTarget.dataset.option;//当前点击选项的option
+      let answer = e.currentTarget.dataset.answer;//当前题目的答案
+      let index = e.currentTarget.dataset.index;//当前点击选项的index
+      let color = this.data.randerTitle.content[index];//获取当前点击选项的数组
+      color.color = false//新增当前点击选项的color
+      color.err = false//新增当前点击选项的err
+      this.data.randerTitle.done = true//表明当前题目已做
+      this.data.randerTitle.option = option
+      if (option == answer) { //单选正确
+        color.color = true//改变当前选项的颜色为true
+        this.setData({
+          randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
+        })
+      } else {
+        color.color = false
+        color.err = true
+        this.setData({
+          randerTitle: this.data.randerTitle//缓存改变后的渲染数据
+        })
+      }
+      // console.log(this.data.randerTitle)
+      // if (this.data.ProblemType == 1 || this.data.ProblemType == 3) { // 单选题以及判断题直接提交答案
+      //   console.log('进入单选题模式')
+      //   this.submitAnswer(option)
+      //   return
+      // }
     }
   },
-  getLogAnswer(log_id) {
+  getLogAnswer(log_id) { //获取上次的答题答案
     let that = this
     let option = {
       log_id: log_id,
-      mode: 4
+      mode: 1
     }
     console.log(option)
     app.encryption({//初始化加载函数获取所有题目ID
@@ -536,20 +444,192 @@ Page({
       }
     })
   },
-  getAlltestNumber(options, is_lock) {
-    console.log(options, is_lock)
+  selectSceneAnswer(e) {
+    console.log(this.data.senceIndex,this.data.randerTitle)
+    if(this.data.nosubmit){ //nosubmit标识是否是回顾，默认值为考试,此处只负责隔断
+      //点击加载运行
+      return
+    } else{
+      if(this.data.randerTitle.child != undefined){
+        if(this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit){
+          wx.showToast({
+            title: '该题目已经做过了',
+            icon: 'none',
+            duration: 2000
+          })
+          return 
+      }
+     }else{
+        if(this.data.randerTitle.hasSubmit){
+          wx.showToast({
+            title: '该题目已经做过了',
+            icon: 'none',
+            duration: 2000
+          })
+          return 
+        }
+     }
+    }
+    let option = e.currentTarget.dataset.option;//当前点击选项的option
+    let answer = e.currentTarget.dataset.answer;//当前题目的答案
+    let index = e.currentTarget.dataset.index;//当前点击选项的index
+    let color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];//获取当前点击选项的数组
+    color.color = false//新增当前点击选项的color
+    color.err = false//新增当前点击选项的err
+    this.data.randerTitle.child[this.data.senceIndex - 1].done = true//表明当前题目已做
+    this.data.randerTitle.child[this.data.senceIndex - 1].option = option
+    if (option == answer) { //单选正确
+      color.color = true//改变当前选项的颜色为true
+      this.setData({
+        randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
+      })
+    } else {
+      color.color = false
+      color.err = true
+      this.setData({
+        randerTitle: this.data.randerTitle//缓存改变后的渲染数据
+      })
+    }
+    let curindex = this.data.senceIndex - 1
+    this.setData({
+          curID: this.data.randerTitle.child[curindex].problem_id
+        })
+    // let curindex = this.data.senceIndex - 1
+    // if (this.data.randerTitle.child[curindex].problem_child_type == 1 || this.data.randerTitle.child[curindex].problem_child_type == 3) { // 单选题直接提交答案
+    //   console.log('进入单选题模式')
+    //   this.setData({
+    //     curID: this.data.randerTitle.child[curindex].problem_id
+    //   })
+    //   this.submitAnswer(option)
+    // }
+  },
+  multiselectAnswer(e) {
+    if(this.data.randerTitle.child != undefined){
+      if(this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit){
+        wx.showToast({
+          title: '该题目已经做过了',
+          icon: 'none',
+          duration: 2000
+        })
+        return 
+    }
+   }else{
+      if(this.data.randerTitle.hasSubmit){
+        wx.showToast({
+          title: '该题目已经做过了',
+          icon: 'none',
+          duration: 2000
+        })
+        return 
+      }
+    }
+    let color
+    let option = e.currentTarget.dataset.option;
+    let answer = e.currentTarget.dataset.answer;
+    let index = e.currentTarget.dataset.index;
+    if (this.data.randerTitle.content != undefined) {
+      color = this.data.randerTitle.content[index];
+    } else {
+      color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
+    }
+    this.setData({
+      multiAnswer: answer
+    })
+    let multiselect = this.data.multiselecting
+    if (!multiselect.includes(option)) {
+      multiselect.push(option)
+      let indexs = multiselect.findIndex((val)=>{ val == option })
+      if (this.data.randerTitle.content != undefined) {
+        if(indexs != -1){
+          multiselect.splice(indexs,1)
+          this.data.randerTitle.content[indexs].haschose = false
+          this.data.randerTitle.done = true
+        }else{
+          this.data.randerTitle.content[index].haschose = true
+          this.data.randerTitle.done = true
+        }
+      } else {
+        this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
+        this.data.randerTitle.child[this.data.senceIndex - 1].done = true
+      }
+      this.setData({
+        multiselect: this.data.multiselect + option + ','
+      })
+    }
+    if (answer.includes(option)) {
+      color.color = true
+      this.setData({
+        randerTitle: this.data.randerTitle,
+      })
+    } else {
+      color.color = false
+      color.err = true
+      this.setData({
+        randerTitle: this.data.randerTitle
+      })
+    }
+    console.log(option,this.data.multiselect.includes(option),this.data.multiselect)
+     if(this.data.multiselect.includes(option)){//再次点击取消当前选项
+      this.data.multiselect.replace(option,'')
+      this.setData({
+        multiselect:this.data.multiselect
+      })
+     }
+  
+  },
+  showAnswer() {
+    if (this.data.activeAnswer == 'activeAnswer') {
+      this.setData({
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeAnswer: 'defaultAnswer',
+        correctoption: '',
+        multishowAny: true
+      })
+    } else {
+      this.setData({
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        activeAnswer: 'activeAnswer',
+        correctoption: 'activeoption',
+        multishowAny: false
+      })
+    }
+    // this.setData({
+    //   wrongAnswer: true,
+    //   correctAnswer: true
+    // })
+
+  },
+  showSenceAnswer() {
+    if (this.data.activeSenceAnswer == 'activeAnswer') {
+      this.setData({
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeSenceAnswer: 'defaultAnswer',
+        correcSencetoption: '',
+        multiSenceshowAny: true
+      })
+    } else {
+      this.setData({
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        activeSenceAnswer: 'activeAnswer',
+        correcSencetoption: 'activeoption',
+        multiSenceshowAny: false
+      })
+    }
+  },
+  getAlltestNumber(options) {
+    console.log(options)
     let that = this
     that.setData({
-      chapterName: options.name,
       navH: app.globalData.navHeight,
       courseId: options.courseId,
-      is_lock: is_lock
+      chapter_id:options.chapter_id
     })
     let option = {
-      problem_course_id: options.courseId
+      problem_course_id: options.courseId,
+      problem_chapter_id: options.chapter_id,
     }
     app.encryption({//初始化加载函数获取所有题目ID
-      url: api.test.createPunchData,
+      url: api.test.createSelfDeterminationData,
       data: option,
       method: 'POST',
       dataType: "json",
@@ -569,19 +649,19 @@ Page({
         alltestID = alltestID.concat(single_problem).concat(multiple_problem).concat(scenes_problem).concat(judge_problem).concat(fill_problem).concat(short_problem);
         that.setData({
           all_current_no: totalNum,
-          practice_id: res.info.punch_id,
-          alltestID: alltestID,
+          self_determination_id: res.info.self_determination_id,
+          alltestID: alltestID
         });
         //查找当前题目下标
-        that.findcurIndex(alltestID[0],alltestID, 0);
+        that.findcurIndex(alltestID[0], alltestID, 0);
         //开始加载题目详情
         that.initText(alltestID[0]);
       }
-    }
+     }
     )
   },
   findcurIndex(curId, allId, start = 1) {
-    console.log(curId,allId)
+    console.log(allId)
     let curIndexNumber = allId.findIndex((value) => value == curId)
     curIndexNumber += 1
     let icon = 'tabItems[0].icon'
@@ -616,11 +696,13 @@ Page({
   },
   submitAnswer(answer, curID = '0') {
     let that = this
+    let randerTitle = that.data.randerTitle
+    console.log(randerTitle)
     let option = {
       problem_course_id: this.data.courseId,
       problem_id: this.data.curID,
-      log_id: this.data.practice_id,
-      mode: 6,
+      log_id: this.data.self_determination_id,
+      mode: 3,
       answer: answer,
     }
     console.log(option)
@@ -633,21 +715,22 @@ Page({
         console.log(res)
         //提交完答案，清空多选题答案数组,并查看是否已缓存，并改变其中的标识符（hasSubmit）
         if (res.data.code == 200) {
-          if (that.data.randerTitle.problem_type == 6) {
+          console.log(randerTitle)
+          if (randerTitle.problem_type == 6) {
             console.log(curID)
-            that.data.randerTitle.child[curID].hasSubmit = true
+            randerTitle.child[curID].hasSubmit = true
           }
-          that.data.randerTitle.hasSubmit = true
+          randerTitle.hasSubmit = true // 可能会出现先渲染后改变的现象
           that.setData({
             multiselect: '',//场景模式下多选清空
-            randerTitle: that.data.randerTitle,
+            randerTitle: that.data.randerTitle,//更新渲染文档
             SceneValue:'',//场景模式下填空清空
             shortSceneMap:'',//场景模式下简答清空
-            shortMap:''//简答题清空
+            shortMap:'',//简答题清空
+            multiselecting:[]
           })
-          console.log(that.data.randerTitle)
-          let curRander = that.data.randerTitle;
-          let ID = curID
+          let curRander = randerTitle;
+          let ID = curID;
           let result = that.hasBeenLoad(ID);//检查本地是否已缓存
           if (result == undefined) {  // 未缓存
             that.data.allRender.push(curRander)
@@ -661,29 +744,29 @@ Page({
               allRender: that.data.allRender
             })
           }
-
         }
       }
-    }
+     }
     )
   },
   sceneCommon(){
-    if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
+   if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
      } else {
+       console.log(this.data.multiselect,this.data.SceneValue,this.data.shortSceneMap,this.data.randerTitle.child[this.data.senceIndex - 1].option)
       if(this.data.multiselect != ''){
         this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
       }else if( this.data.SceneValue != ''){
         this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
       }else if(this.data.shortSceneMap != ''){
         this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
+      }else if (this.data.randerTitle.child[this.data.senceIndex - 1].option != ''){
+        let answer = this.data.randerTitle.child[this.data.senceIndex - 1].option
+        this.submitAnswer(answer, this.data.senceIndex - 1)
       }
       }
-    }
   },
   bindsenceNext() {
     console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
-    // this.saveScenceRander()
     if (this.data.senceIndex < this.data.senceNum) {
       this.sceneCommon()
       this.setData({
@@ -749,7 +832,6 @@ Page({
     let result = that.hasBeenLoad(ID)
     if (result != undefined) { //发现有数据
       let randerTitle = result;
-      that.collectOrNot(randerTitle);
       that.setData({
         randerTitle: randerTitle,
         ProblemType: randerTitle.problem_type,
@@ -765,7 +847,7 @@ Page({
         method: 'GET',
         dataType: "json",
         success: function (res) {
-          console.log(res)
+          console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
@@ -774,8 +856,6 @@ Page({
                 val = app.testWxParse(that, val) //将解析后的赋值
               });
             }
-            // 判断当前题目是否已收藏
-            that.collectOrNot(randerTitle)
             that.setData({
               randerTitle: randerTitle,
               senceNum: randerTitle.child.length,
@@ -785,15 +865,12 @@ Page({
             })
             return
           }
-          // 判断当前题目是否已收藏
-          that.collectOrNot(randerTitle)
           //判断结束
           that.setData({
             randerTitle: randerTitle,
             ProblemType: res.info.problem_type,
             curID: res.info.problem_id
           })
-          console.log(that.data.randerTitle)
         }
       })
     }
@@ -803,28 +880,6 @@ Page({
     let hasBeenLoad = this.data.allRender;//本地缓存
     let result = hasBeenLoad.find((value) => value.problem_id == ID);
     return result
-  },
-  collectOrNot(randerTitle) {
-    let that = this
-    let icon = 'tabItems[2].icon'
-    let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为获取收藏按钮状态
-    console.log(randerTitle.isCollect, typeof (randerTitle.isCollect))
-    if (randerTitle.isCollect != 'undefined' && randerTitle.isCollect == 1) {  //是否已收藏
-      that.setData({
-        likes: true,
-        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-        [classes]: 'active',
-        [name]: '已收藏'
-      })
-    } else {
-      that.setData({
-        likes: true,
-        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-        [classes]: '',
-        [name]: '收藏'
-      })
-    }
   },
   init(answering) {
     let options = []
@@ -867,8 +922,6 @@ Page({
   gobefor(e) {
     console.log(e.currentTarget.dataset.index)
     let number = e.currentTarget.dataset.index// 前一个页面
-    // console.log("beforePage");
-    // console.log(beforePage);
     wx.navigateBack({
       success: function () {
         beforePage.onLoad(number);
@@ -876,37 +929,35 @@ Page({
     });
   },
   goback() {
-    let that = this
-    wx.showModal({
-      title: '提示',
-      content: '你正在进行打卡，是否将当前做题情况作为今日打卡记录？',
-      showCancel: true,//是否显示取消按钮
-      cancelText: "退出打卡",//默认是“取消”
-      cancelColor: '#333333',//取消文字的颜色
-      confirmText: "继续打卡",//默认是“确定”
-      confirmColor: '#199FFF',//确定文字的颜色
-      success: function (res) {
-        if (res.cancel) {
-          that.settlementPunchResult()
-        } else {
-        
-        }
-      }
-    })
+    this.common()
+    this.settlementRealTopicResult('你正在进行模拟考试，确定退出吗？')
   },
   onLoad: function (options = {}) {
+    let times = new Date().getTime()
+    let alltime = options.exam_length * 60 *1000 + times
+    // let alltime =  60 *1000 + times
     this.setData({
-      moveY: 313
+      targetTime2: alltime,
+      moveY: 313,
+      chapterName:options.chapterName
     })
-    this.getAlltestNumber(options)
+    //获取屏幕宽高
+    let that = this
+    const { windowHeight } = wx.getSystemInfoSync();
+    this.data.windowHeight = windowHeight - 127 - 54
+    //先去请求所有题目的id，当点击下一题目的时候用id换题目,获取上次的记录答案
+    that.getAlltestNumber(options)
   },
-  onReady: function () { },
+  onReady: function () {},
   onShow: function () { },
   onHide: function () {
     clearTimeout(t);
   },
   onUnload: function () {
     clearTimeout(t);
+    this.setData({
+      clearTimer: true
+    });
   },
   onPullDownRefresh: function () { },
   onReachBottom: function () { },
@@ -916,96 +967,6 @@ Page({
       touchX: e.changedTouches[0].clientX,
       touchY: e.changedTouches[0].clientY
     });
-  },
-  initAlldata(options, redo) {
-    wx.showLoading({
-      title: '正在加载中...',
-    })
-    var that = this;
-    this.setData({
-      chapterName: options.name,
-      navH: app.globalData.navHeight,
-      courseId: options.courseId
-    })
-    wx.getSystemInfo({
-      success(res) {
-        let height = res.screenHeight * 2;
-        let topheight = that.data.navH;
-        let questionHeight = height - topheight * 2 - 98 - 56 * 2 - 40
-        that.setData({
-          questionHeight: questionHeight
-        })
-      }
-    })
-    let icon = 'tabItems[2].icon'
-    let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为获取收藏按钮状态
-    let option = {
-      courseId: options.courseId,
-      chapterId: options.chapter_id,
-      redo: redo
-    }//以上为初始化加载参数
-    console.log(option)
-    app.encryption({//初始化加载函数获取所有题目
-      url: api.default.getProblems,
-      data: option,
-      method: 'GET',
-      dataType: "json",
-      success: function (res) {
-        console.log(res)
-        let curtitle = res.list[0] //声明首次加载的题目
-        let curindex = 0 //声明首次加载的下标
-        let randerTitle = app.testWxParse(that, res.list[0])//初始化并解析第一道题目,默认是从第一道题开始加载渲染
-        that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
-        if (redo == 0) {
-          for (let item of res.list.entries()) {//遍历所有原始数据并初始化首次加载数据集合
-            if (item[1].ProblemId == res.lastProblemId) {//如果发现了此lastProblemId则需要初始化所有之前的题目
-              curtitle = item[1]
-              curindex = item[0]//初始化加载下标
-              console.log(curindex)
-              randerTitle = app.testWxParse(that, curtitle)//初始化首次加载页面数据
-              if (curindex >= 1) {
-                let icon = 'tabItems[0].icon'
-                that.setData({
-                  [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
-                })
-              }
-              that.data.allRender.length = 0
-              for (let i = 0; i <= curindex; i++) {
-                let randerTitle = app.testWxParse(that, res.list[i])//解析所有已经加载的题目,从第一道题开始
-                that.data.allRender.push(randerTitle)//向页面渲染集合推送已做过的题目,
-              }
-            }
-          }
-        }//遍历所有题目并将上一次做过的题目找到，如果此前有记录，则需要把所有做过的题目推送到已经渲染的集合（即要初始化allRender）
-        wx.hideLoading()
-        that.setData({
-          originTitle: res.list,//为所有原始数据
-          randerTitle: randerTitle,//为当前渲染数据
-          current_no: curindex,//初始化题目标注
-          ProblemType: randerTitle.ProblemType,//表明练习题类型
-          all_current_no: res.count,//所有题目的数量
-          singleNum: res.singleList,//单选题的数量
-          multipleNum: res.multipleLis,//多选题的数量
-          judgmentNum: res.judgmentList,//判断题的数量
-          formId: res.formId//formid
-        })
-        if (randerTitle.isCollect == 1) {  //是否已收藏
-          that.setData({
-            likes: true,
-            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
-            [classes]: 'active',
-            [name]: '已收藏'
-          })
-        }
-        if (randerTitle.yourAnswer && randerTitle.yourAnswer != '') {
-          that.init(randerTitle.yourAnswer)
-        }
-      },
-      fail: function (n) {
-        console.log('初始化失败')
-      }
-    })
   },
   touchEnd(e) {
     let d = this.data;
@@ -1095,26 +1056,7 @@ Page({
    })
    console.log(this.data.fillNewAnswer)
   },
-  settlementPunchResult(){
-    let that = this
-    wx.showLoading({
-      title: '正在保提交记录...',
-    })
-    let option = {
-      punch_id:this.data.practice_id
-    }
-    app.encryption({//初始化加载函数获取所有题目ID
-      url: api.test.settlementPunchResult,
-      data: option,
-      method: 'POST',
-      dataType: "json",
-      success: function (res) {
-        console.log(res)
-         wx.hideLoading();
-         let courseId = that.data.courseId
-         wx.reLaunch({
-          url:`../dailyCard/dailyCard?courseId=${courseId}`
-        })
-      }})
+  submitPaper(){
+    this.settlementRealTopicResult()
   }
 });

@@ -1,7 +1,7 @@
 var app = getApp(),
-  api = require("../../api.js"),
-  n = require("../tab-bar/tab-bar.js");
-
+    api = require("../../api.js"),
+    n = require("../tab-bar/tab-bar.js"),
+    courseId = wx.getStorageSync("courseId").courseId
 Page({
   data: {
     user_info: {},
@@ -24,34 +24,22 @@ Page({
       },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumaijilu.png',
-        name: '购买记录',
+        name: '自主出题',
         action: 'recorders'
       },
     ],
     funlist: [
-      // {
-      //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
-      //   tosome:'../assignTopic/assignTopic',
-      //   name:'自主出题',
-      //   option:['名师掌舵考前押题']
-      // },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xiugaiziliao.png',
         tosome: '../component/pages/personalInfor/personalInfor',
         name: '个人资料',
         option: ['身份证、', '毕业证']
       },
-      // {
-      //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/wodekaoshi.png',
-      //   tosome:'',
-      //   name:'我的考试',
-      //   option:['考试时间、','地点、','科目']
-      // },
-      // {
-      //   url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jifentongji.png',
-      //   tosome:'',
-      //   name:'积分统计',
-      // },
+      {
+        url: `https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumajilsu.png`,
+        tosome: `../component/pages/buyStatus/buyStatus?courseId=${courseId}`,
+        name: '购买记录'
+      },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xitongshezhi.png',
         tosome: '../component/pages/switchScore/switchScore',
@@ -73,7 +61,7 @@ Page({
   recorders() {
     let courseId = this.data.courseId
     wx.navigateTo({
-      url: `../component/pages/buyStatus/buyStatus?courseId=${courseId}`
+      url: `../component/pages/determination/determination?courseId=${courseId}`
     })
   },
   learns() {
@@ -90,7 +78,6 @@ Page({
       url: `../component/pages/faceTeach/faceTeach?number=2&courseId=${courseId}`
     })
     //  this.getSubscribePower(courseId)
-
   },
   myclass() {
     let courseId = this.data.courseId
@@ -107,10 +94,10 @@ Page({
     this.setData({
       funlist: this.data.funlist
     })
-
+    courseId =  wx.getStorageSync("problem_course_id").problem_course_id
     this.setData({
       user_info: t,
-      courseId: wx.getStorageSync("courseId").courseId
+      courseId: wx.getStorageSync("problem_course_id").problem_course_id
     });
   },
   //获得约课权限
@@ -161,7 +148,7 @@ Page({
   onReady: function () { },
   onShow: function () {
     // wx.getStorageSync('session_key') && this.userCenter();
-    this.userCenter();
+    // this.userCenter();
   },
   onHide: function () { },
   onUnload: function () { },
@@ -171,36 +158,6 @@ Page({
     return {
       path: "../component/pages/index/index?pid=" + wx.getStorageSync("user_info").user_id
     };
-  },
-  userCenter: function () {
-    //     wx.login({
-    //         success: function(n) {
-    //             if (n.code) {
-    //                 var t = n.code;
-    //                 console.log(n)
-
-    //     app.request({
-    //       url: api.user.newLogin,
-    //       data:{code:t},
-    //       method:'POST',
-    //       dataType:'',
-    //       success: function(e) {
-    //         console.log(e)
-    //      },
-    //     fail: function(e) {
-    //         wx.showModal({
-    //             title: "警告",
-    //             content: e.msg,
-    //             showCancel: !1
-    //         });
-    //     },
-    //     complete: function() {
-    //         wx.hideLoading();
-    //     }
-    //     })    
-    //   }
-    // }
-    // })
   },
   tabBarRedirect: function (e) {
     wx.reLaunch({

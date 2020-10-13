@@ -44,24 +44,52 @@ Page({
   getPunchClock(courseId) {
     let that = this
     let option = {
-      courseId: courseId
+      punch_id: courseId
     }
     console.log(option)
     app.encryption({
-      url: api.default.getPunchClock,
+      url: api.test.sharePunchData,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
+       
+      },
+      fail: function (t) {
+
+      },
+      complete: function () {
+        
+      }
+    })
+  },
+  createPunchPoster(courseId){
+    let that = this
+    wx.showLoading({
+      title: '正在生成图片中...',
+      mask: true,
+    });
+    let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
+    let option = {
+      punch_id: courseId,
+      problem_course_id:problem_course_id
+    }
+    console.log(option)
+    app.encryption({
+      url: api.test.createPunchPoster,
+      method: "POST",
+      data: option,
+      success: function (res) {
+        console.log(res)
         that.setData({
-          imgsrc: res.imgUrl
+          imgsrc: res.info.share_url
         })
       },
       fail: function (t) {
 
       },
       complete: function () {
-
+        wx.hideLoading();
       }
     })
   },
@@ -72,8 +100,9 @@ Page({
     this.setData({
       height: wx.getSystemInfoSync().windowHeight
     })
-    let courseId = wx.getStorageSync('courseId').courseId
-    this.getPunchClock(courseId)
+    let courseId = options.courseId
+    // this.getPunchClock(courseId)
+    this.createPunchPoster(courseId)
   },
 
   /**

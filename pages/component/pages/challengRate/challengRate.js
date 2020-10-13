@@ -1,5 +1,5 @@
 // pages/challengRate/challengRate.js
-let app = getApp(), api = require("../../../../api.js"), util = require("../../../../utils/util.js");
+let app = getApp(), api = require("../../../../api.js"), util = require("../../../../utils/util.js"), pages = 0;
 Page({
 
   /**
@@ -20,31 +20,30 @@ Page({
         name: '用时'
       }
     ],
-    infos: null,
+    infos: [],
     userInfo: []
   },
   MyRankeEdition() {
     var that = this;
     wx.showLoading({
-      title: "加载中"
+      title: "加载中..."
     });
     let option = {
-      courseId: that.data.courseId
+      problem_course_id: that.data.courseId
     }
     console.log(option)
     app.encryption({
-      url: api.default.MyRankeEdition,
+      url: api.test.getTodayChallengeForMyself,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
-        let data = that.data.userInfo
-        if (res.data == undefined) {
-          that.setData({
-            userInfo: res
-          })
-        }
-
+        // let times = util.setTimes(res.info.use_time)
+        // if (res.data == undefined) {
+        // }
+        that.setData({
+          userInfo:res.info
+        })
       },
       fail: function (t) {
         wx.showModal({
@@ -61,23 +60,24 @@ Page({
   getRankeEdition() {
     var that = this;
     wx.showLoading({
-      title: "加载中"
+      title: "加载中..."
     });
+    pages = pages + 1
     let option = {
-      courseId: that.data.courseId
+      problem_course_id:this.data.courseId,
+      page:pages
     }
     console.log(option)
     app.encryption({
-      url: api.default.getRankeEdition,
+      url: api.test.getChallengeRankList,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
-        if (res.data == undefined) {
-          that.setData({
-            infos: res
-          })
-        }
+        that.data.infos.push.apply(that.data.infos,res.list)
+        that.setData({
+          infos: that.data.infos
+        })
         console.log(that.data.infos)
       },
       fail: function (t) {
@@ -139,7 +139,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    pages = 0
   },
 
   /**
@@ -153,7 +153,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+     this.getRankeEdition()
   },
 
   /**
