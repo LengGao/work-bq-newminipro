@@ -71,7 +71,11 @@ Page({
     collectionLi.forEach((i) => {
       console.log(i.chapter_id == problem_chapter_id)
       if (i.chapter_id == problem_chapter_id) {
-        i.isShow = true
+        if(problem_chapter_id==this.data.collect_chapter_id&&i.isShow==true){
+          i.isShow = false
+        }else{
+          i.isShow = true
+        }
       } else {
         i.isShow = false
       }
@@ -159,7 +163,11 @@ Page({
     let WoringData = d.errordata
     WoringData.forEach((i) => {
       if (i.chapter_id == problem_chapter_id) {
-        i.isShow = true
+        if(problem_chapter_id==this.data.problem_chapter_id&&i.isShow==true){
+          i.isShow = false
+        }else{
+          i.isShow = true
+        }  
       } else {
         i.isShow = false
       }
