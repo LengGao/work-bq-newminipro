@@ -11,7 +11,7 @@ let config = {
   sock: "wss://count.beiqujy.com/",
   // bqUrl: 'https://apps.beiqujy.com/'
   // bqUrl: 'http://dongpei.local/wechat/v2',//孝华
-  bqUrl: 'http://www.tp.cn/wechat/v2',//
+  bqUrl: 'https://testapi.beiqujy.com/wechat/v2',//
   //bqUrl: 'http://www.tp.cn/wechat/v2',//
 
 }

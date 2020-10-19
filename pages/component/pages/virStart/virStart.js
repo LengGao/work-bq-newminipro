@@ -627,6 +627,7 @@ Page({
     let option = {
       problem_course_id: options.courseId
     }
+    console.log(option)
     app.encryption({//初始化加载函数获取所有题目ID
       url: api.test.createTestExamData,
       data: option,
