@@ -9,21 +9,13 @@ Page({
   data: {
     chapterName: ''
   },
-  goshuati() {
-    let chapterId = this.data.chapterId;
-    let courseId = this.data.courseId;
-    let chapterName = this.data.chapterName
-    wx.navigateTo({
-      url: `../yearTestPir/yearTestPir?chapter_id=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
-    })
-  },
   gokaoshi() {
     let chapterId = this.data.chapterId;
     let courseId = this.data.courseId;//courseID
     let chapterName = this.data.chapterName
     let exam_length = this.data.exam_length //考试时长
     wx.navigateTo({
-      url: `../yearTestStart/yearTestStart?chapter_id=${chapterId}&courseId=${courseId}&chapterName=${chapterName}&exam_length=${exam_length}`
+      url: `../determinTestStart/determinTestStart?chapter_id=${chapterId}&courseId=${courseId}&chapterName=${chapterName}&exam_length=${exam_length}`
     })
   },
   gettruthinfo(options) {
@@ -31,10 +23,9 @@ Page({
     let option = {
       problem_course_id: options.courseId,
       problem_chapter_id: options.chapterId,
-      
     }
     app.encryption({
-      url: api.test.getRealTopicExamConfig,
+      url: api.test.getSelfDeterminationExamConfig,
       method: "GET",
       data: option,
       success: function (res) {

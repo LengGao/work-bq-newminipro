@@ -71,7 +71,11 @@ Page({
     collectionLi.forEach((i) => {
       console.log(i.chapter_id == problem_chapter_id)
       if (i.chapter_id == problem_chapter_id) {
-        i.isShow = true
+        if(problem_chapter_id==this.data.collect_chapter_id&&i.isShow==true){
+          i.isShow = false
+        }else{
+          i.isShow = true
+        }
       } else {
         i.isShow = false
       }
@@ -159,7 +163,11 @@ Page({
     let WoringData = d.errordata
     WoringData.forEach((i) => {
       if (i.chapter_id == problem_chapter_id) {
-        i.isShow = true
+        if(problem_chapter_id==this.data.problem_chapter_id&&i.isShow==true){
+          i.isShow = false
+        }else{
+          i.isShow = true
+        }  
       } else {
         i.isShow = false
       }
@@ -203,8 +211,9 @@ Page({
         console.log(res.list)
         let total = res.total
         let worongTitle = app.errorWxParse(that, res.list, 'wrong')
+        console.log(worongTitle)
         let pageNum = Math.ceil(total / 20)
-        console.log(pageNum)
+       
         if (pageNum < 2) {
           that.setData({
             wrongList: worongTitle,
@@ -281,16 +290,7 @@ Page({
             errornodata: false
           })
         } else {
-          // for (let i of res) {
-          //   i.content.forEach(element => {
-          //     element.content = [{ A: 'lalala' }],
-          //       element.stem = element.analyse
-          //     app.testWxParse(that, element)
-          //   });
-          //   console.log(i)
-          // }
           let errorTitle = app.errorWxParse(that, res.list)
-
           that.setData({
             errordata: errorTitle
           })
@@ -327,7 +327,6 @@ Page({
       success: function (res) {
         console.log(res.total)
         let pageNum = Math.ceil(res.total / 20)
-
         that.setData({
           hidden3: true,
           historyhasRefesh: false,
@@ -341,10 +340,10 @@ Page({
 
         if (pageNum < 2) {
           that.setData({
-            wrongList: worongTitle,
-            hasRefesh: false,
+            hisdata: historyTitle,
+            historyhasRefesh: false,
             pageNum3: pageNum,
-            hasMore: false,
+            historyhasMore: false,
             page: that.data.page + 1
           })
         }
@@ -374,17 +373,15 @@ Page({
 
   },
   select_date(t) {
-    let courseId = this.data.courseId
-    let id = t.currentTarget.dataset.id
+    let id = t.currentTarget.dataset.cid
     wx.navigateTo({
-      url: `../answerCardPir/answerCardPir?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&type=${t.currentTarget.dataset.type}&name=${t.currentTarget.dataset.name}&id=${id}`
+      url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
     })
   },
   goforError(t) {
-    let courseId = this.data.courseId
-    let id = t.currentTarget.dataset.id
+    let id = t.currentTarget.dataset.cid
     wx.navigateTo({
-      url: `../errorCardPir/errorCardPir?problem_id=${t.currentTarget.dataset.cid}&type=${t.currentTarget.dataset.type}&name=${t.currentTarget.dataset.name}`
+      url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
     })
   },
   gobefor(e) {
@@ -421,7 +418,7 @@ Page({
       [tabArr1]: options.number,
     })
     this.getCollection(),
-      this.getErrorTopicFeedbac()
+    this.getErrorTopicFeedbac()
     this.getBehaviorLogList()
   },
   loadMore() {

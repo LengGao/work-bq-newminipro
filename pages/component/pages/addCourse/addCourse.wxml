@@ -31,7 +31,7 @@
           <checkbox checked="{{j.is_checked == 1?true:''}}" color="rgba(25,159,255,1)" class="cb"></checkbox>
         </view>
       </view>
-      <view class="none-items" wx:if="{{ i.child.length == 0?true:false}}">当前分类还没有课程!</view>
+      <view class="none-items" wx:if="{{ i.course_list.length == 0?true:false}}">当前分类还没有课程!</view>
     </view>
   </view>
 </view>

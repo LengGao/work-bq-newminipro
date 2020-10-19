@@ -4,5 +4,6 @@
   "navigationBarTitleText": "模拟考试",
   "backgroundTextStyle": "light",
   "navigationStyle": "default",
-  "usingComponents": {}
+  "usingComponents": {},
+  "enableReachBottom":true
 }

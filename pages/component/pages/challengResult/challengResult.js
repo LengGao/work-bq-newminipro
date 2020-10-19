@@ -1,5 +1,5 @@
 // pages/dailyChallenge/dailyChallenge.js
-let app = getApp(), api = require("../../../../api.js")
+let app = getApp(), api = require("../../../../api.js"),util = require("../../../../utils/util.js")
 Page({
 
   /**
@@ -60,24 +60,24 @@ Page({
       title: "加载中"
     });
     let option = {
-      courseId: that.data.courseId
+      problem_course_id: that.data.courseId
     }
     console.log(option)
     app.encryption({
-      url: api.default.MyRankeEditions,
+      url: api.test.getTodayChallengeForMyself,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
-        let data = that.data.userInfo
+        let times = util.setTimes(res.info.use_time)
         let userInfo0 = 'everyDate[0].name'
         let userInfo1 = 'everyDate[1].name'
         let userInfo2 = 'everyDate[2].name'
         if (res.data == undefined) {
           that.setData({
-            [userInfo0]: res.consumeTime,
-            [userInfo1]: res.mark,
-            [userInfo2]: res.num
+            [userInfo0]: times,
+            [userInfo1]: res.info.mark,
+            [userInfo2]: res.info.rank
           })
         }
       },
@@ -104,7 +104,7 @@ Page({
     }
     console.log(option)
     app.encryption({
-      url: api.default.getChallengeResults,
+      url: api.test.createChallengePoster,
       method: "GET",
       data: option,
       success: function (res) {
@@ -138,33 +138,28 @@ Page({
     this.MyRankeEdition()
     this.getChallengeResults()
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
   },
 
   /**

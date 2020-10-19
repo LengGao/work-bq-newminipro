@@ -64,7 +64,6 @@ Page({
         myCourse: imgList
       })
     }
-
   },
   errorLiving(e) {
     if (e.type == "error") {
@@ -140,7 +139,7 @@ Page({
     });
   },
   clickin() {
-    let id = this.data.courseId
+    let id = this.data.problem_course_id
     wx.navigateTo({
       url: `../component/pages/dailyCard/dailyCard?courseId=${id}`
     })
@@ -187,24 +186,25 @@ Page({
     let key = t.currentTarget.dataset.key;
     let courseId = t.currentTarget.dataset.key
     this.setData({
-      menuTop: key.courseId,
-      courseId: courseId.courseId,
+      menuTop: key.course_id,
+      courseId: courseId.course_id,
     });
     this.data.course_list.forEach((item) => {
       if (item.haschoose = true) {
         item.haschoose = false
       }
     })
-    let indexOf = this.data.course_list.findIndex(item => item.courseId === key.courseId)
+    console.log(this.data.course_list,courseId)
+    let indexOf = this.data.course_list.findIndex(item => item.course_id === key.course_id)
     this.data.course_list[indexOf].haschoose = true
     wx.setStorageSync('topInfo', this.data.course_list)//点击事件，点击后更新缓存。
     wx.setStorageSync("courseId", {
-      courseId: courseId.courseId
+      courseId: courseId.course_id
     });
     // that.getSubject()
     // that.getHomePanel()
     // that.getclasslive()
-    // that.getMycourse()
+   
     that.getALLData()
   },
   addStory() {
@@ -231,7 +231,7 @@ Page({
   gettopINfor(resolve, reject) {
     let that = this
     app.encryption({
-      url: api.default.getCollectionCourses,
+      url: api.test.getCollectionCourses,
       method: "GET",
       success: function (res) {
         console.log(res)
@@ -247,7 +247,6 @@ Page({
         })
         if (wx.getStorageSync('topInfo')) {
           wx.getStorageSync('topInfo').forEach((item) => {
-            console.log(item)
             if (item.haschoose) {
               that.setData({
                 menuTop: item.course_id,
@@ -257,34 +256,32 @@ Page({
             }
           })
         }
-        that.getALLData()
       },
       fail: function (t) {
-        return reject
       },
       complete: function () {
-        return resolve()
+        that.getALLData()
       }
     })
   },
   getALLData(){
     let that = this
     let courseId = this.data.menuTop
+    console.log(courseId)
     let option = {
       course_id: courseId
     }
     console.log(option)
     app.encryption({
-      url: api.user.getAllData,
+      url: api.test.getAllData,
       method: "GET",
       data: option,
       success: function (res) {
+        console.log(res)
         let problem_course_id=res.info.problem_course_id
-        console.log(res.info.problem_course_id)
         wx.setStorageSync("problem_course_id", {
           problem_course_id: problem_course_id
         });
-        console.log(res)
         let topmenu0 = 'topmenu[0].number'
         let topmenu1 = 'topmenu[1].number'
         let topmenu2 = 'topmenu[2].number'
@@ -296,6 +293,9 @@ Page({
           allData:res.info,
           problem_course_id:res.info.problem_course_id //以此ID获取习题模式
         })
+        wx.setStorageSync("problem_course_id", {
+          problem_course_id: res.info.problem_course_id
+        });
          if(res.info.has_video == 0){
             that.setData({
             nomyCourse:false
@@ -312,10 +312,9 @@ Page({
          }
       },
       fail: function (t) {
-
       },
       complete: function () {
-
+        wx.hideLoading()
       }
     })
   },
@@ -475,20 +474,15 @@ Page({
       })
     })
     promise.then(function (resolve, reject) {
-      let promise1 = new Promise((resolve, reject) => {
-        that.gettopINfor(resolve, reject)
-      })
-      promise1.then(function (resolve) {
-        that.getMycourse()
-      })
+          that.gettopINfor(resolve, reject)
     });
-    Promise.all([promise]).then((result) => {
-      console.log(wx.getStorageSync('topInfo'))
-      //更新头部状态
-      wx.hideLoading();
-    }).catch((error) => {
-      console.log(error)
-    })
+    // Promise.all([promise]).then((result) => {
+    //   console.log(wx.getStorageSync('topInfo'))
+    //   //更新头部状态
+    //   wx.hideLoading();
+    // }).catch((error) => {
+    //   console.log(error)
+    // })
     e && wx.setStorageSync("tmp_options", e), t.tabbar("tabBar", 0, this, "home")
   },
   onReady: function () { },

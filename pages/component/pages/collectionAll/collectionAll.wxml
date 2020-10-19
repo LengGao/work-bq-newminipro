@@ -30,7 +30,7 @@
                     <view wx:else style="display:none"><text></text></view>
                     <view bindtap="select_date"
                         class="cata-item flex-st "
-                        data-cid="{{vitem.chapterId}}" wx:for="{{collectList}}" wx:for-item="vitem" 
+                        data-cid="{{vitem.problem_id}}" wx:for="{{collectList}}" wx:for-item="vitem" 
                         wx:key="index"
                         data-type='collection' data-name='收藏夹' data-id='{{ vitem.problemId }}'>
                         <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>

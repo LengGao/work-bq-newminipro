@@ -13,7 +13,7 @@
 </view>
 <view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
@@ -47,7 +47,7 @@
     </radio-group>
 </view>
 <view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" hidden="{{ ProblemType == '2'?false:true }}" style='height:{{questionHeight}}rpx'>
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
@@ -89,7 +89,7 @@
 </view>
 <view hidden="{{ ProblemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
@@ -123,10 +123,14 @@
     </radio-group>
 </view>
 <view hidden="{{ ProblemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
-    <textarea name="" id="jianda" cols="30" rows="10" placeholder="多个答案请用逗号隔开" bindinput="updateValue" data-name='content' value="{{nameMap}}"></textarea>
+    <block wx:for="{{  randerTitle.answer_num }}" wx:key="option" wx:for-item="vItem" wx:for-index="index">
+     <view class="weui-cell weui-cell_input">
+       <input class="weui-input" type="text" placeholder="{{ index + 1}}、请填写答案" style="margin-top:10px" data-index='{{index}}' bindinput="bindKeyInput" value="{{randerTitle.option[index]}}" />
+     </view>
+    </block>
     <view class="wrapper-option" bindtap="showfillAnswer">
         <view class="correctoptions {{ correcFilltoption }}">
             <image src="{{answerFillImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
@@ -148,10 +152,10 @@
     </view>
 </view>
 <view hidden="{{ ProblemType == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-  <view class="text-type padding">
+  <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
   </view>
-  <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入答案" bindinput="updateShortValue" data-name='content' value="{{shortMap}}"></textarea>
+  <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入答案" bindinput="updateShortValue" data-name='content' value="{{randerTitle.shortMap}}"></textarea>
     <view class="wrapper-option" bindtap="showShortAnswer">
         <view class="correctoptions {{ correcShorttoption }}">
             <image src="{{answerShortImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
@@ -173,7 +177,7 @@
     </view>
 </view>
 <view hidden="{{ ProblemType == '6'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-    <view class="text-type padding">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
    <view style="position:absolute;bottom:54px;left:0;background:#ffffff;width:100%;">
@@ -207,7 +211,7 @@
                                 </view>
                             </view>
                         </label>
-                        <view hidden="{{ !randerTitle.done }}" style="margin-bottom:98rpx">
+                        <view hidden="{{ !randerTitle.child[senceIndex - 1].done }}" style="margin-bottom:98rpx">
                             <view class="referData">参考答案</view>
                             <view class="topRefer">
                                 <text class="correctanswer">正确答案：</text>
@@ -225,7 +229,7 @@
                     </radio-group>
                 </view>
                 <view class="questions-box"  bindtouchstart='touchStart' catchtouchend="touchSceneEnd" hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '2'?false:true }}" style='height:100%'>
-                    <view class="text-type padding">
+                    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
                         <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                     </view>
                     <radio-group class="checked padding">
@@ -267,7 +271,7 @@
                 </view>
                 <view hidden="{{  randerTitle.child[senceIndex - 1].problem_child_type == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
                     <!-- 单选题 -->
-                    <view class="text-type padding">
+                    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
                         <template is="wxParse" data="{{ wxParseData: randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                     </view>
                     <radio-group class="checked padding">
@@ -283,7 +287,7 @@
                                 </view>
                             </view>
                         </label>
-                        <view hidden="{{ showAny }}" style="margin-bottom:98rpx">
+                        <view hidden="{{!randerTitle.child[senceIndex - 1].done }}" style="margin-bottom:98rpx">
                             <view class="referData">参考答案</view>
                             <view class="topRefer">
                                 <text class="correctanswer">正确答案：</text>
@@ -300,35 +304,59 @@
                         </view>
                     </radio-group>
                 </view>
-                <view hidden="{{ randerTitle.child[senceIndex].problem_child_type == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
+                <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
                     <!-- 单选题 -->
-                    <view class="text-type padding">
-                        <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
+                    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
+                        <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                     </view>
-                    <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入你的答案"></textarea>
+                    <!-- <textarea name="scene" id="scene" cols="30" rows="10" placeholder="多个答案请用逗号隔开" bindinput="updateSceneValue" data-name='content' value="{{SceneValue}}" style="border:2px" auto-focus adjust-position="true"></textarea> -->
+                    <input type="text" placeholder="多个答案请用逗号隔开" bindinput="updateSceneValue" data-name='content' value="{{SceneValue}}" style="margin-top:10px" />
                     <view class="wrapper-option" bindtap="showAnswer">
-                        <view class="correctoptions {{ correctoption }}">
-                            <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
-                            <text class=" {{activeAnswer}}">答案</text>
+                        <view class="correctoptions {{ correctSceneoption }}">
+                            <image src="{{answerSceneImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
+                            <text class=" {{activeSceneAnswer}}">答案</text>
                         </view>
                     </view>
-                    <view hidden="{{ multishowAny }}" style="margin-bottom:98rpx">
+                    <view hidden="{{ multiSceneshowAny }}" style="margin-bottom:98rpx">
                         <view class="referData">参考答案</view>
                         <view class="topRefer">
                             <text class="correctanswer">正确答案：</text>
-                            {{ randerTitle.answer }}
+                            {{ randerTitle.child[senceIndex - 1].answer }}
                             <!-- <text class="youranswer">你的答案：</text>
                                 {{ option }} -->
                         </view>
                         <view class="referData">答案解析</view>
                         <view class="topRefer">
                             <view class="anyAnswer">
-                                <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}"></template>
+                                <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_analyse_wx.nodes }}"></template>
                             </view>
                         </view>
                     </view>
                 </view>
-                <view hidden="{{ randerTitle.child[senceIndex].problem_child_type == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
+                <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
+                   <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
+                    <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
+                     </view>
+                    <textarea name="" id="sceneShort" cols="30" rows="10" placeholder="请输入答案" bindinput="updateShorScenetValue" data-name='content' value="{{shortSceneMap}}"></textarea>
+                   <view class="wrapper-option" bindtap="showShortAnswer">
+                    <view class="correctoptions {{ correcScenceShorttoption }}">
+                        <image src="{{answerScenceShortImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
+                        <text class=" {{activeScenceShortAnswer}}">答案</text>
+                    </view>
+                </view>
+                <view hidden="{{ multishowScenceShortAny }}" style="margin-bottom:98rpx">
+                    <view class="referData">参考答案</view>
+                    <view class="topRefer">
+                        <text class="correctanswer">正确答案：</text>
+                        {{ randerTitle.child[senceIndex - 1].answer }}
+                    </view>
+                    <view class="referData">答案解析</view>
+                    <view class="topRefer">
+                        <view class="anyAnswer">
+                            <template is="wxParse" data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_analyse_wx.nodes }}"></template>
+                        </view>
+                    </view>
+                </view>
                 </view>
         </view>
 		</scroll-view>

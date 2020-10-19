@@ -115,7 +115,7 @@ App({
             method: e.method || "GET",
             dataType: e.dataType || "json",
             success: function (n) {
-
+            console.log(n)
                 if (n.data.code == 20001) {
                     wx.showToast({
                         title: '登陆状态已失效',//提示文字
