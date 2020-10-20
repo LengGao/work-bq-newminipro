@@ -22,6 +22,7 @@ Page({
     pageNum3: '',
     historyhasRefesh: '',
     historyhasMore: true,
+    historyScroll:'',
     topSelect: [{
         name: '收藏夹',
         id: '2'
@@ -407,9 +408,25 @@ Page({
     })
     wx.startPullDownRefresh();
     console.log(options)
+    let screenHeight = wx.getSystemInfoSync().windowHeight;
+   let historyScroll = screenHeight-app.globalData.navHeight;
+   let that =this
+   let query = wx.createSelectorQuery().select('.fenlei-menu').boundingClientRect(function (res) {  
+   let  thisFenLeiHeight = res.height;
+    console.log(thisFenLeiHeight)
+    console.log(app.globalData.navHeight)
+    that.setData({ 
+      historyScroll:screenHeight-app.globalData.navHeight-thisFenLeiHeight+'px'
+              // setHeight: screenHeight - thisflexBoxHeight - thisbgcolorHeight+'px'
+          });
+          console.log(that.data.historyScroll)
+}).exec(); 
+console.log(this.data.historyScroll)
     this.setData({
       navH: app.globalData.navHeight,
     })
+   
+    // console.log(screenHeight,historyScroll)
     let tabArr0 = 'tabArr.curHdIndex',
       tabArr1 = 'tabArr.curBdIndex'
     this.setData({

@@ -130,7 +130,7 @@
     <loading hidden="{{hidden3}}" catchchange="loadingChange">
         加载中...
     </loading>
-    <scroll-view scroll-y="true" style="height: 1000rpx;" bindscrolltolower="historyloadMore"
+    <scroll-view scroll-y="true" style="height:{{historyScroll}}" bindscrolltolower="historyloadMore"
         bindscrolltoupper="historyrefesh">
         <view wx:if="{{historyhasRefesh}}"
             style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
