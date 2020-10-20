@@ -173,7 +173,6 @@ Page({
     let scrollLeft = this.data.moveParams.scrollLeft;
     let distance = subLeft - (screenHalfWidth - subHalfWidth);
     scrollLeft = distance;
-
     this.setData({
       scrollLeft: scrollLeft
     })
@@ -201,10 +200,6 @@ Page({
     wx.setStorageSync("courseId", {
       courseId: courseId.course_id
     });
-    // that.getSubject()
-    // that.getHomePanel()
-    // that.getclasslive()
-   
     that.getALLData()
   },
   addStory() {
@@ -228,7 +223,7 @@ Page({
       moveParams: moveParams
     })
   },
-  gettopINfor(resolve, reject) {
+  gettopINfor() {
     let that = this
     app.encryption({
       url: api.test.getCollectionCourses,
