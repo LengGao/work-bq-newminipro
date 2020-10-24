@@ -102,6 +102,9 @@ page{
 .right{
     background:rgba(89,210,52,1);
 }
+.done{
+    background: #199fff;
+}
 .false{
     background:rgba(255,75,75,1);
 }

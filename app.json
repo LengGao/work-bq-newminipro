@@ -76,5 +76,6 @@
   },
   "plugins": {},
   "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "disableScroll": true
 }

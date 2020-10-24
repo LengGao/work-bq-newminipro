@@ -51,7 +51,6 @@ Page({
   },
   gocollection(number) {
     let courseId = this.data.courseId
-    console.log(number.currentTarget.dataset.number)
     wx.navigateTo({
       url: `../component/pages/collectionAll/collectionAll?number=${number.currentTarget.dataset.number}&courseId=${courseId}`
     })
@@ -156,10 +155,8 @@ Page({
   getRect(ele) {
     //获取点击元素的信息,ele为传入的id
     var that = this;
-    console.log(ele)
     //节点查询
     wx.createSelectorQuery().select(ele).boundingClientRect(function (rect) {
-      console.log(rect)
       let moveParams = that.data.moveParams;
       moveParams.subLeft = rect.left;
       moveParams.subHalfWidth = rect.width / 2;
@@ -178,27 +175,30 @@ Page({
     })
   },
   selectmenu: function (t) {
-    let ele = 'scroll-item-' + t.currentTarget.dataset.index
-    console.log(t.currentTarget.dataset)
-    this.getRect('#' + ele);
+    let courseId
     let that = this
-    let key = t.currentTarget.dataset.key;
-    let courseId = t.currentTarget.dataset.key
+    if( typeof(t) == 'number'){
+      courseId = t
+    }else{
+      let ele = 'scroll-item-' + t.currentTarget.dataset.index
+      this.getRect('#' + ele);
+      courseId = t.currentTarget.dataset.key.course_id
+    }
+   
     this.setData({
-      menuTop: key.course_id,
-      courseId: courseId.course_id,
+      menuTop: courseId,
+      courseId: courseId,
     });
     this.data.course_list.forEach((item) => {
       if (item.haschoose = true) {
         item.haschoose = false
       }
     })
-    console.log(this.data.course_list,courseId)
-    let indexOf = this.data.course_list.findIndex(item => item.course_id === key.course_id)
+    let indexOf = this.data.course_list.findIndex(item => item.course_id === courseId)
     this.data.course_list[indexOf].haschoose = true
     wx.setStorageSync('topInfo', this.data.course_list)//点击事件，点击后更新缓存。
     wx.setStorageSync("courseId", {
-      courseId: courseId.course_id
+      courseId: courseId
     });
     that.getALLData()
   },
@@ -229,7 +229,6 @@ Page({
       url: api.test.getCollectionCourses,
       method: "GET",
       success: function (res) {
-        console.log(res)
         res = res.list
         for (let i = 0; i < res.length; i++) {
           res[i].name = res[i].course_name
@@ -255,18 +254,18 @@ Page({
       fail: function (t) {
       },
       complete: function () {
-        that.getALLData()
+        that.getALLData();
+        //手此进入需要出发选中头部事件
+        that.selectmenu(that.data.courseId)
       }
     })
   },
   getALLData(){
     let that = this
     let courseId = this.data.menuTop
-    console.log(courseId)
     let option = {
       course_id: courseId
     }
-    console.log(option)
     app.encryption({
       url: api.test.getAllData,
       method: "GET",
@@ -300,10 +299,14 @@ Page({
               myCourse:res.info.video_info
             })
           }
-        if(res.info.has_classroom == 1){
+        if(res.info.has_classroom == 0){
           that.setData({
             noliving:false
            })
+         }else{
+          that.setData({
+            living:res.info.classroom_info
+          })
          }
       },
       fail: function (t) {
@@ -359,13 +362,11 @@ Page({
     let option = {
       course_id: that.data.menuTop
     }
-    console.log(option)
     app.encryption({
       url: api.default.getclasslive,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
         if (res.data == undefined && res.classroomList.length != 0) {
           that.setData({
             noliving: true
@@ -375,7 +376,6 @@ Page({
             noliving: false
           })
         }
-        console.log(that.data.noliving)
         if (res.classroomList[0] && res.classroomList[0].length != 0 && res.classroomList[0].review == 1) {
           that.setData({
             optionsGo: 'goTestvideo',
@@ -399,10 +399,7 @@ Page({
     })
   },
   goTestvideo() {
-    console.log('kakakaka')
-    console.log(this.data.optionsGo)
     let courseId = this.data.banjiID
-    console.log(courseId)
     wx.reLaunch({
       url: `../component/pages/course-class-detail/course-class-detail?video_id=${courseId}`
     })
@@ -428,7 +425,6 @@ Page({
               data: { code: t },
               method: 'POST',
               success: function (e) {
-                console.log(e)
                 if (e.data.param.info_show) {
                   app.globalData.info_show = 1;
                 }
@@ -445,13 +441,12 @@ Page({
                   })
                 }
                 wx.setStorageSync("user_info", {
-                  nickname: e.data.param.nickname,
+                  nickname: e.data.param.user_nicename,
                   avatar_url: e.data.param.user_img,
                   uid: e.data.param.uid,
                   uuid: e.data.param.uuid,
                   token: e.data.param.token
                 });
-
               },
               fail: function (e) {
                 wx.showModal({
@@ -471,13 +466,6 @@ Page({
     promise.then(function (resolve, reject) {
           that.gettopINfor(resolve, reject)
     });
-    // Promise.all([promise]).then((result) => {
-    //   console.log(wx.getStorageSync('topInfo'))
-    //   //更新头部状态
-    //   wx.hideLoading();
-    // }).catch((error) => {
-    //   console.log(error)
-    // })
     e && wx.setStorageSync("tmp_options", e), t.tabbar("tabBar", 0, this, "home")
   },
   onReady: function () { },

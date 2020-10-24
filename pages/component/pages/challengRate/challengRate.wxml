@@ -13,7 +13,7 @@
 <view style="background:rgba(255,255,255,1);border-radius:20rpx 20rpx 0px 0px;padding:37rpx 57rpx 48rpx 47rpx;position:relative;top:-20rpx">
     <view class="top-wrapper-fun">
         <view wx:for="{{ names }}" wx:key="index" style="font-size:28rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
-            {{item.name }}
+               {{item.name }}
         </view>
     </view>
     <view style="display:flex;flex-direction:column;margin-bottom:60px">

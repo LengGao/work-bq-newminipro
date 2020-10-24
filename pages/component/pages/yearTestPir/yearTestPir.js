@@ -147,11 +147,11 @@ Page({
   },
   cards() {
     this.common()
-    let name = this.data.chapterName
+    let name = '练习'
     let practice_id = this.data.real_topic_log_id
     console.log(practice_id)
     wx.navigateTo({
-      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}&type=1`
+      url: `../answerCard/answerCard?name=${name}&practice_id=${practice_id}&type=7&name=${name}`
     })
   },
   checkout(problem_id) {

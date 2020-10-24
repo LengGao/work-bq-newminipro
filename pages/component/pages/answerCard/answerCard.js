@@ -9,7 +9,8 @@ Page({
     singleNum: '',
     judgmentNum: '',
     successOPtion: 'defaultOption',
-    correct: []
+    correct: [],
+    test:true
   },
   goToTest() {
     wx.navigateBack({
@@ -40,11 +41,19 @@ Page({
     })
     let option,url
     if(options.type==1){//历年真题
+      that.setData({
+        test:false
+      })
       option = {
         real_topic_log_id: options.practice_id
       };//以上为初始化加载参数
       url = api.test.getRealTopicRecordBoard
-    }else if (options.type==0){// 章节练习
+    }else if (options.type==7){
+      option = {
+        real_topic_log_id: options.practice_id
+      };//以上为初始化加载参数
+      url = api.test.getRealTopicRecordBoard
+    } else if (options.type==0){// 章节练习
       option = {
         practice_id: options.practice_id
       };//以上为初始化加载参数
@@ -60,7 +69,10 @@ Page({
         challenge_id: options.practice_id
       };//以上为初始化加载参数
       url = api.test.getChallengeRecordBoard
-    }else if (options.type==4){
+    }else if (options.type==4){ //模拟考试
+      that.setData({
+        test:false
+      })
       option = {
         exam_log_id: options.practice_id
       };//以上为初始化加载参数
