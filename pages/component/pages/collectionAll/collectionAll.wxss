@@ -2,7 +2,10 @@
 page {
     background: #fff;
 }
-
+.cata-listbg{
+    padding:0 30rpx;
+    background: rgba(248, 248, 248);
+}
 .fenlei-menu {
     width: 750rpx;
     height: 100rpx;
@@ -110,7 +113,7 @@ page {
 }
 
 .history-wrapper {
-    padding: 27rpx 0 28rpx 30rpx;
+    padding: 23rpx 0 0rpx 31rpx;
 }
 
 .catalogue .cata-title {
@@ -131,7 +134,9 @@ page {
     color: rgba(102, 102, 102, 1);
     border-top: 1px solid rgba(238, 238, 238, 1);
 }
-
+.fix-out-box .cata-title:nth-last-child(1) {
+    border-bottom: 1px solid rgba(238, 238, 238, 1)!important;
+}
 .cata-item {
     align-items: center;
     /* width: 36rpx; */
@@ -290,4 +295,22 @@ page {
 
 .cb {
     transform: scale(0.8, 0.8);
+}
+.errorTips{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    margin:60rpx 0 30rpx 0;
+    font-family: PingFang SC;
+    font-weight: 500;
+    font-size: 24rpx;
+    color: #999999;
+
+}
+.errorTips text{
+    font-size: 24rpx;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #199FFF;
+    padding-right: 10rpx;
 }

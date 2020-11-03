@@ -72,18 +72,11 @@ Page({
 
 
   doSomething(a, b) {
-    // let courseId = wx.getStorageSync('courseId').courseId
-    // this.setData({
-    //   courseId: courseId
-    // })
     console.log('onload')
-
     let pro = new Promise((resolve, reject) => {
       let that = this
       let option = {
         problem_course_id: parseInt(this.data.problem_course_id),
-        // month: a - 0,
-        // year: b - 0
       }
       console.log(option)
       app.encryption({
@@ -185,9 +178,6 @@ Page({
       hasMore:true,
       page:1
     })
-    // this.setData({
-    //   page: this.data.page
-    // })
     this.getSubscribeList()
   },
   //点击月份时触发

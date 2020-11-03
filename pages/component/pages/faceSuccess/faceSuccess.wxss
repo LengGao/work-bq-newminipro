@@ -17,7 +17,6 @@ page{
   font-weight:600;
 }
 .success_h2{
-  
   font-size: 36rpx;
   color:#AAAAAA;
   font-family:PingFang SC;

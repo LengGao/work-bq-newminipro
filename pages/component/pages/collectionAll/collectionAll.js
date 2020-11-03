@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    noContent:false,
     page: 1,
     size: 20,
     hasMore: true,
@@ -89,8 +90,6 @@ Page({
       collecthasRefesh: false
     })
     this.getFavoritesList()
-
-
   },
   //获取收藏夹列表
   getFavoritesList() {
@@ -214,7 +213,6 @@ Page({
         let worongTitle = app.errorWxParse(that, res.list, 'wrong')
         console.log(worongTitle)
         let pageNum = Math.ceil(total / 20)
-       
         if (pageNum < 2) {
           that.setData({
             wrongList: worongTitle,
@@ -264,10 +262,17 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-        let CollectionTitle = app.errorWxParse(that, res.list)
-        that.setData({
-          collectionList: CollectionTitle
-        })
+        if (res.list.length <= 0) {
+          that.setData({
+            nodata: false
+          })
+        }else{
+          let CollectionTitle = app.errorWxParse(that, res.list)
+          that.setData({
+            collectionList: CollectionTitle
+          })
+        }
+       
       },
       fail: function (t) {},
       complete: function () {}
@@ -327,6 +332,11 @@ Page({
       data: option,
       success: function (res) {
         console.log(res.total)
+          if (res.list.length <= 0) {
+          that.setData({
+            nohisdata: false
+          })
+        }
         let pageNum = Math.ceil(res.total / 20)
         that.setData({
           hidden3: true,
@@ -344,6 +354,7 @@ Page({
             hisdata: historyTitle,
             historyhasRefesh: false,
             pageNum3: pageNum,
+            noContent:false ,
             historyhasMore: false,
             page: that.data.page + 1
           })
@@ -358,7 +369,8 @@ Page({
         } else if (that.data.page3 > 1 && that.data.page3 <= pageNum) {
           if (that.data.page3 == pageNum) {
             that.setData({
-              historyhasMore: false
+              historyhasMore: false,
+              noContent:false ,
             })
           }
           that.setData({
@@ -406,8 +418,8 @@ Page({
     this.setData({
       problem_course_id: problem_course_id
     })
-    wx.startPullDownRefresh();
-    console.log(options)
+    // wx.startPullDownRefresh();
+    // console.log(options)
     let screenHeight = wx.getSystemInfoSync().windowHeight;
    let historyScroll = screenHeight-app.globalData.navHeight;
    let that =this

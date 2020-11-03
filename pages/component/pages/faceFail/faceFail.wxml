@@ -11,7 +11,7 @@
         <view style="padding:5rpx 0 0 34rpx">请输入理由申请补签到</view>
       </block> -->
       <block>
-        <view style="padding-left:75rpx">{{message}}</view>
+        <view >{{code=='200'?'':message}}</view>
       
       </block>
     </view>
