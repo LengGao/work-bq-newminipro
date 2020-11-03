@@ -159,11 +159,9 @@ App({
         return turn;
     },
     errorWxParse(self ,objData,name){
-       
         let obj = objData || {};
         let d = self.data;
         let msgListArr = [];
-
      if(name!=undefined){
          if(name=='history'){
             wxParse.wxParse("content", "html", obj.stem, self, 5); //标题

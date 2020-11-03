@@ -46,6 +46,8 @@ page {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    position: fixed;
+    top: 0;
 }
 .scrow-view{
     width: 90%;
@@ -80,7 +82,7 @@ page {
     background:rgba(25,159,255,1);
     border-radius:20rpx;
     margin: auto;
-    margin-top: 25rpx;
+    margin-top: 108rpx;
     padding-top: 40rpx;
     padding-bottom: 35rpx;
     position: relative;

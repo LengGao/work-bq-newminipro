@@ -28,11 +28,11 @@
         </view>
         <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/dakaanniu (1).png" mode="widthFix" />
     </view>
-    <view style="position:absolute;top:232rpx;left:235rpx;z-index:100;width:220rpx;height:220rpx;"  hidden="{{ isCrard == 0?true:false }}"  bindtap='goAny'>
+    <view style="position:absolute;top:232rpx;left:235rpx;z-index:100;width:220rpx;height:220rpx;display:flex;justify-content:center;align-items:center"  hidden="{{ isCrard == 0?true:false }}"  bindtap='goAny'>
         <view style="font-size:28rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);position:absolute;top:60rpx;left:70rpx">
            正确率
         </view>
-        <view style="font-size:50rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);position:absolute;top:107rpx;left:63rpx">
+        <view style="font-size:50rpx;font-family:PingFang SC;font-weight:500;color:rgba(255,255,255,1);position:absolute;margin-top:15px">
            {{ accuracy  }}%
         </view>
         <image style="width:100%;height:100%" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/dakaanniu (1).png" mode="widthFix" />

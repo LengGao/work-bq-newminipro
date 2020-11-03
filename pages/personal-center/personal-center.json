@@ -3,5 +3,6 @@
     "navigationBarBackgroundColor": "#199FFF",
     "navigationBarTitleText": "个人中心",
     "navigationBarTextStyle": "white",
+    "disableScroll":true,
     "usingComponents": {}
 }
