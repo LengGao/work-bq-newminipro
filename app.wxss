@@ -7,7 +7,16 @@
     padding: 200rpx 0;
     box-sizing: border-box;
 }
-
+.questions-box {
+    box-sizing: border-box;
+    width: 670rpx;
+    margin-left: 40rpx;
+    margin-top: 40rpx;
+    overflow-y: scroll;
+    position: fixed;
+    bottom: 0;
+    top: 123px;
+}
 page {
     font-size: 28rpx;
     color: #333;

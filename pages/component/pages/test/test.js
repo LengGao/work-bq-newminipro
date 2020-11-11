@@ -463,7 +463,6 @@ Page({
     //   wrongAnswer: true,
     //   correctAnswer: true
     // })
-
   },
   showSenceAnswer() {
     if (this.data.activeSenceAnswer == 'activeAnswer') {

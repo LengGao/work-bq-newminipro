@@ -409,6 +409,10 @@ Page({
       url: '../component/pages/secondary/secondary'
     });
   },
+  getHomePanel(){
+    console.log('微信小程序，此处应该触发头部接口')
+    this.gettopINfor()
+  },
   onLoad: function (e) {
     let that = this
     wx.showLoading({
