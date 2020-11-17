@@ -169,7 +169,6 @@ Page({
       method: "POST",
       data: option,
       success: function (res) {
-
         wx.showToast({
           title: '发表评论成功！',
           icon: 'success',

@@ -184,7 +184,6 @@ Page({
       this.getRect('#' + ele);
       courseId = t.currentTarget.dataset.key.course_id
     }
-   
     this.setData({
       menuTop: courseId,
       courseId: courseId,
