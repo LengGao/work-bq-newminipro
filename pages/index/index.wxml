@@ -2,7 +2,9 @@
     <view class="scrow-view">
         <scroll-view scroll-x="true" bindscroll="scrollMove" scroll-with-animation="true">
             <view class="fenlei-menu">
-                <text bindtap="selectmenu" class="teamnum {{menuTop == item.course_id ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{course_list}}" wx:key='index' id="scroll-item-{{index}}" data-index="{{index}}">{{item.course_name}}</text>
+                <text bindtap="selectmenu" class="teamnum {{menuTop == item.course_id ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{course_list}}" wx:key='index' id="scroll-item-{{index}}" data-index="{{index}}">
+                    {{item.course_name}}
+                </text>
             </view>
         </scroll-view>
     </view>
@@ -121,23 +123,23 @@
     </view>
     <view class="myCourse-content" bindtap='{{ optionsGo }}' wx:if="{{ noliving }}">
         <view class="img-myCourse">
-            <image src="{{ living.Picture }}" style="width:100%;height:100%"></image>
+            <image src="{{ allData.cover_img }}" style="width:100%;height:100%"></image>
         </view>
         <view class="myCourse-info">
-            <text class="myCourse-content-title">{{living.title}}</text>
+            <text class="myCourse-content-title">{{living.classroom_name}}</text>
             <view class="">
                 <!-- <text class="myCourse-name">会计</text> -->
-                <text class="myCourse-time" style="background:#fff;padding:0;font-size:24rpx;margin:0" wx:if="{{ living.isLiveIng==1?true:false }}">
-                    直播时间：{{ living.live_time }}
+                <text class="myCourse-time" style="background:#fff;padding:0;font-size:24rpx;margin:0" wx:if="{{ allData.live_status==1?true:false }}">
+                    直播时间：{{ allData.live_time }}
                 </text>
-                <text class="live-review" wx:if="{{ living.review==1?true:false }}">直播回顾</text>
+                <text class="live-review" wx:else>直播回顾</text>
             </view>
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
                     <view style="width:32rpx;height:32rpx;">
-                        <image mode="scaleToFill" class="personal-img-myCourse" src="{{living.img == '' ? '/static/img/default.jpg': living.img }}" binderror="errorLiving"></image>
+                        <image mode="scaleToFill" class="personal-img-myCourse" src="{{living.teacher_img == '' ? '/static/img/default.jpg': living.teacher_img }}" binderror="errorLiving"></image>
                     </view>
-                    <text class="personal-name">{{living.teacher}}</text>
+                    <text class="personal-name">{{living.teacher_name}}</text>
                 </view>
                 <!-- <view class="remindMes">
                     <text class="live-review">直播回顾</text>

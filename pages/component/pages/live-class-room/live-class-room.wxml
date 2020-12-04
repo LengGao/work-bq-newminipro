@@ -46,17 +46,15 @@
 <view class="talking-box menu-child {{tabArr.curBdIndex=='0'?'tactive':''}}" id="commentList">
     <scroll-view id="comment_content" scroll-into-view="{{current_comment_index}}" scrollY="true" class="scroll_box">
         <block wx:for="{{comment_list}}" wx:key="index">
-            <view class='user-chat' id="comment_{{index}}" wx:if="{{item.data.msg}}" wx:if="{{item.data.uid != uid}}">
+            <view class='user-chat' id="comment_{{index}}" wx:if="{{item.data.message}}" wx:if="{{item.data.uid != uid}}">
                 <view class="left-photo">
                     <image src="{{item.data.user_img}}"></image>
                 </view>
                 <view class="right-texts">
                     <text class="nick-names">{{item.data.user_nicename}}</text>
                     <view>
-                        <text class="chat-words" wx:if="{{item.data.msg}}">{{item.data.msg}}</text>
-                        <!-- <text class="chat-word" wx:elif="{{item.type == 'login'}}">{{item.client_name}}加入直播</text>
-                      <text class="chat-word" wx:elif="{{item.type == 'logout'}}">{{item.from_client_name}}退出直播</text> -->
-                        <image bindtap="previewImage" class="chat-img" data-current="{{item.upload_img}}" mode="widthFix" src="{{item.upload_img}}" wx:if="{{item.upload_img}}"></image>
+                        <text class="chat-words" wx:if="{{item.data.message}}">{{item.data.message}}</text>
+                        <image bindtap="previewImage" class="chat-img" data-current="{{item.user_img}}" mode="widthFix" src="{{item.user_img}}" wx:if="{{item.user_img}}"></image>
                     </view>
                 </view>
             </view>
@@ -64,10 +62,8 @@
                 <view class="my-text">
                     <text class="nick-name">{{item.data.user_nicename}}</text>
                     <view>
-                        <text class="chat-word" wx:if="{{item.data.msg}}">{{item.data.msg}}</text>
-                        <!-- <text class="chat-word" wx:elif="{{item.type == 'login'}}">{{item.client_name}}加入直播</text>
-                      <text class="chat-word" wx:elif="{{item.type == 'logout'}}">{{item.from_client_name}}退出直播</text> -->
-                        <image bindtap="previewImage" class="chat-img" data-current="{{item.upload_img}}" mode="widthFix" src="{{item.upload_img}}" wx:if="{{item.upload_img}}"></image>
+                        <text class="chat-word" wx:if="{{item.data.message}}">{{item.data.message}}</text>
+                        <image bindtap="previewImage" class="chat-img" data-current="{{item.user_img}}" mode="widthFix" src="{{item.user_img}}" wx:if="{{item.user_img}}"></image>
                     </view>
                 </view>
                 <view class="left-photo">
@@ -89,41 +85,6 @@
             </view>
         </view>
     </form>
-</view>
-<!-- <cover-view class="pop-masks" hidden="{{flag}}">
-    <cover-view class="sum-popup">
-        <cover-image bindtap="hidepop" class="close-sum-icon" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/close-pop-icon.png"></cover-image>
-        <cover-image class="top-red-bg" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/reward-pop-bg2.png"></cover-image>
-        <cover-view class="choose-sum">
-            <cover-view bindtap="money" class="choose-sum-text" data-money="1">1元</cover-view>
-            <cover-view bindtap="money" class="choose-sum-text" data-money="3">3元</cover-view>
-            <cover-view bindtap="money" class="choose-sum-text" data-money="5">5元</cover-view>
-            <cover-view bindtap="money" class="choose-sum-text" data-money="10">10元</cover-view>
-            <cover-view bindtap="money" class="choose-sum-text" data-money="15">15元</cover-view>
-            <cover-view bindtap="money" class="choose-sum-text" data-money="20">20元</cover-view>
-        </cover-view>
-        <cover-view bindtap="showpop2" class="orther-sum">其他金额</cover-view>
-    </cover-view>
-</cover-view> -->
-<view class="pop-masks-other" hidden="{{flag2}}">
-    <view class="other-sum-pop">
-        <view class="other-sum-title">输入金额(元)</view>
-        <input bindinput="getMoney" type="digit" value="{{othermoney}}"></input>
-        <view class="other-btn">
-            <text bindtap="hidepop2">取消</text>
-            <text bindtap="submitmoney">确定</text>
-        </view>
-    </view>
-</view>
-<view class="pop-masks-other" hidden="{{show_input_password}}">
-    <view class="other-sum-pop">
-        <view class="other-sum-title">输入密码</view>
-        <input bindinput="getPassword" type="text" value="{{video_password}}"></input>
-        <view class="other-btn">
-            <text bindtap="hidePasswordPop">取消</text>
-            <text bindtap="submitpassword">确定</text>
-        </view>
-    </view>
 </view>
 <import src="../../../../wxParse/wxParse.wxml"></import>
 <view class="live-introduce menu-child {{tabArr.curBdIndex=='1'?'tactive':''}}">
