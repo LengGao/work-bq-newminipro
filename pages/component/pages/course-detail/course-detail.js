@@ -22,7 +22,6 @@ const serviceError = function (msg) {
 }
 let app = getApp();
 var api = require("../../../../api.js")
-
 Page({
   data: {
     isIOS: n.globalData.isIOS,
@@ -609,7 +608,6 @@ Page({
     // 收到websocket消息
     that.SocketTask.onMessage(res => {
       console.log('监听到 接收消息！' + ':' + res.data)
-
       // this.socketMessage(JSON.parse(res.data));
     })
   },

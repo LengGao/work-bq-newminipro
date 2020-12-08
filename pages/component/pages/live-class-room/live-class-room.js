@@ -142,14 +142,16 @@ Page({
       isCover: 1
     })
   },
-  getVideoInfo: function () {
+  getVideoInfo() {
     let that = this
     let class_id = parseInt(that.data.course_id)
     wx.showLoading({
       title: "加载中"
     });
     let option = {
-      class_id: class_id
+      class_id: class_id,
+      live_id:that.data.live_id,
+      live_class_id:that.data.live_class_id
     }
     console.log(option)
     app.encryption({
@@ -158,16 +160,15 @@ Page({
       data: option,
       success: function (e) {
         console.log(e)
-        var a = e.about + "<span> </span>";
-        wxParse.wxParse("content", "html", a, that, 5);
+        // var a = e.about + "<span> </span>";
+        // wxParse.wxParse("content", "html", a, that, 5);
         that.setData({
-          video_title: e.title,
-          videoUrl: e.rtmpurl,
-          roomId: e.roomId
+          video_title: e.data.live_class_name,
+          videoUrl: e.data.pull_rtmp_url
         });
         // that.livemember(e.roomId)
         wx.setNavigationBarTitle({
-          title: `直播：${e.title}`
+          title: `直播：${e.data.live_class_name}`
         });
       },
       complete: function (t) {

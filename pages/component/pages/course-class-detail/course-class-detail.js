@@ -684,9 +684,10 @@ Page({
     let live_video_id = this.data.live_video_id
     let video_cellection_id = that.data.live_class_id
     let courseId = this.data.courseId
+    let live_id = this.data.live_id
     // 创建Socket
     that.SocketTask = wx.connectSocket({
-      url:  api.default.sockForCount + `?token=${tokens}&students_user_id=${uid}&count_type=2&from=1&listen_id=${listen_id}&listen_time=${listen_time}&class_video_id=${live_video_id}&course_id=${courseId}&video_cellection_id=${video_cellection_id}`,
+      url:  api.default.sockForCount + `?token=${tokens}&students_user_id=${uid}&count_type=2&from=1&listen_id=${listen_id}&listen_time=${listen_time}&class_video_id=${live_video_id}&course_id=${courseId}&video_cellection_id=${video_cellection_id}&live_id=${live_id}`,
       header: {
         'content-type': 'application/json'
       },
@@ -721,7 +722,7 @@ Page({
         let live_video_id = that.data.live_video_id
         let class_id =that.data.class_room_id
         let video_cellection_id = that.data.live_class_id
-        let sendData = `{"token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id}}`
+        let sendData = `{"token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}}`
         console.log(sendData);
         that.socketSend(sendData);
       }, 10000)
