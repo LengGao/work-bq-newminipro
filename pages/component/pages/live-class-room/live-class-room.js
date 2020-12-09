@@ -240,6 +240,7 @@ Page({
       fn && fn();
     } else {
       this.SocketTask.close();
+      this.reconnect();
       wx.showToast({
         title: "网络连接失败,请检查网络",
         icon: "none"
