@@ -189,7 +189,7 @@ Page({
     // 创建Socket
     this.SocketTask = wx.connectSocket({
       // url: 'wss://api.beiqujy.com/wss',
-      url: api.default.countSocket + `/chat?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&live_id=${live_id}&live_class_id=${live_class_id}&type='students'&from=1`,
+      url: api.default.countSocket + `?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&live_id=${live_id}&live_class_id=${live_class_id}&type='students'&from=1`,
       // url: 'wss://testapi.abacc.cn/chat' + `?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&listen_id=123&type='students'&from=1`,
       header: {
         'content-type': 'application/json'
@@ -315,7 +315,6 @@ Page({
     }
 
   },
-
   onShow: function () {
     if (this.SocketTask && this.SocketTask.readyState != 1 && this.isHide) {
       this.webSocket();

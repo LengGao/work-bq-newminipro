@@ -211,7 +211,8 @@ Page({
     let options = {
       listen_id: res,
       media_int_id:that.data.media_int_id,
-      live_video_id:that.data.live_video_id
+      live_video_id:that.data.live_video_id,
+      
     }
     console.log(options)
     app.encryption({
@@ -223,7 +224,8 @@ Page({
         var a = res.live_video_des;
         d.wxParse("content", "html", a, that, 5);
         that.setData({
-          video_mid: res.video_mid
+          video_mid: res.video_mid,
+          live_id:res.live_id
         })
         that.playVideo(res)
       },
