@@ -6,6 +6,5 @@
     "usingComponents": {
         "i-message": "../../utils/iview/message/index",
         "i-action-sheet": "../../utils/iview/action-sheet/index"
-    },
-    "disableScroll":true
+    }
 }

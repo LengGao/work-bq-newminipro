@@ -386,7 +386,7 @@ Page({
   },
   goindex() {
     wx.navigateTo({
-      url: '../component/pages/secondary/secondary'
+      url: './secondary/secondary'
     });
   },
   getHomePanel() {

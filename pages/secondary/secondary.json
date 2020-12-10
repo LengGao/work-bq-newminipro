@@ -3,6 +3,5 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "课程列表",
     "navigationBarTextStyle": "black",
-    "disableScroll":true,
     "usingComponents": {}
 }
