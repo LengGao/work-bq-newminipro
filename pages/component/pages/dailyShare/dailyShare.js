@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgsrc: ''
+    imgsrc: '',
+    previewData: null
   },
   saveImage() {
     let imgsrc = this.data.imgsrc
@@ -53,17 +54,19 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-       
+        that.setData({
+          previewData: res.info
+        })
       },
       fail: function (t) {
 
       },
       complete: function () {
-        
+
       }
     })
   },
-  createPunchPoster(courseId){
+  createPunchPoster(courseId) {
     let that = this
     wx.showLoading({
       title: '正在生成图片中...',
@@ -71,8 +74,8 @@ Page({
     });
     let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
     let option = {
-      punch_id: courseId,
-      problem_course_id:problem_course_id
+      punch_id: that.data.courseId,
+      problem_course_id: problem_course_id
     }
     console.log(option)
     app.encryption({
@@ -84,6 +87,7 @@ Page({
         that.setData({
           imgsrc: res.info.share_url
         })
+        that.saveImage()
       },
       fail: function (t) {
 
@@ -97,12 +101,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     this.setData({
-      height: wx.getSystemInfoSync().windowHeight
+      height: wx.getSystemInfoSync().windowHeight,
+      courseId: options.courseId
     })
     let courseId = options.courseId
-    // this.getPunchClock(courseId)
-    this.createPunchPoster(courseId)
+    this.getPunchClock(courseId)
+    // this.createPunchPoster(courseId)
   },
 
   /**
@@ -155,7 +161,7 @@ Page({
     return {
       title: '东培学堂',
       path: '../../../../pages/index/index',
-      imageUrl: that.data.imgsrc,
+      imageUrl: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/dakafenxiang.png',
       success: function (shareTickets) {
         console.info(shareTickets + '成功');
         // 转发成功

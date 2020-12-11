@@ -22,7 +22,6 @@ const serviceError = function (msg) {
 }
 let app = getApp();
 var api = require("../../../../api.js")
-
 Page({
   data: {
     isIOS: n.globalData.isIOS,
@@ -33,6 +32,8 @@ Page({
       curHdIndex: 2,
       curBdIndex: 2
     },
+    live_class_id:'',
+    live_id:'',
     chooseOrNot: -1,
     starIndex2: 0,
     starIndextext: '请选择星级',
@@ -111,7 +112,6 @@ Page({
     comment_list: [],
     p: 1,
     video: {},
-
     lessonId: '',
     learnTime: 0,
     // 阿里云
@@ -141,10 +141,13 @@ Page({
     startNum: '1',
     tag: '',
     isPay: true,
-    SocketTask: '',
+    SocketTask: null,
     testWorker: null,
     repeated: null,
-    isHide: false
+    isHide: false,
+    courseId:'',
+    class_video_id:'',
+    video_cellection_id:''
   },
   sumbitComment() {
     if (this.data.value2 == '') {
@@ -422,32 +425,34 @@ Page({
   listen: function (t) {
     let that = this
     let option = {
-      course_id: parseInt(t.video_id)
+      course_id: parseInt(t.courseId),
+      live_id:that.data.live_id,
+      video_collection_id:t.video_collection_id
     }
     console.log(option)
     app.encryption({
-      url: api.video.listen,
+      url: api.video.getlastplayinfo,
       method: "GET",
       data: option,
       success: function (res) {
         console.log(res)
         that.setData({
-          learnTime: res.listen_time,
-          lessonId: res.listen_id
+          learnTime: res.data.listen_time,
+          lessonId: res.listen_id,
+          class_video_id:res.video_class_id
         })
-        if (res.data == undefined) {
-          that.play(res.listen_id, res.listen_time)
-        } else {
-          that.setData({
-            myCourse: false
-          })
-        }
+        that.playVideo(res.data.play_info, res.data.listen_time)
+        // if (res.data == undefined) {
+        //   that.playVideo(res.data.play_info, res.data.listen_time)
+        // } else {
+        //   that.setData({
+        //     myCourse: false
+        //   })
+        // }
       },
       fail: function (t) {
-
       },
       complete: function () {
-
       }
     })
   },
@@ -501,14 +506,36 @@ Page({
         })
       },
       fail: function (t) {
-
       },
       complete: function () {
-
       }
     })
     this.coursedetail()
     this.webSocket()
+  },
+  playVideo(data, listen_time) {
+    clearInterval(this.repeated);
+    clearInterval(this.socketTime)
+    this.repeated = null
+    this.SocketTask && this.SocketTask.close();
+    this.webSocket()
+    this.isHide = false
+    this.data.videoPlaying = false
+    let currentPoster = data.VideoBase.CoverURL
+    let currentResource = data.PlayInfoList.PlayInfo[0].PlayURL
+    let currentVideoTitle = data.VideoBase.Title
+    let currentVideoResource = data.PlayInfoList.PlayInfo.map(item => {
+      item.definitionFormat = this.computedDef(item.Definition)
+      return item
+    })
+    console.log(currentVideoResource)
+    this.setData({
+      currentPoster,
+      currentVideoTitle,
+      currentResource,
+      currentVideoResource,
+      currentDefinition: currentVideoResource[0].definitionFormat
+    })
   },
   //小于10的格式化函数（2变成02）
   timeFormat(param) {
@@ -530,15 +557,15 @@ Page({
   webSocket() {
     let that = this
     let uid = wx.getStorageSync("user_info").uid
-    let uuid = wx.getStorageSync("user_info").uuid
-    let course_id = 15
-    let listen_id = this.data.lessonId
+    let course_id = this.data.courseId
     let tokens = wx.getStorageSync("user_info").token
     let listen_time = this.data.currentTime
+    let video_cellection_id = that.data.video_collection_id
+    let class_video_id = that.data.class_video_id
     // 创建Socket
     that.SocketTask = wx.connectSocket({
       // url: 'wss://api.beiqujy.com/wss',
-      url: api.default.countSocket + `/count?token=${tokens}&uid=${uid}&type=1&from=1&listen_id=${listen_id}&listen_time=${listen_time}`,
+      url:  api.default.sockForCount + `?token=${tokens}&students_user_id=${uid}&count_type=1&from=1&listen_time=${listen_time}&class_video_id=${class_video_id}&course_id=${course_id}&video_cellection_id=${video_cellection_id}`,
       header: {
         'content-type': 'application/json'
       },
@@ -570,7 +597,7 @@ Page({
       clearInterval(that.repeated)
       that.repeated = setInterval(() => {
         let listen_time = that.data.currentTime
-        let sendData = `{"token":"${tokens}","uid":${uid},"type":1,"from":1,"listen_id":${listen_id},"listen_time":${listen_time}}`;
+        let sendData = `{"token":"${tokens}","students_user_id":${uid},"count_type":1,"from":1,"listen_time":${listen_time},"video_cellection_id":${video_cellection_id},"class_video_id":${class_video_id}}`;
         console.log(sendData);
         that.socketSend(sendData);
       }, 10000)
@@ -581,7 +608,6 @@ Page({
     // 收到websocket消息
     that.SocketTask.onMessage(res => {
       console.log('监听到 接收消息！' + ':' + res.data)
-
       // this.socketMessage(JSON.parse(res.data));
     })
   },
@@ -627,10 +653,8 @@ Page({
         })
       },
       fail: function (t) {
-
       },
       complete: function () {
-
       }
     })
   },
@@ -649,10 +673,8 @@ Page({
         })
       },
       fail: function (t) {
-
       },
       complete: function () {
-
       }
     })
   }, // onload
@@ -673,10 +695,8 @@ Page({
         })
       },
       fail: function (t) {
-
       },
       complete: function () {
-
       }
     })
   },
@@ -686,13 +706,16 @@ Page({
     })
   },
   onLoad: function (option = {}) {
-    this.listen(option)//获取播放信息
+    console.log(option.video_collection_id)
     clearInterval(this.timeOut);
-    // this.data.testWorker = makeWorker(work);
     this.setData({
       video_id: option.video_id || this.data.video_id,
       courseId: option.courseId || this.data.courseId,
+      live_id:option.live_id,
+      live_class_id:option.live_class_id,
+      video_collection_id:option.video_collection_id
     });
+    this.listen(option)//获取播放信息
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {
@@ -711,27 +734,10 @@ Page({
   },
   onUnload: function () {
     this.isHide = true;
-    this.SocketTask && this.SocketTask.close();
-    clearInterval(this.repeated)
+    wx.closeSocket();
+    clearInterval(this.repeated);
+    clearInterval(this.socketTime)
     this.repeated = null
-    // let option = {
-    //   listen_id: this.data.lessonId,
-    //   learn_time: this.data.currentTime,
-    //   type: 1,
-    //   video_mid: this.data.video_mid
-    // }
-    // app.encryption({
-    //   url: api.default.videomember,
-    //   method: "POST",
-    //   data: option,
-    //   success: function (res) {
-    //     
-    //   },
-    //   fail: function (t) {
-    //   },
-    //   complete: function () {
-    //   }
-    // })
   },
   onPullDownRefresh: function () { },
   onReachBottom: function () { },
@@ -797,34 +803,12 @@ Page({
     });
   },
   select_date: function (t) {
-    clearInterval(this.repeated)
-    this.repeated = null
-    this.SocketTask && this.SocketTask.close();
-
-    // let self = this, d = this.data;
-    // let option = {
-    //   listen_id: this.data.lessonId,
-    //   learn_time: this.data.currentTime,
-    //   type: 1,
-    //   video_mid: this.data.video_mid
-    // }
-    // console.log(option)
-    // app.encryption({
-    //   url: api.default.videomember,
-    //   method: "POST",
-    //   data: option,
-    //   success: function (res) {
-    //     
-    //   },
-    //   fail: function (t) {
-    //   },
-    //   complete: function () {
-
-    //   }
-    // })
+    wx.closeSocket();
+    this.isHide = true;
     this.setData({
       lessonId: t.currentTarget.dataset.key,
-      learnTime: 0
+      learnTime: 0,
+      class_video_id:t.currentTarget.dataset.key
     })
     // this.onLoad()
     this.play(t.currentTarget.dataset.key)
@@ -953,7 +937,6 @@ Page({
       dd: i
     };
   },
-
   // 阿里云
   // 视频缓冲触发事件
   videoWaiting() {
@@ -961,7 +944,6 @@ Page({
       controlHidden: true
     })
   },
-
   computedDef(definition) {
     let def = {
       FD: "流畅",
@@ -973,7 +955,6 @@ Page({
     }
     return def[definition]
   },
-
   videoPlayHandle(e) {
     console.log('videoPlayHandle')
     this.data.videoPlaying = true
@@ -989,7 +970,6 @@ Page({
     }
 
   },
-
   closeControl() {
     console.log(1111);
     this.setData({
@@ -997,7 +977,6 @@ Page({
       rateShow: false
     })
   },
-
   tapVideo(e) {
     console.log(e)
     console.log('tapVideo')
@@ -1013,14 +992,12 @@ Page({
       })
     }
   },
-
   switchResource() {
     console.log('switch')
     this.setData({
       multiListShow: true
     })
   },
-
   showSwitchRate(rate) {
     this.setData({
       rateShow: true
@@ -1069,24 +1046,6 @@ Page({
   tapPlay(e) {
     let vid = e.currentTarget.dataset['vid']
     this.playVideo(vid)
-  },
-  playVideo(data, listen_time) {
-    this.data.videoPlaying = false
-    let currentPoster = data.VideoBase.CoverURL
-    let currentResource = data.PlayInfoList.PlayInfo[0].PlayURL
-    let currentVideoTitle = data.VideoBase.Title
-    let currentVideoResource = data.PlayInfoList.PlayInfo.map(item => {
-      item.definitionFormat = this.computedDef(item.Definition)
-      return item
-    })
-    console.log(currentVideoResource)
-    this.setData({
-      currentPoster,
-      currentVideoTitle,
-      currentResource,
-      currentVideoResource,
-      currentDefinition: currentVideoResource[0].definitionFormat
-    })
   },
   // 进度改变执行
   timeUpdate(e) {
