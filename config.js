@@ -10,7 +10,9 @@ let config = {
   //  sock:'wss://testapi.abacc.cn/'
   sock: "wss://count.beiqujy.com/",
   // bqUrl: 'https://apps.beiqujy.com/'
-  bqUrl: 'http://dongpei.local/wechat/v2',//孝华
+  // bqUrl: 'http://dongpei.local/wechat/v2',//孝华
+    // bqUrl: 'http://sc.dp.com/wechat/v2',//超
+       bqUrl: 'https://dpapi.beiqujy.com/wechat/v2',//线上
   // bqUrl: 'https://testapi.beiqujy.com/wechat/v2',//
   //bqUrl: 'http://www.tp.cn/wechat/v2',//
 }
