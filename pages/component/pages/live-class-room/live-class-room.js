@@ -1,4 +1,4 @@
-var e, t = getApp(), api = require("../../../../api.js"), a = (require("../../../../commons/comment-chat/comment-chat.js"),
+var e, t = getApp(), api = require("./../../../../api.js"), a = (require("../../../../commons/comment-chat/comment-chat.js"),
   !1), i = !1, wxParse = require("../../../../wxParse/wxParse.js"), app = getApp();
 
 Page({
@@ -10,7 +10,6 @@ Page({
     },
     setinter: null,
     chapter: '',
-    video_id: 0,
     flag: !0,
     flag2: !0,
     show_input_password: !0,
@@ -47,16 +46,15 @@ Page({
     current_comment_index: "",
     comment_ids: [],
     urls: [],
-    for_video_id: 0,
     // 新
     isIOS: app.globalData.isIOS,
     chooseimg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/uploadimg.png',
     comment_placeholder: '说点什么吧~',
     client_list: [],
     comment_bottom: 0,
-    SocketTask: '',
-    SocketTaskcount: '',
-    livePlayer: '',
+    SocketTask: null,
+    SocketTaskcount: null,
+    livePlayer: null,
     repeat: null,
     reconnecting: true,
     roomId: '',
@@ -80,36 +78,6 @@ Page({
     }) : this.setData({
       playPusher: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pusher-play.png"
     }), r = !r;
-  },
-  collect: function () {
-    var e = this;
-    t.request({
-      url: o.user.collect,
-      method: "POST",
-      data: {
-        video_id: e.data.video_id
-      },
-      success: function (t) {
-        if (0 == t.errcode) {
-          var o = e.data.video;
-          1 == e.data.video.collect ? (o.collect = !1, e.setData({
-            video: o
-          }), wx.showToast({
-            title: "取消收藏",
-            icon: "success"
-          })) : (o.collect = !0, e.setData({
-            video: o
-          }), wx.showToast({
-            title: "收藏成功",
-            icon: "success"
-          }));
-        } else wx.showModal({
-          title: "警告",
-          content: t.msg,
-          showCancel: !1
-        });
-      }
-    });
   },
   tabFun: function (e) {
     var t = e.target.dataset.id;
@@ -159,44 +127,31 @@ Page({
   onLoad: function (e) {
     console.log(e)
     this.setData({
-      course_id: parseInt(e.video_id)
-    });
-    this.setData({
-      video_id: e.video_id || this.data.video_id,
+      course_id: parseInt(e.course_id),
       uid: wx.getStorageSync('user_info').uid,
-
+      live_id: parseInt(e.live_id),
+      live_class_id: parseInt(e.live_class_id)
     });
-    this.webSocket()
+    this.webSocket() //聊天
     this.getVideoInfo();
     this.livePlayer = wx.createLivePlayerContext('video-livePlayer');
     this.tvideo = wx.createLivePlayerContext('video-livePlayer');
-  },
-  clickClient(e) {
-    console.log(e.currentTarget.dataset.item);
-    let item = e.currentTarget.dataset.item;
-    if (item.tmp_client_id == this.data.user_client_id) {
-      return;
-    }
-    this.setData({
-      toClient: item,
-      isCover: 0,
-      chooseimg: item.header_img,
-      comment_placeholder: '@' + item.client_name
-    })
   },
   showCover() {
     this.setData({
       isCover: 1
     })
   },
-  getVideoInfo: function () {
+  getVideoInfo() {
     let that = this
     let class_id = parseInt(that.data.course_id)
     wx.showLoading({
       title: "加载中"
     });
     let option = {
-      class_id: class_id
+      class_id: class_id,
+      live_id:that.data.live_id,
+      live_class_id:that.data.live_class_id
     }
     console.log(option)
     app.encryption({
@@ -205,21 +160,19 @@ Page({
       data: option,
       success: function (e) {
         console.log(e)
-        var a = e.about + "<span> </span>";
-        wxParse.wxParse("content", "html", a, that, 5);
+        // var a = e.about + "<span> </span>";
+        // wxParse.wxParse("content", "html", a, that, 5);
         that.setData({
-          video_title: e.title,
-          videoUrl: e.rtmpurl,
-          roomId: e.roomId
+          video_title: e.data.live_class_name,
+          videoUrl: e.data.pull_rtmp_url
         });
         // that.livemember(e.roomId)
         wx.setNavigationBarTitle({
-          title: `直播：${e.title}`
+          title: `直播：${e.data.live_class_name}`
         });
       },
       complete: function (t) {
         wx.hideLoading();
-        that.CountwebSocket()
       }
     });
   },
@@ -228,17 +181,19 @@ Page({
     let uid = wx.getStorageSync("user_info").uid
     let uuid = wx.getStorageSync("user_info").uuid
     let course_id = this.data.course_id
+    let live_id = this.data.live_id
+    let live_class_id = this.data.live_class_id
     let tokens = wx.getStorageSync("user_info").token
     console.log(course_id)
     // 创建Socket
     this.SocketTask = wx.connectSocket({
       // url: 'wss://api.beiqujy.com/wss',
-      url: api.default.countSocket + `/chat?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&listen_id=123&type='students'&from=1`,
+      url: api.default.countSocket + `?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&live_id=${live_id}&live_class_id=${live_class_id}&type='students'&from=1`,
       // url: 'wss://testapi.abacc.cn/chat' + `?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&listen_id=123&type='students'&from=1`,
       header: {
         'content-type': 'application/json'
       },
-      method: 'get',
+      method: 'GET',
       success: function (res) {
         console.log('WebSocket连接创建', res)
       },
@@ -284,6 +239,7 @@ Page({
       fn && fn();
     } else {
       this.SocketTask.close();
+      this.reconnect();
       wx.showToast({
         title: "网络连接失败,请检查网络",
         icon: "none"
@@ -321,7 +277,7 @@ Page({
   // 重连
   reconnect() {
     if (!this.isHide) {
-      console.log('重连');
+      console.log('重连', 'hi');
       clearTimeout(this.socketTime);
       this.socketTime = setTimeout(() => {
         this.webSocket();
@@ -359,7 +315,6 @@ Page({
     }
 
   },
-
   onShow: function () {
     if (this.SocketTask && this.SocketTask.readyState != 1 && this.isHide) {
       this.webSocket();
@@ -368,201 +323,35 @@ Page({
     console.log('common  onShow');
   },
   onHide: function () {
-    this.isHide = true;
-
-    this.SocketTask && this.SocketTask.close();
-    console.log('common  onHide');
-  },
-  // 购买课程
-  buyVideo: function () {
-    var t = this, e = t.data.video;
-    let d = this.data;
-    (wx.showLoading({
-      title: "提交中"
-    }), app.request({
-      url: api.order.video,
-      method: "POST",
-      data: {
-        courseId: d.video_id
-      },
-      success: function (e) {
-        console.log(e), 0 == e.code ? app.request({
-          url: api.order.get_pay_data,
-          method: "POST",
-          data: {
-            orderId: e.data.orderId,
-            openid: wx.getStorageSync('openid')
-          },
-          success: function (e) {
-            console.log(e);
-            if (wx.hideLoading(), 0 == e.code) {
-              var a = e.data;
-              wx.requestPayment({
-                timeStamp: a.timeStamp,
-                nonceStr: a.nonceStr,
-                package: a.package,
-                signType: a.signType,
-                paySign: a.paySign,
-                success: function (e) {
-                  wx.showToast({
-                    title: "订单支付成功",
-                    icon: "success"
-                  })
-                  t.onLoad();
-                },
-                fail: function (t) {
-                  wx.showToast({
-                    title: "订单未支付",
-                    icon: 'none'
-                  });
-                }
-              });
-            } else wx.showModal({
-              title: "提示",
-              content: e.msg,
-              showCancel: !1
-            });
-          },
-          complete() {
-            wx.hideLoading();
-          }
-        }) : wx.showModal({
-          title: "警告",
-          content: e.msg,
-          showCancel: !1
-        });
-      },
-      complete() {
-        wx.hideLoading();
-      }
-    }));
+    // this.isHide = true;
+    // this.SocketTask && this.SocketTask.close();
+    // this.SocketTaskcount && this.SocketTaskcount.close();
+    // this.SocketTask2 && this.SocketTask2.close();
+    // wx.closeSocket();
+    // clearInterval(this.repeat)
+    // this.repeat = null
   },
   onUnload: function () {
+    console.log('页面关闭')
     this.isHide = true;
-    this.SocketTask && this.SocketTask.close();
-    this.SocketTaskcount && this.SocketTaskcount.close();
-    this.SocketTask2 && this.SocketTask2.close();
+    wx.onSocketOpen(function () {
+      wx.closeSocket()
+    })
+
+    wx.onSocketClose(function (res) {
+      console.log("WebSocket 已关闭！")
+    })
+    // this.SocketTask && this.SocketTask.close();
+    // this.SocketTaskcount && this.SocketTaskcount.close();
+    // this.SocketTask2 && this.SocketTask2.close();
+    // wx.closeSocket();
+    this.SocketTaskcount.close();
     clearInterval(this.repeat)
     this.repeat = null
   },
   play: function (e) {
     wx.redirectTo({
       url: "../video/video?id=" + e.currentTarget.dataset.id
-    });
-  },
-  getVideoByPassword: function () {
-    var e = this, a = e.data.video_id;
-    if (!e.data.video_password) return wx.showToast({
-      title: "请输入密码",
-      icon: "none",
-      duration: 2e3
-    }), !1;
-    wx.showLoading({
-      title: "提交中"
-    }), t.request({
-      url: o.user.video,
-      method: "post",
-      data: {
-        video_id: a,
-        password: e.data.video_password
-      },
-      success: function (t) {
-        if (0 == t.errcode) {
-          var o = e.data.video;
-          0 == t.data.AUTH ? wx.showToast({
-            title: "密码错误",
-            icon: "none",
-            duration: 2e3
-          }) : (o.AUTH = !0, e.setData({
-            video: o
-          }), wx.showToast({
-            title: "密码正确",
-            icon: "success",
-            duration: 1e3
-          }));
-        } else wx.showToast({
-          title: "错误",
-          icon: "none",
-          duration: 2e3
-        });
-      }
-    });
-  },
-  getVideoByBuy: function () {
-    var e = this, a = e.data.video_id;
-    t.request({
-      url: o.user.video,
-      method: "post",
-      data: {
-        video_id: a
-      },
-      success: function (t) {
-        if (0 == t.data.errcode) {
-          var o = e.data.video;
-          o.video_url = t.data.data.video_url, e.setData({
-            video: o
-          });
-        } else wx.showToast({
-          title: t.data.errmsg,
-          icon: "none",
-          duration: 2e3
-        });
-      }
-    });
-  },
-  loadComment: function (e) {
-    var i = this;
-    a = !0, t.request({
-      url: o.user.chat_list,
-      data: {
-        video_id: e,
-        page: 1
-      },
-      success: function (e) {
-        0 == e.code && i.setData({
-          comment_list: e.data.list,
-          comment_count: e.data.row_count,
-          page_count: e.data.page_count,
-          cc_count: e.data.cc_count,
-          scrollview: "view" + e.data.cc_count,
-          iscounting: !0
-        });
-      },
-      fail: function (e) {
-        wx.showModal({
-          title: "警告",
-          content: e.msg,
-          showCancel: !1
-        });
-      },
-      complete: function () {
-        wx.hideLoading(), a = !1;
-      }
-    });
-  },
-  loadreward: function (e) {
-    var a = this;
-    t.request({
-      url: o.user.reward_list,
-      method: "POST",
-      data: {
-        video_id: e,
-        page: 1
-      },
-      success: function (e) {
-        0 == e.errcode && a.setData({
-          reward_list: e.data.list,
-          reward_count: e.data.reward_count
-        });
-      },
-      fail: function (e) {
-        wx.showModal({
-          title: "警告",
-          content: e.msg,
-          showCancel: !1
-        });
-      },
-      complete: function () { }
     });
   },
   previewImg: function (e) {
@@ -634,76 +423,6 @@ Page({
       state1: e.currentTarget.dataset.key + 1
     });
   },
-  submitmoney: function (e) {
-    var t = this, o = (t.data.video, t.data.othermoney);
-    o.indexOf(".") < 0 && "" != o && (o = parseFloat(o)), wx.showLoading({
-      title: "提交中"
-    }), this.reward(o);
-  },
-  submitpassword: function (e) {
-    this.getVideoByPassword(this.data.video_password), this.hidePasswordPop();
-  },
-  money: function (e) {
-    var t = e.currentTarget.dataset.money;
-    wx.showLoading({
-      title: "提交中"
-    }), this.reward(t);
-  },
-  reward: function (e) {
-    var a = this, i = a.data.video;
-    t.request({
-      url: o.order.addreward,
-      method: "POST",
-      data: {
-        video_id: i.id,
-        price: e
-      },
-      success: function (e) {
-        0 == e.errcode ? t.request({
-          url: o.order.get_pay_data,
-          method: "POST",
-          data: {
-            order_id: e.data.order_id,
-            pay_type: "WECHAT_PAY"
-          },
-          success: function (e) {
-            if (wx.hideLoading(), 0 == e.errcode) {
-              var t = e.data;
-              wx.requestPayment({
-                timeStamp: t.timeStamp,
-                nonceStr: t.nonceStr,
-                package: t.package,
-                signType: t.signType,
-                paySign: t.paySign,
-                success: function (e) {
-                  wx.showToast({
-                    title: "打赏成功",
-                    icon: "success"
-                  }), a.hidepop2(), a.hidepop(), setTimeout(function () {
-                    a.loadreward(i.id);
-                  }, 2e3);
-                },
-                fail: function (e) {
-                  wx.showToast({
-                    title: "订单未支付",
-                    image: "/images/icon-warning.png"
-                  });
-                }
-              });
-            } else wx.showModal({
-              title: "提示",
-              content: e.msg,
-              showCancel: !1
-            });
-          }
-        }) : wx.showModal({
-          title: "警告",
-          content: e.msg,
-          showCancel: !1
-        });
-      }
-    });
-  },
   showModal: function () {
     this.setData({
       show_modal: !0
@@ -756,29 +475,19 @@ Page({
       title: this.data.fullScreen ? "全屏" : "退出全屏"
     });
   },
-  initSocket: function () {
-    var e = {
-      video_id: this.data.video_id,
-      acct_id: t.globalData.acct_id,
-      openid: wx.getStorageSync("openid")
-    };
-
-
-    t.globalData.localSocket.send({
-      data: JSON.stringify(e)
-    });
-  },
   submitMsg: function (e) {
     let uid = wx.getStorageSync("user_info").uid
     let uuid = wx.getStorageSync("user_info").uuid
     let course_id = this.data.course_id
     let tokens = wx.getStorageSync("user_info").token
+    let live_class_id = this.data.live_class_id
+    let live_id = this.data.live_id
     let d = this.data;
     let comment_data = e.detail.value.txt;
     if (!comment_data) return;
     let sendData = '';
     // token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&listen_id='students'&type='students'&from=1
-    sendData = `{"message":"${comment_data}","uid":${uid},"course_id":${course_id},"token":"${tokens}","listen_id":123,"uuid":${uuid},"from":1,"type":"students","event":1}`;
+    sendData = `{"message":"${comment_data}","uid":${uid},"course_id":${course_id},"token":"${tokens}","live_class_id":${live_class_id},"uuid":${uuid},"live_id":${live_id},"from":1,"type":"students","event":1}`;
     console.log(sendData);
     this.socketSend(sendData);
     this.setData({
@@ -786,31 +495,6 @@ Page({
       showOrHidden: false
     })
 
-  },
-  sendSocketMessage: function () {
-    var e = this, o = {
-      video_id: e.data.video_id,
-      content: e.data.comment_data,
-      upload_img: e.data.comment_img,
-      acct_id: t.globalData.acct_id,
-      user_id: wx.getStorageSync("openid")
-    };
-    console.log("通过 WebSocket 连接发送数据", JSON.stringify(o)), t.globalData.localSocket.send({
-      data: JSON.stringify(o),
-      success: function (t) {
-        wx.showToast({
-          title: "发送成功"
-        }), e.setData({
-          comment_data: ""
-        });
-      },
-      fail: function (e) {
-        wx.showToast({
-          title: "发送失败",
-          icon: none
-        });
-      }
-    });
   },
   chooseImg: function (e) {
     wx.chooseImage({
@@ -849,117 +533,6 @@ Page({
       }
     })
     return;
-    t.globalData.localSocket.close();
-    var a = this, i = this.data.img_list, n = i.length;
-    n >= 1 || (a.setData({
-      comment_data: "",
-      comment_img: ""
-    }), wx.chooseImage({
-      count: 1 - n,
-      sizeType: ["compressed"],
-      sourceType: ["album"],
-      success: function (t) {
-        function n(e) {
-          a.webSocket(), wx.showLoading({
-            title: "发送中"
-          }), setTimeout(function () {
-            a.sendSocketMessage(e);
-          }, 2e3);
-        }
-        i = i.concat(t.tempFilePaths);
-        e.detail.formId;
-        if (0 == i.length) return wx.showModal({
-          title: "提示",
-          content: "请输入内容或上传图片",
-          showCancel: !1
-        }), !1;
-        wx.showLoading({
-          title: "正在提交",
-          mask: !0
-        }), function (e) {
-          wx.uploadFile({
-            url: o.default.upload_img,
-            filePath: i[e],
-            name: "image",
-            complete: function (e) {
-              if (200 == e.statusCode) {
-                var t = JSON.parse(e.data);
-                0 == t.errcode ? (wx.showToast({
-                  title: "上传成功"
-                }), a.setData({
-                  comment_img: t.data.url
-                }), n(t.url)) : wx.showToast({
-                  title: "发送失败",
-                  icon: "none"
-                });
-              } else wx.showToast({
-                title: "发送失败",
-                icon: "none"
-              });
-            }
-          });
-        }(0);
-      }
-    }));
-  },
-  orderVideo: function (e) {
-    console.log(e.detail.formId), "the formId is a mock one" != e.detail.formId && this.setData({
-      formIdString: e.detail.formId + "," + this.data.formIdString
-    });
-    var a = this.data.video;
-    t.request({
-      url: o.order.order_video,
-      method: "POST",
-      data: {
-        video_id: a.id,
-        form_id: e.detail.formId
-      },
-      success: function (e) {
-        0 == e.errcode ? 1 == e.data.need_pay ? t.request({
-          url: o.order.get_pay_data,
-          method: "POST",
-          data: {
-            order_id: e.data.order_id,
-            pay_type: "WECHAT_PAY"
-          },
-          success: function (e) {
-            if (wx.hideLoading(), 0 == e.errcode) {
-              var t = e.data;
-              wx.requestPayment({
-                timeStamp: t.timeStamp,
-                nonceStr: t.nonceStr,
-                package: t.package,
-                signType: t.signType,
-                paySign: t.paySign,
-                success: function (e) {
-                  wx.showToast({
-                    title: "预约成功",
-                    icon: "success"
-                  });
-                },
-                fail: function (e) {
-                  wx.showToast({
-                    title: "订单未支付",
-                    image: "/images/icon-warning.png"
-                  });
-                }
-              });
-            } else wx.showModal({
-              title: "提示",
-              content: e.msg,
-              showCancel: !1
-            });
-          }
-        }) : wx.showToast({
-          title: e.data.msg,
-          icon: "success"
-        }) : wx.showModal({
-          title: "警告",
-          content: e.msg,
-          showCancel: !1
-        });
-      }
-    });
   },
   pageScrollToBottom: function () {
     wx.createSelectorQuery().select("#comment_content").boundingClientRect(function (e) {
@@ -967,25 +540,6 @@ Page({
         scrollTop: e.bottom
       });
     }).exec();
-  },
-  getCommentList: function () {
-    var e = this;
-    t.request({
-      url: api.video.live_comment,
-      method: "POST",
-      data: {
-        video_id: e.data.video_id
-      },
-      success: function (t) {
-        0 == t.errcode ? e.setData({
-          comment_list: t.data
-        }) : wx.showModal({
-          title: "警告",
-          content: t.msg,
-          showCancel: !1
-        });
-      }
-    });
   },
   previewImage: function (e) {
     console.log(e);
@@ -995,7 +549,6 @@ Page({
       urls: t
     });
   },
-
   doNetstatus(e) {
     console.log('网络状态');
     console.log(e);
@@ -1042,7 +595,6 @@ Page({
           that.getVideoInfo();
           that.livePlayer = wx.createLivePlayerContext('video-livePlayer');
           that.tvideo = wx.createLivePlayerContext('video-livePlayer');
-
         }
       },
       fail: function (n) {
@@ -1151,147 +703,4 @@ Page({
       inputHeight: 0
     })
   },
-  oldwebSocket() {
-    // 创建Socket
-    this.SocketTask2 = wx.connectSocket({
-      url: 'wss://api.beiqujy.com/wss',
-      header: {
-        'content-type': 'application/json'
-      },
-      method: 'post',
-      success: function (res) {
-        console.log('WebSocket连接创建', res)
-      },
-      fail: function (err) {
-        console.log('网络异常');
-        wx.showToast({
-          title: '网络异常！',
-        })
-        console.log(err)
-      },
-
-    }),
-      this.SocketTask2.onError(res => {
-        console.log('监听到 WebSocket 打开错误，请检查！')
-        this.SocketTask2.close();
-      })
-    // 监听WebSocket关闭
-    this.SocketTask2.onClose(res => {
-      console.log('监听到 WebSocket 已关闭！' + ':' + res)
-      this.reconnect2();
-    })
-    this.SocketTask2.onOpen(res => {
-      console.log('监听到 WebSocket 连接已打开！')
-      let d = this.data;
-      let login_data = '{"type":"login","client_name":"' + wx.getStorageSync('user_info').nickName + '","room_id":"' + d.roomId + '","uid":"' + d.uid + '"}';
-      this.socketSend2(login_data);
-
-    })
-  },
-  socketSend2(data, fn) {
-    console.log(this.SocketTask2);
-    if (this.SocketTask2.readyState == 1) {
-      this.SocketTask2.send({
-        data: data
-      })
-      fn && fn();
-    } else {
-      this.SocketTask2.close();
-      wx.showToast({
-        title: "网络连接失败,请检查网络",
-        icon: "none"
-      });
-    }
-  },
-  reconnect2() {
-    if (!this.isHide) {
-      console.log('reconnect2重连');
-      clearTimeout(this.socketTime);
-      this.socketTime = setTimeout(() => {
-        this.oldwebSocket();
-      }, 2000)
-    }
-
-  },
-  CountwebSocket() {
-    let that = this
-    let uid = wx.getStorageSync("user_info").uid
-    let tokens = wx.getStorageSync("user_info").token
-    let roomId = that.data.roomId
-    let class_id = that.data.course_id
-    console.log(roomId, class_id)
-    // 创建Socket
-    that.SocketTaskcount = wx.connectSocket({
-      // url: 'wss://api.beiqujy.com/wss',
-      url: api.default.countSocket + `/count?token=${tokens}&uid=${uid}&type=3&from=1&room_id=${roomId}&class_id=${class_id}`,
-      header: {
-        'content-type': 'application/json'
-      },
-      method: 'get',
-      success: function (res) {
-        console.log('WebSocket连接创建', res)
-      },
-      fail: function (err) {
-        console.log('网络异常');
-        wx.showToast({
-          title: '网络异常！',
-        })
-        console.log(err)
-      },
-    })
-    console.log(that.SocketTaskcount);
-    // 监听webSocket错误
-    that.SocketTaskcount.onError(res => {
-      console.log('监听到 WebSocket 打开错误，请检查！')
-      that.SocketTaskcount.close();
-    })
-    // 监听WebSocket关闭
-    that.SocketTaskcount.onClose(res => {
-      console.log('监听到 WebSocket 已关闭！' + ':' + res)
-      that.Countreconnect();
-    })
-    // websocket打开
-    that.SocketTaskcount.onOpen(res => {
-      console.log('监听到 WebSocket 连接已打开！')
-      clearInterval(that.repeat)
-      that.repeat = setInterval(() => {
-        let roomId = that.data.roomId
-        // let class_id = that.data.course_id
-        let sendData = `{"token":"${tokens}","uid":${uid},"type":3,"from":1,"room_id":"${roomId}","class_id":${class_id}}`;
-        console.log(sendData);
-        that.CountsocketSend(sendData);
-      }, 10000)
-    })
-    // 收到websocket消息
-    this.SocketTaskcount.onMessage(res => {
-      console.log('监听到接收消息！' + ':' + res.data)
-      // this.socketMessage(JSON.parse(res.data));
-    })
-  },
-  Countreconnect() {
-    let that = this
-    if (!this.isHide) {
-      console.log('重连');
-      clearInterval(this.repeat)
-      clearTimeout(this.socketTimecount);
-      this.socketTimecount = setTimeout(() => {
-        that.CountwebSocket();
-      }, 3000)
-    }
-  },
-  CountsocketSend(data, fn) {
-
-    if (this.SocketTaskcount.readyState == 1) {
-      this.SocketTaskcount.send({
-        data: data
-      })
-      fn && fn();
-    } else {
-      this.SocketTaskcount.close();
-      wx.showToast({
-        title: "网络连接失败,请检查网络",
-        icon: "none"
-      });
-    }
-  }
 });

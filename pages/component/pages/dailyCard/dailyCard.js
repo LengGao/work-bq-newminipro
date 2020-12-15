@@ -33,7 +33,8 @@ Page({
       {
         name: '题目均为单选题，全部答完才可提交打卡'
       }
-    ]
+    ],
+    isCrard:1
   },
   goAny() {
     let courseId = this.data.punch_id
@@ -62,7 +63,8 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
+        // debugger
+        console.log(res.data == undefined,res,res.info.has_clock_in)
         let allData = 'everyDate[0].name', allData1 = 'everyDate[1].name', allData2 = 'everyDate[2].name'
         if (res.data == undefined) {
          let times = util.setTimes(res.info.use_time)
@@ -72,6 +74,7 @@ Page({
             [allData2]: res.info.total_people,
             isCrard: res.info.has_clock_in
           })
+          console.log(that.data.isCrard)
           if(res.info.clock_in_info != undefined){ //Math.round()
             if( res.info.clock_in_info.correct_rate < 10){
               that.setData({

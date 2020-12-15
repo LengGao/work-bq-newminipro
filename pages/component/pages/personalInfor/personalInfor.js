@@ -1,4 +1,4 @@
-import api from '../../../../api'
+import api from '../../api'
 let app = getApp();
 Page({
 
@@ -17,29 +17,29 @@ Page({
     graduationimages: [],//毕业照
     socins: [],//社保卡
     permit: [],//居住证
-    permitback: []//
+    permitback:[]//
   },
-  upload(data) {
+  upload(data){
     console.log(data)
     let that = this
     let uuid = wx.getStorageSync("user_info").uuid
     let token = wx.getStorageSync("user_info").token
     wx.request({
-      url: api.default.upload,
+      url:api.default.upload,
       header: {
-        token: token,
-        uuid: uuid
+        token:token,
+        uuid:uuid
       },
-      data: {
+      data:{
         base_img: data.img
       },
-      method: 'POST',
+      method:'POST',
       dataType: "json",
-      success: function (res) {
+      success:function(res){
         console.log(res.data.data.param.img)
         let haha = data.type
         let option = {
-          [haha]: res.data.data.param.img
+          [haha]:res.data.data.param.img
         }
         console.log(option)
         app.encryption({
@@ -48,16 +48,16 @@ Page({
           data: option,
           success: function (res) {
             console.log(res)
-          },
+        },
           fail: function (t) {
             return reject()
           },
           complete: function () {
-
+    
           }
         })
       },
-      fail: function (res) {
+      fail:function(res){
       }
     })
   },
@@ -69,8 +69,9 @@ Page({
       sourceType: ['album', 'camera'],
       success: res => {
         const idcardimage = that.data.idcardimages.concat(res.tempFilePaths)
-        if (idcardimage[0] == '') {
-          idcardimage.splice(0, 1)
+        if(idcardimage[0] == '')
+        {
+          idcardimage.splice(0,1)
         }
         that.setData({
           idcardimages: idcardimage
@@ -82,27 +83,28 @@ Page({
             console.log(res)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'id_card_positive'
+              type:'id_card_positive'
             })
           }
         })
       }
     })
+    console.log(this.data.idcardimages)
   },
-  handleImagePreview: function (t) {
+  handleImagePreview: function(t) {
     var a = t.target.dataset.idx, e = this.data.idcardimages;
     wx.previewImage({
+        current: e[a],
+        urls: e
+    });
+},
+handleImagePreviewback:function(t){
+  var a = t.target.dataset.idx, e = this.data.idcardimage;
+  wx.previewImage({
       current: e[a],
       urls: e
-    });
-  },
-  handleImagePreviewback: function (t) {
-    var a = t.target.dataset.idx, e = this.data.idcardimage;
-    wx.previewImage({
-      current: e[a],
-      urls: e
-    });
-  },
+  });
+},
   removeidcardImage(e) {
     const idx = e.target.dataset.idx
     console.log(e, this.data.images.splice(idx, 1))
@@ -113,13 +115,14 @@ Page({
   idcardimage(e) {
     let that = this
     wx.chooseImage({
-      count: 1,
+      count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
         const idcardimage = that.data.idcardimage.concat(res.tempFilePaths)
-        if (idcardimage[0] == '') {
-          idcardimage.splice(0, 1)
+        if(idcardimage[0] == '')
+        {
+          idcardimage.splice(0,1)
         }
         that.setData({
           idcardimage: idcardimage
@@ -131,7 +134,7 @@ Page({
             console.log(res.data)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'id_card_side'
+              type:'id_card_side'
             })
           }
         })
@@ -148,13 +151,14 @@ Page({
   personalimages(e) {
     let that = this
     wx.chooseImage({
-      count: 1,
+      count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
         const personalimages = that.data.personalimages.concat(res.tempFilePaths)
-        if (personalimages[0] == '') {
-          personalimages.splice(0, 1)
+        if(personalimages[0] == '')
+        {
+          personalimages.splice(0,1)
         }
         that.setData({
           personalimages: personalimages
@@ -169,7 +173,7 @@ Page({
             console.log(res.data)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'head_sticker'
+              type:'head_sticker'
             })
           }
         })
@@ -193,13 +197,14 @@ Page({
   graduationimages(e) {
     let that = this
     wx.chooseImage({
-      count: 1,
+      count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
         const graduationimages = that.data.graduationimages.concat(res.tempFilePaths)
-        if (graduationimages[0] == '') {
-          graduationimages.splice(0, 1)
+        if(graduationimages[0] == '')
+        {
+          graduationimages.splice(0,1)
         }
         that.setData({
           graduationimages: graduationimages
@@ -211,7 +216,7 @@ Page({
             console.log(res.data)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'diploma'
+              type:'diploma'
             })
           }
         })
@@ -228,22 +233,23 @@ Page({
   socins(e) {
     let that = this
     wx.chooseImage({
-      count: 1,
+      count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
         const socins = that.data.socins.concat(res.tempFilePaths)
         console.log(socins[0])
-        if (socins[0] == '') {
-          socins.splice(0, 1)
+        if(socins[0] == '')
+        {
+          socins.splice(0,1)
         }
         console.log(socins)
         that.setData({
           socins: socins
         })
-        console.log(that.data.socins)
+       console.log(that.data.socins)
         that.setData({
-          socins: socins.slice(0, socins.length)
+          socins:  socins.slice(0,socins.length )
         })
         console.log(socins)
         wx.getFileSystemManager().readFile({
@@ -253,7 +259,7 @@ Page({
             console.log(res.data)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'social_security_card'
+              type:'social_security_card'
             })
           }
         })
@@ -277,19 +283,20 @@ Page({
   choosebackImage(e) {
     let that = this
     wx.chooseImage({
-      count: 1,
+      count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
         const backimages = that.data.backimages.concat(res.tempFilePaths)
         console.log(backimages)
-        if (backimages[0] == '') {
-          backimages.splice(0, 1)
+        if(backimages[0] == '')
+        {
+          backimages.splice(0,1)
         }
         that.setData({
           backimages: backimages
         })
-        console.log(that.data.backimages)
+       console.log(that.data.backimages)
         wx.getFileSystemManager().readFile({
           filePath: res.tempFilePaths[0], //选择图片返回的相对路径
           encoding: 'base64', //编码格式
@@ -297,7 +304,7 @@ Page({
             console.log(res.data)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'social_security_card_side'
+              type:'social_security_card_side'
             })
           }
         })
@@ -311,17 +318,18 @@ Page({
       backimages: this.data.backimages.splice(idx, 1)
     })
   },
-  choosepermitImages() {
+  choosepermitImages(){
     let that = this
     wx.chooseImage({
-      count: 1,
+      count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
         const permit = that.data.permit.concat(res.tempFilePaths)
         console.log(permit)
-        if (permit[0] == '') {
-          permit.splice(0, 1)
+        if(permit[0] == '')
+        {
+          permit.splice(0,1)
         }
         that.setData({
           permit: permit
@@ -335,7 +343,7 @@ Page({
             console.log(res.data)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'live_permit'
+              type:'live_permit'
             })
           }
         })
@@ -349,16 +357,17 @@ Page({
       permit: this.data.permit.splice(idx, 1)
     })
   },
-  choosepermitbackImages(e) {
+  choosepermitbackImages(e){
     let that = this
     wx.chooseImage({
-      count: 1,
+      count: 3,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
         const permitback = that.data.permitback.concat(res.tempFilePaths)
-        if (permitback[0] == '') {
-          permitback.splice(0, 1)
+        if(permitback[0] == '')
+        {
+          permitback.splice(0,1)
         }
         that.setData({
           permitback: permitback
@@ -371,7 +380,7 @@ Page({
             console.log(res.data)
             that.upload({
               img: 'data:image/png;base64,' + res.data,
-              type: 'live_permit_side'
+              type:'live_permit_side'
             })
           }
         })
@@ -379,35 +388,35 @@ Page({
       }
     })
   },
-  removepermitbackImage(e) {
+  removepermitbackImage(e){
     const idx = e.target.dataset.idx
     console.log(e, this.data.permitback.splice(idx, 1))
     this.setData({
       permitback: this.data.permitback.splice(idx, 1)
     })
   },
-  updateuserident() {
+  updateuserident(){
     let that = this
     app.encryption({
       url: api.default.updateuserident,
       method: "GET",
       success: function (res) {
-        console.log(res, that.data.idcardimages)
+        console.log(res,that.data.idcardimages)
         that.setData({
           idcardimages: that.data.idcardimages.concat(res.id_card_positive),
-          idcardimage: that.data.idcardimages.concat(res.id_card_side),
-          personalimages: that.data.idcardimages.concat(res.head_sticker),
-          graduationimages: that.data.idcardimages.concat(res.diploma),
+          idcardimage:  that.data.idcardimages.concat(res.id_card_side),
+          personalimages:  that.data.idcardimages.concat(res.head_sticker),
+          graduationimages:  that.data.idcardimages.concat(res.diploma),
           socins: that.data.idcardimages.concat(res.social_security_card),
-          backimages: that.data.idcardimages.concat(res.social_security_card_side),
-          permit: that.data.idcardimages.concat(res.live_permit),
-          permitback: that.data.idcardimages.concat(res.live_permit_side),
-          value1: res.real_name,
-          value2: res.phone_number,
-          value3: res.id_card_number
+          backimages:that.data.idcardimages.concat(res.social_security_card_side),
+          permit:that.data.idcardimages.concat(res.live_permit),
+          permitback:that.data.idcardimages.concat(res.live_permit_side),
+          value1:res.real_name,
+          value2:res.phone_number,
+          value3:res.id_card_number
         })
         console.log(that.data.idcardimage)
-      },
+    },
       fail: function (t) {
         return reject()
       },
@@ -416,41 +425,41 @@ Page({
       }
     })
   },
-  realName(e) {
+  realName(e){
     console.log(e.detail.detail.value)
     this.setData({
-      value1: e.detail.detail.value
+      value1:e.detail.detail.value
     })
   },
-  phoneNum(e) {
+  phoneNum(e){
     console.log(e.detail.detail.value)
     this.setData({
-      value2: e.detail.detail.value
+      value2:e.detail.detail.value
     })
   },
-  Idcard(e) {
+  Idcard(e){
     console.log(e.detail.detail.value)
     this.setData({
-      value3: e.detail.detail.value
+      value3:e.detail.detail.value
     })
   },
-  submitForm() {
-    if (this.data.value1 == '' || this.data.value2 == '' || this.data.value3 == '') {
-      wx.showToast({
-        title: '请完善个人信息',//提示文字
-        duration: 1300,//显示时长
-        mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
-        icon: 'none', //图标，支持"success"、"loading"  
-        success: function () { },//接口调用成功
-        fail: function () { },  //接口调用失败的回调函数  
-        complete: function () { } //接口调用结束的回调函数  
-      })
+  submitForm(){
+    if(this.data.value1=='' || this.data.value2=='' || this.data.value3=='' ){
+        wx.showToast({
+          title: '请完善个人信息',//提示文字
+          duration: 1300,//显示时长
+          mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
+          icon: 'none', //图标，支持"success"、"loading"  
+          success: function () { },//接口调用成功
+          fail: function () { },  //接口调用失败的回调函数  
+          complete: function () { } //接口调用结束的回调函数  
+        })
       return
     }
     let option = {
-      real_name: this.data.value1,
-      phone_number: this.data.value2,
-      id_card_number: this.data.value3
+      real_name:this.data.value1,
+      phone_number:this.data.value2,
+      id_card_number:this.data.value3
     }
     app.encryption({
       url: api.default.userident,
@@ -467,11 +476,11 @@ Page({
               url: '../personal-center/personal-center',
             }
             )
-          },//接口调用成功
+           },//接口调用成功
           fail: function () { },  //接口调用失败的回调函数  
           complete: function () { } //接口调用结束的回调函数  
         })
-      },
+    },
       fail: function (t) {
         return reject()
       },

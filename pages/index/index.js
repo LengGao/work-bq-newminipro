@@ -46,8 +46,10 @@ Page({
     nomyCourse: true,
     noliving: true,
     images: {},
-    allData:{},
-    problem_course_id:''
+    allData: {},
+    problem_course_id: '',
+    live_class_id: '',
+    video_collection_id:''
   },
   gocollection(number) {
     let courseId = this.data.courseId
@@ -105,14 +107,20 @@ Page({
   },
   toliveclass() {
     let video_id = this.data.banjiID
+    let live_id = this.data.live_id
+    let course_id = this.data.course_id
+    let live_class_id = this.data.live_class_id
     wx.navigateTo({
-      url: `../component/pages/live-class-room/live-class-room?video_id=${video_id}`
+      url: `../component/pages/live-class-room/live-class-room?live_id=${live_id}&course_id=${course_id}&live_class_id=${live_class_id}`
     })
   },
   toVideoroom() {
     let video_id = this.data.myCourse['courseId']
+    let live_id = this.data.live_id
+    let live_class_id = this.data.live_class_id
+    let video_collection_id = this.data.video_collection_id
     wx.navigateTo({
-      url: `../component/pages/course-detail/course-detail?video_id=${video_id}&courseId=${video_id}`
+      url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}`
     })
   },
   handleClickItem1({ detail }) {
@@ -177,14 +185,13 @@ Page({
   selectmenu: function (t) {
     let courseId
     let that = this
-    if( typeof(t) == 'number'){
+    if (typeof (t) == 'number') {
       courseId = t
-    }else{
+    } else {
       let ele = 'scroll-item-' + t.currentTarget.dataset.index
       this.getRect('#' + ele);
       courseId = t.currentTarget.dataset.key.course_id
     }
-   
     this.setData({
       menuTop: courseId,
       courseId: courseId,
@@ -260,7 +267,7 @@ Page({
       }
     })
   },
-  getALLData(){
+  getALLData() {
     let that = this
     let courseId = this.data.menuTop
     let option = {
@@ -272,7 +279,7 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-        let problem_course_id=res.info.problem_course_id
+        let problem_course_id = res.info.problem_course_id
         wx.setStorageSync("problem_course_id", {
           problem_course_id: problem_course_id
         });
@@ -281,33 +288,44 @@ Page({
         let topmenu2 = 'topmenu[2].number'
         that.setData({
           [topmenu0]: res.info.favorites,
-          [topmenu1]: res.info.fail_question,                                   
+          [topmenu1]: res.info.fail_question,
           [topmenu2]: res.info.history,
           accuracy: res.info.correct_rate,
-          allData:res.info,
-          problem_course_id:res.info.problem_course_id //以此ID获取习题模式
+          allData: res.info,
+          problem_course_id: res.info.problem_course_id, //以此ID获取习题模式
+          live_id: res.info.live_id,
+          course_id: res.info.course_id,
+          live_class_id: res.info.classroom_info.live_class_id,
+          video_collection_id:res.info.video_info.video_collection_id
         })
         wx.setStorageSync("problem_course_id", {
           problem_course_id: res.info.problem_course_id
         });
-         if(res.info.has_video == 0){
-            that.setData({
-            nomyCourse:false
-            })
-          }else{
-            that.setData({
-              myCourse:res.info.video_info
-            })
-          }
-        if(res.info.has_classroom == 0){
+        if (res.info.has_video == 0) {
           that.setData({
-            noliving:false
-           })
-         }else{
-          that.setData({
-            living:res.info.classroom_info
+            nomyCourse: false
           })
-         }
+        } else {
+          that.setData({
+            myCourse: res.info.video_info
+          })
+        }
+        if (res.info.has_classroom == 0) {
+          that.setData({
+            noliving: false,
+          })
+        } else {
+          if(res.info.live_status != 1){
+            that.setData({
+              optionsGo: 'goTestvideo'
+            })
+            
+          }
+          that.setData({
+            living: res.info.classroom_info,
+            noliving: true
+          })
+        }
       },
       fail: function (t) {
       },
@@ -357,57 +375,23 @@ Page({
       }
     })
   },
-  getclasslive() {
-    let that = this
-    let option = {
-      course_id: that.data.menuTop
-    }
-    app.encryption({
-      url: api.default.getclasslive,
-      method: "GET",
-      data: option,
-      success: function (res) {
-        if (res.data == undefined && res.classroomList.length != 0) {
-          that.setData({
-            noliving: true
-          })
-        } else {
-          that.setData({
-            noliving: false
-          })
-        }
-        if (res.classroomList[0] && res.classroomList[0].length != 0 && res.classroomList[0].review == 1) {
-          that.setData({
-            optionsGo: 'goTestvideo',
-            banjiID: res.classroomList[0].class_id
-          })
-        } else if (res.classroomList[0] && res.classroomList[0].length != 0 && res.classroomList[0].review == 0) {
-          that.setData({
-            optionsGo: 'toliveclass',
-            banjiID: res.classroomList[0].class_id
-          })
-        }
-        that.setData({
-          living: res.classroomList[0],
-          // banjiID: res.classroomList[0].class_id
-        })
-      },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
-    })
-  },
   goTestvideo() {
     let courseId = this.data.banjiID
+    let live_id = this.data.live_id
+    let course_id = this.data.course_id
+    let live_class_id = this.data.live_class_id
     wx.reLaunch({
-      url: `../component/pages/course-class-detail/course-class-detail?video_id=${courseId}`
+      url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
     })
   },
   goindex() {
     wx.navigateTo({
-      url: '../component/pages/secondary/secondary'
+      url: './secondary/secondary'
     });
+  },
+  getHomePanel() {
+    console.log('微信小程序，此处应该触发头部接口')
+    this.gettopINfor()
   },
   onLoad: function (e) {
     let that = this
@@ -464,7 +448,7 @@ Page({
       })
     })
     promise.then(function (resolve, reject) {
-          that.gettopINfor(resolve, reject)
+      that.gettopINfor(resolve, reject)
     });
     e && wx.setStorageSync("tmp_options", e), t.tabbar("tabBar", 0, this, "home")
   },

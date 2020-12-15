@@ -6,20 +6,15 @@ function t(t, e, a) {
     writable: !0
   }) : t[e] = a, t;
 }
-
 var e, a, o, i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (t) {
   return typeof t;
 } : function (t) {
   return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t;
 };
-
 let app = getApp(), api = require("../../../../api.js"), d = require("../../../../wxParse/wxParse.js"), n = getApp();
-
 require("../../../../utils/util.js");
 import { getToken, getVideoList, getVideoById } from '../../../../commons/service/index.js'
-
 const serviceError = function (msg) {
-
   wx.showToast({
     title: msg || '获取数据出错',
     icon: 'none'
@@ -49,7 +44,6 @@ Page({
     video_source_list: [],
     current_chapter: 0,
     urls: ["../../images/mall-goods002.jpg", "../../images/mall-goods001.jpg"],
-    kaituan_id: "",
     collectIcon: "../../images/ic-like000.png",
     audio_context: "",
     is_audio: 0,
@@ -57,7 +51,6 @@ Page({
     audioPlayStatus: 0,
     can_play: 0,
     detail_id: 0,
-
     // 新
     comment_list: [],
     p: 1,
@@ -76,17 +69,12 @@ Page({
     loadAll: false,
     currentResource: '',
     multiListShow: false,
-
     rateShow: false,
     currentRate: '1.0',
-
     videoPlaying: false,
     controlHidden: true,
-
     currentTime: 0,
-
     isSwitchDefinition: false,
-
     currentVideoId: '',
     currentPoster: '',
     currentVideoTitle: '',
@@ -94,173 +82,38 @@ Page({
     currentDefinition: '',
     isAndroid: false,
     repeating: null,
+    socketTime:null,
     fullScreenData: "",
     SocketTask: ''
   },
   timeOut: '',
-  select_team: function (t) {
-    this.setData({
-      state1: t.currentTarget.dataset.key
-    });
-  },
-  fundTeam: function (t) {
-    this.setData({
-      kaituan_id: t.currentTarget.dataset.id,
-      statete: t.currentTarget.dataset.key
-    });
-  },
-  showpop2: function () {
-    this.setData({
-      flag2: !1
-    });
-  },
-  hidepop2: function () {
-    this.setData({
-      flag2: !0
-    });
-  },
-  showteam: function () {
-    this.setData({
-      teamx: !1
-    });
-  },
-  hideteam: function () {
-    this.setData({
-      teamx: !0
-    });
-  },
-  create00: function () {
-    this.setData({
-      teampop: !1
-    });
-  },
-  hidefund: function () {
-    this.setData({
-      teampop: !0
-    });
-  },
-  ownbuy: function () {
-    this.setData({
-      buypop: !1
-    });
-  },
-  ownbuyclose: function () {
-    this.setData({
-      buypop: !0
-    });
-  },
   tabFun: function (t) {
     var e = t.target.dataset.id;
-    console.log("----" + e + "----");
     var a = {};
     a.curHdIndex = e, a.curBdIndex = e, this.setData({
       tabArr: a
     });
   },
-  showGallery: function (e) {
-    var a, o = e.currentTarget.dataset.current, i = this.data.urls;
-    $wuxGallery.show((a = {
-      current: o,
-      urls: i
-    }, t(a, "delete", function (t, e) {
-      return e.splice(t, 1), this.setData({
-        urls: e
-      }), !0;
-    }), t(a, "cancel", function () {
-      return console.log("Close gallery");
-    }), a));
-  },
-  previewImage: function (t) {
-    var e = t.currentTarget.dataset.current;
-    this.data.urls;
-    wx.previewImage({
-      urls: [e]
-    });
-  },
   // onload
   onLoad: function (t = {}) {
+    console.log(t)
     this.setData({
       video_id: t.video_id || this.data.video_id,
+      live_id:t.live_id,
+      live_class_id:t.live_class_id
     });
     this.listen();
     this.getVideoInfo()
-    // 阿里云
-    // return;
-    const res = wx.getSystemInfoSync()
-    console.log(res.SDKVersion)
-    // this.loadData()
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {
         this.data.isAndroid = true
       }
     } catch (e) {
-      console.log(e)
     }
   },
   onShow: function () { },
   onHide: function () {
-  },
-  onUnload: function () {
-    this.isHide = true;
-    clearInterval(this.repeating);
-    this.repeating = null
-    this.SocketTask && this.SocketTask.close();
-    // let option = {
-    //   listen_id: this.data.lessonId,
-    //   learn_time: this.data.currentTime,
-    //   type: 2,
-    //   video_mid: this.data.video_mid
-    // }
-
-    // app.encryption({
-    //   url: api.default.videomember,
-    //   method: "POST",
-    //   data: option,
-    //   success: function (res) {
-    //     console.log(res)
-    //   },
-    //   fail: function (t) {
-    //   },
-    //   complete: function () {
-    //   }
-    // })
-
-  },
-
-  onPullDownRefresh: function () { },
-  onReachBottom: function () { },
-  onShareAppMessage: function () {
-    var t = this, e = wx.getStorageSync("user_info");
-    // t.shareSuccess();
-    return {
-      title: t.data.video.title,
-      // path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id + "&pid=" + e.user_id,
-      path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id,
-      // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
-      success: function (t) {
-        console.log("转发成功", t);
-      },
-      fail: function (t) {
-        console.log("转发失败", t);
-      }
-    };
-  },
-  // 定时器，每隔10秒获取视频进度
-  editCourseLessonLearn: function () {
-
-    var t = this;
-    n.request({
-      url: s.course.editLiveVideoLearn,
-      method: "post",
-      data: {
-        videoId: t.data.lessonId,
-        learnTime: t.data.currentTime,
-      },
-      success: function (e) {
-
-      },
-    });
   },
   getVideoInfo: function () {
     wx.showLoading({
@@ -268,62 +121,25 @@ Page({
     });
     var that = this, e = that.data.video_id;
     let option = {
-      class_id: e
+      class_id: e,
+      live_id:that.data.live_id,
+      live_class_id:that.data.live_class_id
     }
-    console.log(option)
     app.encryption({
       url: api.default.getrevielive,
       method: "GET",
       data: option,
       success: function (e) {
-        console.log(e)
         let chapter = e;
         chapter.forEach((v) => {
           v.isShow = 0;
         })
         that.setData({
           chapter
-        });
-        // that.listen()
-        //  wx.setNavigationBarTitle({
-        //    title: '直播回顾:' + video.title
-        // })
-        // that.data.lessonId ? that.learning(that.data.lessonId) : that.getLastlesson();
-        // t.setData({
-        //   isPay: true
-        // })
-        // if (video.isbuy == 1 || video.price == 0 ){          
+        });    
         that.setData({
           isPay: false
         })
-      },
-      complete: function (t) {
-        wx.hideLoading();
-      }
-    });
-  },
-  getLastlesson: function () {
-    wx.showLoading({
-      title: "加载中"
-    });
-    var t = this, e = t.data.video_id;
-    n.request({
-      url: s.course.getLastVideo,
-      method: "GET",
-      data: {
-        class_id: e
-      },
-      success: function (e) {
-
-        if (0 == e.code) {
-          console.log(e);
-          t.setData({
-            lessonId: e.data.videoId,
-            learnTime: e.data.learnTime,
-          })
-          t.learning(e.data.videoId);
-        }
-
       },
       complete: function (t) {
         wx.hideLoading();
@@ -361,34 +177,42 @@ Page({
   listen: function (t) {
     let that = this
     let option = {
-      class_id: that.data.video_id
+      live_class_id:that.data.live_class_id,
+      live_id:that.data.live_id
     }
     console.log(option)
     app.encryption({
-      url: api.video.listen,
+      url: api.video.getlastplayinfo,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
+        console.log( res.live_video_learn_time)
+        var a = res.live_video_des;
+        d.wxParse("content", "html", a, that, 5);
         that.setData({
-          learnTime: res.learn_time,
-          lessonId: res.listen_id,
-          roomId: res.room_id
+          learnTime:  parseInt( res.live_video_learn_time),
+          live_video_des:res.live_video_des,
+          video:res.live_video_name,
+          courseId:res.course_id,
+          live_video_id:res.live_video_id,
+          class_room_id:res.class_room_id
         })
-        console.log(that.data.learnTime)
-        that.liveplayinfo(res.listen_id)
+        that.playVideo(res)
       },
       fail: function (t) {
       },
       complete: function () {
-        that.webSocket()
+
       }
     })
   },
   liveplayinfo(res) {
     let that = this
     let options = {
-      listen_id: res
+      listen_id: res,
+      media_int_id:that.data.media_int_id,
+      live_video_id:that.data.live_video_id,
+      
     }
     console.log(options)
     app.encryption({
@@ -397,20 +221,20 @@ Page({
       data: options,
       success: function (res) {
         console.log(res)
+        var a = res.live_video_des;
+        d.wxParse("content", "html", a, that, 5);
         that.setData({
-          video_mid: res.video_mid
+          video_mid: res.video_mid,
+          live_id:res.live_id
         })
         that.playVideo(res)
       },
       fail: function (t) {
-
       },
       complete: function () {
-
       }
     })
   },
-
   // getPlayInfo 获取到加密视频
   getPlayInfo: function (videoId) {
     wx.showLoading({
@@ -424,7 +248,6 @@ Page({
         videoId: videoId
       },
       success: function (e) {
-
         if (0 == e.code) {
           t.playVideo(e.data);
         }
@@ -432,31 +255,6 @@ Page({
       },
       complete: function (t) {
         wx.hideLoading();
-      }
-    });
-  },
-  getPintuanInfo: function () {
-    var t = this, e = t.data.video_id;
-    n.request({
-      url: s.order.video_kaituan_list,
-      method: "post",
-      data: {
-        video_id: ''
-      },
-      success: function (e) {
-        if (0 == e.errcode && (t.setData({
-          creatteam: e.data
-        }), e.data.length > 0)) {
-          var a = Date.parse(new Date());
-          a /= 1e3;
-          var o = parseInt(e.data[0].end_time) - a;
-          console.log(e.data[0].end_time), t.setData({
-            pintuan_time: o
-          }), t.setCountDown();
-        }
-      },
-      complete: function (t) {
-        console.log(t);
       }
     });
   },
@@ -468,158 +266,6 @@ Page({
     this.setData({
       chapter: d.chapter
     })
-  },
-  getJointuanInfo: function () {
-    var t = this, e = t.data.video_id;
-    n.request({
-      url: s.order.video_joinpintuan_list,
-      method: "post",
-      data: {
-        video_id: e
-      },
-      success: function (e) {
-        0 == e.errcode && (console.log(i(e.data)), "object" == i(e.data) ? t.setData({
-          team: e.data
-        }) : t.setData({
-          detail_id: e.data
-        }));
-      },
-      complete: function (t) {
-        console.log(t);
-      }
-    });
-  },
-  kaituan: function () {
-    var t = this, e = t.data.video_id;
-    if (!t.data.kaituan_id) return wx.showToast({
-      title: "请选择开团规模",
-      icon: "none"
-    }), !1;
-    wx.showLoading({
-      title: "提交中"
-    }), n.request({
-      url: s.order.video_kaituan,
-      method: "post",
-      data: {
-        pintuan_id: t.data.kaituan_id,
-        video_id: e
-      },
-      success: function (e) {
-        0 == e.errcode ? n.request({
-          url: s.order.get_pay_data,
-          method: "post",
-          data: {
-            order_id: e.data.order_id,
-            pay_type: "WECHAT_PAY"
-          },
-          success: function (a) {
-            if (wx.hideLoading(), 0 == a.errcode) {
-              var o = a.data;
-              wx.requestPayment({
-                timeStamp: o.timeStamp,
-                nonceStr: o.nonceStr,
-                package: o.package,
-                signType: o.signType,
-                paySign: o.paySign,
-                success: function (a) {
-                  wx.showToast({
-                    title: "订单支付成功",
-                    icon: "success"
-                  }), t.hidefund(), wx.navigateTo({
-                    url: "../pingou-detail/pingou-detail?detail_id=" + e.data.detail_id
-                  });
-                },
-                fail: function (t) {
-                  wx.showToast({
-                    title: "订单未支付",
-                    image: "/images/icon-warning.png"
-                  });
-                }
-              });
-            } else wx.hideLoading(), wx.showModal({
-              title: "提示",
-              content: a.errmsg,
-              showCancel: !1
-            });
-          }
-        }) : wx.showModal({
-          title: "提示",
-          content: e.errmsg
-        });
-      },
-      complete: function (t) {
-        wx.hideLoading();
-      }
-    });
-  },
-  loadComment: function (t) {
-    var e = this;
-    let d = this.data;
-    n.request({
-      url: s.user.comment_list,
-      method: "POST",
-      data: {
-        course_id: e.data.video_id,
-        // p: 1,
-      },
-      success: function (t) {
-        0 == t.code ? e.setData({
-          comment_list: d.comment_list.concat(t.data.comment),
-          comment_page: t.data.commentCount
-        }) : wx.showModal({
-          title: "提示",
-          content: t.errmsg
-        });
-      },
-      fail: function (t) {
-        wx.showModal({
-          title: "警告",
-          content: t.msg,
-          showCancel: !1
-        });
-      },
-      complete: function () {
-        wx.hideLoading();
-      }
-    });
-  },
-  getVideoByPassword: function () {
-    var t = this, e = t.data.video_id;
-    if (!t.data.video_password) return wx.showToast({
-      title: "请输入密码",
-      icon: "none",
-      duration: 2e3
-    }), !1;
-    wx.showLoading({
-      title: "提交中"
-    }), n.request({
-      url: s.course.getLiveVideoDetail,
-      method: "post",
-      data: {
-        video_id: e,
-        password: t.data.video_password
-      },
-      success: function (e) {
-        if (console.log(e.data), 0 == e.errcode) {
-          var a = t.data.video;
-          0 == e.data.AUTH ? wx.showToast({
-            title: "密码错误",
-            icon: "none",
-            duration: 2e3
-          }) : (a.AUTH = !0, t.setData({
-            video: a
-          }), wx.showToast({
-            title: "密码正确",
-            icon: "success",
-            duration: 1e3
-          }));
-        } else wx.showToast({
-          title: "错误",
-          icon: "none",
-          duration: 2e3
-        });
-      }
-    });
   },
   getVideoByBuy: function () {
     var t = this, e = t.data.video_id;
@@ -712,19 +358,6 @@ Page({
       video_password: t.detail.value
     });
   },
-  submitpassword: function (t) {
-    this.getVideoByPassword(this.data.video_password), this.hidepop2();
-  },
-  buyVip: function () {
-    wx.navigateTo({
-      url: "../member/member"
-    });
-  },
-  backIndex: function (t) {
-    wx.switchTab({
-      url: "../index/index"
-    });
-  },
   tryWatch: function () {
     var t = this;
     this.setData({
@@ -732,48 +365,18 @@ Page({
       is_trywatch: 1
     }), 1 == this.data.is_audio && (a.src = t.data.video.chapter[t.data.current_chapter].video_url);
   },
-  // timeupdate: function(t) {
-  //     var a = this, o = a.data.play_time;
-  //     a.setData({
-  //         play_time: o + .25
-  //     }), 1 == a.data.trywatch_status && o >= 10 && (a.setData({
-  //         trywatch_status: 0
-  //     }), 1 == a.data.is_audio ? a.stopAudio() : ((e = wx.createVideoContext("video")).exitFullScreen(), 
-  //     e.seek(0), e.pause()));
-  // },
   select_date: function (t) {
-    let self = this, d = this.data;
-    // 已付款或免费
-    // let option = {
-    //   listen_id: t.currentTarget.dataset.key,
-    //   learn_time: this.data.currentTime,
-    //   type: 2,
-    //   video_mid: this.data.video_mid
-    // }
-    // console.log(option)
-    // app.encryption({
-    //   url: api.default.videomember,
-    //   method: "POST",
-    //   data: option,
-    //   success: function (res) {
-    //     console.log(res)
-    //   },
-    //   fail: function (t) {
-    //   },
-    //   complete: function () {
-
-    //   }
-    // })
     clearInterval(this.repeating);
     this.repeating = null
-    this.SocketTask && this.SocketTask.close();
+    // this.SocketTask && this.SocketTask.close();
     this.setData({
       lessonId: t.currentTarget.dataset.key,
       learnTime: 0,
-      roomId: t.currentTarget.dataset.roomid
+      roomId: t.currentTarget.dataset.roomid,
+      media_int_id:t.currentTarget.dataset.key,
+      live_video_id:t.currentTarget.dataset.roomid
     })
     this.liveplayinfo(t.currentTarget.dataset.key)
-    // this.onLoad();
   },
   collect: function () {
     var t = this;
@@ -805,14 +408,6 @@ Page({
       }
     });
   },
-  // createAudio: function() {
-  //     var t = this, e = wx.getBackgroundAudioManager();
-  //     e.title = t.data.video.chapter[t.data.current_chapter].name, e.coverImgUrl = t.data.video.pic_url, 
-  //     console.log(e), e.onTimeUpdate(t.timeupdate), e.onCanplay(t.canPlay), e.onPause(t.onPauseAudio), 
-  //     e.onStop(t.onStopAudio), e.onEnded(t.endPlay), e.onPlay(t.onPalyAudio), a = e, t.setData({
-  //         is_audio: 1
-  //     });
-  // },
   canPlay: function () {
     var t = this;
     wx.hideLoading(), t.setData({
@@ -904,7 +499,6 @@ Page({
       dd: i
     };
   },
-
   // 阿里云
   // 视频缓冲触发事件
   videoWaiting() {
@@ -912,7 +506,6 @@ Page({
       controlHidden: true
     })
   },
-
   computedDef(definition) {
     let def = {
       FD: "流畅",
@@ -925,7 +518,6 @@ Page({
     }
     return def[definition]
   },
-
   videoPlayHandle(e) {
     console.log('videoPlayHandle')
     this.data.videoPlaying = true
@@ -941,7 +533,6 @@ Page({
     }
 
   },
-
   closeControl() {
     console.log(1111);
     this.setData({
@@ -949,7 +540,6 @@ Page({
       rateShow: false
     })
   },
-
   tapVideo(e) {
     console.log(e)
     console.log('tapVideo')
@@ -965,20 +555,17 @@ Page({
       })
     }
   },
-
   switchResource() {
     console.log('switch')
     this.setData({
       multiListShow: true
     })
   },
-
   showSwitchRate(rate) {
     this.setData({
       rateShow: true
     })
   },
-
   switchRate(e) {
     let dataset = e.currentTarget.dataset
     let { rate } = dataset
@@ -994,7 +581,6 @@ Page({
   // 超清高清标清
   switchDefinition(e) {
     this.data.isSwitchDefinition = true
-
     let dataset = e.currentTarget.dataset
     let { url, def } = dataset
 
@@ -1019,23 +605,23 @@ Page({
       wx.stopPullDownRefresh()
     })
   },
-
   tapPlay(e) {
     let vid = e.currentTarget.dataset['vid']
     this.playVideo(vid)
   },
-
   playVideo(data) {
+    //当执行到此处时，说明视频一开始播放则经行初始化socket,然后开始执行socket链接
+    clearInterval(this.repeating);
+    clearInterval(this.socketTime)
+    this.repeating = null
+    this.SocketTask && this.SocketTask.close();
+    this.webSocket()
     console.log(data);
-    // if (!this.videoContext) {
-    //   this.videoContext = wx.createVideoContext('videoPlayer')
-    // }
-    // this.videoContext.stop()
     this.data.videoPlaying = false
-    let currentPoster = data.VideoBase.CoverURL
-    let currentResource = data.PlayInfoList.PlayInfo[0].PlayURL
-    let currentVideoTitle = data.VideoBase.Title
-    let currentVideoResource = data.PlayInfoList.PlayInfo.map(item => {
+    let currentPoster = data.play_info.VideoBase.CoverURL
+    let currentResource = data.play_info.PlayInfoList.PlayInfo[0].PlayURL
+    let currentVideoTitle = data.play_info.VideoBase.Title
+    let currentVideoResource = data.play_info.PlayInfoList.PlayInfo.map(item => {
       item.definitionFormat = this.computedDef(item.Definition)
       return item
     })
@@ -1044,26 +630,22 @@ Page({
       currentVideoTitle,
       currentResource,
       currentVideoResource,
-      currentDefinition: currentVideoResource[0].definitionFormat
+      currentDefinition: currentVideoResource[0].definitionFormat,
+      learnTime: parseInt(data.live_video_learn_time),
     })
-    // this.videoContext.play()
   },
   // 进度改变执行
   timeUpdate(e) {
     let { currentTime } = e.detail
     this.data.currentTime = currentTime
     this.data.videoplaying = true
-
     if (this.data.videoplaying && this.data.currentRate != 1.0) {
-      // console.log(this.data.currentRate);
       this.videoContext.playbackRate(Number(this.data.currentRate))
     }
   },
-
   playPaused() {
     this.data.videoplaying = false
   },
-
   fullScreen(e) {
     let { fullScreen, direction } = e.detail
     console.log(e)
@@ -1076,7 +658,6 @@ Page({
     this.setData({ fullScreenData })
     console.log(this.data.fullScreenData)
   },
-
   loadData(cb) {
     if (this.data.loadAll || this.data.loading) {
       return
@@ -1102,12 +683,13 @@ Page({
     let listen_id = this.data.lessonId
     let tokens = wx.getStorageSync("user_info").token
     let listen_time = this.data.currentTime
-    let roomId = this.data.roomId
-    let class_id = this.data.video_id
+    let live_video_id = this.data.live_video_id
+    let video_cellection_id = that.data.live_class_id
+    let courseId = this.data.courseId
+    let live_id = this.data.live_id
     // 创建Socket
     that.SocketTask = wx.connectSocket({
-      // url: 'wss://api.beiqujy.com/wss',
-      url: 'wss://apps.beiqujy.com/count' + `?token=${tokens}&uid=${uid}&type=2&from=1&listen_id=${listen_id}&listen_time=${listen_time}&room_id=${roomId}&class_id=${class_id}`,
+      url:  api.default.sockForCount + `?token=${tokens}&students_user_id=${uid}&count_type=2&from=1&listen_id=${listen_id}&listen_time=${listen_time}&class_video_id=${live_video_id}&course_id=${courseId}&video_cellection_id=${video_cellection_id}&live_id=${live_id}`,
       header: {
         'content-type': 'application/json'
       },
@@ -1130,7 +712,7 @@ Page({
     })
     // 监听WebSocket关闭
     that.SocketTask.onClose(res => {
-      console.log('监听到 WebSocket 已关闭！' + ':' + res)
+      console.log('监听到 WebSocket 已关闭！' + ':' + res )
       that.reconnect();
     })
     // websocket打开
@@ -1139,9 +721,10 @@ Page({
       clearInterval(that.repeating)
       that.repeating = setInterval(() => {
         let listen_time = that.data.currentTime
-        let roomId = that.data.roomId
-        let listen_id = that.data.lessonId
-        let sendData = `{"token":"${tokens}","uid":${uid},"type":2,"from":1,"listen_id":${listen_id},"listen_time":${listen_time},"room_id":"${roomId}","class_id":${class_id}}`;
+        let live_video_id = that.data.live_video_id
+        let class_id =that.data.class_room_id
+        let video_cellection_id = that.data.live_class_id
+        let sendData = `{"token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}}`
         console.log(sendData);
         that.socketSend(sendData);
       }, 10000)
@@ -1152,12 +735,12 @@ Page({
     // 收到websocket消息
     that.SocketTask.onMessage(res => {
       console.log('监听到 接收消息！' + ':' + res.data)
-      // this.socketMessage(JSON.parse(res.data));
     })
   },
   reconnect() {
     let that = this
     clearInterval(that.repeating)
+    console.log(this.isHide)
     if (!this.isHide) {
       console.log('重连');
       clearTimeout(that.socketTime);
@@ -1238,5 +821,27 @@ Page({
       second = '0' + second;
     }
     return hour === 0 ? minute + ':' + second : hour + ':' + minute + ':' + second;
-  }
+  },
+  onUnload: function () {
+    this.isHide = true;
+    clearInterval(this.repeating);
+    clearInterval(this.socketTime)
+    this.repeating = null
+    this.SocketTask && this.SocketTask.close();
+  },
+  onPullDownRefresh: function () {},
+  onReachBottom: function () { },
+  onShareAppMessage: function () {
+    var t = this, e = wx.getStorageSync("user_info");
+    return {
+      title: t.data.video.title,
+      path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id,
+      success: function (t) {
+        console.log("转发成功", t);
+      },
+      fail: function (t) {
+        console.log("转发失败", t);
+      }
+    };
+  },
 });

@@ -1,0 +1,190 @@
+<!--
+此文件为开发者工具生成，生成时间: 2020/11/30 上午10:57:49 
+使用方法：
+在 C:\Users\MSI\Desktop\小程序wc - 副本\pages\index\index.wxml 引入模板
+
+```
+<import src="index.skeleton.wxml"/>
+<template is="skeleton" wx-if="{{loading}}" />
+```
+
+在 C:\Users\MSI\Desktop\小程序wc - 副本\pages\index\index.wxss 中引入样式
+```
+@import "./index.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+-->
+<template name="skeleton">
+  <view class="sk-container">
+    <view class="top-classify" style="border: none;">
+      <view class="scrow-view">
+        <scroll-view scroll-with-animation="true" scroll-x="true">
+          <view class="fenlei-menu">
+            <text class="teamnum thismenu com_color com_after sk-transparent sk-text-14-2857-874 sk-text sk-pseudo sk-pseudo-circle" data-index="0" data-key="[object Object]" id="scroll-item-0">                    系统集成测试                </text>
+            <text class="teamnum sk-transparent sk-text-14-2857-242 sk-text" data-index="1" data-key="[object Object]" id="scroll-item-1">                    系统集成项目管理工程师（中级）                </text>
+            <text class="teamnum sk-transparent sk-text-14-2857-3 sk-text" data-index="2" data-key="[object Object]" id="scroll-item-2">                    食品安全员-餐饮服务（中级）                </text>
+          </view>
+        </scroll-view>
+      </view>
+      <view class="imgs sk-pseudo sk-pseudo-circle">
+        <image class="jiaimg sk-image" mode="widthFix" style="height: 18px;"></image>
+      </view>
+    </view>
+    <view class="top-container">
+      <view class="top-content">
+        <view class="left-logo">
+          <view class="uprates">
+            <text class="rates sk-transparent sk-text-14-2857-345 sk-text">正确率</text>
+            <text class="percentages sk-transparent sk-text-14-2857-205 sk-text">0%</text>
+          </view>
+          <image class="jiaimg circles sk-image" mode="widthFix" style="height: 119.111px;"></image>
+        </view>
+        <view class="right-content">
+          <view class="right-menu">
+            <view class="every-menu" data-number="2">
+              <view class="menu-img">
+                <image class="jiaimg sk-image" mode="widthFix" style="height: 25.3469px;"></image>
+              </view>
+              <text class="menu-name sk-transparent sk-text-14-2857-247 sk-text">收藏夹</text>
+            </view>
+            <view class="every-menu" data-number="1">
+              <view class="menu-img">
+                <image class="jiaimg sk-image" mode="widthFix" style="height: 23.22px;"></image>
+              </view>
+              <text class="menu-name sk-transparent sk-text-14-2857-123 sk-text">错题集</text>
+            </view>
+            <view class="every-menu" data-number="0">
+              <view class="menu-img">
+                <image class="jiaimg sk-image" mode="widthFix" style="height: 27px;"></image>
+              </view>
+              <text class="menu-name sk-transparent sk-text-14-2857-700 sk-text">做题历史</text>
+            </view>
+          </view>
+          <view class="right-number">
+            <view class="every-number" data-number="2">
+              <text class="number sk-transparent sk-opacity">0</text>
+              <text id="gl" style="border: none;"></text>
+            </view>
+            <view class="every-number" data-number="1">
+              <text class="number sk-transparent sk-opacity">0</text>
+              <text id="gl" style="border: none;"></text>
+            </view>
+            <view class="every-number" data-number="0">
+              <text class="number sk-transparent sk-opacity">0</text>
+              <text id="gl" style="border: none;"></text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view is="utils/iview/action-sheet/index">
+      <view class="sheet-index--i-as-mask "></view>
+    </view>
+    <view is="utils/iview/message/index" id="message">
+      <view class="message-index--i-message message-index--i-message-default sk-transparent"></view>
+    </view>
+    <view class="middle-top-area">
+      <view class="middle-top-right">
+        <image class="jiaimg sk-image" mode="widthFix" style="height: 75.6085px;"></image>
+      </view>
+      <view class="middle-top-left">
+        <text class="title-top-left sk-transparent sk-text--2-2727-572 sk-text">每天一个必懂知识点</text>
+        <view class="clock sk-transparent sk-image">
+          马上打卡
+        </view>
+      </view>
+    </view>
+    <view class="middle-bottom-area">
+      <view class="middle-bottom-function">
+        <image class="img-function sk-image" mode="widthFix" style="height: 24.4681px;"></image>
+        <text class="fun-name sk-transparent sk-text-14-2857-718 sk-text">章节练习</text>
+      </view>
+      <view class="middle-bottom-function">
+        <image class="img-function sk-image" mode="widthFix" style="height: 22.0588px;"></image>
+        <text class="fun-name sk-transparent sk-text-14-2857-800 sk-text">历年真题</text>
+      </view>
+      <view class="middle-bottom-function">
+        <image class="img-function sk-image" mode="widthFix" style="height: 23.5294px;"></image>
+        <text class="fun-name sk-transparent sk-text-14-2857-397 sk-text">模拟考试</text>
+      </view>
+      <view class="middle-bottom-function">
+        <image class="img-function sk-image" mode="widthFix" style="height: 24.4565px;"></image>
+        <text class="fun-name sk-transparent sk-text-14-2857-254 sk-text">刷题挑战</text>
+      </view>
+    </view>
+    <view class="myCourse">
+      <view class="myCourse-title sk-transparent sk-text--10-0000-564 sk-text">我的课程</view>
+      <view class="myCourse-content">
+        <view class="img-myCourse">
+          <image style="width:100%;height:100%" class="sk-image"></image>
+        </view>
+        <view class="myCourse-info">
+          <view class="myCourse-content-title sk-transparent sk-text-14-2857-737 sk-text">系统集成</view>
+          <view>
+            <text class="myCourse-time sk-transparent sk-text-7-6923-40 sk-text">1课时</text>
+            <text class="myCourse-times sk-transparent sk-text-7-6923-197 sk-text">5人已学习</text>
+          </view>
+          <view class="myCourse-info-bottom">
+            <view class="personal-infor">
+              <view style="width:17px;height:17px;">
+                <image class="personal-img-myCourse sk-image" mode="scaleToFill"></image>
+              </view>
+              <text class="personal-name sk-transparent sk-text-14-2857-995 sk-text">赵老师</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="myCourse" style="margin-bottom:22px;margin-top: 11px;">
+      <view class="title-course">
+        <text class="myCourse-title-live sk-transparent sk-text-14-2857-83 sk-text" style="font-size:17px;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">            班级直播        </text>
+      </view>
+      <view class="myCourse-content">
+        <view class="img-myCourse">
+          <image style="width:100%;height:100%" class="sk-image"></image>
+        </view>
+        <view class="myCourse-info">
+          <text class="myCourse-content-title sk-transparent sk-text-14-2857-80 sk-text">班级测试</text>
+          <view>
+            <text class="myCourse-time sk-transparent sk-text-0-0000-772 sk-text" style="background:#fff;padding:0;font-size:13px;margin:0">                    直播时间：20/11/30 10:04                </text>
+          </view>
+          <view class="myCourse-info-bottom">
+            <view class="personal-infor">
+              <view style="width:17px;height:17px;">
+                <image class="personal-img-myCourse sk-image" mode="scaleToFill"></image>
+              </view>
+              <text class="personal-name sk-transparent sk-text-14-2857-528 sk-text">赵老师</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="tabBar">
+      <view class="tabBar-item">
+        <view data-key="0" data-url="/pages/index/index">
+          <view class="iconBox">
+            <image class="icon sk-image"></image>
+          </view>
+          <view class="tabBartext com_color sk-transparent sk-text-14-2857-314 sk-text" style="background-position-x: 50%;">我的课程</view>
+        </view>
+      </view>
+      <view class="tabBar-item">
+        <view data-key="1" data-url="/pages/secondary/secondary">
+          <view class="iconBox">
+            <image class="icon sk-image"></image>
+          </view>
+          <view class="sk-transparent sk-text-14-2857-882 sk-text" style="background-position-x: 50%;">首页</view>
+        </view>
+      </view>
+      <view class="tabBar-item">
+        <view data-key="2" data-url="/pages/personal-center/personal-center">
+          <view class="iconBox">
+            <image class="icon sk-image"></image>
+          </view>
+          <view class="sk-transparent sk-text-14-2857-208 sk-text" style="background-position-x: 50%;">个人中心</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

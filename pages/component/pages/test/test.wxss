@@ -90,6 +90,9 @@ page {
     margin-left: 40rpx;
     margin-top: 40rpx;
     overflow-y: scroll;
+    position: fixed;
+    bottom: 0;
+    top: 123px;
 }
 .questions-sencebox{
     box-sizing: border-box;

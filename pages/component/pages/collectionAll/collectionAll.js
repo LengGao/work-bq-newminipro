@@ -419,7 +419,7 @@ Page({
       problem_course_id: problem_course_id
     })
     // wx.startPullDownRefresh();
-    // console.log(options)
+    console.log(options)
     let screenHeight = wx.getSystemInfoSync().windowHeight;
    let historyScroll = screenHeight-app.globalData.navHeight;
    let that =this

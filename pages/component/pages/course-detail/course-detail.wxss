@@ -1123,11 +1123,9 @@ button{
 .cata-content {
     flex: 1;
     border-bottom: 1px solid #eee;
-    padding: 32rpx 30rpx;
+    padding: 22rpx 30rpx;
     display: flex;
     justify-content: space-between;
-    
-
 }
 
 .cata-name {
