@@ -34,7 +34,8 @@ App({
         school_id: 1,
         isIOS: wx.getSystemInfoSync().system.includes('iOS'),
         navHeight: 0,
-        info_show: 0
+        info_show: 0,
+        chat_socket_url:null,
     },
     login: function () {
         is_login = !0,

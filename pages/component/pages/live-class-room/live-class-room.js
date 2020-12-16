@@ -126,9 +126,13 @@ Page({
   },
   onLoad: function (e) {
     console.log(e)
+    console.log(this.data)
+
+
     this.setData({
       course_id: parseInt(e.course_id),
       uid: wx.getStorageSync('user_info').uid,
+      //uid: this.data.uid,
       live_id: parseInt(e.live_id),
       live_class_id: parseInt(e.live_class_id)
     });
@@ -177,18 +181,28 @@ Page({
     });
   },
   webSocket() {
+    console.log(app.globalData.userInfo)
     console.log('进入sock')
-    let uid = wx.getStorageSync("user_info").uid
+    //let uid = wx.getStorageSync("user_info").uid
+    console.log(wx.getStorageSync("user_info").uid)
+    var uid = this.data.uid
+    if (uid == undefined || !uid) {
+      uid = wx.getStorageSync("user_info").uid
+    }
+ 
     let uuid = wx.getStorageSync("user_info").uuid
     let course_id = this.data.course_id
     let live_id = this.data.live_id
     let live_class_id = this.data.live_class_id
     let tokens = wx.getStorageSync("user_info").token
-    console.log(course_id)
+    app.globalData.chat_socket_url  =  api.default.countSocket + `?course_id=${course_id}&uid=${uid}&uuid=${uuid}&live_id=${live_id}&live_class_id=${live_class_id}&type='students'&from=1&token=${tokens}`;
+
+    console.log(app.globalData.chat_socket_url);
     // 创建Socket
     this.SocketTask = wx.connectSocket({
       // url: 'wss://api.beiqujy.com/wss',
-      url: api.default.countSocket + `?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&live_id=${live_id}&live_class_id=${live_class_id}&type='students'&from=1`,
+     // url: api.default.countSocket + `?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&live_id=${live_id}&live_class_id=${live_class_id}&type='students'&from=1`,
+     url: app.globalData.chat_socket_url,
       // url: 'wss://testapi.abacc.cn/chat' + `?token=${tokens}&course_id=${course_id}&uid=${uid}&uuid=${uuid}&listen_id=123&type='students'&from=1`,
       header: {
         'content-type': 'application/json'
@@ -210,6 +224,7 @@ Page({
     this.SocketTask.onError(res => {
       console.log('监听到 WebSocket 打开错误，请检查！')
       this.SocketTask.close();
+      this.reconnect();
     })
     // 监听WebSocket关闭
     this.SocketTask.onClose(res => {
@@ -241,9 +256,16 @@ Page({
       this.SocketTask.close();
       this.reconnect();
       wx.showToast({
-        title: "网络连接失败,请检查网络",
+        title: "网络连接失败,请尝试再次发送消息",
         icon: "none"
       });
+      console.log("socket链接错误");
+      console.log("链接url："+ this.data.sockurl);
+      console.log(data);
+
+      this.reconnect();
+      
+
     }
   },
   socketMessage(res) {

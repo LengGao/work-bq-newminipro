@@ -231,6 +231,7 @@ Page({
     })
   },
   gettopINfor() {
+
     let that = this
     app.encryption({
       url: api.test.getCollectionCourses,
@@ -257,11 +258,13 @@ Page({
             }
           })
         }
+        that.getALLData();
+
       },
       fail: function (t) {
       },
       complete: function () {
-        that.getALLData();
+        // that.getALLData();
         //手此进入需要出发选中头部事件
         that.selectmenu(that.data.courseId)
       }
