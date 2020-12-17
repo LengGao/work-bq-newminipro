@@ -74,9 +74,7 @@
                 <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
                 <view class="cata-content twoline">
-                    <text class="cata-name twoline {{ vitem.hasVisit == 0 ?'':'hasvision'}}">
-                        {{vitem.lessonName}}
-                    </text>
+                    <text class="cata-name twoline {{ vitem.hasVisit == 0 ?'':'hasvision'}}">    • {{vitem.lessonName}}</text>
                     <text class="cata-time" wx:if="{{ vitem.isFree }}">免费</text>
                 </view>
             </view>
