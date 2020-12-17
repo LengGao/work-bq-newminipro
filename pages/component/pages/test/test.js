@@ -295,6 +295,9 @@ Page({
   },
   nextQU() {
     let that = this
+    this.setData({
+      multiselecting: []
+    })
     let curID = that.data.curID
     if(this.data.is_lock == 1){
     }else{
@@ -399,6 +402,8 @@ Page({
     }
   },
   multiselectAnswer(e) {
+    console.log('多线')
+    console.log(e)
     // if (!this.data.multishowAny) {
     //   return
     // }
@@ -406,41 +411,53 @@ Page({
     let option = e.currentTarget.dataset.option;
     let answer = e.currentTarget.dataset.answer;
     let index = e.currentTarget.dataset.index;
+    console.log(this.data.randerTitle)
     if (this.data.randerTitle.content != undefined) {
       color = this.data.randerTitle.content[index];
     } else {
+      
       color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
     }
+    console.log(color)
     this.setData({
       multiAnswer: answer
     })
     console.log(option, answer, this.data.multiselect)
     let multiselect = this.data.multiselecting
+    console.log(multiselect)
     if (!multiselect.includes(option)) {
       multiselect.push(option)
+      console.log(this.data.randerTitle.content )
       if (this.data.randerTitle.content != undefined) {
+        // console.log( this.data.randerTitle.content[index])
         this.data.randerTitle.content[index].haschose = true
         this.data.randerTitle.done = true
       } else {
+        // console.log(this.data.randerTitle.child[this.data.senceIndex - 1])
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
         this.data.randerTitle.child[this.data.senceIndex - 1].done = true
       }
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
+      
     }
+    console.log(this.data.randerTitle.content)
     if (answer.includes(option)) {
+      console.log(color,option)
       color.color = true
       this.setData({
         randerTitle: this.data.randerTitle,
       })
     } else {
+      console.log(color,option)
       color.color = false
       color.err = true
       this.setData({
         randerTitle: this.data.randerTitle
       })
     }
+
     console.log(this.data.randerTitle.content)
   },
   showAnswer() {
@@ -679,6 +696,10 @@ Page({
     }
   },
   bindsenceNext() {
+  
+    // this.setData({
+    //   multiselecting: []
+    // })
     console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
     // this.saveScenceRander()
     if (this.data.senceIndex < this.data.senceNum) {
