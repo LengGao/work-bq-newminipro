@@ -58,6 +58,7 @@ Page({
     repeat: null,
     reconnecting: true,
     roomId: '',
+    uid: ''
   },
   tapVoicePlay: function () {
     d ? this.setData({
@@ -125,19 +126,18 @@ Page({
     });
   },
   onLoad: function (e) {
-    console.log(e)
-    console.log(this.data)
-
-
+ 
     this.setData({
       course_id: parseInt(e.course_id),
-      uid: wx.getStorageSync('user_info').uid,
+      //uid: wx.getStorageSync('user_info').uid,
       //uid: this.data.uid,
       live_id: parseInt(e.live_id),
-      live_class_id: parseInt(e.live_class_id)
+      live_class_id: parseInt(e.live_class_id),
+      uid: parseInt(e.uid)
     });
-    this.webSocket() //聊天
+   
     this.getVideoInfo();
+  
     this.livePlayer = wx.createLivePlayerContext('video-livePlayer');
     this.tvideo = wx.createLivePlayerContext('video-livePlayer');
   },
@@ -163,16 +163,26 @@ Page({
       method: "GET",
       data: option,
       success: function (e) {
-        console.log(e)
+      
         // var a = e.about + "<span> </span>";
         // wxParse.wxParse("content", "html", a, that, 5);
+        console.log(e)
         that.setData({
+          uid:e.data.uid,
           video_title: e.data.live_class_name,
           videoUrl: e.data.pull_rtmp_url
         });
+        if(e.code==0){
+          that.webSocket() //聊天
+          console.log('进入聊天'
+          )
+        }
+        console.log(e.data.uid)
+        
         // that.livemember(e.roomId)
         wx.setNavigationBarTitle({
           title: `直播：${e.data.live_class_name}`
+      
         });
       },
       complete: function (t) {
@@ -181,22 +191,25 @@ Page({
     });
   },
   webSocket() {
-    console.log(app.globalData.userInfo)
+    console.log(this.data)
     console.log('进入sock')
     //let uid = wx.getStorageSync("user_info").uid
-    console.log(wx.getStorageSync("user_info").uid)
+ 
     var uid = this.data.uid
-    if (uid == undefined || !uid) {
+
+    console.log(uid)
+     if (uid == undefined || !uid) {
+       console.log("接口拿不到")
       uid = wx.getStorageSync("user_info").uid
     }
- 
+   
+    console.log(uid);
     let uuid = wx.getStorageSync("user_info").uuid
     let course_id = this.data.course_id
     let live_id = this.data.live_id
     let live_class_id = this.data.live_class_id
     let tokens = wx.getStorageSync("user_info").token
     app.globalData.chat_socket_url  =  api.default.countSocket + `?course_id=${course_id}&uid=${uid}&uuid=${uuid}&live_id=${live_id}&live_class_id=${live_class_id}&type='students'&from=1&token=${tokens}`;
-
     console.log(app.globalData.chat_socket_url);
     // 创建Socket
     this.SocketTask = wx.connectSocket({
@@ -339,7 +352,7 @@ Page({
   },
   onShow: function () {
     if (this.SocketTask && this.SocketTask.readyState != 1 && this.isHide) {
-      this.webSocket();
+       this.webSocket();
     }
     this.isHide = false;
     console.log('common  onShow');

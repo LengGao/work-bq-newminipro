@@ -7,7 +7,7 @@
         <view>
             <view class="myCourse-content" >
             <view class="img-myCourse">
-                <image style="width:100%;height:100%" src="{{item.cover_img}}" />
+                <image style="width:100%;height:100%" src="{{item.class_icon}}" />
             </view>
             <view class="myCourse-info">
                 <view class="myCourse-content-title">{{item.classroom_name}}</view>

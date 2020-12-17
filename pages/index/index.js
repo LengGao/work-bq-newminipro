@@ -195,6 +195,7 @@ Page({
     this.setData({
       menuTop: courseId,
       courseId: courseId,
+      nomyCourse:true
     });
     this.data.course_list.forEach((item) => {
       if (item.haschoose = true) {
@@ -231,7 +232,6 @@ Page({
     })
   },
   gettopINfor() {
-
     let that = this
     app.encryption({
       url: api.test.getCollectionCourses,
@@ -265,7 +265,7 @@ Page({
       },
       complete: function () {
         // that.getALLData();
-        //手此进入需要出发选中头部事件
+        //首此进入需要出发选中头部事件
         that.selectmenu(that.data.courseId)
       }
     })
@@ -389,7 +389,7 @@ Page({
   },
   goindex() {
     wx.navigateTo({
-      url: './secondary/secondary'
+      url: '../secondary/secondary'
     });
   },
   getHomePanel() {
