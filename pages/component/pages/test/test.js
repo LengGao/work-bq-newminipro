@@ -298,6 +298,12 @@ Page({
     this.setData({
       multiselecting: []
     })
+    this.setData({
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeAnswer: 'defaultAnswer',
+      correctoption: '',
+      multishowAny: true
+    })
     let curID = that.data.curID
     if(this.data.is_lock == 1){
     }else{
@@ -316,6 +322,7 @@ Page({
     that.initText(curId);
   },
   saveRander(ID) {
+  console.log(ID)
     let that = this
     let curRander = this.data.randerTitle;
     let result = that.hasBeenLoad(ID);//检查本地是否已缓存
@@ -415,7 +422,6 @@ Page({
     if (this.data.randerTitle.content != undefined) {
       color = this.data.randerTitle.content[index];
     } else {
-      
       color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
     }
     console.log(color)
@@ -440,7 +446,31 @@ Page({
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
-      
+     
+    }else{
+      if (this.data.randerTitle.content != undefined) {
+        // console.log( this.data.randerTitle.content[index])
+        this.data.randerTitle.content[index].haschose = false
+        this.data.randerTitle.done = false
+      } else {
+        // console.log(this.data.randerTitle.child[this.data.senceIndex - 1])
+        this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
+        this.data.randerTitle.child[this.data.senceIndex - 1].done = false
+      }
+
+      if(multiselect.length>=1){
+        multiselect.forEach((item,i)=>{
+          if(item==option){
+            console.log(i)
+            multiselect.splice(i,1)
+          }
+        })
+      }
+      console.log(option)
+      console.log( multiselect)
+      this.setData({
+        multiselect: multiselect
+      })
     }
     console.log(this.data.randerTitle.content)
     if (answer.includes(option)) {

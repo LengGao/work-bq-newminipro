@@ -259,6 +259,9 @@ Page({
   nextQU() {
     //考试模式下所有题型都以点击下一题或者上一题为提交答案的入口
     let that = this
+    this.setData({
+      multiselecting: []
+    })
     let curID = that.data.curID
     console.log(that.data.randerTitle)
     if(that.data.randerTitle.problem_type == 6){
@@ -555,6 +558,29 @@ Page({
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
+    }else{
+      let indexs = multiselect.findIndex((val)=>{ val == option })
+      if (this.data.randerTitle.content != undefined) {
+        if(indexs != -1){
+          multiselect.splice(indexs,1)
+          this.data.randerTitle.content[indexs].haschose = false
+          this.data.randerTitle.done = false
+        }else{
+          this.data.randerTitle.content[index].haschose = false
+          this.data.randerTitle.done = false
+        }
+      } else {
+        this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
+        this.data.randerTitle.child[this.data.senceIndex - 1].done = false
+      }
+      if(multiselect.length>=1){
+        multiselect.forEach((item,i)=>{
+          if(item==option){
+            console.log(i)
+            multiselect.splice(i,1)
+          }
+        })
+      }
     }
     if (answer.includes(option)) {
       color.color = true

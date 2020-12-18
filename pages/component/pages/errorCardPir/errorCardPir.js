@@ -295,6 +295,9 @@ Page({
   },
   nextQU() {
     let that = this
+    this.setData({
+      multiselecting: []
+    })
     let curID = that.data.curID
     if(this.data.is_lock == 1){
     }else{
@@ -428,6 +431,22 @@ Page({
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
+    }else{
+      if (this.data.randerTitle.content != undefined) {
+        this.data.randerTitle.content[index].haschose = false
+        this.data.randerTitle.done = false
+      } else {
+        this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
+        this.data.randerTitle.child[this.data.senceIndex - 1].done = false
+      }
+      if(multiselect.length>=1){
+        multiselect.forEach((item,i)=>{
+          if(item==option){
+            console.log(i)
+            multiselect.splice(i,1)
+          }
+        })
+      }
     }
     if (answer.includes(option)) {
       color.color = true

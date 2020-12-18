@@ -4,7 +4,7 @@
     </text>
 </view>
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '2'?'tactive':''}}">
-    <block wx:if="{{ nodata }}">
+    <!-- <block wx:if="{{ nodata }}">
         <view class="cata-list" wx:for="{{ collectionList }}" wx:key="index">
             <view style="display:flex;justify-content:space-between;">
                 <view style="display:flex;align-items:center">
@@ -53,18 +53,18 @@
                 </view>
             </view>
         </view>
-    </block>
-    <block wx:if="{{ !nodata }}">
+    </block> -->
+    <!-- <block wx:if="{{ !nodata }}">
         <view style="position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center">
             <image style="width:280rpx;height:264rpx;" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kongdata.png" />
             <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);">
                 暂无数据
             </text>
         </view>
-    </block>
+    </block> -->
 </view>
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '1'?'tactive':''}}">
-    <block wx:if="{{ errornodata }}">
+    <!-- <block wx:if="{{ errornodata }}">
         <view class="cata-list" wx:for="{{ havepay }}" wx:key="index">
             <view style="display:flex;justify-content:space-between;">
                 <view style="display:flex;align-items:center">
@@ -110,10 +110,10 @@
                 暂无数据
             </text>
         </view>
-    </block>
+    </block> -->
 </view>
 <view class="catalogue fix-out-box {{tabArr.curBdIndex == '0'?'tactive':''}}">
-    <block wx:if="{{ waitnodata }}">
+    <!-- <block wx:if="{{ waitnodata }}">
         <view class="cata-list" wx:for="{{ waitpay }}" wx:key="index">
             <view style="display:flex;justify-content:space-between;">
                 <view style="display:flex;align-items:center">
@@ -147,7 +147,7 @@
                             <image mode="widthFix" class="personal-img-myCourse" src="{{ myCourse.teacherImage }}" binderror="errorFunction"></image>
                             <text class="personal-name">{{ myCourse.teacherName }}</text>
                         </view>
-                        <!-- <text class="havelearn">{{myCourse.number}}人已学习</text> -->
+                      
                     </view>
                 </view>
             </view>
@@ -168,5 +168,5 @@
                 暂无数据
             </text>
         </view>
-    </block>
+    </block> -->
 </view>

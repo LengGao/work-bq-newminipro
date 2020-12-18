@@ -1,6 +1,8 @@
 
 
-<view class="body-view"  wx:for="{{ alldata }}" wx:key="index">
-    <view style="font-size:26rpx;color:rgba(51,51,51,1);"> 是否开启{{ item.title }}提醒 </view>
-    <switch checked="{{ item.state }}"  bindchange="{{ item.type }}" data-id = '{{ item.id }}' data-temid = '{{ item.templateId }}'/>
+<view class="body-view"  wx:for="{{ alldata }}" wx:key="index" >
+    <!-- <view style="font-size:26rpx;color:rgba(51,51,51,1);"> 是否开启{{ item.title }}提醒 </view>
+    <switch checked="{{ item.state }}"  bindchange="{{ item.type }}" data-id = '{{ item.id }}' data-temid = '{{ item.templateId }}'/> -->
+    <view style="font-size:26rpx;color:rgba(51,51,51,1);"> 是否开启提醒 </view>
+    <switch checked="item.state"  bindchange="type" data-state = '{{ item.state }}'/>
 </view>

@@ -296,6 +296,15 @@ Page({
   nextQU() {
     let that = this
     let curID = that.data.curID
+    this.setData({
+      multiselecting: []
+    })
+    this.setData({
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeAnswer: 'defaultAnswer',
+      correctoption: '',
+      multishowAny: true
+    })
     if(this.data.is_lock == 1){
     }else{
       this.common()
@@ -428,6 +437,23 @@ Page({
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
+    }else{
+      if (this.data.randerTitle.content != undefined) {
+        this.data.randerTitle.content[index].haschose = false
+        this.data.randerTitle.done = false
+      } else {
+        this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
+        this.data.randerTitle.child[this.data.senceIndex - 1].done = false
+      }
+
+      if(multiselect.length>=1){
+        multiselect.forEach((item,i)=>{
+          if(item==option){
+            console.log(i)
+            multiselect.splice(i,1)
+          }
+        })
+      }
     }
     if (answer.includes(option)) {
       color.color = true

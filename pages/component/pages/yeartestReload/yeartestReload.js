@@ -176,6 +176,9 @@ Page({
   },
   nextQU() {
     let that = this
+    this.setData({
+      multiselecting: []
+    })
     let randerTitle
     let current_no = that.data.current_no//获取下一题index
     let curReander = that.data.originTitle[current_no]//获取下一题的原始数据
