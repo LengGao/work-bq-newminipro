@@ -446,9 +446,12 @@ Page({
     }
   },
   multiselectAnswer(e) {
-    console.log(this.data.donotChangeAnswer);
-    if (this.data.donotChangeAnswer == true) {
-      return false;
+    // console.log(this.data.donotChangeAnswer);
+    // if (this.data.donotChangeAnswer == true) {
+    //   return false;
+    // }
+    if (this.data.randerTitle.done) { //如果已选答案，再次点击不再触发
+      return
     }
     let color
     let option = e.currentTarget.dataset.option;
@@ -459,6 +462,7 @@ Page({
     } else {
       color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
     }
+
     this.setData({
       multiAnswer: answer
     })
@@ -468,10 +472,10 @@ Page({
       multiselect.push(option)
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = true
-        this.data.randerTitle.done = true
+        // this.data.randerTitle.done = true
       } else {
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
-        this.data.randerTitle.child[this.data.senceIndex - 1].done = true
+        // this.data.randerTitle.child[this.data.senceIndex - 1].done = true
       }
       this.setData({
         multiselect: this.data.multiselect + option + ','
@@ -479,10 +483,10 @@ Page({
     } else {
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = false
-        this.data.randerTitle.done = false
+        // this.data.randerTitle.done = false
       } else {
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
-        this.data.randerTitle.child[this.data.senceIndex - 1].done = false
+        // this.data.randerTitle.child[this.data.senceIndex - 1].done = false
       }
       if (multiselect.length >= 1) {
         multiselect.forEach((item, i) => {
@@ -510,7 +514,6 @@ Page({
     }
     console.log(this.data.randerTitle.content)
   },
-  //点击答案图标
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({
@@ -519,31 +522,30 @@ Page({
         correctoption: '',
         multishowAny: true
       })
-      if(this.data.donotChangeAnswer == false)
-      {
-        this.setData({
-          donotChangeAnswer: true
-        })
-      }
+      // if(this.data.donotChangeAnswer == false)
+      // {
+      //   this.setData({
+      //     donotChangeAnswer: true
+      //   })
+      // }
     } else {
-      if(this.data.donotChangeAnswer == false)
-      {
-        this.setData({
-          donotChangeAnswer: true
-        })
-      }
-      // console.log(this.data.randerTitle)
-      // console.log(this.data.multiselect)
-      // console.log(this.data.multiAnswer)
-      
-   
-      let data  = this.data.randerTitle.content
+      // if(this.data.donotChangeAnswer == false)
+      // {
+      //   this.setData({
+      //     donotChangeAnswer: true
+      //   })
+      // }
+      this.data.randerTitle.done=true
+      let data = this.data.randerTitle.content
       data.forEach((item )=>{
         item.nohascolor=1
+        item.wrongAnswer=true
+        item.correctAnswer=true
       })
+
       this.setData({
-        wrongAnswer: true,
-        correctAnswer: true,
+        // wrongAnswer: true,
+        // correctAnswer: true,
         'randerTitle.content':data
       })
   
