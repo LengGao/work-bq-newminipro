@@ -82,6 +82,7 @@ Page({
     correctFilloption: '',
     correcSencetoption: '',
     multishowAny: true,
+    removeColorOption:'',
     multiSenceshowAny: true,
     multiselecting: [],
     multiselect: '',
@@ -303,9 +304,15 @@ Page({
     }
   },
   nextQU() {
-   
-    let that = this
-    
+    let that = this  
+    if(this.data.randerTitle.done!=true){
+      this.data.randerTitle.done=true
+      this.setData({
+        // wrongAnswer: true,
+        // correctAnswer: true,
+        'randerTitle.content':data
+      })
+    }
     this.setData({
       multiselecting: [],
         wrongAnswer: false,
@@ -318,7 +325,6 @@ Page({
       correctoption: '',
       multishowAny: true    
     })
-    
     let curID = that.data.curID
     if (this.data.is_lock == 1) {} else {
       this.common()
@@ -337,7 +343,6 @@ Page({
     that.initText(curId);
   },
   saveRander(ID) {
-    
     let that = this
     let curRander = this.data.randerTitle;
     console.log(ID)
@@ -451,6 +456,13 @@ Page({
     //   return false;
     // }
     if (this.data.randerTitle.done) { //如果已选答案，再次点击不再触发
+    
+        wx.showToast({
+          title:'答案已出,当前题目无法作答',
+          icon: 'none',
+          duration: 2000
+        })
+      
       return
     }
     let color
@@ -480,6 +492,7 @@ Page({
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
+      console.log(multiselect)
     } else {
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = false
@@ -493,61 +506,88 @@ Page({
           if (item == option) {
             console.log(i)
             multiselect.splice(i, 1)
+            this.setData({
+              removeColorOption:option
+            })
+            
           }
         })
       }
+      console.log(multiselect)
+      this.setData({
+        multiselect:multiselect.toString()
+      })     
     }
     if (answer.includes(option)) {
       color.color = true
       color.hascolor = 1
-   
       this.setData({
         randerTitle: this.data.randerTitle,
       })
+      if(this.data.removeColorOption==option){
+        color.color = ''
+        color.hascolor = ''
+     
+      }
+    
     } else {
       color.color = false
       color.hascolor = 1
       color.err = true
+      if(this.data.removeColorOption==option){
+        color.err = ''
+        color.hascolor = ''
+      }
       this.setData({
         randerTitle: this.data.randerTitle
       })
     }
+    this.setData({
+      removeColorOption:''
+    })
     console.log(this.data.randerTitle.content)
   },
   showAnswer() {
+    console.log(this.data.multiselect)
+    console.log(this.data.multiAnswer)
+   
+ 
     if (this.data.activeAnswer == 'activeAnswer') {
+
       this.setData({
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
         multishowAny: true
       })
-      // if(this.data.donotChangeAnswer == false)
-      // {
-      //   this.setData({
-      //     donotChangeAnswer: true
-      //   })
-      // }
     } else {
-      // if(this.data.donotChangeAnswer == false)
-      // {
-      //   this.setData({
-      //     donotChangeAnswer: true
-      //   })
-      // }
-      this.data.randerTitle.done=true
+      let arr =this.data.multiselect
+      let arr01=this.data.multiAnswer
+      let arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));
       let data = this.data.randerTitle.content
       data.forEach((item )=>{
         item.nohascolor=1
         item.wrongAnswer=true
         item.correctAnswer=true
+        console.log(item)
+     if(this.data.randerTitle.done!=true){
+       arr02.forEach((i)=>{
+         if(i==item.option){
+           item.nochosebutTrue=true
+           item.nohascolor=2
+         }
+       })
+      }
       })
-
+      if(this.data.randerTitle.done!=true){
+      this.data.randerTitle.done=true
       this.setData({
         // wrongAnswer: true,
         // correctAnswer: true,
         'randerTitle.content':data
       })
+    }
+      console.log(this.data.randerTitle.content)
   
       let curID = this.data.curID
       if (this.data.is_lock == 1) {} else {

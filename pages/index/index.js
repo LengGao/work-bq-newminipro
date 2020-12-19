@@ -409,7 +409,9 @@ Page({
             var t = n.code;
             app.request({
               url: api.user.newLogin,
-              data: { code: t },
+              data: { code: t,
+              version:1
+              },
               method: 'POST',
               success: function (e) {
                 if (e.data.param.info_show) {

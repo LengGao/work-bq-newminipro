@@ -314,6 +314,7 @@ Page({
     //首先获取下一题的ID
     let curindex = that.data.curIndexNumber - 1; // 当前下标
     if (curindex + 1 > that.data.all_current_no - 1) {
+      this.goback()
       return
     }
     let curId = that.data.alltestID[curindex + 1]; // 获取下一题ID
@@ -852,7 +853,7 @@ Page({
     let that = this
     wx.showModal({
       title: '提示',
-      content: '你正在进行章节练习，是否保存当前做题记录？',
+      content: '你正在进行刷题模式，是否保存当前做题记录？',
       showCancel: true,//是否显示取消按钮
       cancelText: "不保存",//默认是“取消”
       cancelColor: '#333333',//取消文字的颜色
@@ -892,7 +893,7 @@ Page({
             })
             wx.hideLoading()
             let pages = getCurrentPages(); // 当前页面
-            let beforePage = pages[pages.length - 2];
+            let beforePage = pages[pages.length - 1];
             let courseId = that.data.courseId
             wx.navigateBack({
               success: function () {

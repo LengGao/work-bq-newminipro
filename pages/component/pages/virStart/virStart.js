@@ -283,6 +283,7 @@ Page({
     let curindex = that.data.curIndexNumber - 1; // 当前下标
     if (curindex + 1 > that.data.all_current_no - 1) {
       this.settlementRealTopicResult()
+      // this.goback()
       return
     }
     let curId = that.data.alltestID[curindex + 1]; // 获取下一题ID

@@ -63,6 +63,9 @@
                 <view class="letter  {{  vItem.haschose == true ? 'correctoption2':''  }}"  wx:if="{{vItem.hascolor!=1&&vItem.nohascolor==1 }}">
                     {{vItem.option}}
                 </view>
+                <view class="letter  "  wx:if="{{vItem.nochosebutTrue&&vItem.nohascolor==2}}" style="background:rgba(89, 210, 52);color:#fff" >
+                    {{vItem.option}}
+                </view>
                 <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
                 <image wx:if="{{ vItem.correctAnswer && vItem.color ? true: false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
                 <image wx:if="{{ vItem.wrongAnswer && vItem.err ? true : false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />

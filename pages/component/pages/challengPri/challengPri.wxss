@@ -87,6 +87,7 @@ page {
     box-sizing: border-box;
     width: 670rpx;
     margin-left: 40rpx;
+    padding-bottom: 130rpx;
     margin-top: 40rpx;
     overflow-y: scroll;
 }
