@@ -71,10 +71,9 @@
           "scene": null
         },
         {
-          "id": 2,
-          "name": "pages/component/pages/faceTeach/faceTeach",
-          "pathName": "pages/component/pages/faceTeach/faceTeach",
-          "query": "",
+          "name": "pages/component/pages/challengPri/challengPri",
+          "pathName": "pages/component/pages/challengPri/challengPri",
+          "query": "courseId=10",
           "scene": null
         },
         {

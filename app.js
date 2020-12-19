@@ -130,7 +130,7 @@ App({
                     })
                 }else if (n.data.code == 4){
                     wx.showToast({
-                        title: '当前习题无数据，请联系管理员',//提示文字
+                        title:n.data.message ? n.data.message: "当前题库未配置考试参数，请与老师或客服联系。",//提示文字
                         duration: 2000,//显示时长
                         mask: true,//是否显示透明蒙层，防止触摸穿透，默认：false  
                         icon: 'none', //图标，支持"success"、"loading"  

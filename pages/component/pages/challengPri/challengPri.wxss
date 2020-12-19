@@ -132,8 +132,15 @@ page {
     background:rgba(255,255,255,1);
     border:1rpx solid rgba(89,210,52,1);
 }
+.correct2{
+    background:rgba(255,255,255,1);
+    border:1rpx solid  rgba(25,159,255,1);
+}
 .correcttext view{
     color:rgba(89,210,52,1) ;
+}
+.correcttext2 view{
+    color:rgba(25,159,255,1) ;
 }
 .error{
     background:rgba(255,255,255,1);
@@ -214,6 +221,20 @@ page {
     border: 1rpx solid rgba(221,221,221,1);
     border-radius: 50%;
     background: rgba(89,210,52,1);
+    margin-right: 24rpx;
+    color: #fff;
+}
+.correctoption2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32rpx;
+    width: 44rpx;
+    height: 44rpx;
+    padding: 5rpx 5rpx;
+    border: 1rpx solid rgba(221,221,221,1);
+    border-radius: 50%;
+    background: rgba(25,159,255,1);
     margin-right: 24rpx;
     color: #fff;
 }

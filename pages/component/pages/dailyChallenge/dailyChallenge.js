@@ -32,6 +32,7 @@ Page({
   },
   startChallenge() {
     let id = this.data.courseId
+    // console.log(id)
     wx.navigateTo({
       url: `../challengPri/challengPri?courseId=${id}`
     })
