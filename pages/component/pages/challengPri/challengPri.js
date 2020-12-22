@@ -304,28 +304,18 @@ Page({
     }
   },
   nextQU() {
-    let that = this  
-    if(this.data.randerTitle.done!=true){
-      this.data.randerTitle.done=true
-      this.setData({
-        // wrongAnswer: true,
-        // correctAnswer: true,
-        'randerTitle.content':data
-      })
-    }
+    let that = this
+    let curID = that.data.curID
     this.setData({
-      multiselecting: [],
-        wrongAnswer: false,
-      correctAnswer: false,
-      donotChangeAnswer: false
+      multiselecting: []
     })
     this.setData({
       answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer: 'defaultAnswer',
       correctoption: '',
-      multishowAny: true    
+      multishowAny: true,
+    
     })
-    let curID = that.data.curID
     if (this.data.is_lock == 1) {} else {
       this.common()
     }
@@ -451,20 +441,17 @@ Page({
     }
   },
   multiselectAnswer(e) {
-    // console.log(this.data.donotChangeAnswer);
-    // if (this.data.donotChangeAnswer == true) {
-    //   return false;
+    // if (!this.data.multishowAny) {
+    //   return
     // }
     if (this.data.randerTitle.done) { //如果已选答案，再次点击不再触发
-    
-        wx.showToast({
-          title:'答案已出,当前题目无法作答',
-          icon: 'none',
-          duration: 2000
-        })
-      
-      return
-    }
+      wx.showToast({
+        title:'答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
+      })
+    return
+  }
     let color
     let option = e.currentTarget.dataset.option;
     let answer = e.currentTarget.dataset.answer;
@@ -474,14 +461,13 @@ Page({
     } else {
       color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
     }
-
     this.setData({
       multiAnswer: answer
     })
     console.log(option, answer, this.data.multiselect)
     let multiselect = this.data.multiselecting
     if (!multiselect.includes(option)) {
-      multiselect.push(option)
+       multiselect.push(option)
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = true
         // this.data.randerTitle.done = true
@@ -492,7 +478,7 @@ Page({
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
-      console.log(multiselect)
+      console.log(this.data.multiselect)
     } else {
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = false
@@ -501,42 +487,51 @@ Page({
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
         // this.data.randerTitle.child[this.data.senceIndex - 1].done = false
       }
+
       if (multiselect.length >= 1) {
         multiselect.forEach((item, i) => {
+          console.log(item == option)
           if (item == option) {
-            console.log(i)
+            console.log(item==option)
             multiselect.splice(i, 1)
             this.setData({
               removeColorOption:option
             })
-            
+            console.log(this.data.removeColorOption)
           }
+          // else{
+          //   this.setData({
+          //     removeColorOption:''
+          //   })
+          // }
         })
+        console.log(this.data.removeColorOption)
+        console.log(this.data.multiselect)
       }
-      console.log(multiselect)
       this.setData({
-        multiselect:multiselect.toString()
-      })     
+        multiselect:multiselect.toString()+','
+      })
+      console.log(this.data.multiselect)    
     }
+    console.log(this.data.removeColorOption)
+    
     if (answer.includes(option)) {
+      console.log(option)
       color.color = true
-      color.hascolor = 1
+      console.log(this.data.removeColorOption==option)
+      if(this.data.removeColorOption==option){
+        color.color = ''
+      }
       this.setData({
         randerTitle: this.data.randerTitle,
       })
-      if(this.data.removeColorOption==option){
-        color.color = ''
-        color.hascolor = ''
-     
-      }
-    
     } else {
-      color.color = false
-      color.hascolor = 1
+       color.color = false
       color.err = true
+      console.log(this.data.removeColorOption==option)
       if(this.data.removeColorOption==option){
         color.err = ''
-        color.hascolor = ''
+        color.color = ''
       }
       this.setData({
         randerTitle: this.data.randerTitle
@@ -548,67 +543,58 @@ Page({
     console.log(this.data.randerTitle.content)
   },
   showAnswer() {
-    console.log(this.data.multiselect)
-    console.log(this.data.multiAnswer)
-   
- 
     if (this.data.activeAnswer == 'activeAnswer') {
-
       this.setData({
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
-        multishowAny: true
+        multishowAny: true,
+        'randerTitle.showAnswer': false
       })
     } else {
-      let arr =this.data.multiselect
-      let arr01=this.data.multiAnswer
-      let arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));
-      let data = this.data.randerTitle.content
-      data.forEach((item )=>{
-        item.nohascolor=1
-        item.wrongAnswer=true
-        item.correctAnswer=true
-        console.log(item)
-     if(this.data.randerTitle.done!=true){
-       arr02.forEach((i)=>{
-         if(i==item.option){
-           item.nochosebutTrue=true
-           item.nohascolor=2
-         }
-       })
-      }
-      })
+      var data = this.data.randerTitle.content
       if(this.data.randerTitle.done!=true){
-      this.data.randerTitle.done=true
-      this.setData({
-        // wrongAnswer: true,
-        // correctAnswer: true,
-        'randerTitle.content':data
-      })
-    }
-      console.log(this.data.randerTitle.content)
-  
-      let curID = this.data.curID
-      if (this.data.is_lock == 1) {} else {
-        this.common()
+     
+      var arr = this.data.multiselect
+      var arr01 = this.data.multiAnswer
+      let answer  =  this.data.randerTitle.answer
+   var  arr03= answer.split(",")
+      console.log(arr=='')
+      if(arr!=''){
+        var arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));   
+        data.forEach((item) => {
+          arr02.forEach((i) => {
+            if (i == item.option) {
+              item.nohascolor = true
+            }
+          })
+        })
+      }else{
+        data.forEach((item) => {
+          arr03.forEach((i) => {
+            if (i == item.option) {
+              item.nohascolor = true
+            }
+          })
+        })
       }
-  
 
-      // 开启缓存，并去重,传入当前数据，而非下一题数据
-      this.saveRander(curID)
-      this.setData({
-        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-        activeAnswer: 'activeAnswer',
-        correctoption: 'activeoption',
-        multishowAny: false
-      })
+  arr=[],
+  arr01=[],
+  arr02=[]
     }
-    // this.setData({
-    //   wrongAnswer: true,
-    //   correctAnswer: true
-    // })
-
+    this.setData({
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+      activeAnswer: 'activeAnswer',
+      correctoption: 'activeoption',
+      multishowAny: false,
+      'randerTitle.showAnswer': true,
+      'randerTitle.done': true,
+      'randerTitle.content': data,
+    
+    })
+  
+    }
   },
   showSenceAnswer() {
     if (this.data.activeSenceAnswer == 'activeAnswer') {
@@ -855,6 +841,8 @@ Page({
         success: function (res) {
           console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
+          randerTitle.showAnswer = false
+          randerTitle.done = false
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {

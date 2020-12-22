@@ -13,6 +13,7 @@ Page({
     let chapterId = this.data.chapterId;
     let courseId = this.data.courseId;
     let chapterName = this.data.chapterName
+    console.log(chapterId,courseId,chapterName)
     wx.navigateTo({
       url: `../yearTestPir/yearTestPir?chapter_id=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
     })

@@ -130,6 +130,24 @@
           "pathName": "pages/component/pages/dailyShare/dailyShare",
           "query": "courseId=14",
           "scene": null
+        },
+        {
+          "name": "pages/component/pages/yearTestPir/yearTestPir",
+          "pathName": "pages/component/pages/yearTestPir/yearTestPir",
+          "query": "chapter_id=162&courseId=39&chapterName='2019年初级会计实务真题1'",
+          "scene": null
+        },
+        {
+          "name": "pages/component/pages/test/test",
+          "pathName": "pages/component/pages/test/test",
+          "query": "chapter_id=156&courseId=39&name='第二章 会计法律制度'&hasdone:0",
+          "scene": null
+        },
+        {
+          "name": "pages/component/pages/daliyPri/daliyPri",
+          "pathName": "pages/component/pages/daliyPri/daliyPri",
+          "query": "chapter_id=1484&courseId=39&name='每日打卡'&type:3",
+          "scene": null
         }
       ]
     }

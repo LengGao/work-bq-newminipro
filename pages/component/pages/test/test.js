@@ -410,85 +410,105 @@ Page({
     }
   },
   multiselectAnswer(e) {
-    console.log('多线')
-    console.log(e)
     // if (!this.data.multishowAny) {
     //   return
     // }
+    if (this.data.randerTitle.done) { //如果已选答案，再次点击不再触发
+      wx.showToast({
+        title:'答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
+      })
+    return
+  }
     let color
     let option = e.currentTarget.dataset.option;
     let answer = e.currentTarget.dataset.answer;
     let index = e.currentTarget.dataset.index;
-    console.log(this.data.randerTitle)
     if (this.data.randerTitle.content != undefined) {
       color = this.data.randerTitle.content[index];
     } else {
       color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];
     }
-    console.log(color)
     this.setData({
       multiAnswer: answer
     })
     console.log(option, answer, this.data.multiselect)
     let multiselect = this.data.multiselecting
-    console.log(multiselect)
     if (!multiselect.includes(option)) {
-      multiselect.push(option)
-      console.log(this.data.randerTitle.content )
+       multiselect.push(option)
       if (this.data.randerTitle.content != undefined) {
-        // console.log( this.data.randerTitle.content[index])
         this.data.randerTitle.content[index].haschose = true
-        this.data.randerTitle.done = true
+        // this.data.randerTitle.done = true
       } else {
-        // console.log(this.data.randerTitle.child[this.data.senceIndex - 1])
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
-        this.data.randerTitle.child[this.data.senceIndex - 1].done = true
+        // this.data.randerTitle.child[this.data.senceIndex - 1].done = true
       }
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
-     
-    }else{
+      console.log(this.data.multiselect)
+    } else {
       if (this.data.randerTitle.content != undefined) {
-        // console.log( this.data.randerTitle.content[index])
         this.data.randerTitle.content[index].haschose = false
-        this.data.randerTitle.done = false
+        // this.data.randerTitle.done = false
       } else {
-        // console.log(this.data.randerTitle.child[this.data.senceIndex - 1])
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
-        this.data.randerTitle.child[this.data.senceIndex - 1].done = false
+        // this.data.randerTitle.child[this.data.senceIndex - 1].done = false
       }
 
-      if(multiselect.length>=1){
-        multiselect.forEach((item,i)=>{
-          if(item==option){
-            console.log(i)
-            multiselect.splice(i,1)
+      if (multiselect.length >= 1) {
+        multiselect.forEach((item, i) => {
+          console.log(item == option)
+          if (item == option) {
+            console.log(item==option)
+            multiselect.splice(i, 1)
+            this.setData({
+              removeColorOption:option
+            })
+            console.log(this.data.removeColorOption)
           }
+          // else{
+          //   this.setData({
+          //     removeColorOption:''
+          //   })
+          // }
         })
+        console.log(this.data.removeColorOption)
+        console.log(this.data.multiselect)
       }
-      console.log(option)
-      console.log( multiselect)
       this.setData({
-        multiselect: multiselect
+        multiselect:multiselect.toString()+','
       })
+      console.log(this.data.multiselect)    
     }
-    console.log(this.data.randerTitle.content)
+    console.log(this.data.removeColorOption)
+    
     if (answer.includes(option)) {
-      console.log(color,option)
+      console.log(option)
       color.color = true
+      console.log(this.data.removeColorOption==option)
+      if(this.data.removeColorOption==option){
+        color.color = ''
+      }
       this.setData({
         randerTitle: this.data.randerTitle,
       })
     } else {
-      console.log(color,option)
-      color.color = false
+       color.color = false
       color.err = true
+      console.log(this.data.removeColorOption==option)
+      if(this.data.removeColorOption==option){
+        color.err = ''
+        color.color = ''
+      }
       this.setData({
         randerTitle: this.data.randerTitle
       })
     }
-
+    this.setData({
+      removeColorOption:''
+    })
     console.log(this.data.randerTitle.content)
   },
   showAnswer() {
@@ -497,20 +517,53 @@ Page({
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
-        multishowAny: true
+        multishowAny: true,
+        'randerTitle.showAnswer': false
       })
     } else {
-      this.setData({
-        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-        activeAnswer: 'activeAnswer',
-        correctoption: 'activeoption',
-        multishowAny: false
-      })
+      var data = this.data.randerTitle.content
+      if(this.data.randerTitle.done!=true){
+     
+      var arr = this.data.multiselect
+      var arr01 = this.data.multiAnswer
+      let answer  =  this.data.randerTitle.answer
+   var  arr03= answer.split(",")
+      console.log(arr=='')
+      if(arr!=''){
+        var arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));   
+        data.forEach((item) => {
+          arr02.forEach((i) => {
+            if (i == item.option) {
+              item.nohascolor = true
+            }
+          })
+        })
+      }else{
+        data.forEach((item) => {
+          arr03.forEach((i) => {
+            if (i == item.option) {
+              item.nohascolor = true
+            }
+          })
+        })
+      }
+
+  arr=[],
+  arr01=[],
+  arr02=[]
     }
-    // this.setData({
-    //   wrongAnswer: true,
-    //   correctAnswer: true
-    // })
+    this.setData({
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+      activeAnswer: 'activeAnswer',
+      correctoption: 'activeoption',
+      multishowAny: false,
+      'randerTitle.showAnswer': true,
+      'randerTitle.done': true,
+      'randerTitle.content': data,
+    
+    })
+
+    }
   },
   showSenceAnswer() {
     if (this.data.activeSenceAnswer == 'activeAnswer') {
@@ -816,6 +869,8 @@ Page({
         success: function (res) {
           console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
+          randerTitle.showAnswer = false
+          randerTitle.done = false
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {

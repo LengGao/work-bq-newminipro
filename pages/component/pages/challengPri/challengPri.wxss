@@ -211,6 +211,11 @@ page {
     font-family:PingFang SC;
     font-weight:500;
 }
+.nohascolor{
+    background:  rgba(89,210,52,1)  ;
+    color:#fff
+  }
+
 .correctoption{
     display: flex;
     align-items: center;

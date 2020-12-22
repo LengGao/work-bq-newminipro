@@ -220,6 +220,10 @@ page {
     align-items: center;
     justify-content: center;
 }
+.nohascolor{
+  background:  rgba(89,210,52,1)  ;
+  color:#fff
+}
 .correctoption{
     display: flex;
     align-items: center;

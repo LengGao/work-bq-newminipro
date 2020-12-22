@@ -1,9 +1,11 @@
-var t, app = getApp(), api = require("../../../../api.js"), app = getApp();
+var t, app = getApp(),
+  api = require("../../../../api.js"),
+  app = getApp();
 Page({
   data: {
-    start: [0, 0],//其实位置
-    moveY: 0,//y轴
-    moveX: 0,//x轴
+    start: [0, 0], //其实位置
+    moveY: 0, //y轴
+    moveX: 0, //x轴
     //内容可视化的宽高
     windowWidth: '',
     windowHeight: '',
@@ -20,14 +22,13 @@ Page({
     noexist: false,
     option: '',
     disabled: false,
-    showAny: true, 
-    likes: false,//默认展示未收藏
+    showAny: true,
+    likes: false, //默认展示未收藏
     singleNum: '0',
     multipleNum: '0',
     judgmentNum: '0',
     formId: '',
-    tabItems: [
-      {
+    tabItems: [{
         icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
         name: '上一题',
         action: 'lastQU',
@@ -61,28 +62,29 @@ Page({
     answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerSceneImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerScenceShortImg:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerSceneImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerScenceShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     activeAnswer: 'defaultAnswer',
     multishowFillAny: true,
-    multishowScenceShortAny:true,
+    multishowScenceShortAny: true,
     activeSenceAnswer: 'defaultAnswer',
     activeFillAnswer: 'defaultAnswer',
     activeShortAnswer: 'defaultAnswer',
-    activeSceneAnswer:'defaultAnswer',
-    activeScenceShortAnswer:'defaultAnswer',
+    activeSceneAnswer: 'defaultAnswer',
+    activeScenceShortAnswer: 'defaultAnswer',
     multishowShortAny: true,
-    multiSceneshowAny:true,
+    multiSceneshowAny: true,
     correcShorttoption: '',
     correctoption: '',
-    correcScenceShorttoption:'',
-    correctSceneoption:'',
+    correcScenceShorttoption: '',
+    correctSceneoption: '',
     correctFilloption: '',
     correcSencetoption: '',
     multishowAny: true,
     multiSenceshowAny: true,
     multiselecting: [],
     multiselect: '',
+    removeColorOption:'',
     multiID: '',
     multiAnswer: '',
     title: '',
@@ -98,9 +100,9 @@ Page({
     senceIndex: 0,
     multishowFillAny: true,
     shortMap: '',
-    SceneValue:'',
-    shortSceneMap:'',
-    fillNewAnswer:[]
+    SceneValue: '',
+    shortSceneMap: '',
+    fillNewAnswer: []
   },
   starDrag(event) {
     console.log(event);
@@ -131,14 +133,13 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if(this.data.is_lock == 1){
-    }else{
+    if (this.data.is_lock == 1) {} else {
       this.common()
     }
     if (curindex < 1) {
       return
     }
-     // 开启缓存，并去重,传入当前数据，而非下一题数据
+    // 开启缓存，并去重,传入当前数据，而非下一题数据
     that.saveRander(curID)
     let curId = that.data.alltestID[curindex - 1] // 获取上一题ID
     that.findcurIndex(curId, that.data.alltestID);
@@ -179,7 +180,7 @@ Page({
         success: function (res) {
           if (res.data.code == 200) {
             that.setData({
-              likes: false,//表示当前题目未收藏
+              likes: false, //表示当前题目未收藏
               [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
               [classes]: '',
               [name]: '收藏',
@@ -250,44 +251,40 @@ Page({
       }
     })
   },
-  common(){ //判断当前题目是否已经提交，若没有则提交当前题目
+  common() { //判断当前题目是否已经提交，若没有则提交当前题目
     let that = this
     let curID = that.data.curID
     console.log(curID)
-    if (that.data.randerTitle.problem_type == 2) {//多选题在此提交答案
+    if (that.data.randerTitle.problem_type == 2) { //多选题在此提交答案
       if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
-        if (multiselect == '') {
-        } else {
+        if (multiselect == '') {} else {
           that.submitAnswer(multiselect, curID)
         }
       }
     }
     if (that.data.randerTitle.problem_type == 6) { //场景提交
-      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
-      } else {
-        if(this.data.multiselect != ''){
+      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {} else {
+        if (this.data.multiselect != '') {
           this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
-        }else if( this.data.SceneValue != ''){
+        } else if (this.data.SceneValue != '') {
           this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
-        }else if(this.data.shortSceneMap != ''){
+        } else if (this.data.shortSceneMap != '') {
           this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
         }
       }
     }
     if (that.data.randerTitle.hasSubmit) { // 其他模式表明已提交过答案
     } else {
-      if (this.data.fillNewAnswer.length == 0) {
-      } else {
+      if (this.data.fillNewAnswer.length == 0) {} else {
         let answer = ''
-        this.data.fillNewAnswer.forEach((value)=>{
+        this.data.fillNewAnswer.forEach((value) => {
           answer = answer + value + ','
         })
         that.submitAnswer(answer, curID)
       }
-      if (this.data.shortMap == '') {
-      } else {
+      if (this.data.shortMap == '') {} else {
         let answer = this.data.shortMap
         that.submitAnswer(answer, curID)
       }
@@ -303,10 +300,10 @@ Page({
       answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer: 'defaultAnswer',
       correctoption: '',
-      multishowAny: true
+      multishowAny: true,
+    
     })
-    if(this.data.is_lock == 1){
-    }else{
+    if (this.data.is_lock == 1) {} else {
       this.common()
     }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
@@ -325,8 +322,8 @@ Page({
   saveRander(ID) {
     let that = this
     let curRander = this.data.randerTitle;
-    let result = that.hasBeenLoad(ID);//检查本地是否已缓存
-    if (result == undefined) {  // 未缓存
+    let result = that.hasBeenLoad(ID); //检查本地是否已缓存
+    if (result == undefined) { // 未缓存
       this.data.allRender.push(curRander)
       console.log(this.data.allRender)
       return
@@ -335,7 +332,7 @@ Page({
   saveScenceRander(ID) {
     // console.log(ID)
     let index = this.data.senceIndex
-    let hasBeenLoad = this.data.randerTitle.child[index];//本地缓存
+    let hasBeenLoad = this.data.randerTitle.child[index]; //本地缓存
     if (hasBeenLoad.done != undefined && hasBeenLoad.done == true) { //已缓存
 
     } else {
@@ -346,27 +343,27 @@ Page({
   },
   //选择答案
   selectAnswer(e) {
-    if (this.data.randerTitle.done) {//如果已选答案，再次点击不再触发
+    if (this.data.randerTitle.done) { //如果已选答案，再次点击不再触发
       return
     }
-    let option = e.currentTarget.dataset.option;//当前点击选项的option
-    let answer = e.currentTarget.dataset.answer;//当前题目的答案
-    let index = e.currentTarget.dataset.index;//当前点击选项的index
-    let color = this.data.randerTitle.content[index];//获取当前点击选项的数组
-    color.color = false//新增当前点击选项的color
-    color.err = false//新增当前点击选项的err
-    this.data.randerTitle.done = true//表明当前题目已做
+    let option = e.currentTarget.dataset.option; //当前点击选项的option
+    let answer = e.currentTarget.dataset.answer; //当前题目的答案
+    let index = e.currentTarget.dataset.index; //当前点击选项的index
+    let color = this.data.randerTitle.content[index]; //获取当前点击选项的数组
+    color.color = false //新增当前点击选项的color
+    color.err = false //新增当前点击选项的err
+    this.data.randerTitle.done = true //表明当前题目已做
     this.data.randerTitle.option = option
     if (option == answer) { //单选正确
-      color.color = true//改变当前选项的颜色为true
+      color.color = true //改变当前选项的颜色为true
       this.setData({
-        randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
+        randerTitle: this.data.randerTitle, //缓存改变后的渲染数据
       })
     } else {
       color.color = false
       color.err = true
       this.setData({
-        randerTitle: this.data.randerTitle//缓存改变后的渲染数据
+        randerTitle: this.data.randerTitle //缓存改变后的渲染数据
       })
     }
     if (this.data.ProblemType == 1 || this.data.ProblemType == 3) { // 单选题直接提交答案
@@ -376,27 +373,27 @@ Page({
     }
   },
   selectSceneAnswer(e) {
-    if (this.data.randerTitle.child[this.data.senceIndex - 1].done) {//如果已选答案，再次点击不再触发
+    if (this.data.randerTitle.child[this.data.senceIndex - 1].done) { //如果已选答案，再次点击不再触发
       return
     }
-    let option = e.currentTarget.dataset.option;//当前点击选项的option
-    let answer = e.currentTarget.dataset.answer;//当前题目的答案
-    let index = e.currentTarget.dataset.index;//当前点击选项的index
-    let color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index];//获取当前点击选项的数组
-    color.color = false//新增当前点击选项的color
-    color.err = false//新增当前点击选项的err
-    this.data.randerTitle.child[this.data.senceIndex - 1].done = true//表明当前题目已做
+    let option = e.currentTarget.dataset.option; //当前点击选项的option
+    let answer = e.currentTarget.dataset.answer; //当前题目的答案
+    let index = e.currentTarget.dataset.index; //当前点击选项的index
+    let color = this.data.randerTitle.child[this.data.senceIndex - 1].content[index]; //获取当前点击选项的数组
+    color.color = false //新增当前点击选项的color
+    color.err = false //新增当前点击选项的err
+    this.data.randerTitle.child[this.data.senceIndex - 1].done = true //表明当前题目已做
     this.data.randerTitle.child[this.data.senceIndex - 1].option = option
     if (option == answer) { //单选正确
-      color.color = true//改变当前选项的颜色为true
+      color.color = true //改变当前选项的颜色为true
       this.setData({
-        randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
+        randerTitle: this.data.randerTitle, //缓存改变后的渲染数据
       })
     } else {
       color.color = false
       color.err = true
       this.setData({
-        randerTitle: this.data.randerTitle//缓存改变后的渲染数据
+        randerTitle: this.data.randerTitle //缓存改变后的渲染数据
       })
     }
     let curindex = this.data.senceIndex - 1
@@ -412,6 +409,14 @@ Page({
     // if (!this.data.multishowAny) {
     //   return
     // }
+    if (this.data.randerTitle.done) { //如果已选答案，再次点击不再触发
+      wx.showToast({
+        title:'答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
+      })
+    return
+  }
     let color
     let option = e.currentTarget.dataset.option;
     let answer = e.currentTarget.dataset.answer;
@@ -427,47 +432,79 @@ Page({
     console.log(option, answer, this.data.multiselect)
     let multiselect = this.data.multiselecting
     if (!multiselect.includes(option)) {
-      multiselect.push(option)
+       multiselect.push(option)
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = true
-        this.data.randerTitle.done = true
+        // this.data.randerTitle.done = true
       } else {
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
-        this.data.randerTitle.child[this.data.senceIndex - 1].done = true
+        // this.data.randerTitle.child[this.data.senceIndex - 1].done = true
       }
       this.setData({
         multiselect: this.data.multiselect + option + ','
       })
-    }else{
+      console.log(this.data.multiselect)
+    } else {
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = false
-        this.data.randerTitle.done = false
+        // this.data.randerTitle.done = false
       } else {
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = false
-        this.data.randerTitle.child[this.data.senceIndex - 1].done = false
+        // this.data.randerTitle.child[this.data.senceIndex - 1].done = false
       }
 
-      if(multiselect.length>=1){
-        multiselect.forEach((item,i)=>{
-          if(item==option){
-            console.log(i)
-            multiselect.splice(i,1)
+      if (multiselect.length >= 1) {
+        multiselect.forEach((item, i) => {
+          console.log(item == option)
+          if (item == option) {
+            console.log(item==option)
+            multiselect.splice(i, 1)
+            this.setData({
+              removeColorOption:option
+            })
+            console.log(this.data.removeColorOption)
           }
+          // else{
+          //   this.setData({
+          //     removeColorOption:''
+          //   })
+          // }
         })
+        console.log(this.data.removeColorOption)
+        console.log(this.data.multiselect)
       }
+      this.setData({
+        multiselect:multiselect.toString()+','
+      })
+      console.log(this.data.multiselect)    
     }
+    console.log(this.data.removeColorOption)
+    
     if (answer.includes(option)) {
+      console.log(option)
       color.color = true
+      console.log(this.data.removeColorOption==option)
+      if(this.data.removeColorOption==option){
+        color.color = ''
+      }
       this.setData({
         randerTitle: this.data.randerTitle,
       })
     } else {
-      color.color = false
+       color.color = false
       color.err = true
+      console.log(this.data.removeColorOption==option)
+      if(this.data.removeColorOption==option){
+        color.err = ''
+        color.color = ''
+      }
       this.setData({
         randerTitle: this.data.randerTitle
       })
     }
+    this.setData({
+      removeColorOption:''
+    })
     console.log(this.data.randerTitle.content)
   },
   showAnswer() {
@@ -476,21 +513,53 @@ Page({
         answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
-        multishowAny: true
+        multishowAny: true,
+        'randerTitle.showAnswer': false
       })
     } else {
-      this.setData({
-        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-        activeAnswer: 'activeAnswer',
-        correctoption: 'activeoption',
-        multishowAny: false
-      })
-    }
-    // this.setData({
-    //   wrongAnswer: true,
-    //   correctAnswer: true
-    // })
+      var data = this.data.randerTitle.content
+      if(this.data.randerTitle.done!=true){
+     
+      var arr = this.data.multiselect
+      var arr01 = this.data.multiAnswer
+      let answer  =  this.data.randerTitle.answer
+   var  arr03= answer.split(",")
+      console.log(arr=='')
+      if(arr!=''){
+        var arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));   
+        data.forEach((item) => {
+          arr02.forEach((i) => {
+            if (i == item.option) {
+              item.nohascolor = true
+            }
+          })
+        })
+      }else{
+        data.forEach((item) => {
+          arr03.forEach((i) => {
+            if (i == item.option) {
+              item.nohascolor = true
+            }
+          })
+        })
+      }
 
+  arr=[],
+  arr01=[],
+  arr02=[]
+    }
+    this.setData({
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+      activeAnswer: 'activeAnswer',
+      correctoption: 'activeoption',
+      multishowAny: false,
+      'randerTitle.showAnswer': true,
+      'randerTitle.done': true,
+      'randerTitle.content': data,
+    
+    })
+  
+    }
   },
   showSenceAnswer() {
     if (this.data.activeSenceAnswer == 'activeAnswer') {
@@ -522,7 +591,7 @@ Page({
       problem_chapter_id: options.chapter_id,
       operation_type: 0
     }
-    app.encryption({//初始化加载函数获取所有题目ID
+    app.encryption({ //初始化加载函数获取所有题目ID
       url: api.test.createRealTopicData,
       data: option,
       method: 'POST',
@@ -532,11 +601,11 @@ Page({
         let list = res.info.list
         let totalNum;
         let single_problem = list.single_problem; //单选
-        let fill_problem = list.fill_problem;//填空
-        let judge_problem = list.judge_problem;//判断
-        let multiple_problem = list.multiple_problem;//多选
-        let scenes_problem = list.scenes_problem;//场景
-        let short_problem = list.short_problem;//简答
+        let fill_problem = list.fill_problem; //填空
+        let judge_problem = list.judge_problem; //判断
+        let multiple_problem = list.multiple_problem; //多选
+        let scenes_problem = list.scenes_problem; //场景
+        let short_problem = list.short_problem; //简答
         totalNum = single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
         //合并数组
         let alltestID = [];
@@ -551,8 +620,7 @@ Page({
         //开始加载题目详情
         that.initText(alltestID[0]);
       }
-    }
-    )
+    })
   },
   findcurIndex(curId, allId, start = 1) {
     console.log(allId)
@@ -598,7 +666,7 @@ Page({
       answer: answer,
     }
     console.log(option)
-    app.encryption({//初始化加载函数获取所有题目ID
+    app.encryption({ //初始化加载函数获取所有题目ID
       url: api.test.submitAnswer,
       data: option,
       method: 'POST',
@@ -613,17 +681,18 @@ Page({
           }
           that.data.randerTitle.hasSubmit = true
           that.setData({
-            multiselect: '',//场景模式下多选清空
+            multiselect: '', //场景模式下多选清空
+            multiAnswer: '',//场景模式下多选答案清空
             randerTitle: that.data.randerTitle,
-            SceneValue:'',//场景模式下填空清空
-            shortSceneMap:'',//场景模式下简答清空
-            shortMap:''//简答题清空
+            SceneValue: '', //场景模式下填空清空
+            shortSceneMap: '', //场景模式下简答清空
+            shortMap: '' //简答题清空
           })
           console.log(that.data.randerTitle)
           let curRander = that.data.randerTitle;
           let ID = curID
-          let result = that.hasBeenLoad(ID);//检查本地是否已缓存
-          if (result == undefined) {  // 未缓存
+          let result = that.hasBeenLoad(ID); //检查本地是否已缓存
+          if (result == undefined) { // 未缓存
             that.data.allRender.push(curRander)
             console.log(that.data.allRender)
             return
@@ -638,20 +707,19 @@ Page({
 
         }
       }
-    }
-    )
+    })
   },
-  sceneCommon(){
-    if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+  sceneCommon() {
+    if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) { //多选题在此提交答案
       if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
-     } else {
-      if(this.data.multiselect != ''){
-        this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
-      }else if( this.data.SceneValue != ''){
-        this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
-      }else if(this.data.shortSceneMap != ''){
-        this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
-      }
+      } else {
+        if (this.data.multiselect != '') {
+          this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
+        } else if (this.data.SceneValue != '') {
+          this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
+        } else if (this.data.shortSceneMap != '') {
+          this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
+        }
       }
     }
   },
@@ -676,7 +744,7 @@ Page({
     }
 
     let index = this.data.senceIndex - 1
-    let cid = this.data.randerTitle.child[index].problem_id  //获取ID
+    let cid = this.data.randerTitle.child[index].problem_id //获取ID
     this.setData({
       curID: cid
     })
@@ -692,7 +760,7 @@ Page({
         icon: 'none',
         duration: 2000
       })
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) { //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
@@ -700,7 +768,7 @@ Page({
         }
       }
     } else {
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) { //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
@@ -712,13 +780,13 @@ Page({
       })
     }
     let index = this.data.senceIndex - 1
-    let cid = this.data.randerTitle.child[index].problem_id  //获取ID
+    let cid = this.data.randerTitle.child[index].problem_id //获取ID
     this.setData({
       curID: cid
     })
     // this.saveScenceRander(cid) // 缓存
   },
-  initText(ID) {  //getProblemDetail，先去查找本地缓存
+  initText(ID) { //getProblemDetail，先去查找本地缓存
     let that = this;
     let result = that.hasBeenLoad(ID)
     if (result != undefined) { //发现有数据
@@ -733,14 +801,16 @@ Page({
       let option = {
         problem_id: ID,
       }
-      app.encryption({  // 开始加载题目详情
+      app.encryption({ // 开始加载题目详情
         url: api.test.getProblemDetail,
         data: option,
         method: 'GET',
         dataType: "json",
         success: function (res) {
           console.log(res, res.info.problem_type)
-          let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
+          let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
+          randerTitle.showAnswer = false
+          randerTitle.done = false
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {
@@ -771,10 +841,10 @@ Page({
         }
       })
     }
-   
+
   },
   hasBeenLoad(ID) {
-    let hasBeenLoad = this.data.allRender;//本地缓存
+    let hasBeenLoad = this.data.allRender; //本地缓存
     let result = hasBeenLoad.find((value) => value.problem_id == ID);
     return result
   },
@@ -782,9 +852,9 @@ Page({
     let that = this
     let icon = 'tabItems[2].icon'
     let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为获取收藏按钮状态
+    let name = 'tabItems[2].name' //以上为获取收藏按钮状态
     console.log(randerTitle.isCollect, typeof (randerTitle.isCollect))
-    if (randerTitle.isCollect != 'undefined' && randerTitle.isCollect == 1) {  //是否已收藏
+    if (randerTitle.isCollect != 'undefined' && randerTitle.isCollect == 1) { //是否已收藏
       that.setData({
         likes: true,
         [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
@@ -809,38 +879,38 @@ Page({
       options.push(i.option)
     }
     console.log(options)
-    let option = answering//当前点击选项的option
-    let answer = randerTitle.answer;//当前题目的答案
-    let index = options.indexOf(answering);//当前点击选项的index
-    let color = randerTitle.content[index];//获取当前点击选项的数组
+    let option = answering //当前点击选项的option
+    let answer = randerTitle.answer; //当前题目的答案
+    let index = options.indexOf(answering); //当前点击选项的index
+    let color = randerTitle.content[index]; //获取当前点击选项的数组
     console.log(option)
     this.setData({
-      option: option,//声名点击选项
-      showAny: 0,//尚未操作前，隐藏答案
+      option: option, //声名点击选项
+      showAny: 0, //尚未操作前，隐藏答案
       multishowAny: 0
     })
-    color.color = false//新增当前点击选项的color
-    color.err = false//新增当前点击选项的err
-    randerTitle.done = true//表明当前题目已做
+    color.color = false //新增当前点击选项的color
+    color.err = false //新增当前点击选项的err
+    randerTitle.done = true //表明当前题目已做
     randerTitle.option = option
     if (option == answer) { //单选正确
-      color.color = true//改变当前选项的颜色为true
+      color.color = true //改变当前选项的颜色为true
       rightStatus = 1
       this.setData({
-        randerTitle: this.data.randerTitle,//缓存改变后的渲染数据
+        randerTitle: this.data.randerTitle, //缓存改变后的渲染数据
       })
     } else {
       rightStatus = 0
       color.color = false
       color.err = true
       this.setData({
-        randerTitle: this.data.randerTitle//缓存改变后的渲染数据
+        randerTitle: this.data.randerTitle //缓存改变后的渲染数据
       })
     }
   },
   gobefor(e) {
     console.log(e.currentTarget.dataset.index)
-    let number = e.currentTarget.dataset.index// 前一个页面
+    let number = e.currentTarget.dataset.index // 前一个页面
     // console.log("beforePage");
     // console.log(beforePage);
     wx.navigateBack({
@@ -854,11 +924,11 @@ Page({
     wx.showModal({
       title: '提示',
       content: '你正在进行刷题模式，是否保存当前做题记录？',
-      showCancel: true,//是否显示取消按钮
-      cancelText: "不保存",//默认是“取消”
-      cancelColor: '#333333',//取消文字的颜色
-      confirmText: "保存",//默认是“确定”
-      confirmColor: '#199FFF',//确定文字的颜色
+      showCancel: true, //是否显示取消按钮
+      cancelText: "不保存", //默认是“取消”
+      cancelColor: '#333333', //取消文字的颜色
+      confirmText: "保存", //默认是“确定”
+      confirmColor: '#199FFF', //确定文字的颜色
       success: function (res) {
         let is_lock
         if (res.cancel) {
@@ -897,7 +967,9 @@ Page({
             let courseId = that.data.courseId
             wx.navigateBack({
               success: function () {
-                beforePage.onLoad({ courseId: courseId });
+                beforePage.onLoad({
+                  courseId: courseId
+                });
               }
             });
           },
@@ -914,21 +986,23 @@ Page({
     })
     //获取屏幕宽高
     let that = this
-    const { windowHeight } = wx.getSystemInfoSync();
+    const {
+      windowHeight
+    } = wx.getSystemInfoSync();
     this.data.windowHeight = windowHeight - 127 - 54
     //先去请求所有题目的id，当点击下一题目的时候用id换题目,获取上次的记录答案
     that.getAlltestNumber(options)
   },
-  onReady: function () { },
-  onShow: function () { },
+  onReady: function () {},
+  onShow: function () {},
   onHide: function () {
     clearTimeout(t);
   },
   onUnload: function () {
     clearTimeout(t);
   },
-  onPullDownRefresh: function () { },
-  onReachBottom: function () { },
+  onPullDownRefresh: function () {},
+  onReachBottom: function () {},
   // 左右滑动事件
   touchStart(e) {
     this.setData({
@@ -950,6 +1024,7 @@ Page({
       success(res) {
         let height = res.screenHeight * 2;
         let topheight = that.data.navH;
+        console.log(height,topheight)
         let questionHeight = height - topheight * 2 - 98 - 56 * 2 - 40
         that.setData({
           questionHeight: questionHeight
@@ -958,14 +1033,14 @@ Page({
     })
     let icon = 'tabItems[2].icon'
     let classes = 'tabItems[2].class'
-    let name = 'tabItems[2].name'//以上为获取收藏按钮状态
+    let name = 'tabItems[2].name' //以上为获取收藏按钮状态
     let option = {
       courseId: options.courseId,
       chapterId: options.chapter_id,
       redo: redo
-    }//以上为初始化加载参数
+    } //以上为初始化加载参数
     console.log(option)
-    app.encryption({//初始化加载函数获取所有题目
+    app.encryption({ //初始化加载函数获取所有题目
       url: api.default.getProblems,
       data: option,
       method: 'GET',
@@ -974,15 +1049,15 @@ Page({
         console.log(res)
         let curtitle = res.list[0] //声明首次加载的题目
         let curindex = 0 //声明首次加载的下标
-        let randerTitle = app.testWxParse(that, res.list[0])//初始化并解析第一道题目,默认是从第一道题开始加载渲染
-        that.data.allRender.push(randerTitle)//allRender为所有已经渲染页面的数据集合
+        let randerTitle = app.testWxParse(that, res.list[0]) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
+        that.data.allRender.push(randerTitle) //allRender为所有已经渲染页面的数据集合
         if (redo == 0) {
-          for (let item of res.list.entries()) {//遍历所有原始数据并初始化首次加载数据集合
-            if (item[1].ProblemId == res.lastProblemId) {//如果发现了此lastProblemId则需要初始化所有之前的题目
+          for (let item of res.list.entries()) { //遍历所有原始数据并初始化首次加载数据集合
+            if (item[1].ProblemId == res.lastProblemId) { //如果发现了此lastProblemId则需要初始化所有之前的题目
               curtitle = item[1]
-              curindex = item[0]//初始化加载下标
+              curindex = item[0] //初始化加载下标
               console.log(curindex)
-              randerTitle = app.testWxParse(that, curtitle)//初始化首次加载页面数据
+              randerTitle = app.testWxParse(that, curtitle) //初始化首次加载页面数据
               if (curindex >= 1) {
                 let icon = 'tabItems[0].icon'
                 that.setData({
@@ -991,25 +1066,25 @@ Page({
               }
               that.data.allRender.length = 0
               for (let i = 0; i <= curindex; i++) {
-                let randerTitle = app.testWxParse(that, res.list[i])//解析所有已经加载的题目,从第一道题开始
-                that.data.allRender.push(randerTitle)//向页面渲染集合推送已做过的题目,
+                let randerTitle = app.testWxParse(that, res.list[i]) //解析所有已经加载的题目,从第一道题开始
+                that.data.allRender.push(randerTitle) //向页面渲染集合推送已做过的题目,
               }
             }
           }
-        }//遍历所有题目并将上一次做过的题目找到，如果此前有记录，则需要把所有做过的题目推送到已经渲染的集合（即要初始化allRender）
+        } //遍历所有题目并将上一次做过的题目找到，如果此前有记录，则需要把所有做过的题目推送到已经渲染的集合（即要初始化allRender）
         wx.hideLoading()
         that.setData({
-          originTitle: res.list,//为所有原始数据
-          randerTitle: randerTitle,//为当前渲染数据
-          current_no: curindex,//初始化题目标注
-          ProblemType: randerTitle.ProblemType,//表明练习题类型
-          all_current_no: res.count,//所有题目的数量
-          singleNum: res.singleList,//单选题的数量
-          multipleNum: res.multipleLis,//多选题的数量
-          judgmentNum: res.judgmentList,//判断题的数量
-          formId: res.formId//formid
+          originTitle: res.list, //为所有原始数据
+          randerTitle: randerTitle, //为当前渲染数据
+          current_no: curindex, //初始化题目标注
+          ProblemType: randerTitle.ProblemType, //表明练习题类型
+          all_current_no: res.count, //所有题目的数量
+          singleNum: res.singleList, //单选题的数量
+          multipleNum: res.multipleLis, //多选题的数量
+          judgmentNum: res.judgmentList, //判断题的数量
+          formId: res.formId //formid
         })
-        if (randerTitle.isCollect == 1) {  //是否已收藏
+        if (randerTitle.isCollect == 1) { //是否已收藏
           that.setData({
             likes: true,
             [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
@@ -1087,31 +1162,31 @@ Page({
     this.data.randerTitle.shortMap = value
     this.setData({
       shortMap: value,
-      randerTitle:this.data.randerTitle
+      randerTitle: this.data.randerTitle
     })
   },
-  updateSceneValue(event){
+  updateSceneValue(event) {
     let value = event.detail.value
     this.setData({
       SceneValue: value
     })
   },
-  updateShorScenetValue(event){
+  updateShorScenetValue(event) {
     let value = event.detail.value
     this.setData({
       shortSceneMap: value
     })
   },
-  bindKeyInput(e){
-   console.log(e)
-   let index = e.target.dataset.index
-   let value = e.detail.value
-   this.data.fillNewAnswer[index] = value
-   this.data.randerTitle.option[index] = value
-   this.setData({
-    fillNewAnswer:this.data.fillNewAnswer,
-    randerTitle:this.data.randerTitle
-   })
-   console.log(this.data.fillNewAnswer)
+  bindKeyInput(e) {
+    console.log(e)
+    let index = e.target.dataset.index
+    let value = e.detail.value
+    this.data.fillNewAnswer[index] = value
+    this.data.randerTitle.option[index] = value
+    this.setData({
+      fillNewAnswer: this.data.fillNewAnswer,
+      randerTitle: this.data.randerTitle
+    })
+    console.log(this.data.fillNewAnswer)
   }
 });

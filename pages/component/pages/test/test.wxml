@@ -13,6 +13,7 @@
 </view>
 <view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
+ 
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
@@ -51,6 +52,7 @@
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
+    <block  wx:if="{{randerTitle.showAnswer==false}}">
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
                 <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
@@ -64,6 +66,22 @@
                 </view>
             </view>
         </label>
+    </block>
+    <block  wx:if="{{randerTitle.showAnswer==true}}">
+        <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
+                <view class="letter {{  vItem.haschose != true&&vItem.nohascolor ? 'nohascolor':''}}  {{  vItem.haschose == true ? 'correctoption':''}}" wx:if="{{ vItem.haschose != true}}">                
+                    {{vItem.option}}
+                </view>
+                <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
+                <image wx:if="{{ randerTitle.showAnswer && vItem.color ? true: false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
+                <image wx:if="{{ randerTitle.showAnswer && vItem.err ? true : false }}" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
+                <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
+                    <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
+                </view>
+            </view>
+        </label>
+    </block>
         <view class="wrapper-option" bindtap="showAnswer">
             <view class="correctoptions {{ correctoption }}">
                 <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />

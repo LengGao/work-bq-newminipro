@@ -60,6 +60,8 @@ Page({
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
     let number = e.currentTarget.dataset.index// 前一个页面
+    console.log(beforePage,number)
+    console.log(pages)
     wx.showModal({
       title: '提示',
       content: '查看详情后，将不能查看当前信息，是否查看详情？',
@@ -73,7 +75,6 @@ Page({
             success: function () {
               beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
             }
-      
          })
         }
       }
