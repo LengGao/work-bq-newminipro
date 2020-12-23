@@ -39,7 +39,7 @@
         <view id="gl"></view>
     </navigator>
 <!-- 管理员专用 开始 user_info.is_admin eq 1  or local_admin.is_root eq 1 -->
-<navigator class="function-list" wx:if="{{user_info.is_admin==1||local_admin.is_root==1}}" wx:for="{{ adminList }}" wx:key="index" url="{{ item.tosome }}" hover-class="none">
+<navigator class="function-list" wx:if="{{local_admin.is_root==1  || user_info.is_admin==1}}" wx:for="{{ adminList }}" wx:key="index" url="{{ item.tosome }}" hover-class="none">
        <view class="function-list-left">            
             <image class="function-image" src="{{ item.url }}" mode="widthFix" />
             <text class="function-name">{{ item.name }}</text>           

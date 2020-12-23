@@ -84,7 +84,7 @@ Page({
     multiSenceshowAny: true,
     multiselecting: [],
     multiselect: '',
-    removeColorOption:'',
+    removeColorOption: '',
     multiID: '',
     multiAnswer: '',
     title: '',
@@ -129,6 +129,15 @@ Page({
   lastQU() {
     //如果该题目是从上次保存下来则不提交答案
     let that = this
+    this.setData({
+      multiselecting: []
+    })
+    this.setData({
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeAnswer: 'defaultAnswer',
+      correctoption: '',
+      multishowAny: true
+    })
     let curID = this.data.curID
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
@@ -255,10 +264,13 @@ Page({
     let that = this
     let curID = that.data.curID
     console.log(curID)
+    console.log(that.data.randerTitle.problem_type)
     if (that.data.randerTitle.problem_type == 2) { //多选题在此提交答案
+      console.log(that.data.randerTitle.hasSubmit)
       if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
+        console.log(multiselect)
         if (multiselect == '') {} else {
           that.submitAnswer(multiselect, curID)
         }
@@ -301,8 +313,9 @@ Page({
       activeAnswer: 'defaultAnswer',
       correctoption: '',
       multishowAny: true,
-    
+
     })
+    console.log(this.data.is_lock, this.data.multiselect)
     if (this.data.is_lock == 1) {} else {
       this.common()
     }
@@ -411,12 +424,12 @@ Page({
     // }
     if (this.data.randerTitle.done) { //如果已选答案，再次点击不再触发
       wx.showToast({
-        title:'答案已出,当前题目无法作答',
+        title: '答案已出,当前题目无法作答',
         icon: 'none',
         duration: 2000
       })
-    return
-  }
+      return
+    }
     let color
     let option = e.currentTarget.dataset.option;
     let answer = e.currentTarget.dataset.answer;
@@ -432,7 +445,7 @@ Page({
     console.log(option, answer, this.data.multiselect)
     let multiselect = this.data.multiselecting
     if (!multiselect.includes(option)) {
-       multiselect.push(option)
+      multiselect.push(option)
       if (this.data.randerTitle.content != undefined) {
         this.data.randerTitle.content[index].haschose = true
         // this.data.randerTitle.done = true
@@ -457,10 +470,10 @@ Page({
         multiselect.forEach((item, i) => {
           console.log(item == option)
           if (item == option) {
-            console.log(item==option)
+            console.log(item == option)
             multiselect.splice(i, 1)
             this.setData({
-              removeColorOption:option
+              removeColorOption: option
             })
             console.log(this.data.removeColorOption)
           }
@@ -474,27 +487,27 @@ Page({
         console.log(this.data.multiselect)
       }
       this.setData({
-        multiselect:multiselect.toString()+','
+        multiselect: multiselect.toString() + ','
       })
-      console.log(this.data.multiselect)    
+      console.log(this.data.multiselect)
     }
     console.log(this.data.removeColorOption)
-    
+
     if (answer.includes(option)) {
       console.log(option)
       color.color = true
-      console.log(this.data.removeColorOption==option)
-      if(this.data.removeColorOption==option){
+      console.log(this.data.removeColorOption == option)
+      if (this.data.removeColorOption == option) {
         color.color = ''
       }
       this.setData({
         randerTitle: this.data.randerTitle,
       })
     } else {
-       color.color = false
+      color.color = false
       color.err = true
-      console.log(this.data.removeColorOption==option)
-      if(this.data.removeColorOption==option){
+      console.log(this.data.removeColorOption == option)
+      if (this.data.removeColorOption == option) {
         color.err = ''
         color.color = ''
       }
@@ -503,7 +516,7 @@ Page({
       })
     }
     this.setData({
-      removeColorOption:''
+      removeColorOption: ''
     })
     console.log(this.data.randerTitle.content)
   },
@@ -518,47 +531,47 @@ Page({
       })
     } else {
       var data = this.data.randerTitle.content
-      if(this.data.randerTitle.done!=true){
-     
-      var arr = this.data.multiselect
-      var arr01 = this.data.multiAnswer
-      let answer  =  this.data.randerTitle.answer
-   var  arr03= answer.split(",")
-      console.log(arr=='')
-      if(arr!=''){
-        var arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));   
-        data.forEach((item) => {
-          arr02.forEach((i) => {
-            if (i == item.option) {
-              item.nohascolor = true
-            }
-          })
-        })
-      }else{
-        data.forEach((item) => {
-          arr03.forEach((i) => {
-            if (i == item.option) {
-              item.nohascolor = true
-            }
-          })
-        })
-      }
+      if (this.data.randerTitle.done != true) {
 
-  arr=[],
-  arr01=[],
-  arr02=[]
-    }
-    this.setData({
-      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-      activeAnswer: 'activeAnswer',
-      correctoption: 'activeoption',
-      multishowAny: false,
-      'randerTitle.showAnswer': true,
-      'randerTitle.done': true,
-      'randerTitle.content': data,
-    
-    })
-  
+        var arr = this.data.multiselect
+        var arr01 = this.data.multiAnswer
+        let answer = this.data.randerTitle.answer
+        var arr03 = answer.split(",")
+        console.log(arr == '')
+        if (arr != '') {
+          var arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));
+          data.forEach((item) => {
+            arr02.forEach((i) => {
+              if (i == item.option) {
+                item.nohascolor = true
+              }
+            })
+          })
+        } else {
+          data.forEach((item) => {
+            arr03.forEach((i) => {
+              if (i == item.option) {
+                item.nohascolor = true
+              }
+            })
+          })
+        }
+
+        arr = [],
+          arr01 = [],
+          arr02 = []
+      }
+      this.setData({
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        activeAnswer: 'activeAnswer',
+        correctoption: 'activeoption',
+        multishowAny: false,
+        'randerTitle.showAnswer': true,
+        'randerTitle.done': true,
+        'randerTitle.content': data,
+
+      })
+
     }
   },
   showSenceAnswer() {
@@ -675,15 +688,17 @@ Page({
         console.log(res)
         //提交完答案，清空多选题答案数组,并查看是否已缓存，并改变其中的标识符（hasSubmit）
         if (res.data.code == 200) {
+          // console.log(that.data.randerTitle.problem_type)
           if (that.data.randerTitle.problem_type == 6) {
             console.log(curID)
             that.data.randerTitle.child[curID].hasSubmit = true
           }
-          that.data.randerTitle.hasSubmit = true
+
+          // that.data.randerTitle.hasSubmit = true
           that.setData({
             multiselect: '', //场景模式下多选清空
-            multiAnswer: '',//场景模式下多选答案清空
-            randerTitle: that.data.randerTitle,
+            multiAnswer: '', //场景模式下多选答案清空
+            // randerTitle: that.data.randerTitle,
             SceneValue: '', //场景模式下填空清空
             shortSceneMap: '', //场景模式下简答清空
             shortMap: '' //简答题清空
@@ -692,6 +707,7 @@ Page({
           let curRander = that.data.randerTitle;
           let ID = curID
           let result = that.hasBeenLoad(ID); //检查本地是否已缓存
+          console.log(result)
           if (result == undefined) { // 未缓存
             that.data.allRender.push(curRander)
             console.log(that.data.allRender)
@@ -811,6 +827,7 @@ Page({
           let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
           randerTitle.showAnswer = false
           randerTitle.done = false
+          randerTitle.hasSubmit = false
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {
@@ -982,7 +999,8 @@ Page({
   },
   onLoad: function (options = {}) {
     this.setData({
-      moveY: 313
+      moveY: 313,
+
     })
     //获取屏幕宽高
     let that = this
@@ -997,9 +1015,22 @@ Page({
   onShow: function () {},
   onHide: function () {
     clearTimeout(t);
+   
+    if (this.data.randerTitle.problem_type == 2) {
+      this.setData({
+        multiselecting: []
+      })
+      this.setData({
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeAnswer: 'defaultAnswer',
+        correctoption: '',
+        multishowAny: true,
+      })
+    }
   },
   onUnload: function () {
     clearTimeout(t);
+
   },
   onPullDownRefresh: function () {},
   onReachBottom: function () {},
@@ -1024,7 +1055,7 @@ Page({
       success(res) {
         let height = res.screenHeight * 2;
         let topheight = that.data.navH;
-        console.log(height,topheight)
+        console.log(height, topheight)
         let questionHeight = height - topheight * 2 - 98 - 56 * 2 - 40
         that.setData({
           questionHeight: questionHeight

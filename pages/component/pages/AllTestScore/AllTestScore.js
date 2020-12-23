@@ -40,8 +40,8 @@ Page({
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
     let number = 0// 前一个页面
-    // console.log("beforePage");
-    // console.log(beforePage);
+    console.log("beforePage");
+    console.log(beforePage);
     wx.navigateBack({
       success: function () {
         beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法

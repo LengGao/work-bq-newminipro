@@ -128,6 +128,15 @@ Page({
   lastQU() {
     //如果该题目是从上次保存下来则不提交答案
     let that = this
+    this.setData({
+      multiselecting: []
+    })
+    this.setData({
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeAnswer: 'defaultAnswer',
+      correctoption: '',
+      multishowAny: true
+    })
     let curID = this.data.curID
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
@@ -735,7 +744,7 @@ Page({
             console.log(curID)
             that.data.randerTitle.child[curID].hasSubmit = true
           }
-          that.data.randerTitle.hasSubmit = true
+          // that.data.randerTitle.hasSubmit = true
           that.setData({
             multiselect: '',//场景模式下多选清空
             randerTitle: that.data.randerTitle,
@@ -1079,6 +1088,17 @@ Page({
   onShow: function () { },
   onHide: function () {
     clearTimeout(t);
+    if (this.data.randerTitle.problem_type == 2) {
+      this.setData({
+        multiselecting: []
+      })
+      this.setData({
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeAnswer: 'defaultAnswer',
+        correctoption: '',
+        multishowAny: true,
+      })
+    }
   },
   onUnload: function () {
     clearTimeout(t);

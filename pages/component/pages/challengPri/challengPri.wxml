@@ -82,8 +82,8 @@
             </view>
         </label>
     </block>
-        <view class="wrapper-option" bindtap="showAnswer">
-            <view class="correctoptions {{ correctoption }}">
+        <view class="wrapper-option" >
+            <view class="correctoptions {{ correctoption }}" bindtap="showAnswer">
                 <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
                 <text class=" {{activeAnswer}}">答案</text>
             </view>
@@ -123,7 +123,7 @@
                 </view>
             </view>
         </label>
-        <view hidden="{{ showAny }}" style="margin-bottom:98rpx">
+        <view hidden="{{ !randerTitle.done }}" style="margin-bottom:98rpx">
             <view class="referData">参考答案</view>
             <view class="topRefer">
                 <text class="correctanswer">正确答案：</text>

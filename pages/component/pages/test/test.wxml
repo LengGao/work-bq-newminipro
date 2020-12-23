@@ -13,6 +13,7 @@
 </view>
 <view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
+ 
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
@@ -50,7 +51,7 @@
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
-    <radio-group class="checked padding">
+    <radio-group class="checked padding"  style="margin-bottom:200rpx;">
     <block  wx:if="{{randerTitle.showAnswer==false}}">
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
@@ -81,8 +82,8 @@
             </view>
         </label>
     </block>
-        <view class="wrapper-option" bindtap="showAnswer">
-            <view class="correctoptions {{ correctoption }}">
+        <view class="wrapper-option" >
+            <view class="correctoptions {{ correctoption }}" bindtap="showAnswer">
                 <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
                 <text class=" {{activeAnswer}}">答案</text>
             </view>
@@ -105,7 +106,7 @@
     </radio-group>
 </view>
 <view hidden="{{ ProblemType == '3'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-    <!-- 判断题 -->
+    <!-- 单选题 -->
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>

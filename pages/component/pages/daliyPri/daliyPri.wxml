@@ -82,8 +82,8 @@
             </view>
         </label>
     </block>
-        <view class="wrapper-option" bindtap="showAnswer">
-            <view class="correctoptions {{ correctoption }}">
+        <view class="wrapper-option" >
+            <view class="correctoptions {{ correctoption }}" bindtap="showAnswer">
                 <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
                 <text class=" {{activeAnswer}}">答案</text>
             </view>

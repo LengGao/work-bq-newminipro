@@ -712,7 +712,7 @@ Page({
             console.log(curID)
             that.data.randerTitle.child[curID].hasSubmit = true
           }
-          that.data.randerTitle.hasSubmit = true
+          // that.data.randerTitle.hasSubmit = true
           that.setData({
             multiselect: '', //场景模式下多选清空
             randerTitle: that.data.randerTitle,
@@ -1011,6 +1011,17 @@ Page({
   onShow: function () {},
   onHide: function () {
     clearTimeout(t);
+    if (this.data.randerTitle.problem_type == 2) {
+      this.setData({
+        multiselecting: []
+      })
+      this.setData({
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeAnswer: 'defaultAnswer',
+        correctoption: '',
+        multishowAny: true,
+      })
+    }
   },
   onUnload: function () {
     clearTimeout(t);
