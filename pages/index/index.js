@@ -451,7 +451,6 @@ Page({
                 });
                 //增加本地存储管理员的信息；
                 let local_admin=wx.getStorageSync("local_admin");
-                console.log(typeof(local_admin));
                 if (typeof(local_admin) == "undefined"||local_admin==''||e.data.param.is_admin==1){
                   wx.setStorageSync("local_admin", {
                       is_root: parseInt(e.data.param.is_admin)==1?1:0,
