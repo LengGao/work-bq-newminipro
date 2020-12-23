@@ -9,6 +9,7 @@
     <view class="top-content">
         <view class="left-logo">
             <view class="uprates">
+           
                 <text class="rates">最终得分</text>
                 <view >
                      <text class="percentages">{{ allScroll }}</text>
