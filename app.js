@@ -141,11 +141,12 @@ App({
                     })
                 }
                 let data
+                console.log(n.data);
                 if (n.data.data.length != undefined && n.data.data.length == 0 && n.data.data) {
                     e.success && e.success(n);
                 } else {
                     data = crypto.decrypt(n.data.data['param'], key, uuid)
-                    // console.log(data)
+                    console.log(data)
                     e.success && e.success(data);
                 }
             },

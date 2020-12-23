@@ -402,18 +402,30 @@ Page({
       title: '加载中',
       mask: true
     })
+    let limit_admin=wx.getStorageSync('limit_admin');
+    console.log(limit_admin);
+    let now=new Date().getTime();
+    console.log(now);
+  if (typeof(limit_admin)=="number"&&(now-limit_admin)/1000<3600){
+    //一个小时不再请求；
+    //请求本地存储的用户
+    app.globalData.info_show = 1;
+    that.gettopINfor();
+  }else{
     let promise = new Promise((resolve, reject) => {
       wx.login({ // 判断是否授权，，没有则授权
         success: function (n) {
           if (n.code) {
             var t = n.code;
+            console.log(t);
             app.request({
               url: api.user.newLogin,
               data: { code: t,
-              version:1
+              version:2
               },
               method: 'POST',
               success: function (e) {
+                console.log(e);
                 if (e.data.param.info_show) {
                   app.globalData.info_show = 1;
                 }
@@ -434,8 +446,21 @@ Page({
                   avatar_url: e.data.param.user_img,
                   uid: e.data.param.uid,
                   uuid: e.data.param.uuid,
-                  token: e.data.param.token
+                  token: e.data.param.token,
+                  mobile:e.data.param.telphone
                 });
+                //增加本地存储管理员的信息；
+                let local_admin=wx.getStorageSync("local_admin");
+                console.log(typeof(local_admin));
+                if (typeof(local_admin) == "undefined"||local_admin==''||e.data.param.is_admin==1){
+                  wx.setStorageSync("local_admin", {
+                      is_root: parseInt(e.data.param.is_admin)==1?1:0,
+                      is_uid: e.data.param.uid,
+                      is_token: e.data.param.token,
+                      is_uuid:e.data.param.uuid
+                  });
+                }
+                
               },
               fail: function (e) {
                 wx.showModal({
@@ -452,10 +477,13 @@ Page({
         }
       })
     })
+
     promise.then(function (resolve, reject) {
       that.gettopINfor(resolve, reject)
     });
-    e && wx.setStorageSync("tmp_options", e), t.tabbar("tabBar", 0, this, "home")
+}
+     e && wx.setStorageSync("tmp_options", e), t.tabbar("tabBar", 0, this, "home")
+ 
   },
   onReady: function () { },
   onShow: function () {

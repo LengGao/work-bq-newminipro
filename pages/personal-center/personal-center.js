@@ -5,6 +5,7 @@ var app = getApp(),
 Page({
   data: {
     user_info: {},
+    local_admin:wx.getStorageSync('local_admin'),
     info: {},
     funsel: [
       {
@@ -56,7 +57,13 @@ Page({
         name: '联系客服',
         id: 1
       }
-    ]
+    ],
+    adminList:[{
+      url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/swicth.png',
+      tosome: '../component/pages/switchUser/switchUser',
+      name: '切换账户',
+      option: ['仅管理员可用'],
+    }]
   },
   recorders() {
     let courseId = this.data.courseId

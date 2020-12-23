@@ -127,6 +127,7 @@ let apiurl = {
     addProblemOrder: bq + "index/course/addProblemOrder",
     vip_list: bq + "viplist",
     getHomePanel: bq + '/answe/getHomePanel',
+    switchUser: bq+'/SwitchUser/Index',
 
   },
   video: {

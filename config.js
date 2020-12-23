@@ -10,5 +10,6 @@ bqUrl: 'https://dpapi.beiqujy.com/wechat/v2',//正式地址
    // bqUrl: 'http://www.tp.cn/wechat/v2',//
   // sockForCount:'wss://testapi.beiqujy.com/count',//测试地址
   // liaotian: 'wss://testapi.beiqujy.com/chat',//测试地址
+   bqUrl: 'http://thing.com/wechat/v2',//胜‘s地址
 }
 export default config;
