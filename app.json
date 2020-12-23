@@ -21,6 +21,7 @@
         "pages/personalInfor/personalInfor",
         "pages/collectionAll/collectionAll",
         "pages/switchScore/switchScore",
+        "pages/switchUser/switchUser",
         "pages/challengPri/challengPri",
         "pages/course-class-detail/course-class-detail",
         "pages/yearTestPir/yearTestPir",

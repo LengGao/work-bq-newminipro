@@ -21,7 +21,7 @@
 <view class="fenge2"></view>
 <view class="function-container">
     <navigator class="function-list" wx:for="{{ funlist }}" wx:key="index" url="{{ item.tosome }}" hover-class="none">
-        <view class="function-list-left">
+       <view class="function-list-left">
             <button bindcontact="handleContact"  openType="contact" wx:if="{{ item.id ==1 }}" style="display:flex;align-items:center;background:#fff">
                 <image class="function-image" src="{{ item.url }}" mode="widthFix" />
                 <text class="function-name">{{ item.name }}</text>
@@ -38,6 +38,21 @@
         </block>
         <view id="gl"></view>
     </navigator>
+<!-- 管理员专用 开始 user_info.is_admin eq 1  or local_admin.is_root eq 1 -->
+<navigator class="function-list" wx:if="{{user_info.is_admin==1||local_admin.is_root==1}}" wx:for="{{ adminList }}" wx:key="index" url="{{ item.tosome }}" hover-class="none">
+       <view class="function-list-left">            
+            <image class="function-image" src="{{ item.url }}" mode="widthFix" />
+            <text class="function-name">{{ item.name }}</text>           
+        </view>
+        <block wx:if="{{ item.option }}">
+            <view class="options-list">
+                <view class="options" wx:for="{{ item.option }}" wx:key="index">{{ item }}</view>
+            </view>
+        </block>
+        <view id="gl"></view>
+    </navigator>
+<!-- 管理员专用 结束-->
+
 </view>
 <import src="../tab-bar/tab-bar.wxml"></import>
 <template is="tabBar" data="{{tabBar:bindData.tabBar}}"></template>

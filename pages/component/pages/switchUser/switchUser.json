@@ -1,0 +1,10 @@
+{
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "切换用户",
+  "backgroundTextStyle": "light",
+  "navigationStyle": "default",
+  "usingComponents": {
+  
+  }
+}
