@@ -102,6 +102,10 @@ Page({
             scenes_problem: res.info.list.scenes_problem,
             short_problem: res.info.list.short_problem
           })
+          // console.log(that.data.multipleNum)
+          // console.log(that.data.singleNum.length)
+          // console.log(that.data.scenes_problem)
+          // console.log(that.data.scenes_problem.length)
         } else {
           console.log('2')
           for (let i of singleNum) {
