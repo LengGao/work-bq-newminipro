@@ -94,6 +94,16 @@ Page({
         console.log(res)
         if (typeof (res.info.list) != 'undefined') {
           console.log('1')
+          if(!res.info.list.fill_problem){
+            res.info.list.fill_problem=[]
+          }
+          if(!res.info.list.scenes_problem){
+            res.info.list.scenes_problem=[]
+          }
+          if(!res.info.list.short_problem){
+            res.info.list.short_problem=[]
+          }
+
           that.setData({
             multipleNum: res.info.list.multiple_problem,
             singleNum: res.info.list.single_problem,

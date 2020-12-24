@@ -38,24 +38,24 @@ Page({
     let number = this.data.ID// 前一个页面
     console.log(beforePage)
     console.log(number)
-  //   wx.showModal({
-  //     title: '提示',
-  //     content: '查看详情后，将不能查看当前信息，是否查看详情？',
-  //     showCancel: true,//是否显示取消按钮
-  //     confirmText: "确认",//默认是“确定”
-  //     confirmColor: '#199FFF',//确定文字的颜色
-  //     success: function (res) {
-  //       if (res.cancel) {
-  //       } else {
-  //         wx.navigateBack({
-  //           success: function () {
-  //             beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
-  //           }
+    wx.showModal({
+      title: '提示',
+      content: '查看详情后，将不能查看当前信息，是否查看详情？',
+      showCancel: true,//是否显示取消按钮
+      confirmText: "确认",//默认是“确定”
+      confirmColor: '#199FFF',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+        } else {
+          wx.navigateBack({
+            success: function () {
+              beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
+            }
       
-  //        })
-  //       }
-  //     }
-  // })
+         })
+        }
+      }
+  })
   },
   gobefor(e) {
     console.log(e.currentTarget.dataset.index)

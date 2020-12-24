@@ -63,7 +63,7 @@
 </view>
 <view class="wrapper-single-option" >
     <view wx:for="{{ judgmentNum  }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{item.problem_id  }}'>
-        <text > {{index+1+ singleNum.length +  multipleNum.length + scenes_problem?scenes_problem.length:0}} </text>
+        <text > {{index+1+ singleNum.length +  multipleNum.length + scenes_problem.length}} </text>
     </view>
 </view>
 <view class="top-wrapper-pri" wx:if="{{ fill_problem.length }}">
@@ -72,7 +72,7 @@
 </view>
 <view class="wrapper-single-option">
     <view wx:for="{{fill_problem }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.problem_id }}'>
-        <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem?scenes_problem.length:0 + judgmentNum?  judgmentNum.length:0 }} </text>
+        <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem.length + judgmentNum.length}} </text>
     </view>
 </view>
 <view class="top-wrapper-pri" wx:if="{{ short_problem.length }}">
@@ -81,7 +81,7 @@
 </view>
 <view class="wrapper-single-option" style="margin-bottom:160rpx">
     <view wx:for="{{ short_problem }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.problem_id }}'>
-        <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem?scenes_problem.length:0 + judgmentNum?  judgmentNum.length:0  + fill_problem.length }} </text>
+        <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem.length + judgmentNum.length + fill_problem.length }} </text>
     </view>
 </view>
 <view class="tabbottom">

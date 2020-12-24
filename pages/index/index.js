@@ -447,7 +447,9 @@ Page({
                   uid: e.data.param.uid,
                   uuid: e.data.param.uuid,
                   token: e.data.param.token,
-                  mobile:e.data.param.telphone
+                  mobile:e.data.param.telphone,
+                  is_admin:e.data.param.is_admin,
+                  info_show:e.data.param.info_show 
                 });
                 //增加本地存储管理员的信息；
                 let local_admin=wx.getStorageSync("local_admin");

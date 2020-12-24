@@ -24,6 +24,8 @@ let app = getApp();
 var api = require("../../../../api.js")
 Page({
   data: {
+    uid:'',
+    info_show:'',
     isIOS: n.globalData.isIOS,
     currentTab: 0,
     endTime: '2020-4-20 19:56:00',//2018/11/22 10:40:30这种格式也行
@@ -706,6 +708,14 @@ Page({
     })
   },
   onLoad: function (option = {}) {
+    let user_info=wx.getStorageSync("user_info");
+    if(user_info){
+      this.setData({
+        uid:user_info.uid,
+        info_show :user_info.info_show 
+      })
+    }
+    console.log(this.data.uid)
     console.log(option.video_collection_id)
     clearInterval(this.timeOut);
     this.setData({

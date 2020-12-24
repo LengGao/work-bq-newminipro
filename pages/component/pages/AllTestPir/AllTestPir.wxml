@@ -15,7 +15,11 @@
                     <image mode="widthFix" class="personal-img-myCourse" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png" binderror="errorFunction"></image>
                     <text class="personal-name">{{ item.teacher }}</text>
                 </view>
-                <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥{{ item.originPrice }}</text>
+                <block >
+                <text class="havelearn" 
+                hidden="{{info_show == 1 && uid == 10610}}"
+                style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥{{ item.originPrice }}</text>
+            </block>
             </view>
         </view>
     </view>
@@ -28,10 +32,14 @@
             <view class="myCourse-content-title">
                 {{item.title}}
             </view>
-            <view style="display: flex;justify-content: space-between">
+            <view style="display: flex;justify-content: space-between"  hidden="{{info_show == 1 && uid == 10610}}">
                 <!-- <text class="myCourse-time">{{ item.hour_class }}课时</text> -->
+                <block>
+
                 <text class="myCourse-time">{{ item.buy_number }}人已购买</text> 
+           
                 <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥{{ item.onlinePrice == undefined ? '0' : item.onlinePrice  }}</text>
+            </block>
             </view>
             <!-- <view class="myCourse-info-bottom">
                 <view class="personal-infor">

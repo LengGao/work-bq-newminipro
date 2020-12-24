@@ -36,11 +36,11 @@ Page({
         name: '个人资料',
         option: ['身份证、', '毕业证']
       },
-      {
-        url: `https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumajilsu.png`,
-        tosome: `../component/pages/buyStatus/buyStatus?courseId=${courseId}`,
-        name: '购买记录'
-      },
+      // {
+      //   url: `https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumajilsu.png`,
+      //   tosome: `../component/pages/buyStatus/buyStatus?courseId=${courseId}`,
+      //   name: '购买记录'
+      // },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xitongshezhi.png',
         tosome: '../component/pages/switchScore/switchScore',

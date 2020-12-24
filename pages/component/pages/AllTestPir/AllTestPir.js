@@ -8,6 +8,8 @@ Page({
   data: {
     funsel: null,
     nodata: false,
+    uid:'',
+    info_show:'',
     freeCourse: [],
     // hotpoint:[]
   },
@@ -113,6 +115,14 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    let user_info=wx.getStorageSync("user_info");
+    if(user_info){
+      this.setData({
+        uid:user_info.uid,
+        info_show :user_info.info_show 
+      })
+    }
+    console.log(this.data.uid)
     wx.setNavigationBarTitle({
       title: options.name
     })

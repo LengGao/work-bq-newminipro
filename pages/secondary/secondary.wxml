@@ -53,9 +53,11 @@
                 </view>
             </navigator>
             <view class="container-title">{{ item.title }}</view>
-            <view class="container-detail ">
+            <view class="container-detail" hidden="{{info_show == 1 && uid == 10610}}">
+                <block >
                 <text class="container-price">￥{{ item.onlinePrice }}</text>
                 <text class="container-personal">{{ item.buy_number }}人购买</text>
+            </block>
             </view>
         </view>
     </view>
@@ -72,9 +74,11 @@
                 <image class="hotpoint-image" src="{{ item.Picture }}" />
             </navigator>
             <view class="container-title" style="margin-top:20rpx">{{ item.title }}</view>
-            <view class="container-detail " style="margin-top:20rpx">
+            <view class="container-detail " style="margin-top:20rpx" hidden="{{info_show == 1 && uid ==10610}}">
+                <block >
                 <text class="container-price">免费</text>
                 <text class="container-personal">{{ item.buy_number }}人购买</text>
+            </block>
             </view>
         </view>
     </view>
