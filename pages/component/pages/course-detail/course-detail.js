@@ -14,6 +14,7 @@ var e, a, o, i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterat
 var n = getApp(), s = require("../../../../api.js"), wxParse = require("../../../../wxParse/wxParse.js");
 require("../../../../utils/util.js");
 import { getToken, getVideoList, getVideoById } from '../../../../commons/service/index.js'
+// import plv from '../../../../lib/polyv-sdk/index.js';
 const serviceError = function (msg) {
   wx.showToast({
     title: msg || '获取数据出错',
@@ -24,12 +25,26 @@ let app = getApp();
 var api = require("../../../../api.js")
 Page({
   data: {
+  videoOption : {
+      mode: 'vod',
+      uid: '879bbcba39', // 直播频道uid   userId
+      cid: '1609134574258_8', // 直播频道channelId
+      isAutoChange: true, // 自动切换直播和暂存。
+      vodsrc: '', // 指定回放地址。有暂存视频的情况下，传入暂存视频的mp4或者m3u8。
+      forceVideo: Boolean, // 是否强制使用video标签作为播放器，建议使用live-player
+      statistic: { // 播放器自定义统计参数, 如需添加param4、param5参数，详情见下面init方法详解
+        // param1: 'param1',
+        // param2: 'param2',
+        // param3: 'param3'
+      }
+   },
     uid:'',
     info_show:'',
-    isIOS: n.globalData.isIOS,
+    // isIOS: n.globalData.isIOS,
     currentTab: 0,
     endTime: '2020-4-20 19:56:00',//2018/11/22 10:40:30这种格式也行
     visible2: false,
+
     tabArr: {
       curHdIndex: 2,
       curBdIndex: 2
@@ -725,7 +740,7 @@ Page({
       live_class_id:option.live_class_id,
       video_collection_id:option.video_collection_id
     });
-    this.listen(option)//获取播放信息
+    // this.listen(option)//获取播放信息
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {

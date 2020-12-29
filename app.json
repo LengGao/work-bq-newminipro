@@ -64,8 +64,8 @@
         "pages/faceCode/faceCode",
         "pages/faceFail/faceFail",
         "pages/assignTopic/assignTopic",
-        "pages/assignTestIntro/assignTestIntro"
-        
+        "pages/assignTestIntro/assignTestIntro",
+        "pages/polyv-test/polyv-test"
       ]
     }
   ],

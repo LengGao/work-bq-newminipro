@@ -1,7 +1,15 @@
-var api = require("api.js"), wxParse = require("./wxParse/wxParse.js"); import crypto from './utils/common.util'
+import plv from './lib/polyv-sdk/index.js';
+import crypto from './utils/common.util';
+var api = require("api.js"), wxParse = require("./wxParse/wxParse.js"); 
 let app = getApp();
+// import plv from '*/lib/polyv-sdk/index';
 App({
     onLaunch: function () {
+        //使用polyv
+        plv.setApp({
+            apiId: '879bbcba39',
+            apiSecret: '10u1y3sC1A'
+          });
         let that = this
         var e = this, n = wx.getStorageSync("logs") || [];
         n.unshift(Date.now()), wx.setStorageSync("logs", n), wx.getSetting({
