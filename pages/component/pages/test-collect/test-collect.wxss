@@ -1,7 +1,9 @@
 page {
     background: #fff;
 }
-
+.tab{
+    color:#fff
+}
 .choose-flow {
     height: 80rpx;
     padding: 0 30rpx;

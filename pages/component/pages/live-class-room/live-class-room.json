@@ -3,5 +3,15 @@
   "navigationBarBackgroundColor": "#fff",
   "navigationBarTitleText": "课程直播",
   "navigationBarTextStyle": "black",
-  "usingComponents": {}
+  "usingComponents": {
+    "player": "../../../../lib/polyv-sdk/components/player/player",
+    "ppt": "../../../../lib/polyv-sdk/components/ppt/ppt",
+    "chatroom": "../../../../lib/polyv-sdk/components/chatroom/chatroom",
+    "sign-in": "../../../../lib/polyv-sdk/components/sign-in/sign",
+    "question": "../../../../lib/polyv-sdk/components/question/question",
+    "answer-card": "../../../../lib/polyv-sdk/components/answer-card/answer-card",
+    "bulletin": "../../../../lib/polyv-sdk/components/bulletin/bulletin",
+    "menu-custom":"../../../../lib/polyv-sdk/components/menu-custom/menu-custom",
+    "quiz":"../../../../lib/polyv-sdk/components/quiz/quiz"
+  }
 }

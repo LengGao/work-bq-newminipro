@@ -14,7 +14,7 @@ Page({
         action: 'myclass'
       },
       {
-        url: '../../imgs/alarm.png',
+        url: 'http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/alarm.png',
         name: '面授约课',
         action: 'likes'
       },
@@ -56,7 +56,12 @@ Page({
         tosome: '',
         name: '联系客服',
         id: 1
-      }
+      },
+      {
+        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
+        tosome: '../component/pages/polyv-test/polyv-test',
+        name: '视频polyv',
+      },
     ],
     adminList:[{
       url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/swicth.png',

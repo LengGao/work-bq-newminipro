@@ -1,12 +1,12 @@
-
 import config from './config.js';
 let bq = config.bqUrl;
 let sock = config.liaotian;
 let sockForCount = config.sockForCount
 let apiurl = {
   default: {
+   
     countSocket: sock,
-    sockForCount:sockForCount,
+    sockForCount: sockForCount,
     newupload: bq + '/img',
     proInit: bq + '/Information/getQuestion',
     quesList: bq + '/chat/foundGroup',
@@ -68,6 +68,7 @@ let apiurl = {
     generalScoring: bq + '/answe/generalScoring',
     getLearningReports: bq + '/user/getLearningReports',
     getClassLiveInfo: bq + "/video/getclasslive",
+    
     getOrderList: bq + '/order/getOrderList',
     upload: bq + '/upload',
     userident: bq + '//user/updateuserident',
@@ -104,7 +105,7 @@ let apiurl = {
   },
   user: {
     newLogin: bq + '/login/login',
-    bindPhone: bq + "/login/bindphone", 
+    bindPhone: bq + "/login/bindphone",
     login: bq + '/login/wxauth',
     collect: bq + "collect",
     comment_list: bq + "index/index/getComment",
@@ -152,7 +153,8 @@ let apiurl = {
     apply_info: bq + "liveapplydetail",
     applylive: bq + "applylive",
     writeNote: bq + "index/index/writeNote",
-    getlastplayinfo: bq + '/video/getlastplayinfo'
+    getlastplayinfo: bq + '/video/getlastplayinfo',
+   
   },
   order: {
     video_kaituan: bq + "createpintuan",

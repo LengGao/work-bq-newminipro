@@ -12,7 +12,7 @@
       <text id="{{calendarShow ?'gl2':'gl1'}}"></text>
     </view>
     <view class="noface" hidden="{{courseInfor.length>0?true:false}}">
-      <image src="../../../../imgs/noface.png" style="width:290rpx;height:290rpx"></image>
+      <image src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/noface.png" style="width:290rpx;height:290rpx"></image>
       <view class="noface_text">暂无面授课安排</view>
     </view>
     <loading hidden="{{hidden}}" bindchange="loadingChange">
