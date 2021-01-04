@@ -7,8 +7,8 @@ App({
     onLaunch: function () {
         //使用polyv
         plv.setApp({
-            apiId: '879bbcba39',
-            apiSecret: '10u1y3sC1A'
+            apiId: 'fu8gegebd9',
+            apiSecret: '6f614eb7149e446a89866bd056bbb58a'
           });
         let that = this
         var e = this, n = wx.getStorageSync("logs") || [];

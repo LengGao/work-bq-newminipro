@@ -14,7 +14,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    const optionss = {
+      channelId: '2066621', // 频道ID
+      openId: 'oT1IQvz-Wt3dM6Dhv0oeEwKZdKqw', // 用户openId
+      userName: 'oT1IQvz', // 用户名
+      avatarUrl: 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIictBAcjdcyt6LibpjW3o1OHJyuk1kzQMibeZp5qWNAQnGSyJjqicuoSrgW9nrL3ViaUENy1IicOn7hfvQ/132', // 用户头像
+      userid:"31762"//2.0.0及以上版本的demo需要使用userid设置学员唯一id
+    };
+    plv.init(optionss);
 
   },
 
@@ -43,6 +50,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    plv.destroy();
 
   },
 
