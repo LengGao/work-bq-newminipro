@@ -1,52 +1,12 @@
 <view class="plv-mp-demo-ppt-page">
-
-  <player style="width:750rpx;height:500rpx" videoOption="{{ videoOption }}"
-    bind:onLiveStatusChange="playerLiveStatusChange" bind:onVodProgress="playerVodProgress" skin="{{ skin }}"
-    skinAlwaysShow="{{ true }}" />
-  <view style="display:flex;width:750rpx;justify-content:space-around;background:rgba(68, 67, 79)">
-    <menu-custom wx:for="{{detail.channelMenus}}" class="{{item.ordered==indexTab?'tag':''}}" wx:key="index" style="" parseHtml="{{item.name}}" bindtap="choseTap"
-      data-id="{{item.ordered}}"  data-content="{{item.content}}"></menu-custom>
-  </view>
-  <movable-area class="plv-mp-demo-movable">
-
-    <!-- <menu-custom  style="height:100rpx" /> -->
-    <!--直播介绍-->
-    <block wx:if="{{indexTab==1}}">
-      <view style="color:#fff;width:width:100%;padding:20rpx">
-      {{content}}
-      </view>
-    </block>
-    <!--互动聊天-->
-    <block wx:if="{{indexTab==2}}">
-        <chatroom class="plv-mp-demo-chatroom" bind:onTapBulletin="handleShowBulletin" />
-    </block>
-    <!--提问-->
-    <block wx:if="{{indexTab==3}}">
-        <quiz />
-    </block>
-    <!--抢答-->
-    <block wx:if="{{indexTab==4}}">
-        <ppt chatData="{{ detail }}" pptSize='{{ pptSize }}' videoId="{{videoId}}"
-      
-          vidCurrentTime="{{vodPlayerProgress}}" pptDelayTime='{{pptDelayTime}}' />
-    </block>
-
-    <sign-in />
-    <question zIndex="2000" />
-    <answer-card class="plv-mp-watch-answer-card {{ answerShow }}" answerCardSize="{{ answerCardSize }}"
-      bind:onAnswerCardShow="handleCloseAnswerCard" />
-    <bulletin show="{{ bulletinShow }}" zIndex="2002" bulletinStr="公告显示内容" bind:onClose="handleHideBulletin" />
-
-    <!-- <movable-view
-      class="plv-mp-demo-player-wrap"
-      direction="all"
-      bindchange="onMove"
-      x="{{ left }}"
-      y="{{ top }}"
-    >
-     
-    </movable-view> -->
-
-  </movable-area>
-  <sign-in />
+    <polyv
+    style="width:750rpx;height:500rpx"
+    bind:userBanned="handleUserBanned"
+    bind:onError="handlePolyvError"
+    id="plvMpDemoWatch"
+    requestUrl="https://api.polyv.net/live/v3/channel/chat/"
+    allowDanmu="{{ true }}"
+    skinAlwaysShow="{{ false }}"
+    usePlayerSkin="{{ true }}"
+  />
 </view>

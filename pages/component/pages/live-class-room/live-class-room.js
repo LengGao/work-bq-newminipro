@@ -16,137 +16,51 @@ Page({
     screen: {}
   },
   onLoad(options) {
-    let user_id=wx.getStorageSync("user_id");
-    options.userid=user_id
-   
-    wx.getSystemInfo({
-      success: ({ pixelRatio, windowWidth, windowHeight }) => {
-        this.setData({
-          pptSize: { width: 750, height: 700 },
-          screen: { width: windowWidth, height: windowHeight }
-        });
-      }
-    });
-console.log(options)
-    // const options = {
-    //   channelId: '2066621', // 频道ID
-    //   openId: 'ol4IC5QRkLoH_Mb8Q2KzArNUy-FQ', // 用户openId
-    //   userName: '我怎么知道', // 用户名
-    //   avatarUrl: 'https://wx.qlogo.cn/mmopen/vi_32/LicZLzFzlO9XJc13ykP5KCuhLmd8fwJkFQKtGRozict9SjOE5RNOg7qjEasUxh9D3aIJ7IthV30PudR7xFRx4mrA/132', // 用户头像
-    //   userid: '879bbcba39'
-    // }
-   plv.init(options)
-      .then(({ detail, chat }) => {
-        console.log(detail)
-        this.setData({
-          detail: detail
-        });
-        // 设置mode为live的videoOption
-         this.setLiveOption(detail);
-
-        // 设置mode为vod的videoOption
-        // this.setVodOption(detail);
-        // 如果当前的mode为vod，切换到直播状态，云课堂和普通直播监听直播开始的方法不同。
-        // 1. 普通直播通过轮询api.getOrdinaryLiveStatus(stream)获取当前的状态
-        // 2. 云课堂通过chat.on(chat.events.SLICESTART, () => {})监听直播开始，也可以通过播放器的onLiveStatusChange监听开始和结束
-        if (detail.isPPT) {
-          chat.on(chat.events.SLICESTART, () => {
-            // 开始直播
+    // let user_id=wx.getStorageSync("user_id");
+    let user_info=wx.getStorageSync("user_info");
+   let user_id = user_info.uid
+      options.forceVideo = true;
+      options.userid=user_id
+        console.log(options)
+        plv.init(options)
+        .catch(err => { // error code
+          console.error(err, err.message);
+          wx.showToast({
+            title: err.message,
+            icon: 'none',
+            duration: 2000
           });
-        } else {
-          plv.api.getOrdinaryLiveStatus(detail.stream);
-        }
-      });
+        });
   },
 
+  //polyv组件需要的方法
+  onResize() {
+    const plyWatch = this.selectComponent('#plvMpDemoWatch');
+    plyWatch.handleResize();
+  },
+  // 用户被踢出
+  handleUserBanned() {
+    wx.showModal({
+      title: '温馨提示',
+      content: '您未被授权观看本直播',
+      showCancel: false,
+      complete: () => {
+        wx.navigateBack({ url: '/pages/index/index' });
+      }
+    });
+  },
+  // 播放器错误
+  handlePolyvError(e) {
+    const err = e.detail;
+    if (err.errorCode >= 30000 && err.errorCode < 40000) {
+      wx.showToast({
+        title: '播放器' + err.msg,
+        icon: 'none',
+        duration: 2000
+      });
+    }
+  },
   onUnload() {
     plv.destroy();
   },
-
-  playerVodProgress(e) {
-    const { currentTime } = e.detail;
-    this.setData({
-      vodPlayerProgress: currentTime
-    });
-  },
-
-  setLiveOption(detail) {
-    // 只关注直播
-    const { userId, channelId } = detail;
-
-    this.setData({
-      videoOption: {
-        mode: 'live',
-        uid: userId,
-        cid: channelId,
-        isAutoChange: false
-      },
-    });
-   
-  },
-
-  playerVodProgress(e) {
-    const { currentTime } = e.detail;
-    this.setData({
-      vodPlayerProgress: currentTime
-    });
-  },
-
-  setVodOption(detail) {
-    const { playbackEnabled, hasPlayback, playbackList } = detail;
-    if (playbackEnabled && hasPlayback && playbackList.length) {
-      this.setData({
-        videoOption: {
-          mode: 'vod',
-          vodVid: playbackList[0].videoPoolId
-        },
-        videoId: playbackList[0].videoId
-      });
-    }
-  },
-
-  getOrdinaryLiveStatus(stream) {
-    this.statusTimer = setInterval(() => {
-      plv.api.getOrdinaryLiveStatus(stream)
-        .then(r => {
-          const { detail } = this.data;
-          const status = r.data.indexOf('end') > -1 ? 'N' : 'Y';
-          if (status === detail.status) return;
-          this.setData({
-            'detail.status': status
-          }, () => {
-            // const { detail } = this.data;
-            // this.updateVideoOption(detail);
-          });
-        });
-    }, 1e3);
-  },
-
-  playerLiveStatusChange(e) {
-    const status = e.detail.status;
-    if (status === 'live') {
-      // 开始直播
-    }
-    if (status === 'end') {
-      // 结束直播
-    }
-  },
-  choseTap(e) {
-    console.log(e)
-    let index = e.currentTarget.dataset.id
-     let content=e.currentTarget.dataset.content
-    this.setData({
-      indexTab: index,
-      content:content
-    })
-  },
-
-  onMove(e) {
-    const { x, y } = e.detail;
-    this.setData({
-      top: y,
-      left: x
-    });
-  }
-  
 });

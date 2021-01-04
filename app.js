@@ -6,7 +6,11 @@ let app = getApp();
 // import plv from '*/lib/polyv-sdk/index';
 App({
     onLaunch: function () {
-        this.getSecretData()
+        plv.setApp({
+            apiId:'fue63gnbpi',
+            apiSecret: '4041e8c914fe4378880a5626d2547c5a'
+        });
+        // this.getSecretData()
         //使用polyv
         let that = this
         var e = this,
