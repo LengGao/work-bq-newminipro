@@ -1,8 +1,8 @@
 <view class="video-box">
     <!--first use player-->
-    <player  videoOption="{{ videoOption }}"></player>
+    <!-- <player  videoOption="{{ videoOption }}"></player> -->
     
-    <!-- <video id="videoPlayer" autoplay bindplay="videoPlayHandle" class="vod-video" bindtap="tapVideo" bindpause="playPaused" bindended="playPaused" bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen" poster="{{currentPoster}}" initial-time="{{learnTime}}" src="{{currentResource}}" bindwaiting="videoWaiting">
+   <video id="videoPlayer" autoplay bindplay="videoPlayHandle" class="vod-video" bindtap="tapVideo" bindpause="playPaused" bindended="playPaused" bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen" poster="{{currentPoster}}" initial-time="{{learnTime}}" src="{{currentResource}}" bindwaiting="videoWaiting">
         <cover-view class="video-control" hidden="{{controlHidden}}">
             <cover-view class="video-title">{{currentVideoTitle}}</cover-view>
             <cover-view class="multi" capture-catch:tap="switchResource">
@@ -28,7 +28,7 @@
                 <cover-view class="close-btn" bindtap="closeControl">x</cover-view>
             </cover-view>
         </cover-view>
-    </video> -->
+    </video>
     <view class="middle-box" hidden="{{isPay}}">
         <view class="inner-box">
             <view class='countdown-contant' wx:if="{{ false }}">

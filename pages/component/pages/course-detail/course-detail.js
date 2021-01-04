@@ -24,6 +24,24 @@ let app = getApp();
 var api = require("../../../../api.js")
 Page({
   data: {
+<<<<<<< HEAD
+=======
+  // videoOption : {
+  //     mode: 'vod',
+  //     vodVid:'879bbcba3973d9e27b430b5b406c0246_8',
+  //     // mode: 'live',
+  //     // uid: '879bbcba39', // 直播频道uid   userId
+  //     // cid: '1609134574258_8', // 直播频道channelId
+  //     // isAutoChange: true, // 自动切换直播和暂存。
+  //     // vodsrc: '', // 指定回放地址。有暂存视频的情况下，传入暂存视频的mp4或者m3u8。
+  //     // forceVideo: Boolean, // 是否强制使用video标签作为播放器，建议使用live-player
+  //     // statistic: { // 播放器自定义统计参数, 如需添加param4、param5参数，详情见下面init方法详解
+  //     //   param1: 'param1',
+  //     //   // param2: 'param2',
+  //     //   // param3: 'param3'
+  //     // }
+  //  },
+>>>>>>> refs/remotes/origin/dev
     uid:'',
     info_show:'',
     isIOS: n.globalData.isIOS,
@@ -1165,6 +1183,7 @@ Page({
       path: '../../../../pages/index/index',
       imageUrl: that.data.imgUrl,
       success: function (shareTickets) {
+        console.log(shareTickets)
         console.info(shareTickets + '成功');
         // 转发成功
       },

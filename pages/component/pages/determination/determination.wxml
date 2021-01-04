@@ -1,6 +1,6 @@
 <!-- pages/virTest/virTest.wxml -->
 <view class="topImage-vir">
-   <image src="./../../../../imgs/zizhuchuti.jpg" style="width:690rpx;height:320rpx;margin-left:30rpx;margin-top:30rpx;border-radius:20rpx;" />
+   <image src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/zizhuchuti.jpg" style="width:690rpx;height:320rpx;margin-left:30rpx;margin-top:30rpx;border-radius:20rpx;" />
 </view>
 <view style="margin-top:35rpx;" wx:if="{{ history.length  }}">
     <view class="vir-top-wrapper" wx:for="{{ history }}" wx:key="index" style="position:relative" bindtap="gointro" data-chapterId = '{{ item.problem_chapter_id }}' data-chapterName = '{{ item.chapter_name }}'>

@@ -7,7 +7,7 @@
         "i-rate": "../../../../utils/iview/rate/index",
         "i-modal": "../../../../utils/iview/modal/index",
         "i-input": "../../../../utils/iview/input/index",
-        "i-icon": "../../../../utils/iview/icon/index",
-        "player": "../../../../lib/polyv-sdk/components/player/player"
+        "i-icon": "../../../../utils/iview/icon/index"
+      
     }
 }

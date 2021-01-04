@@ -1,15 +1,6 @@
 <view class="video-box">
-播放器
-<view>
-  <player
-        class="plv-mp-demo-player"
-        videoOption="{{ videoOption }}"
-        bind:onLiveStatusChange="playerLiveStatusChange"
-        bind:onVodProgress="playerVodProgress"
-        skin="{{ skin }}"
-        skinAlwaysShow="{{ true }}"
-      />
-<!-- <polyv /> -->
+<view class="video-box">
+  <web-view src="{{url}}"></web-view>
 </view>
 </view>
 

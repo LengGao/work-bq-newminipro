@@ -2,7 +2,7 @@
   <!-- 预约成功主体 -->
   <view class="success_main">
     <view class="success_img">
-      <image style="width:300rpx;height:300rpx;" src="{{code=='200'?'../../../../imgs/success.png':'../../../../imgs/fail.png'}}" />
+      <image style="width:300rpx;height:300rpx;" src="{{code=='200'?'http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/success.png':'http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/fail.png'}}" />
     </view>
     <view class="success_h1">{{code=='200'?'签到成功':'签到失败'}}</view>
     <view class="success_h2">

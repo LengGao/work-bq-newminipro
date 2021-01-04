@@ -5,6 +5,11 @@ Page({
   data: {
     isIOS: app.globalData.isIOS,
     visible1: false,
+    channelId:'',
+    openId:'',
+    userName:'',
+    avatarUrl:'',
+    userid:'',
     moveParams: {
       scrollLeft: 0
     },
@@ -110,9 +115,21 @@ Page({
     let live_id = this.data.live_id
     let course_id = this.data.course_id
     let live_class_id = this.data.live_class_id
+    let channelId=this.data.channelId
+    let openId=this.data.openId
+    let userName=this.data.userName
+    let avatarUrl=this.data.avatarUrl
+  
+
+    // let channelId=this.data.channelId
+    console.log(this.data.channelId)
     wx.navigateTo({
-      url: `../component/pages/live-class-room/live-class-room?live_id=${live_id}&course_id=${course_id}&live_class_id=${live_class_id}`
+      url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}`
     })
+    //保利威網絡直播
+    // wx.navigateTo({
+    //   url: `../component/pages/polyv-test/polyv-test?channelId=${channelId}`
+    // })
   },
   toVideoroom() {
     let video_id = this.data.myCourse['courseId']
@@ -298,6 +315,11 @@ Page({
           problem_course_id: res.info.problem_course_id, //以此ID获取习题模式
           live_id: res.info.live_id,
           course_id: res.info.course_id,
+          avatarUrl:res.info.avatarUrl,
+          openId:res.info.openId,
+          userName:res.info.userName,
+          channelId:res.info.channelId,
+        
           live_class_id: res.info.classroom_info.live_class_id,
           video_collection_id:res.info.video_info.video_collection_id
         })

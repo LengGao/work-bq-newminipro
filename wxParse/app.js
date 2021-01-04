@@ -1,26 +1,17 @@
 import plv from './lib/polyv-sdk/index.js';
 import crypto from './utils/common.util';
-var api = require("api.js"),
-    wxParse = require("./wxParse/wxParse.js");
+var api = require("api.js"), wxParse = require("./wxParse/wxParse.js"); 
 let app = getApp();
 // import plv from '*/lib/polyv-sdk/index';
 App({
     onLaunch: function () {
-        plv.setApp({
-<<<<<<< HEAD
-            apiId: 'fu8gegebd9',
-            apiSecret: '6f614eb7149e446a89866bd056bbb58a'
-          });
-=======
-            apiId:'fue63gnbpi',
-            apiSecret: '4041e8c914fe4378880a5626d2547c5a'
-        });
-        // this.getSecretData()
         //使用polyv
->>>>>>> refs/remotes/origin/dev
+        plv.setApp({
+            apiId: '879bbcba39',
+            apiSecret: '10u1y3sC1A'
+          });
         let that = this
-        var e = this,
-            n = wx.getStorageSync("logs") || [];
+        var e = this, n = wx.getStorageSync("logs") || [];
         n.unshift(Date.now()), wx.setStorageSync("logs", n), wx.getSetting({
             success: function (n) {
                 n.authSetting["scope.userInfo"] && wx.getUserInfo({
@@ -34,14 +25,12 @@ App({
             success: res => {
                 //导航高度
                 this.globalData.navHeight = res.statusBarHeight + 46;
-            },
-            fail(err) {
+            }, fail(err) {
                 console.log(err);
             }
         })
         // 缓存
         wx.setStorageSync('school_id', 1);
-
     },
     // 新增school_id
     globalData: {
@@ -54,30 +43,7 @@ App({
         isIOS: wx.getSystemInfoSync().system.includes('iOS'),
         navHeight: 0,
         info_show: 0,
-        chat_socket_url: null,
-    },
-    getSecretData() {
-        let option = {        
-        }
-        wx.request({
-            url: api.default.getSecretData,
-            data: {},
-            method: "GET",
-            dataType:  "json",
-            success: function (res) {
-                console.log(res.data.data)
-                if(res.data.code==0){
-                    let data = res.data.data.param
-                    wx.setStorageSync('user_id', data.user_id);
-                console.log( data.app_id,data.app_secret)
-                    plv.setApp({
-                        apiId: data.app_id,
-                        apiSecret: data.app_secret
-                    });
-                }
-               
-            }
-        });
+        chat_socket_url:null,
     },
     login: function () {
         is_login = !0,
@@ -158,26 +124,28 @@ App({
             method: e.method || "GET",
             dataType: e.dataType || "json",
             success: function (n) {
-                console.log(n)
+            console.log(n)
                 if (n.data.code == 20001) {
                     wx.showToast({
-                        title: '登陆状态已失效', //提示文字
-                        duration: 2000, //显示时长
-                        mask: true, //是否显示透明蒙层，防止触摸穿透，默认：false  
+                        title: '登陆状态已失效',//提示文字
+                        duration: 2000,//显示时长
+                        mask: true,//是否显示透明蒙层，防止触摸穿透，默认：false  
                         icon: 'none', //图标，支持"success"、"loading"  
-                        success: function () {}, //接口调用成功
-                        fail: function () {}, //接口调用失败的回调函数  
-                        complete: function () {} //接口调用结束的回调函数  
+                        success: function () {
+                        },//接口调用成功
+                        fail: function () { },  //接口调用失败的回调函数  
+                        complete: function () { } //接口调用结束的回调函数  
                     })
-                } else if (n.data.code == 4) {
+                }else if (n.data.code == 4){
                     wx.showToast({
-                        title: n.data.message ? n.data.message : "当前题库未配置考试参数，请与老师或客服联系。", //提示文字
-                        duration: 2000, //显示时长
-                        mask: true, //是否显示透明蒙层，防止触摸穿透，默认：false  
+                        title:n.data.message ? n.data.message: "当前题库未配置考试参数，请与老师或客服联系。",//提示文字
+                        duration: 2000,//显示时长
+                        mask: true,//是否显示透明蒙层，防止触摸穿透，默认：false  
                         icon: 'none', //图标，支持"success"、"loading"  
-                        success: function () {}, //接口调用成功
-                        fail: function () {}, //接口调用失败的回调函数  
-                        complete: function () {} //接口调用结束的回调函数  
+                        success: function () {
+                        },//接口调用成功
+                        fail: function () { },  //接口调用失败的回调函数  
+                        complete: function () { } //接口调用结束的回调函数  
                     })
                 }
                 let data
@@ -199,62 +167,27 @@ App({
         });
     },
     /***
-     * 判断用户滑动
-     * 左滑还是右滑
-     */
+    * 判断用户滑动
+    * 左滑还是右滑
+    */
     getTouchData(endX, endY, startX, startY) {
         let turn = "";
-        if (endX - startX > 50 && Math.abs(endY - startY) < 50) { //右滑
+        if (endX - startX > 50 && Math.abs(endY - startY) < 50) {      //右滑
             turn = "right";
-        } else if (endX - startX < -50 && Math.abs(endY - startY) < 50) { //左滑
+        } else if (endX - startX < -50 && Math.abs(endY - startY) < 50) {   //左滑
             turn = "left";
         }
         return turn;
     },
-    errorWxParse(self, objData, name) {
+    errorWxParse(self ,objData,name){
         let obj = objData || {};
         let d = self.data;
         let msgListArr = [];
-        if (name != undefined) {
-            if (name == 'history') {
-                wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
-                obj.forEach((i, index) => {
-                    wxParse.wxParse("content" + index, "html", i.description, self, 5);
-                    if (index == obj.length - 1) {
-                        wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
-                    }
-                })
-                // console.log(d.WxParseListArr)
-                let listArr = d.WxParseListArr;
-                listArr.forEach((item, index) => {
-                    obj[index].contentCopy = item;
-                    msgListArr.push(obj[index]);
-                })
-                // console.log(msgListArr)
-                obj = msgListArr;
-            } else {
-                wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
-                obj.forEach((i, index) => {
-                    wxParse.wxParse("content" + index, "html", i.problem_description, self, 5);
-                    if (index == obj.length - 1) {
-                        wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
-                    }
-                })
-                // console.log(d.WxParseListArr)
-                let listArr = d.WxParseListArr;
-                listArr.forEach((item, index) => {
-                    obj[index].contentCopy = item;
-                    msgListArr.push(obj[index]);
-                })
-                // console.log(msgListArr)
-                obj = msgListArr;
-            }
-
-        } else {
-            console.log(obj)
+     if(name!=undefined){
+         if(name=='history'){
             wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
-            obj.forEach((i, index) => {
-                wxParse.wxParse("content" + index, "html", i.chapter_name, self, 5);
+            obj.forEach((i,index)=>{
+                wxParse.wxParse("content" + index, "html", i.description, self, 5);  
                 if (index == obj.length - 1) {
                     wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
                 }
@@ -265,10 +198,45 @@ App({
                 obj[index].contentCopy = item;
                 msgListArr.push(obj[index]);
             })
-            // console.log( msgListArr)
-            obj = msgListArr;
-        }
-
+            // console.log(msgListArr)
+            obj= msgListArr;
+         }else{
+            wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+            obj.forEach((i,index)=>{
+                wxParse.wxParse("content" + index, "html", i.problem_description, self, 5);  
+                if (index == obj.length - 1) {
+                    wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
+                }
+            })
+            // console.log(d.WxParseListArr)
+            let listArr = d.WxParseListArr;
+            listArr.forEach((item, index) => {
+                obj[index].contentCopy = item;
+                msgListArr.push(obj[index]);
+            })
+            // console.log(msgListArr)
+            obj= msgListArr;
+         }
+      
+     }else{
+         console.log(obj)
+        wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+        obj.forEach((i,index)=>{
+            wxParse.wxParse("content" + index, "html", i.chapter_name, self, 5);  
+            if (index == obj.length - 1) {
+                wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
+            }
+        })
+        // console.log(d.WxParseListArr)
+        let listArr = d.WxParseListArr;
+        listArr.forEach((item, index) => {
+            obj[index].contentCopy = item;
+            msgListArr.push(obj[index]);
+        })
+        // console.log( msgListArr)
+        obj= msgListArr;
+     }
+      
         return obj;
     },
     testWxParse(self, objData) {
@@ -276,47 +244,47 @@ App({
         // console.log(obj.content != undefined)
         let d = self.data;
         let msgListArr = [];
-        if (obj.content != undefined) {
-            wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
-            wxParse.wxParse("analysis", "html", obj.analyse, self, 5); //分析
-            // 拿
-            obj.problem_stem_wx = d.content;
-            obj.problem_analyse_wx = d.analysis;
+        if( obj.content != undefined){
+        wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+        wxParse.wxParse("analysis", "html", obj.analyse, self, 5);//分析
+        // 拿
+        obj.problem_stem_wx = d.content;
+        obj.problem_analyse_wx = d.analysis;
             obj.content.forEach((val, index) => {
                 wxParse.wxParse('content' + index, "html", val.content, self, 5);
                 if (index == obj.content.length - 1) {
                     wxParse.wxParseTemArray("WxParseListArr", 'content', obj.content.length, self);
                 }
             })
-            let listArr = d.WxParseListArr;
-            listArr.forEach((item, index) => {
-                obj.content[index].contentCopy = item;
-                msgListArr.push(obj.content[index]);
-            })
-            obj.content = msgListArr;
-        } else {
-            wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
-            obj.problem_stem_wx = d.content;
-            // obj.content = msgListArr;
-            // console.log(obj)
-            // if(obj.child !=  undefined && obj.child.length >0){ // 如果child存在且不为空
-            //     obj.child.forEach((val, index)=>{ // 循环child
-            //         wxParse.wxParse('content' + index, "html", val.stem, self, 5); // 给child中的标题解析
-            //         val.content.forEach( (val, index)=>{ // 循环每一个选项
-            //             if (index == val.content.length - 1) { //
-            //                 wxParse.wxParseTemArray("WxParseListArr", 'content', val.content.length, self); // 开始解析每一个选项
-            //             }
-            //             let listArr = d.WxParseListArr;
-            //             listArr.forEach((item, index) => {
-            //                 val.content[index].contentCopy = item;
-            //                 msgListArr.push(val.content[index]);
-            //             })
-            //             val.content = msgListArr;
-            //         })
-
-            //     })
-            // }
-        }
+        let listArr = d.WxParseListArr;
+        listArr.forEach((item, index) => {
+            obj.content[index].contentCopy = item;
+            msgListArr.push(obj.content[index]);
+        })
+        obj.content = msgListArr;
+    }else{
+        wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+        obj.problem_stem_wx = d.content;
+        // obj.content = msgListArr;
+        // console.log(obj)
+        // if(obj.child !=  undefined && obj.child.length >0){ // 如果child存在且不为空
+        //     obj.child.forEach((val, index)=>{ // 循环child
+        //         wxParse.wxParse('content' + index, "html", val.stem, self, 5); // 给child中的标题解析
+        //         val.content.forEach( (val, index)=>{ // 循环每一个选项
+        //             if (index == val.content.length - 1) { //
+        //                 wxParse.wxParseTemArray("WxParseListArr", 'content', val.content.length, self); // 开始解析每一个选项
+        //             }
+        //             let listArr = d.WxParseListArr;
+        //             listArr.forEach((item, index) => {
+        //                 val.content[index].contentCopy = item;
+        //                 msgListArr.push(val.content[index]);
+        //             })
+        //             val.content = msgListArr;
+        //         })
+               
+        //     })
+        // }
+    }
         return obj;
     },
     testQuestionCom(self) {

@@ -46,7 +46,7 @@
   <!--footer-->
   <view class="code">
     <view class="code_img" bindtap="signin">
-      <image src="../../../../imgs/code_img.png" />
+      <image src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/code_img.png" />
       <text class="sign">签到</text>
     </view>
   </view>

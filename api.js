@@ -100,7 +100,10 @@ let apiurl = {
     cancelAppointment: bq + '/Reservation/cancelAppointment',
     getClassroomInfoFromQrcode: bq + '/Reservation/getClassroomInfoFromQrcode',
     reSubscribeClassroom: bq + '//reSubscribeClassroom',
-    subscribeClassroomSignIn: bq + '/Reservation/signIn'
+    subscribeClassroomSignIn: bq + '/Reservation/signIn',
+    getLiveUrls: bq + "/Live/getLiveUrlForWechat",
+    getSecretData:bq + "/Live/getSecretData",
+    
   },
   user: {
     newLogin: bq + '/login/login',

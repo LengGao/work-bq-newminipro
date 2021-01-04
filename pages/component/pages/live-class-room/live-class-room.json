@@ -3,5 +3,7 @@
   "navigationBarBackgroundColor": "#fff",
   "navigationBarTitleText": "课程直播",
   "navigationBarTextStyle": "black",
-  "usingComponents": {}
+  "usingComponents": {
+    "polyv":"../../../../lib/polyv-sdk/components/polyv/polyv"
+  }
 }

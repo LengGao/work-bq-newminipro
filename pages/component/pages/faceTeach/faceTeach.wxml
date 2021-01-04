@@ -3,17 +3,17 @@
     <view class='nav-title' style="position:absolute;left:46rpx;z-index:100;top:104rpx">
       <text id="gl1" bindtap="goback"></text>
     </view>
-    <image style="width:750rpx;height:450rpx;position:absolute;top:-6rpx" src="../../../../imgs/appointCourse.png" />
+    <image style="width:750rpx;height:450rpx;position:absolute;top:-6rpx" src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/appointCourse.png" />
   </view>
   <!-- 面约授课btn -->
   <view class="appint_main">
     <view class="face_btn" bindtap="tofaceMessage">
       面授约课
-      <image class="clock" src="../../../../imgs/clock.png" />
+      <image class="clock" src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/clock.png" />
     </view>
     <view class="order_btn" bindtap="tomineOrder">
       我的预约
-      <image class="calend" src="../../../../imgs/file.png" />
+      <image class="calend" src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/file.png" />
     </view>
     <!-- 面授约课说明 -->
     <view class="appint_explain">
