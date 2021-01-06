@@ -14,7 +14,7 @@ var e, a, o, i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterat
 var n = getApp(), s = require("../../../../api.js"), wxParse = require("../../../../wxParse/wxParse.js");
 require("../../../../utils/util.js");
 import { getToken, getVideoList, getVideoById } from '../../../../commons/service/index.js'
-// import plv from '../../../../lib/polyv-sdk/index.js';
+
 const serviceError = function (msg) {
   wx.showToast({
     title: msg || '获取数据出错',

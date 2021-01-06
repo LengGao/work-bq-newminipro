@@ -1,6 +1,3 @@
-<view class="video-box">
-<view class="video-box">
+<view>
   <web-view src="{{url}}"></web-view>
 </view>
-</view>
-
