@@ -7,10 +7,10 @@ let app = getApp();
 App({
     onLaunch: function () {
         plv.setApp({
-            apiId:'fue63gnbpi',
+            apiId: 'fue63gnbpi',
             apiSecret: '4041e8c914fe4378880a5626d2547c5a'
         });
-        // this.getSecretData()
+        this.getSecretData()
         //使用polyv
         let that = this
         var e = this,
@@ -51,25 +51,23 @@ App({
         chat_socket_url: null,
     },
     getSecretData() {
-        let option = {        
-        }
+        let option = {}
         wx.request({
             url: api.default.getSecretData,
             data: {},
             method: "GET",
-            dataType:  "json",
+            dataType: "json",
             success: function (res) {
                 console.log(res.data.data)
-                if(res.data.code==0){
+                if (res.data.code == 0) {
                     let data = res.data.data.param
                     wx.setStorageSync('user_id', data.user_id);
-                console.log( data.app_id,data.app_secret)
+                    console.log(data.app_id, data.app_secret)
                     plv.setApp({
                         apiId: data.app_id,
                         apiSecret: data.app_secret
                     });
                 }
-               
             }
         });
     },

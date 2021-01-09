@@ -9,6 +9,7 @@ Page({
     openId:'',
     userName:'',
     avatarUrl:'',
+    viewerId:'',
     userid:'',
     moveParams: {
       scrollLeft: 0
@@ -119,16 +120,21 @@ Page({
     let openId=this.data.openId
     let userName=this.data.userName
     let avatarUrl=this.data.avatarUrl
+    let viewerId = this.data.viewerId
   
 
     // let channelId=this.data.channelId
-    console.log(this.data.channelId)
+    // console.log(this.data.channelId)
     wx.navigateTo({
-      url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}`
+      url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
     })
     //保利威網絡直播
     // wx.navigateTo({
     //   url: `../component/pages/polyv-test/polyv-test?channelId=${channelId}`
+    // })
+      //保利威網絡直播聊天测试
+    // wx.navigateTo({
+    //   url: `../component/pages/polyv-test/polyv-test?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
     // })
   },
   toVideoroom() {
@@ -319,6 +325,7 @@ Page({
           openId:res.info.openId,
           userName:res.info.userName,
           channelId:res.info.channelId,
+          viewerId:res.info.uid,
         
           live_class_id: res.info.classroom_info.live_class_id,
           video_collection_id:res.info.video_info.video_collection_id
@@ -443,7 +450,7 @@ Page({
             app.request({
               url: api.user.newLogin,
               data: { code: t,
-              version:2
+              version:3
               },
               method: 'POST',
               success: function (e) {

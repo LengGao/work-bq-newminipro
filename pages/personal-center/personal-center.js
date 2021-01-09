@@ -57,11 +57,11 @@ Page({
         name: '联系客服',
         id: 1
       },
-      {
-        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
-        tosome: '../component/pages/polyv-test/polyv-test',
-        name: '视频polyv',
-      },
+      // {
+      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
+      //   tosome: '../component/pages/polyv-test/polyv-test',
+      //   name: '视频polyv',
+      // },
     ],
     adminList:[{
       url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/swicth.png',

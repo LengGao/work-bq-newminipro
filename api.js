@@ -103,7 +103,7 @@ let apiurl = {
     subscribeClassroomSignIn: bq + '/Reservation/signIn',
     getLiveUrls: bq + "/Live/getLiveUrlForWechat",
     getSecretData:bq + "/Live/getSecretData",
-    
+    polyvWechatAuth:bq + "/Live/polyvWechatAuth",  
   },
   user: {
     newLogin: bq + '/login/login',

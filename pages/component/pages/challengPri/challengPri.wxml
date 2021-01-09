@@ -13,6 +13,7 @@
 </view>
 <view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
+  
     <view class="text-type padding">      
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>

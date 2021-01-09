@@ -1,12 +1,10 @@
-<view class="plv-mp-demo-ppt-page">
+<view class="plv-mp-demo-watch">
     <polyv
-   hidden="{{true}}"
-    style="width:750rpx;height:500rpx"
     bind:userBanned="handleUserBanned"
     bind:onError="handlePolyvError"
     id="plvMpDemoWatch"
     requestUrl="https://api.polyv.net/live/v3/channel/chat/"
-    allowDanmu="{{ true }}"
+    allowDanmu="{{ false }}"
     skinAlwaysShow="{{ true }}"
     usePlayerSkin="{{ true }}"
     hasAnswerCard="{{true}}"
