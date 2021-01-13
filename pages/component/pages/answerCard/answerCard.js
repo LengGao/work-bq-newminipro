@@ -83,7 +83,6 @@ Page({
       };//以上为初始化加载参数
       url = api.test.getSelfDeterminationBoard
     }
-    
     console.log(option,url)
     app.encryption({//初始化加载函数获取所有题目
       url: url,

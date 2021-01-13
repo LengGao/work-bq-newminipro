@@ -71,7 +71,7 @@ Page({
     //折叠所下拉菜单
     this.setData({
       errordata: WoringData,
-      // collectionList: collectionLi,
+      collectionList: collectionLi,
     })
     console.log('----' + e + '----')
     var tab = {}

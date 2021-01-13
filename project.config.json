@@ -167,6 +167,12 @@
           "pathName": "pages/component/pages/live-class-room/live-class-room",
           "query": "courseId=10",
           "scene": null
+        },
+        {
+          "name": "pages/component/pages/errorCardPir/errorCardPir",
+          "pathName": "pages/component/pages/errorCardPir/errorCardPir",
+          "query": "problem_chapter_id=1&type='error'",
+          "scene": null
         }
       ]
     }

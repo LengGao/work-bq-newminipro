@@ -182,6 +182,8 @@ let apiurl = {
     removeCollection: bq + '/problem/removeCollection',
     submitAnswer: bq + '/problem/submitAnswer',
     getLogAnswer: bq + '/problem/getLogAnswer',
+    getErrorProblemCollectionList: bq + '/problem/getErrorProblemCollectionList',
+    answerErrorProblem: bq + '/problem/answerErrorProblem',
     archivePracticeData: bq + '/problem/archivePracticeData',
     getPracticeDRecordBoard: bq + '/problem/getPracticeDRecordBoard',
     getTestExamList: bq + '/problem/getTestExamList',

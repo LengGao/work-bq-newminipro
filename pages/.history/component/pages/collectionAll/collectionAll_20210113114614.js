@@ -71,7 +71,7 @@ Page({
     //折叠所下拉菜单
     this.setData({
       errordata: WoringData,
-      // collectionList: collectionLi,
+      collectionList: collectionLi,
     })
     console.log('----' + e + '----')
     var tab = {}
@@ -317,7 +317,8 @@ Page({
           })
         } else {
           // console.log()
-          let errorTitle = app.errorWxParse(that, res.list)
+          // let errorTitle = app.errorWxParse(that, res.list)
+          let errorTitle = res.list
           console.log(errorTitle)
           that.setData({
             errordata: errorTitle,

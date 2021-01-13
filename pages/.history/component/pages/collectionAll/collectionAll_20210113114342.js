@@ -71,7 +71,7 @@ Page({
     //折叠所下拉菜单
     this.setData({
       errordata: WoringData,
-      // collectionList: collectionLi,
+      collectionList: collectionLi,
     })
     console.log('----' + e + '----')
     var tab = {}
@@ -298,7 +298,7 @@ Page({
     })
   },
   getErrorTopicFeedbac() {
-    var that = this
+    let that = this
     let problem_course_id = wx.getStorageSync('problem_course_id')
       .problem_course_id
     let option = {
@@ -316,7 +316,6 @@ Page({
             errornodata: false,
           })
         } else {
-          // console.log()
           let errorTitle = app.errorWxParse(that, res.list)
           console.log(errorTitle)
           that.setData({
