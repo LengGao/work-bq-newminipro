@@ -40,13 +40,13 @@ Page({
         class: '',
         click: false
       },
-      // {
-      //   icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/alerm.png',
-      //   name: '',
-      //   action: 'likes',
-      //   class: '',
-      //   click: true
-      // },
+      {
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/alerm.png',
+        name: '',
+        action: 'likes',
+        class: '',
+        click: true
+      },
       {
         icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards%20(3).png',
         name: '下一题',

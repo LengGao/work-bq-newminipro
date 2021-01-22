@@ -1,4 +1,6 @@
-<view class="myCourse" wx:for="{{ funsel }}" wx:key="index" bindtap='toVideoroom' data-id = '{{ item.course_id }}' wx:if="{{ !nodata }}">
+<view class="myCourse" wx:for="{{ funsel }}" wx:key="index" bindtap='toVideoroom' data-id = '{{ item.course_id }}' 
+data-video_collection_id = '{{ item.video_collection_id }}'
+wx:if="{{ !nodata }}">
     <view class="myCourse-content">
         <view class="img-myCourse"><image  style="width:100%;height:100%" src="{{ item.Picture }}" /></view>
         <view class="myCourse-info">

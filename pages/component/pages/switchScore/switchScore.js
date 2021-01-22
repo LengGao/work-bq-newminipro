@@ -2,21 +2,27 @@ let app = getApp();
 var api = require("../../../../api.js")
 Page({
     data: {
-        state:0,
-        checked:false,
-        alldata:[{
-            state:'false',
-            type:'type',
-            id:10
-        }],
-
-        
         practice: false,
         punchCard: false,
         mockExamination: false,
-        pastExamPaper: false
+        pastExamPaper: false,
+        alldata:[{
+            state:1,
+            id:1,
+            title:'提醒',
+            type:'switch1Change'
+        }]
     },
     switch1Change: function (e) {
+        wx.openSetting({
+            success (res) {
+              console.log(res.authSetting)
+              // res.authSetting = {
+              //   "scope.userInfo": true,
+              //   "scope.userLocation": true
+              // }
+            }
+          })
         console.log('switch1 发生 change 事件，携带值为', e.detail.value)
     },
     switch2Change: function (e) {
@@ -131,32 +137,6 @@ Page({
         })
 
     },
-    type(event){
-        console.log(event)
-        let  state = event.currentTarget.dataset.state
-        console.log(state)
-        // let data = this.alldata;
-        if(state){
-            this.setData({
-               'alldata.state':'false'
-            })
-            console.log(this.data.alldata)
-            // let str = JSON.stringify(this.data.alldata)
-         wx.setStorageSync('warnState',this.data.alldata)
-        }else{
-            this.setData({
-                'alldata.state':'true'
-             })
-             console.log(this.data.alldata)
-            //  let str = JSON.stringify(this.data.alldata)
-              wx.setStorageSync('warnState',this.data.alldata)
-        }
-
-        // var a = wx.getStorage('warnStateddd')
-        // console.log(a)
-        
-        // console.log(ab)
-    },
     mockExamination(event) {
         let that = this
         const detail = event.detail.value;
@@ -270,9 +250,9 @@ Page({
             //   data: option,
             success: function (res) {
                 console.log(res)
-                // that.setData({
-                //     alldata: res
-                // })
+                that.setData({
+                    alldata: res
+                })
                 // if (res.data == undefined) {
                 //   that.setData({
                 //     myCourse: res,
@@ -291,10 +271,15 @@ Page({
         })
     },
     onLoad: function () {
-        let state=wx.getStorageSync('warnState')
-        this.setData({
-            state:state
-        })
-        this.getMessagePushList()
+        wx.openSetting({
+            success (res) {
+              console.log(res.authSetting)
+              // res.authSetting = {
+              //   "scope.userInfo": true,
+              //   "scope.userLocation": true
+              // }
+            }
+          })
+        // this.getMessagePushList()
     }
 });

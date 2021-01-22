@@ -30,10 +30,8 @@ Page({
     multipleNum: '0',
     judgmentNum: '0',
     formId: '',
-    tabItems: [
-      {
-        icon:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+    tabItems: [{
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
         name: '上一题',
         action: 'lastQU',
         class: '',
@@ -47,16 +45,14 @@ Page({
       //   id: 2
       // },
       {
-        icon:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
         name: '收藏',
         action: 'likes',
         class: '',
         id: 3,
       },
       {
-        icon:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
         name: '下一题',
         action: 'nextQU',
         class: '',
@@ -64,18 +60,12 @@ Page({
       },
     ],
     ProblemType: '',
-    answerImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerSenceImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerFillImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerShortImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerSceneImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerScenceShortImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerSceneImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerScenceShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     activeAnswer: 'defaultAnswer',
     multishowFillAny: true,
     multishowScenceShortAny: true,
@@ -146,12 +136,17 @@ Page({
       correctAnswer: false,
       donotChangeAnswer: false,
     })
+    let multishowAny =true
+    if(this.data.showAny==false){
+      multishowAny=false
+    }else{
+      multishowAny=true
+    }
     this.setData({
-      answerImg:
-        'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer: 'defaultAnswer',
       correctoption: '',
-      multishowAny: true,
+      multishowAny: multishowAny,
     })
     //如果该题目是从上次保存下来则不提交答案
     let that = this
@@ -159,8 +154,7 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if (this.data.is_lock == 1) {
-    } else {
+    if (this.data.is_lock == 1) {} else {
       this.common()
     }
     if (curindex < 1) {
@@ -208,8 +202,7 @@ Page({
           if (res.data.code == 200) {
             that.setData({
               likes: false, //表示当前题目未收藏
-              [icon]:
-                'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+              [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
               [classes]: '',
               [name]: '收藏',
             })
@@ -252,8 +245,7 @@ Page({
         if (res.data.code == 200) {
           that.setData({
             likes: true,
-            [icon]:
-              'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
+            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
             [classes]: 'active',
             [name]: '已收藏',
           })
@@ -295,16 +287,14 @@ Page({
         // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
-        if (multiselect == '') {
-        } else {
+        if (multiselect == '') {} else {
           that.submitAnswer(multiselect, curID)
         }
       }
     }
     if (that.data.randerTitle.problem_type == 6) {
       //场景提交
-      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
-      } else {
+      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {} else {
         if (this.data.multiselect != '') {
           this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
         } else if (this.data.SceneValue != '') {
@@ -317,16 +307,14 @@ Page({
     if (that.data.randerTitle.hasSubmit) {
       // 其他模式表明已提交过答案
     } else {
-      if (this.data.fillNewAnswer.length == 0) {
-      } else {
+      if (this.data.fillNewAnswer.length == 0) {} else {
         let answer = ''
         this.data.fillNewAnswer.forEach((value) => {
           answer = answer + value + ','
         })
         that.submitAnswer(answer, curID)
       }
-      if (this.data.shortMap == '') {
-      } else {
+      if (this.data.shortMap == '') {} else {
         let answer = this.data.shortMap
         that.submitAnswer(answer, curID)
       }
@@ -335,18 +323,22 @@ Page({
   nextQU() {
     let that = this
     let curID = that.data.curID
+    let multishowAny = true
     this.setData({
       multiselecting: [],
     })
+    if(this.data.showAny==false){
+      multishowAny=false
+    }else{
+      multishowAny=true
+    }
     this.setData({
-      answerImg:
-        'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer: 'defaultAnswer',
       correctoption: '',
-      multishowAny: true,
+      multishowAny: multishowAny,
     })
-    if (this.data.is_lock == 1) {
-    } else {
+    if (this.data.is_lock == 1) {} else {
       this.common()
     }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
@@ -379,8 +371,7 @@ Page({
     let hasBeenLoad = this.data.randerTitle.child[index] //本地缓存
     if (hasBeenLoad.done != undefined && hasBeenLoad.done == true) {
       //已缓存
-    } else {
-    }
+    } else {}
     // let result = hasBeenLoad.find((value) => value.problem_id == ID);
     // console.log(result)
   },
@@ -566,8 +557,7 @@ Page({
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({
-        answerImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
         multishowAny: true,
@@ -600,11 +590,11 @@ Page({
           })
         }
 
-        ;(arr = []), (arr01 = []), (arr02 = [])
+        ;
+        (arr = []), (arr01 = []), (arr02 = [])
       }
       this.setData({
-        answerImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeAnswer: 'activeAnswer',
         correctoption: 'activeoption',
         multishowAny: false,
@@ -617,16 +607,14 @@ Page({
   showSenceAnswer() {
     if (this.data.activeSenceAnswer == 'activeAnswer') {
       this.setData({
-        answerSenceImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeSenceAnswer: 'defaultAnswer',
         correcSencetoption: '',
         multiSenceshowAny: true,
       })
     } else {
       this.setData({
-        answerSenceImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeSenceAnswer: 'activeAnswer',
         correcSencetoption: 'activeoption',
         multiSenceshowAny: false,
@@ -683,6 +671,7 @@ Page({
     })
   },
   getAlltestNumber(options) {
+    console.log(options)
     //开始加载题目详情 problem_id
     if (options.type == 'error') {
       this.setData({
@@ -697,6 +686,7 @@ Page({
         problem_course_id: problem_course_id,
         problem_chapter_id: this.data.problem_chapter_id,
       }
+      console.log(option)
       app.encryption({
         url: api.test.getErrorProblemCollectionList,
         method: 'GET',
@@ -743,41 +733,62 @@ Page({
       this.setData({
         chapterName: '收藏夹',
         navH: app.globalData.navHeight,
-        dialogContent: '该章节收藏夹练习已完成',
+        dialogContent: '该章节收藏夹已到底了,是否退出',
+      //    nosubmit:0,
+      //  lettering: 'normalGo',
+        showAny: false
       })
-      this.initText(options.problem_id)
+      this.getFavoritesList(options)
+     
+
+
+
     }
   },
+  //收藏题目列表
+  getFavoritesList(options) {
+    var that = this
+    let problem_course_id = wx.getStorageSync('problem_course_id')
+    let option = {
+      problem_course_id: problem_course_id.problem_course_id,
+      problem_chapter_id:parseInt (options.problem_chapter_id),
+      page: 1,
+      limit: 99999999
+    }
+    console.log(option)
+    app.encryption({
+      url: api.test.getCollectionProblemList,
+      method: 'GET',
+      data: option,
+      success: function (res) {
+      console.log(res)
+      let data =res.list
+    let alltestID =  data.map((i)=>{
+        return i.problem_id
+      })
+      console.log(alltestID)
+      
+      that.setData({
+        all_current_no: res.list.length, //总题数
+        // challenge_id: res.challenge_id,
+        alltestID: alltestID, //所有题目id
+        nosubmit:0,
+        lettering: 'normalGo',
+        showAny: false,
+        multishowAny:false
+      })
+      console.log(that.data.showAny)
+      that.findcurIndex(alltestID[0], alltestID, 0)
+      //开始加载题目详情
+      that.initText(alltestID[0])
+      
 
-  // getErrorChapterlist() {
-  //     let that = this
-  //     let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
-  //     let option = {
-  //       problem_course_id: problem_course_id,
-  //       problem_chapter_id:this.data.problem_chapter_id
-  //     }
-  //     console.log(option)
-  //     app.encryption({
-  //       url: api.test.getErrorProblemCollectionList,
-  //       method: "GET",
-  //       data: option,
-  //       success: function (res) {
-  //         console.log(res)
-  //         if (res.list.length <= 0) {
-  //           that.setData({
-  //             errornodata: false
-  //           })
-  //         } else {
-  //           let errorTitle = app.errorWxParse(that, res.list)
-  //           that.setData({
-  //             errordata: errorTitle
-  //           })
-  //         }
-  //       },
-  //       fail: function (t) {},
-  //       complete: function () {}
-  //     })
-  //   },
+      },
+      fail: function (t) {},
+      complete: function () {},
+    })
+  },
+
   findcurIndex(curId, allId, start = 1) {
     console.log(allId)
     let curIndexNumber = allId.findIndex((value) => value == curId)
@@ -795,8 +806,7 @@ Page({
       })
       curIndexNumber = 1
       this.setData({
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
       })
     } else if (curIndexNumber >= this.data.all_current_no) {
       wx.showToast({
@@ -807,8 +817,7 @@ Page({
       curIndexNumber = this.data.all_current_no
     } else {
       this.setData({
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
     console.log(curIndexNumber)
@@ -873,7 +882,7 @@ Page({
   sceneCommon() {
     if (
       this.data.randerTitle.child[this.data.senceIndex - 1]
-        .problem_child_type == 2
+      .problem_child_type == 2
     ) {
       //多选题在此提交答案
       if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -928,7 +937,7 @@ Page({
       })
       if (
         this.data.randerTitle.child[this.data.senceIndex - 1]
-          .problem_child_type == 2
+        .problem_child_type == 2
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -941,7 +950,7 @@ Page({
     } else {
       if (
         this.data.randerTitle.child[this.data.senceIndex - 1]
-          .problem_child_type == 2
+        .problem_child_type == 2
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -989,7 +998,13 @@ Page({
           console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
           randerTitle.showAnswer = false
-          randerTitle.done = false
+         console.log('哈哈哈')
+          if(that.data.showAny==false){
+            randerTitle.done = true
+            // randerTitle.showAnswer = true
+          }else{
+            randerTitle.done = false
+          }
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (
@@ -1043,16 +1058,14 @@ Page({
       //是否已收藏
       that.setData({
         likes: true,
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
         [classes]: 'active',
         [name]: '已收藏',
       })
     } else {
       that.setData({
         likes: true,
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
         [classes]: '',
         [name]: '收藏',
       })
@@ -1124,7 +1137,9 @@ Page({
         let courseId = that.data.courseId
         wx.navigateBack({
           success: function () {
-            beforePage.onLoad({ courseId: courseId })
+            beforePage.onLoad({
+              courseId: courseId
+            })
           },
         })
         // let is_lock
@@ -1182,7 +1197,9 @@ Page({
       problem_chapter_id: options.problem_chapter_id,
     })
     //获取屏幕宽高
-    const { windowHeight } = wx.getSystemInfoSync()
+    const {
+      windowHeight
+    } = wx.getSystemInfoSync()
     this.data.windowHeight = windowHeight - 127 - 54
     //先去请求所有题目的id，当点击下一题目的时候用id换题目,获取上次的记录答案
     let that = this
@@ -1258,8 +1275,7 @@ Page({
               if (curindex >= 1) {
                 let icon = 'tabItems[0].icon'
                 that.setData({
-                  [icon]:
-                    'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+                  [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
                 })
               }
               that.data.allRender.length = 0
@@ -1286,8 +1302,7 @@ Page({
           //是否已收藏
           that.setData({
             likes: true,
-            [icon]:
-              'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
+            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
             [classes]: 'active',
             [name]: '已收藏',
           })
@@ -1326,16 +1341,14 @@ Page({
   showfillAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({
-        answerFillImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeFillAnswer: 'defaultAnswer',
         correctFilloption: '',
         multishowFillAny: true,
       })
     } else {
       this.setData({
-        answerFillImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeFillAnswer: 'activeAnswer',
         correctFilloption: 'activeoption',
         multishowFillAny: false,
@@ -1345,16 +1358,14 @@ Page({
   showShortAnswer() {
     if (this.data.activeShortAnswer == 'activeAnswer') {
       this.setData({
-        answerShortImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeShortAnswer: 'defaultAnswer',
         correcShorttoption: '',
         multishowShortAny: true,
       })
     } else {
       this.setData({
-        answerShortImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeShortAnswer: 'activeAnswer',
         correcShorttoption: 'activeoption',
         multishowShortAny: false,

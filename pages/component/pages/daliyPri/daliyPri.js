@@ -330,7 +330,8 @@ Page({
         icon: 'none',
         duration: 2000
       })
-      this.goback()
+    
+      this.goback(2)
       return
     }
     let curId = that.data.alltestID[curindex + 1]; // 获取下一题ID
@@ -985,11 +986,17 @@ Page({
       }
     });
   },
-  goback() {
+  goback(num) {
+    var str = ''
+    if(num==2){
+      str = '您已完成所有题目,请提交打卡记录'
+    }else{
+      str = '您正在退出打卡,是否提交本次做题记录'
+    }
     let that = this
     wx.showModal({
       title: '提示',
-      content: '你正在进行打卡，是否将当前做题情况作为今日打卡记录？',
+      content: str,
       showCancel: true,//是否显示取消按钮
       cancelText: "退出打卡",//默认是“取消”
       cancelColor: '#333333',//取消文字的颜色

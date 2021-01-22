@@ -46,6 +46,16 @@ Page({
     wx.reLaunch({
       url: '../../../../pages/index/index'
     })
+    console.log('测试订阅消息')
+    //测试订阅消息
+  //   wx.requestSubscribeMessage({
+  //     tmplIds: ['uURG_sarlVw6GDtD-svdPEp4GufnIO8v1Mxko6X5T_A'],
+  //     success(res) {
+  //       wx.redirectTo({
+  //         url: `/pages/index/index`
+  //       });
+  //     }
+  // })
   },
   gopri() {
     let id = this.data.courseId
@@ -63,6 +73,8 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
+      
+
         // debugger
         console.log(res.data == undefined,res,res.info.has_clock_in)
         let allData = 'everyDate[0].name', allData1 = 'everyDate[1].name', allData2 = 'everyDate[2].name'

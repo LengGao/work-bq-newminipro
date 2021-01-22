@@ -141,7 +141,7 @@
         {
           "name": "pages/component/pages/test/test",
           "pathName": "pages/component/pages/test/test",
-          "query": "chapter_id=156&courseId=39&name='第二章 会计法律制度'&hasdone:0",
+          "query": "chapter_id=290&courseId=10&name='第二章 市场营销与品牌管理'&hasdone=0",
           "scene": null
         },
         {
@@ -172,6 +172,24 @@
           "name": "pages/component/pages/errorCardPir/errorCardPir",
           "pathName": "pages/component/pages/errorCardPir/errorCardPir",
           "query": "problem_chapter_id=1&type='error'",
+          "scene": null
+        },
+        {
+          "name": "pages/component/pages/errorCardPir/errorCardPir",
+          "pathName": "pages/component/pages/errorCardPir/errorCardPir",
+          "query": "problem_chapter_id=1&problem_id=3&type=collection",
+          "scene": null
+        },
+        {
+          "name": "pages/component/pages/switchScore/switchScore",
+          "pathName": "pages/component/pages/switchScore/switchScore",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/component/pages/switchScore/switchScore",
+          "pathName": "pages/component/pages/switchScore/switchScore",
+          "query": "",
           "scene": null
         }
       ]

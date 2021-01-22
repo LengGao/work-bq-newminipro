@@ -130,6 +130,7 @@ Page({
       method: "GET",
       data: option,
       success: function (e) {
+        console.log(e)
         let chapter = e;
         chapter.forEach((v) => {
           v.isShow = 0;

@@ -3,6 +3,12 @@
 page {
     background: #fff;
 }
+.indexMash{
+position: absolute;
+z-index: 10000000; 
+height: 100%;
+width: 100%;
+}
 
 .fenlei-menu text {
     display: inline-block;

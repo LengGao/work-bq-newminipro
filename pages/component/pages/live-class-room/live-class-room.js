@@ -1,42 +1,49 @@
-import plv from '../../../../lib/polyv-sdk/index';
 let app = getApp();
 let api = require("../../../../api.js")
-
+import plv from '../../../../lib/polyv-sdk/index';
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
+    options: {},
     channelId: '',
     userId: '',
-    indexTab: 2,
-    options: {},
-    detail: {},
   },
-  onLoad(options) {
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+  // forceVideo默认 false, 选择使用video组件或live-player组件直播
+  options.forceVideo = false;
+  // 聊天室自定义userId
+  // options.userId = '1588755973413';
+  // options.param4 = 'param4';
+  // options.param5 = 'param5';
+  plv.init(options)
+    .catch(err => { // error code
+      console.error(err, err.message);
+      wx.showToast({
+        title: err.message,
+        icon: 'none',
+        duration: 2000
+      });
+    });
     this.setData({
       userId: options.viewerId,
       channelId: options.channelId,
     });
     this.polyvWechatAuth()
-    // let user_id=wx.getStorageSync("user_id");
-    // let user_info=wx.getStorageSync("user_info");
-    // let user_id = user_info.userId
-    // options.forceVideo = true;
-    // options.viewerId=user_id
-    console.log(options)
-    plv.init(options)
-      .catch(err => { // error code
-        console.error(err, err.message);
-        wx.showToast({
-          title: err.message,
-          icon: 'none',
-          duration: 2000
-        });
-      });
-  },
 
-  //polyv组件需要的方法
+  },
   onResize() {
     const plyWatch = this.selectComponent('#plvMpDemoWatch');
     plyWatch.handleResize();
+  },
+  onUnload() {
+    plv.destroy();
   },
   // 用户被踢出
   handleUserBanned() {
@@ -45,9 +52,7 @@ Page({
       content: '您未被授权观看本直播',
       showCancel: false,
       complete: () => {
-        wx.navigateBack({
-          url: '/pages/index/index'
-        });
+        wx.navigateBack({ url: '/pages/index/index' });
       }
     });
   },
@@ -70,7 +75,7 @@ Page({
       channelId: this.data.channelId,
       userId: parseInt(this.data.userId)
     }
-    console.log()
+    console.log(option)
     wx.request({
       url: api.default.polyvWechatAuth,
       data: option,
@@ -81,7 +86,53 @@ Page({
       }
     });
   },
-  onUnload() {
-    plv.destroy();
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
   },
-});
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

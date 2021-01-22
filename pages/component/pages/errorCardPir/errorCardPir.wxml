@@ -29,7 +29,7 @@
                 </view>
             </view>
         </label>
-        <view hidden="{{ !randerTitle.done }}" style="margin-bottom:98rpx">
+        <view hidden="{{ showAny }}" style="margin-bottom:98rpx">
             <view class="referData">参考答案</view>
             <view class="topRefer">
                 <text class="correctanswer">正确答案：</text>

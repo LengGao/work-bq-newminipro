@@ -24,8 +24,7 @@ Page({
     historyhasRefesh: '',
     historyhasMore: true,
     historyScroll: '',
-    topSelect: [
-      {
+    topSelect: [{
         name: '收藏夹',
         id: '2',
       },
@@ -60,26 +59,37 @@ Page({
   tabFun: function (t) {
     var e = t.target.dataset.id
     console.log(e)
-    // let collectionLi = this.data. collectionList
-    // collectionLi.forEach((i) => {
-    //   i.isShow = false
-    // })
-    let WoringData = this.data.errordata
-    WoringData.forEach((i) => {
+    let collectionLi = this.data. collectionList
+    console.log(collectionLi)
+    if(collectionLi){
+    collectionLi.forEach((i) => {
       i.isShow = false
     })
-    //折叠所下拉菜单
     this.setData({
-      errordata: WoringData,
-      // collectionList: collectionLi,
+      // errordata: WoringData,
+       collectionList: collectionLi,
     })
-    console.log('----' + e + '----')
-    var tab = {}
-    ;(tab.curHdIndex = e),
-      (tab.curBdIndex = e),
-      this.setData({
-        tabArr: tab,
+  }
+    let WoringData = this.data.errordata
+     //折叠错题集所有下拉菜单
+     console.log(WoringData&&WoringData.length>0)
+    if (WoringData) {
+      console.log(11111)
+      WoringData.forEach((i) => {
+        i.isShow = false
       })
+      this.setData({
+        errordata: WoringData,
+        // collectionList: collectionLi,
+      })
+    }
+    console.log('----' + e + '----')
+    var tab = {};
+    (tab.curHdIndex = e),
+    (tab.curBdIndex = e),
+    this.setData({
+      tabArr: tab,
+    })
   },
   ifShow(e) {
     let d = this.data
@@ -456,8 +466,7 @@ Page({
         console.log(thisFenLeiHeight)
         console.log(app.globalData.navHeight)
         that.setData({
-          historyScroll:
-            screenHeight - app.globalData.navHeight - thisFenLeiHeight + 'px',
+          historyScroll: screenHeight - app.globalData.navHeight - thisFenLeiHeight + 'px',
           // setHeight: screenHeight - thisflexBoxHeight - thisbgcolorHeight+'px'
         })
         console.log(that.data.historyScroll)

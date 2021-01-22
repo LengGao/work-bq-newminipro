@@ -1,8 +1,13 @@
+<!--蒙版触发订阅-->
+<!-- <view class="indexMash" bindtap="subscribe" wx:if="{{indexMaskShow}}">
+</view> -->
 <view class="top-classify">
     <view class="scrow-view">
         <scroll-view scroll-x="true" bindscroll="scrollMove" scroll-with-animation="true">
             <view class="fenlei-menu">
-                <text bindtap="selectmenu" class="teamnum {{menuTop == item.course_id ?'thismenu com_color com_after':''}}" data-key="{{item}}" wx:for="{{course_list}}" wx:key='index' id="scroll-item-{{index}}" data-index="{{index}}">
+                <text bindtap="selectmenu"
+                    class="teamnum {{menuTop == item.course_id ?'thismenu com_color com_after':''}}" data-key="{{item}}"
+                    wx:for="{{course_list}}" wx:key='index' id="scroll-item-{{index}}" data-index="{{index}}">
                     {{item.course_name}}
                 </text>
             </view>
@@ -10,7 +15,8 @@
     </view>
     <!-- <view wx:if="{{ true }}" style="font-size:18rpx;" class="scrow-view">请点击右侧添加图表</view> -->
     <view class="imgs" bindtap="addStory">
-        <image mode="widthFix" class="jiaimg " src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiahao.png"></image>
+        <image mode="widthFix" class="jiaimg " src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiahao.png">
+        </image>
     </view>
 </view>
 <view class="top-container">
@@ -23,7 +29,8 @@
                 <image class='select_img {{selectShow&&"select_img_rotate"}}' background-size="contain"></image>
             </view>
             <view class='option_box' style='height:{{selectShow?216:0}}rpx;'>
-                <text class='option' wx:for="{{course_list}}" wx:key='index' data-index='{{index}}' catchtap='optionTap'>
+                <text class='option' wx:for="{{course_list}}" wx:key='index' data-index='{{index}}'
+                    catchtap='optionTap'>
                     {{ item.name}}
                 </text>
             </view>
@@ -35,11 +42,13 @@
                 <text class="rates">正确率</text>
                 <text class="percentages">{{ accuracy }}%</text>
             </view>
-            <image mode="widthFix" class="jiaimg circles" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/circle@2x.png"></image>
+            <image mode="widthFix" class="jiaimg circles"
+                src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/circle@2x.png"></image>
         </view>
         <view class="right-content">
             <view class="right-menu">
-                <view class="every-menu" wx:for="{{topmenu}}" wx:key="index" bindtap='gocollection' data-number='{{ item.num }}'>
+                <view class="every-menu" wx:for="{{topmenu}}" wx:key="index" bindtap='gocollection'
+                    data-number='{{ item.num }}'>
                     <view class="menu-img">
                         <image mode="widthFix" class="jiaimg" src="{{ item.img }}"></image>
                     </view>
@@ -47,7 +56,8 @@
                 </view>
             </view>
             <view class="right-number">
-                <view class="every-number" wx:for="{{topmenu}}" wx:key="index" bindtap='gocollection' data-number='{{ item.num }}'>
+                <view class="every-number" wx:for="{{topmenu}}" wx:key="index" bindtap='gocollection'
+                    data-number='{{ item.num }}'>
                     <text class="number">{{  item.number }}</text>
                     <text id="gl"></text>
                 </view>
@@ -55,11 +65,13 @@
         </view>
     </view>
 </view>
-<i-action-sheet visible="{{ visible1 }}" actions="{{ actions1 }}" show-cancel bind:cancel="handleCancel1" bind:click="handleClickItem1" />
+<i-action-sheet visible="{{ visible1 }}" actions="{{ actions1 }}" show-cancel bind:cancel="handleCancel1"
+    bind:click="handleClickItem1" />
 <i-message id="message" />
 <view class="middle-top-area">
     <view class="middle-top-right">
-        <image mode="widthFix" class="jiaimg" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/bangong.png"></image>
+        <image mode="widthFix" class="jiaimg" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/bangong.png">
+        </image>
     </view>
     <view class="middle-top-left">
         <text class="title-top-left">每天一个必懂知识点</text>
@@ -97,7 +109,9 @@
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
                     <view style="width:32rpx;height:32rpx;">
-                        <image mode="scaleToFill" class="personal-img-myCourse" src="{{ myCourse.lecturer_img == '' ? '/static/img/default.jpg':  myCourse.lecturer_img}}" binderror="errorFunction"></image>
+                        <image mode="scaleToFill" class="personal-img-myCourse"
+                            src="{{ myCourse.lecturer_img == '' ? '/static/img/default.jpg':  myCourse.lecturer_img}}"
+                            binderror="errorFunction"></image>
                     </view>
                     <text class="personal-name">{{ myCourse.lecturer_name }}</text>
                 </view>
@@ -108,7 +122,9 @@
     <view class="nomyCourse-content" wx:else>
         <view style="display:flex;justify-content:center;align-items:center;flex-direction:column">
             <text style="font-size:24rpx;color:#cecece;letter-spacing:1rpx">还没有找到你的课程</text>
-            <view style="font-size:28rpx;color:#199FFF;margin-top:20rpx;border:1rpx solid #199FFF;padding:5rpx 10rpx;border-radius:15rpx;letter-spacing:1rpx" bindtap='goindex'>
+            <view
+                style="font-size:28rpx;color:#199FFF;margin-top:20rpx;border:1rpx solid #199FFF;padding:5rpx 10rpx;border-radius:15rpx;letter-spacing:1rpx"
+                bindtap='goindex'>
                 发现好课
             </view>
         </view>
@@ -116,7 +132,8 @@
 </view>
 <view class="myCourse" style="margin-bottom:40rpx;margin-top: 20rpx;">
     <view class="title-course">
-        <text class="myCourse-title-live" style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">
+        <text class="myCourse-title-live"
+            style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">
             班级直播
         </text>
         <!-- <text class="course-data" style="display:none">查看课程表</text> -->
@@ -129,7 +146,8 @@
             <text class="myCourse-content-title">{{living.classroom_name}}</text>
             <view class="">
                 <!-- <text class="myCourse-name">会计</text> -->
-                <text class="myCourse-time" style="background:#fff;padding:0;font-size:24rpx;margin:0" wx:if="{{ allData.live_status==1?true:false }}">
+                <text class="myCourse-time" style="background:#fff;padding:0;font-size:24rpx;margin:0"
+                    wx:if="{{ allData.live_status==1?true:false }}">
                     直播时间：{{ allData.live_time }}
                 </text>
                 <text class="live-review" wx:else>直播回顾</text>
@@ -137,7 +155,9 @@
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
                     <view style="width:32rpx;height:32rpx;">
-                        <image mode="scaleToFill" class="personal-img-myCourse" src="{{living.teacher_img == '' ? '/static/img/default.jpg': living.teacher_img }}" binderror="errorLiving"></image>
+                        <image mode="scaleToFill" class="personal-img-myCourse"
+                            src="{{living.teacher_img == '' ? '/static/img/default.jpg': living.teacher_img }}"
+                            binderror="errorLiving"></image>
                     </view>
                     <text class="personal-name">{{living.teacher_name}}</text>
                 </view>

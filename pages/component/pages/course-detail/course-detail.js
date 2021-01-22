@@ -11,9 +11,15 @@ var e, a, o, i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterat
 } : function (t) {
   return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t;
 };
-var n = getApp(), s = require("../../../../api.js"), wxParse = require("../../../../wxParse/wxParse.js");
+var n = getApp(),
+  s = require("../../../../api.js"),
+  wxParse = require("../../../../wxParse/wxParse.js");
 require("../../../../utils/util.js");
-import { getToken, getVideoList, getVideoById } from '../../../../commons/service/index.js'
+import {
+  getToken,
+  getVideoList,
+  getVideoById
+} from '../../../../commons/service/index.js'
 
 const serviceError = function (msg) {
   wx.showToast({
@@ -25,39 +31,39 @@ let app = getApp();
 var api = require("../../../../api.js")
 Page({
   data: {
-  // videoOption : {
-  //     mode: 'vod',
-  //     vodVid:'879bbcba3973d9e27b430b5b406c0246_8',
-  //     // mode: 'live',
-  //     // uid: '879bbcba39', // 直播频道uid   userId
-  //     // cid: '1609134574258_8', // 直播频道channelId
-  //     // isAutoChange: true, // 自动切换直播和暂存。
-  //     // vodsrc: '', // 指定回放地址。有暂存视频的情况下，传入暂存视频的mp4或者m3u8。
-  //     // forceVideo: Boolean, // 是否强制使用video标签作为播放器，建议使用live-player
-  //     // statistic: { // 播放器自定义统计参数, 如需添加param4、param5参数，详情见下面init方法详解
-  //     //   param1: 'param1',
-  //     //   // param2: 'param2',
-  //     //   // param3: 'param3'
-  //     // }
-  //  },
-    uid:'',
-    info_show:'',
+    class_type: '',
+    // videoOption : {
+    //     mode: 'vod',
+    //     vodVid:'879bbcba3973d9e27b430b5b406c0246_8',
+    //     // mode: 'live',
+    //     // uid: '879bbcba39', // 直播频道uid   userId
+    //     // cid: '1609134574258_8', // 直播频道channelId
+    //     // isAutoChange: true, // 自动切换直播和暂存。
+    //     // vodsrc: '', // 指定回放地址。有暂存视频的情况下，传入暂存视频的mp4或者m3u8。
+    //     // forceVideo: Boolean, // 是否强制使用video标签作为播放器，建议使用live-player
+    //     // statistic: { // 播放器自定义统计参数, 如需添加param4、param5参数，详情见下面init方法详解
+    //     //   param1: 'param1',
+    //     //   // param2: 'param2',
+    //     //   // param3: 'param3'
+    //     // }
+    //  },
+    uid: '',
+    info_show: '',
     isIOS: n.globalData.isIOS,
     currentTab: 0,
-    endTime: '2020-4-20 19:56:00',//2018/11/22 10:40:30这种格式也行
+    endTime: '2020-4-20 19:56:00', //2018/11/22 10:40:30这种格式也行
     visible2: false,
 
     tabArr: {
       curHdIndex: 2,
       curBdIndex: 2
     },
-    live_class_id:'',
-    live_id:'',
+    live_class_id: '',
+    live_id: '',
     chooseOrNot: -1,
     starIndex2: 0,
     starIndextext: '请选择星级',
-    tips: [
-      {
+    tips: [{
         name: '干货满满',
         number: '7',
         id: '0',
@@ -164,20 +170,20 @@ Page({
     testWorker: null,
     repeated: null,
     isHide: false,
-    courseId:'',
-    class_video_id:'',
-    video_cellection_id:''
+    courseId: '',
+    class_video_id: '',
+    video_cellection_id: ''
   },
   sumbitComment() {
-    if (this.data.value2 == '') {
-      wx.showToast({
-        title: '请完善评价内容',
-        icon: 'none',
-        mask: true,
-        duration: 2000
-      })
-      return
-    }
+    // if (this.data.value2 == '') {
+    //   wx.showToast({
+    //     title: '请完善评价内容',
+    //     icon: 'none',
+    //     mask: true,
+    //     duration: 2000
+    //   })
+    //   return
+    // }
     let that = this
     let option = {
       course_id: parseInt(this.data.courseId),
@@ -191,24 +197,25 @@ Page({
       method: "POST",
       data: option,
       success: function (res) {
-        wx.showToast({
-          title: '发表评论成功！',
-          icon: 'success',
-          mask: true,
-          duration: 1200,
-          success: function () {
-            that.setData({
-              visible2: false,
-              value2: ''
-            });
-          },
-        })
-        that.getcomment()
+        console.log(res)
+        if (res.data.code == 0) {
+          wx.showToast({
+            title: '发表评论成功！',
+            icon: 'success',
+            mask: true,
+            duration: 1200,
+            success: function () {
+              that.setData({
+                visible2: false,
+                value2: ''
+              });
+            },
+          })
+          that.getcomment()
+        }
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
   },
   sureSomething() {
@@ -359,7 +366,8 @@ Page({
       });
   },
   showGallery: function (e) {
-    var a, o = e.currentTarget.dataset.current, i = this.data.urls;
+    var a, o = e.currentTarget.dataset.current,
+      i = this.data.urls;
     $wuxGallery.show((a = {
       current: o,
       urls: i
@@ -380,9 +388,9 @@ Page({
   },
   countDown: function () {
     var that = this;
-    var nowTime = new Date().getTime();//现在时间（时间戳）
-    var endTime = new Date(that.data.endTime).getTime();//结束时间（时间戳）
-    var time = (endTime - nowTime) / 1000;//距离结束的毫秒数
+    var nowTime = new Date().getTime(); //现在时间（时间戳）
+    var endTime = new Date(that.data.endTime).getTime(); //结束时间（时间戳）
+    var time = (endTime - nowTime) / 1000; //距离结束的毫秒数
     // 获取天、时、分、秒
     let day = parseInt(time / (60 * 60 * 24));
     let hou = parseInt(time % (60 * 60 * 24) / 3600);
@@ -423,16 +431,15 @@ Page({
       data: option,
       success: function (res) {
         let courseInfo = res;
+        console.log(res)
         var a = courseInfo.about + "<span></span>";
         wxParse.wxParse("content", "html", a, that, 5);
         that.setData({
           courseInfo: res
         })
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
   },
   goPri() {
@@ -442,11 +449,12 @@ Page({
     })
   },
   listen: function (t) {
+    console.log(t)
     let that = this
     let option = {
       course_id: parseInt(t.courseId),
-      live_id:that.data.live_id,
-      video_collection_id:t.video_collection_id
+      live_id: that.data.live_id,
+      video_collection_id: t.video_collection_id
     }
     console.log(option)
     app.encryption({
@@ -458,7 +466,7 @@ Page({
         that.setData({
           learnTime: res.data.listen_time,
           lessonId: res.listen_id,
-          class_video_id:res.video_class_id
+          class_video_id: res.video_class_id
         })
         that.playVideo(res.data.play_info, res.data.listen_time)
         // if (res.data == undefined) {
@@ -469,10 +477,8 @@ Page({
         //   })
         // }
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
   },
   play(listen_id, listen_time) {
@@ -494,7 +500,7 @@ Page({
         that.setData({
           video_mid: res.video_mid,
         })
-        if (res.free == 1 && res.buy == 1) {//免费或者已购买
+        if (res.free == 1 && res.buy == 1) { //免费或者已购买
           that.setData({
             isPay: true
           })
@@ -524,10 +530,8 @@ Page({
           }
         })
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
     this.coursedetail()
     this.webSocket()
@@ -573,6 +577,17 @@ Page({
       chapter: d.chapter
     })
   },
+  toCourseDetail(e) {
+    let course_id = e.currentTarget.dataset.course_id
+    let video_collection_id = e.currentTarget.dataset.video_collection_id
+    // console.log(course_id)
+    // console.log(e.currentTarget)
+    wx.navigateTo({
+      url: `../course-detail/course-detail?video_id=${course_id}&courseId=${course_id}&video_collection_id=${video_collection_id}`
+    })
+    console.log('不会把')
+  },
+
   webSocket() {
     let that = this
     let uid = wx.getStorageSync("user_info").uid
@@ -584,7 +599,7 @@ Page({
     // 创建Socket
     that.SocketTask = wx.connectSocket({
       // url: 'wss://api.beiqujy.com/wss',
-      url:  api.default.sockForCount + `?token=${tokens}&students_user_id=${uid}&count_type=1&from=1&listen_time=${listen_time}&class_video_id=${class_video_id}&course_id=${course_id}&video_cellection_id=${video_cellection_id}`,
+      url: api.default.sockForCount + `?token=${tokens}&students_user_id=${uid}&count_type=1&from=1&listen_time=${listen_time}&class_video_id=${class_video_id}&course_id=${course_id}&video_cellection_id=${video_cellection_id}`,
       header: {
         'content-type': 'application/json'
       },
@@ -667,14 +682,36 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-        that.setData({
-          chapter: res
-        })
+
+        if (res.class_type) {
+          var arr = []
+          let data = res
+          // delete data.class_type;
+          for(let i  in data){
+            console.log(i)
+            if(i=='class_type'){}else{
+              arr.push(data[i])
+            }
+          }
+          // arr.push(data)
+           console.log(arr)
+          // let arr = Array.from(data)
+          console.log(arr); 
+          console.log( res.class_type); 
+          that.setData({
+            chapter: arr,
+            class_type: res.class_type
+          })
+         
+        } else {
+          that.setData({
+            chapter: res
+          })
+        }
+
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
   },
   getcomment() {
@@ -682,19 +719,19 @@ Page({
     let option = {
       course_id: this.data.courseId
     }
+    console.log(option)
     app.encryption({
       url: api.default.getcomment,
       method: "GET",
       data: option,
       success: function (res) {
+        console.log(res)
         that.setData({
           comment_list: res
         })
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
   }, // onload
   getProgrammePosters() {
@@ -713,10 +750,8 @@ Page({
           imgUrl: res.imgUrl
         })
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
   },
   changes(e) {
@@ -725,11 +760,11 @@ Page({
     })
   },
   onLoad: function (option = {}) {
-    let user_info=wx.getStorageSync("user_info");
-    if(user_info){
+    let user_info = wx.getStorageSync("user_info");
+    if (user_info) {
       this.setData({
-        uid:user_info.uid,
-        info_show :user_info.info_show 
+        uid: user_info.uid,
+        info_show: user_info.info_show
       })
     }
     console.log(this.data.uid)
@@ -738,27 +773,26 @@ Page({
     this.setData({
       video_id: option.video_id || this.data.video_id,
       courseId: option.courseId || this.data.courseId,
-      live_id:option.live_id,
-      live_class_id:option.live_class_id,
-      video_collection_id:option.video_collection_id
+      live_id: option.live_id,
+      live_class_id: option.live_class_id,
+      video_collection_id: option.video_collection_id
     });
-    // this.listen(option)//获取播放信息
+    console.log(option)
+     this.listen(option)//获取播放信息
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {
         this.data.isAndroid = true
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     // this.webSocket()//开启socket
-    this.getCourse()//获取课程目录
-    this.coursedetail()//获取课程介绍
-    this.getcomment()//获取课程评论
-    this.getProgrammePosters()//获取课程封面
+    this.getCourse() //获取课程目录
+    this.coursedetail() //获取课程介绍
+    this.getcomment() //获取课程评论
+    this.getProgrammePosters() //获取课程封面
   },
-  onShow: function () { },
-  onHide: function () {
-  },
+  onShow: function () {},
+  onHide: function () {},
   onUnload: function () {
     this.isHide = true;
     wx.closeSocket();
@@ -766,8 +800,8 @@ Page({
     clearInterval(this.socketTime)
     this.repeated = null
   },
-  onPullDownRefresh: function () { },
-  onReachBottom: function () { },
+  onPullDownRefresh: function () {},
+  onReachBottom: function () {},
   // onShareAppMessage: function () {
   //   var t = this, e = wx.getStorageSync("user_info");
   //   // t.shareSuccess();
@@ -818,7 +852,8 @@ Page({
     });
   },
   playAudio: function () {
-    var t = this; a.play(), a.src || (a.src = t.data.video.chapter[t.data.current_chapter].video_url),
+    var t = this;
+    a.play(), a.src || (a.src = t.data.video.chapter[t.data.current_chapter].video_url),
       0 == t.data.can_play && wx.showLoading({
         title: "缓冲中"
       });
@@ -835,18 +870,19 @@ Page({
     this.setData({
       lessonId: t.currentTarget.dataset.key,
       learnTime: 0,
-      class_video_id:t.currentTarget.dataset.key
+      class_video_id: t.currentTarget.dataset.key
     })
     // this.onLoad()
     this.play(t.currentTarget.dataset.key)
 
   },
   buyVideo: function () {
-    var that = this, e = this.data.video;
+    var that = this,
+      e = this.data.video;
     let d = this.data;
     (wx.showLoading({
-      title: "提交中"
-    }),
+        title: "提交中"
+      }),
       app.encryption({
         url: api.default.wxauth,
         method: "POST",
@@ -872,10 +908,10 @@ Page({
                 title: "订单支付成功",
                 icon: "success"
               })
-              that.getCourse()//获取课程目录
-              that.coursedetail()//获取课程介绍
-              that.getcomment()//获取课程评论
-              that.getProgrammePosters()//获取课程封面
+              that.getCourse() //获取课程目录
+              that.coursedetail() //获取课程介绍
+              that.getcomment() //获取课程评论
+              that.getProgrammePosters() //获取课程封面
             },
             fail: function (t) {
               console.log(t)
@@ -942,9 +978,11 @@ Page({
     });
   },
   setCountDown: function () {
-    var t = this, e = t.data.pintuan_time;
+    var t = this,
+      e = t.data.pintuan_time;
     if ((e -= 1) > 0) {
-      var a = t.getFormat(e), i = a.dd + "天" + a.hh + ":" + a.mm + ":" + a.ss;
+      var a = t.getFormat(e),
+        i = a.dd + "天" + a.hh + ":" + a.mm + ":" + a.ss;
       t.setData({
         pintuan_time: e,
         formatTime: a,
@@ -953,16 +991,18 @@ Page({
     }
   },
   getFormat: function (t) {
-    var e = parseInt(t), a = 0, o = 0, i = 0;
+    var e = parseInt(t),
+      a = 0,
+      o = 0,
+      i = 0;
     return e > 60 && (a = parseInt(e / 60), e = parseInt(e % 60), a > 60 && (o = parseInt(a / 60),
-      a = parseInt(a % 60), o > 24 && (i = parseInt(o / 24), o = parseInt(o % 24)))),
-      e = e > 9 ? e : "0" + e, a = a > 9 ? a : "0" + a, o = o > 9 ? o : "0" + o, i = i > 9 ? i : "0" + i,
-    {
-      ss: e,
-      mm: a,
-      hh: o,
-      dd: i
-    };
+        a = parseInt(a % 60), o > 24 && (i = parseInt(o / 24), o = parseInt(o % 24)))),
+      e = e > 9 ? e : "0" + e, a = a > 9 ? a : "0" + a, o = o > 9 ? o : "0" + o, i = i > 9 ? i : "0" + i, {
+        ss: e,
+        mm: a,
+        hh: o,
+        dd: i
+      };
   },
   // 阿里云
   // 视频缓冲触发事件
@@ -1032,7 +1072,9 @@ Page({
   },
   switchRate(e) {
     let dataset = e.currentTarget.dataset
-    let { rate } = dataset
+    let {
+      rate
+    } = dataset
     console.log(this.data.videoplaying)
     if (this.data.videoplaying) {
       this.videoContext.playbackRate(Number(rate))
@@ -1047,7 +1089,10 @@ Page({
     this.data.isSwitchDefinition = true
 
     let dataset = e.currentTarget.dataset
-    let { url, def } = dataset
+    let {
+      url,
+      def
+    } = dataset
 
     this.setData({
       currentResource: url,
@@ -1076,7 +1121,9 @@ Page({
   },
   // 进度改变执行
   timeUpdate(e) {
-    let { currentTime } = e.detail
+    let {
+      currentTime
+    } = e.detail
     this.data.currentTime = currentTime
     this.data.videoplaying = true
     if (this.data.videoplaying && this.data.currentRate != 1.0) {
@@ -1088,15 +1135,25 @@ Page({
     this.data.videoplaying = false
   },
   fullScreen(e) {
-    let { fullScreen, direction } = e.detail
+    let {
+      fullScreen,
+      direction
+    } = e.detail
     console.log(e)
     let fullScreenData = ""
     if (fullScreen) {
       fullScreenData = " full-screen " + direction
-      this.setData({ controlHidden: false })
+      this.setData({
+        controlHidden: false
+      })
     }
-    console.log({ fullScreen, direction })
-    this.setData({ fullScreenData })
+    console.log({
+      fullScreen,
+      direction
+    })
+    this.setData({
+      fullScreenData
+    })
     console.log(this.data.fullScreenData)
   },
   loadData(cb) {
@@ -1106,8 +1163,12 @@ Page({
     if (this.data.userInfo !== null) {
       this.getVideoList(cb)
     } else {
-      getToken({ url: '/user/randomUser' })
-        .then(({ data }) => {
+      getToken({
+          url: '/user/randomUser'
+        })
+        .then(({
+          data
+        }) => {
           console.log(data)
           this.data.userInfo = data
           this.getVideoList()
@@ -1123,16 +1184,23 @@ Page({
     if (this.data.userInfo === null) {
       reject(new Error('no user'))
     } else {
-      let { token } = this.data.userInfo
-      let { page, size } = this.data
+      let {
+        token
+      } = this.data.userInfo
+      let {
+        page,
+        size
+      } = this.data
       getVideoList({
-        url: '/vod/getRecommendVideoList',
-        data: {
-          token,
-          pageIndex: page,
-          pageSize: size,
-        }
-      }).then(({ data }) => {
+          url: '/vod/getRecommendVideoList',
+          data: {
+            token,
+            pageIndex: page,
+            pageSize: size,
+          }
+        }).then(({
+          data
+        }) => {
 
           if (page === 1) {
             this.playVideo(data.videoList[0].videoId)
@@ -1190,8 +1258,7 @@ Page({
         console.log(res + '失败');
         // 转发失败
       },
-      complete: function (res) {
-      }
+      complete: function (res) {}
     }
   }
 });

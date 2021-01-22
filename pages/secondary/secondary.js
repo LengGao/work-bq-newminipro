@@ -141,7 +141,7 @@ Page({
   },
   checkAll(e, f) {
     wx.navigateTo({
-      url: "../component/pages/pages/AllTestPir/AllTestPir?id=2&name=免费课程"
+      url: "../component/pages/AllTestPir/AllTestPir?id=2&name=免费课程"
     });
   },
   checkAlls(e, f) {

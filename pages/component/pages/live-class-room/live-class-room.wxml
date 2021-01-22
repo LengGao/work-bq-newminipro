@@ -1,5 +1,5 @@
 <view class="plv-mp-demo-watch">
-    <polyv
+  <polyv
     bind:userBanned="handleUserBanned"
     bind:onError="handlePolyvError"
     id="plvMpDemoWatch"
