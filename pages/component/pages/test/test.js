@@ -104,8 +104,21 @@ Page({
     shortSceneMap: '',
     fillNewAnswer: [],
     isfullScreen: false, //答题选项是否布满
+    sceneShortMaskShow:false,//场景题简答遮罩层
   },
   fullScreen(e) {
+    //判断是否是第一次点击提示文字
+    let senceFullScreen  = wx.getStorageSync("senceFullScreen")
+   if(senceFullScreen){
+     
+   }else{
+    wx.showToast({
+      title: '点击灰色箭头可查看下方案例小题',
+      icon: 'none',
+      duration: 4000
+    })
+    wx.setStorageSync("senceFullScreen",true);
+   }
     let screenHeight = wx.getSystemInfoSync().windowHeight
     let answerScroll = screenHeight - app.globalData.navHeight - 150
     console.log(answerScroll)
@@ -151,7 +164,10 @@ Page({
     //如果该题目是从上次保存下来则不提交答案
     let that = this
     this.setData({
-      multiselecting: []
+      multiselecting: [],
+      wrongAnswer: false,
+      correctAnswer: false,
+      donotChangeAnswer: false,
     })
     this.setData({
       answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
@@ -163,9 +179,9 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if (this.data.is_lock == 1) {} else {
-      this.common()
-    }
+    // if (this.data.is_lock == 1) {} else {
+    this.common()
+    // }
     if (curindex < 1) {
       return
     }
@@ -328,12 +344,18 @@ Page({
       answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer: 'defaultAnswer',
       correctoption: '',
-      multishowAny: true
+      multishowAny: true,
+      answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeShortAnswer: 'defaultAnswer',
+      correcShorttoption: '',
+      multishowShortAny: true,
+      multishowScenceShortAny: true,
     })
     let curID = that.data.curID
-    if (this.data.is_lock == 1) {} else {
-      this.common()
-    }
+
+    // if (this.data.is_lock == 1) {} else {
+    this.common()
+    // }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
     that.saveRander(curID)
     //首先获取下一题的ID
@@ -446,7 +468,7 @@ Page({
       })
       return
     }
-    if (this.data.randerTitle.child&&this.data.randerTitle.child[this.data.senceIndex - 1].done) { //如果已选答案，再次点击不再触发
+    if (this.data.randerTitle.child && this.data.randerTitle.child[this.data.senceIndex - 1].done) { //如果已选答案，再次点击不再触发
       wx.showToast({
         title: '答案已出,当前题目无法作答',
         icon: 'none',
@@ -507,9 +529,7 @@ Page({
         multiselect: multiselect.toString() + ','
       })
     }
-
-
-    if (answer.includes(option)) {
+      if (answer.includes(option)) {
       console.log(option)
       color.color = true
       console.log(this.data.removeColorOption == option)
@@ -591,11 +611,8 @@ Page({
     }
   },
   showSenceAnswer() {
-    console.log(this.data.randerTitle.child[this.data.senceIndex - 1])
-    console.log(this.data.randerTitle)
-    this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = false
+ this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = false
     if (this.data.activeSenceAnswer == 'activeAnswer') {
-      console.log(this.data.randerTitle)
       this.setData({
         answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeSenceAnswer: 'defaultAnswer',
@@ -665,25 +682,36 @@ Page({
         for (let i = 0; i <= index; i++) {
           if (res.list[i].problem_id == that.data.randerTitle.problem_id) {
             let answer = res.list[i].answer.split(',');
+            //用户没有作答时
+            if (res.list[i].answer != "") {
+              that.data.randerTitle.showAnswer = true
+              that.data.randerTitle.done = true
+            } else {
+              that.data.randerTitle.showAnswer = false
+              that.data.randerTitle.done = false
+            }
+            // answer.length>0?that.data.randerTitle.showAnswer=true:that.data.randerTitle.showAnswer=false
             console.log(answer)
             for (let j = 0; j < that.data.randerTitle.content.length; j++) {
               for (let k = 0; k < answer.length; k++) {
-                console.log(that.data.randerTitle.content[j])
+                // console.log(that.data.randerTitle.content[j])
                 if (that.data.randerTitle.content[j].option == answer[k]) {
                   console.log(that.data.randerTitle.answer, answer[k])
                   console.log(that.data.randerTitle.answer.indexOf(answer[k]))
                   if (that.data.randerTitle.answer.indexOf(answer[k]) != -1) {
                     that.data.randerTitle.content[j].color = true
                     that.data.randerTitle.content[j].err = false
+                    that.data.randerTitle.content[j].haschose = true
                   } else {
                     that.data.randerTitle.content[j].color = false
                     that.data.randerTitle.content[j].err = true
+                    that.data.randerTitle.content[j].haschose = true
                   }
                 }
               }
             }
             that.data.randerTitle.option = res.list[i].answer
-            that.data.randerTitle.done = true;
+            // that.data.randerTitle.done = true;
             that.setData({
               randerTitle: that.data.randerTitle
             })
@@ -708,6 +736,7 @@ Page({
       problem_chapter_id: options.chapter_id,
       is_lock: is_lock
     }
+    console.log(option)
     app.encryption({ //初始化加载函数获取所有题目ID
       url: api.test.createPracticeData,
       data: option,
@@ -798,6 +827,7 @@ Page({
           if (that.data.randerTitle.problem_type == 6) {
             console.log(curID)
             that.data.randerTitle.child[curID].hasSubmit = true
+
           }
           // that.data.randerTitle.hasSubmit = true
           that.setData({
@@ -840,23 +870,25 @@ Page({
           this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
         }
       }
+    }else{
+      this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
     }
   },
   bindsenceNext() {
     let that = this
-    // this.setData({
-     
-    // })
     this.setData({
       answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeSenceAnswer: 'defaultAnswer',
       correcSencetoption: '',
       multiSenceshowAny: true,
-      multiselecting: []
+      multiselecting: [],
+      //场景简答题重置
+      answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeShortAnswer: 'defaultAnswer',
+      correcShorttoption: '',
+      multishowShortAny: true,
+      multishowScenceShortAny: true,
     })
-    // this.setData({
-    //   multiselecting: []
-    // })
     console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
     // this.saveScenceRander()
     if (this.data.senceIndex < this.data.senceNum) {
@@ -888,7 +920,13 @@ Page({
       activeSenceAnswer: 'defaultAnswer',
       correcSencetoption: '',
       multiSenceshowAny: true,
-      multiselecting: []
+      multiselecting: [],
+      //场景简答题重置
+      answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeShortAnswer: 'defaultAnswer',
+      correcShorttoption: '',
+      multishowShortAny: true,
+      multishowScenceShortAny: true,
     })
     console.log(this.data.senceIndex); // 点击下一题减少-1
     if (this.data.senceIndex <= 1) {
@@ -938,13 +976,13 @@ Page({
         ProblemType: randerTitle.problem_type,
         curID: randerTitle.problem_id
       });
-       // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
-      if(randerTitle.problem_type == 6){
+      // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
+      if (randerTitle.problem_type == 6) {
         if (randerTitle.child != undefined && randerTitle.child.length > 0) {
           that.setData({
             // randerTitle: randerTitle,
-             senceNum: randerTitle.child.length,
-             senceIndex: 1,
+            senceNum: randerTitle.child.length,
+            senceIndex: 1,
             // ProblemType: randerTitle.problem_type,
             // curID: randerTitle.problem_id
           });
@@ -960,21 +998,24 @@ Page({
         method: 'GET',
         dataType: "json",
         success: function (res) {
+
           console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
+          console.log(randerTitle)
           randerTitle.showAnswer = false
           randerTitle.done = false
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {
-              randerTitle.child.forEach((val, index) => {             
+              randerTitle.child.forEach((val, index) => {
                 val = app.testWxParse(that, val) //将解析后的赋值
-                val.showAnswer=false
-                val.done=false
-              console.log(val)
+                console.log(val)
+                val.showAnswer = false
+                val.done = false
+
               });
             }
-            console.log(randerTitle)
+
             // 判断当前题目是否已收藏
             that.collectOrNot(randerTitle)
             that.setData({
@@ -1333,22 +1374,50 @@ Page({
       })
     }
   },
-  showShortAnswer() {
+  showShortAnswer(e) {
+    let num = e.currentTarget.dataset.num
+    if (num == 1) {
+      this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = true
+    } else {
+      this.data.randerTitle.showAnswer = true
+    }
+    // this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = true
+
     if (this.data.activeShortAnswer == 'activeAnswer') {
       this.setData({
         answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeShortAnswer: 'defaultAnswer',
         correcShorttoption: '',
-        multishowShortAny: true
+        multishowShortAny: true,
+        multishowScenceShortAny: true,
+        randerTitle: this.data.randerTitle
       })
     } else {
       this.setData({
         answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeShortAnswer: 'activeAnswer',
         correcShorttoption: 'activeoption',
-        multishowShortAny: false
+        multishowShortAny: false,
+        multishowScenceShortAny: false,
+        randerTitle: this.data.randerTitle
       })
     }
+  },
+  showSceneShortMask(){
+    if( this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer) {
+      wx.showToast({
+        title: '答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if(this.data.sceneShortMaskShow==false && this.data.isfullScreen ==false){
+      this.fullScreen()
+    }
+    this.setData({
+      sceneShortMaskShow:!this.data.sceneShortMaskShow
+    })
   },
   updateShortValue(event) {
     let value = event.detail.value
@@ -1366,8 +1435,11 @@ Page({
   },
   updateShorScenetValue(event) {
     let value = event.detail.value
+   this.data.randerTitle.child[this.data.senceIndex - 1].shortMap = value
+    // this.data.randerTitle.shortMap = value
     this.setData({
-      shortSceneMap: value
+      shortSceneMap: value,
+      randerTitle: this.data.randerTitle
     })
   },
   bindKeyInput(e) {

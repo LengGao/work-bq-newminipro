@@ -14,8 +14,7 @@
 <view hidden="{{ ProblemType == '1'?false:true }}" class="questions-box" bindtouchstart='touchStart'
     bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <!-- 单选题 -->
-
-    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
+<view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word;">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
     <radio-group class="checked padding">
@@ -55,7 +54,7 @@
         </view>
     </radio-group>
 </view>
- <!--多选 -->
+<!--多选 -->
 <view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd"
     hidden="{{ ProblemType == '2'?false:true }}" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
@@ -201,14 +200,16 @@
         </view>
     </view>
 </view>
+<!--简答题-->
 <view hidden="{{ ProblemType == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart'
     bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
-    <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入答案" bindinput="updateShortValue"
-        data-name='content' value="{{randerTitle.shortMap}}"></textarea>
-    <view class="wrapper-option" bindtap="showShortAnswer">
+    <textarea name="" id="jianda" cols="30" rows="10" placeholder="请输入答案"
+        disabled="{{randerTitle.showAnswer?true:false}}" bindinput="updateShortValue" data-name='content'
+        value="{{randerTitle.shortMap}}"></textarea>
+    <view class="wrapper-option" bindtap="showShortAnswer" data-num="2">
         <view class="correctoptions {{ correcShorttoption }}">
             <image src="{{answerShortImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
             <text class=" {{activeShortAnswer}}">答案</text>
@@ -232,29 +233,41 @@
 </view>
 <view hidden="{{ ProblemType == '6'?false:true }}" class="questions-box2" bindtouchstart='touchStart'
     bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
-    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word;margin-bottom:240px">
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word;margin-bottom:255px;text-indent:2em; line-height:45rpx">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
-    <view class="{{isfullScreen?'answerScreen2':'answerScreen'}}">
-        <!-- <view bindtouchstart="starDrag" bindtouchmove="endDrag" style="height:30rpx"><image style="width:100%;height:100%" src="../../../../imgs/drag.png"></image></view>	 -->
+    <view class="{{isfullScreen?'answerScreen2':'answerScreen'}}"> 
         <!-- 点击展开收起--->
-        <view style="height:30rpx" bindtap='fullScreen'>
-            <image style="width:100%;height:100%" src="../../../../imgs/drag.png"></image>
+        <view style="height:30rpx; {{ isfullScreen?   'background: rgba(0,0,0,0.4)':''}}" bindtap='fullScreen'  class="{{ isfullScreen?   '':'fullScreenImage'}}">
+            <image style="width:100%;height:100%" class="{{ isfullScreen?   '':'fullScreenImage'}}"      src="{{isfullScreen?'../../../../imgs/drag2.png':'../../../../imgs/drag.png'}}"></image>
         </view>
         <view class="title">
             <view class="marks">
                 案例题 <text class="marks">{{ senceIndex == 0 ?'1':senceIndex }}/{{ senceNum }}</text>
             </view>
             <view style="display:flex;font-size:28rpx">
-                <view style="margin-right:10px" bindtap="bindsenceLast">上一小题</view>
-                <view bindtap="bindsenceNext">下一小题</view>
+                <view style="margin-right:10px" class="{{senceIndex ==1  ?'littenBtn2':'littenBtn'}}"
+                    bindtap="bindsenceLast">上一小题</view>
+                <view bindtap="bindsenceNext" class="{{senceIndex == senceNum ?'littenBtn2':'littenBtn'}}">下一小题</view>
+            </view>
+        </view>
+        <!--显示案例题简答遮罩-->
+        <view class="sceneShortMask" wx:if="{{sceneShortMaskShow}}" catchtap="showSceneShortMask">
+            <view class="sceneShortTextarea">
+                   <textarea name="" id="sceneShort" cols="30" rows="10" placeholder="请输入答案"
+                   auto-focus
+                   maxlength="-1"
+                   style="width:100%;height:100%"
+                   catchtap="stop"
+                        disabled="{{randerTitle.child[senceIndex - 1].showAnswer?true:false}}"
+                        bindinput="updateShorScenetValue" data-name='content' value="{{randerTitle.child[senceIndex - 1].shortMap}}"></textarea>               
             </view>
         </view>
         <scroll-view scroll-y="true" id="scrolls" style="height:{{moveY}}px;width:100%">
-            <view id="tuozhuai" style="height:{{moveY}}px;">
+            <view id="tuozhuai" style="height:{{moveY+200}}px;">
                 <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '1'?false:true }}"
                     class="questions-sencebox" bindtouchstart='touchStart' catchtouchend="touchSceneEnd"
-                    :style='height:100%'>
+                    style='height:100%'>
                     <!-- 单选题 -->
                     <view class="text-type padding">
                         <template is="wxParse"
@@ -323,7 +336,7 @@
                                     <image wx:if="{{ correctAnswer && vItem.color ? true: false }}" mode="widthFix"
                                         src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png"
                                         class="topimages" />
-                                    <image wx:if="{{ wrongAnswer.showAnswer && vItem.err ? true : false }}" mode="widthFix"
+                                    <image wx:if="{{ wrongAnswer && vItem.err ? true : false }}" mode="widthFix"
                                         src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png"
                                         class="topimages" />
                                     <view
@@ -345,10 +358,16 @@
                                         {{vItem.option}}
                                     </view>
                                     <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
-                                    <image wx:if="{{ randerTitle.child[senceIndex - 1].showAnswer && vItem.color ? true: false }}" mode="widthFix"
-                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
-                    <image wx:if="{{ randerTitle.child[senceIndex - 1].showAnswer && vItem.err ? true : false }}" mode="widthFix"
-                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
+                                    <image
+                                        wx:if="{{ randerTitle.child[senceIndex - 1].showAnswer && vItem.color ? true: false }}"
+                                        mode="widthFix"
+                                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png"
+                                        class="topimages" />
+                                    <image
+                                        wx:if="{{ randerTitle.child[senceIndex - 1].showAnswer && vItem.err ? true : false }}"
+                                        mode="widthFix"
+                                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png"
+                                        class="topimages" />
                                     <view
                                         class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
                                         <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
@@ -472,16 +491,20 @@
                         <template is="wxParse"
                             data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
                     </view>
-                    <textarea name="" id="sceneShort" cols="30" rows="10" placeholder="请输入答案"
-                        bindinput="updateShorScenetValue" data-name='content' value="{{shortSceneMap}}"></textarea>
-                    <view class="wrapper-option" bindtap="showShortAnswer">
-                        <view class="correctoptions {{ correcScenceShorttoption }}">
-                            <image src="{{answerScenceShortImg}}" mode="widthFix"
+                    <view class="{{randerTitle.child[senceIndex - 1].shortMap?'sceneShort2':   'sceneShort'}}" bindtap="showSceneShortMask">
+                        {{randerTitle.child[senceIndex - 1].shortMap  ?randerTitle.child[senceIndex - 1].shortMap:  '请输入答案'}}
+                    </view>
+                    <!-- <textarea name="" id="sceneShort" cols="30" rows="10" placeholder="请输入答案"
+                        disabled="{{randerTitle.child[senceIndex - 1].showAnswer?true:false}}"
+                        bindinput="updateShorScenetValue" data-name='content' value="{{randerTitle.child[senceIndex - 1].shortMap}}"></textarea> -->
+                    <view class="wrapper-option" bindtap="showShortAnswer" data-id="1" data-num="1">
+                        <view class="correctoptions {{ correcShorttoption }}">
+                            <image src="{{answerShortImg}}" mode="widthFix"
                                 style="width:38rpx;height:30rpx;margin-top:6rpx" />
-                            <text class=" {{activeScenceShortAnswer}}">答案</text>
+                            <text class=" {{activeShortAnswer}}">答案</text>
                         </view>
                     </view>
-                    <view hidden="{{ multishowScenceShortAny }}" style="margin-bottom:98rpx">
+                    <view hidden="{{ multishowScenceShortAny }}" style="margin-bottom:160rpx">
                         <view class="referData">参考答案</view>
                         <view class="topRefer">
                             <text class="correctanswer">正确答案：</text>

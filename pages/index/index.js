@@ -6,6 +6,7 @@ Page({
   data: {
     isIOS: app.globalData.isIOS,
     visible1: false,
+    region_type:'',
     channelId: '',
     openId: '',
     userName: '',
@@ -236,55 +237,6 @@ Page({
     }
     return 0
   },
-
-  // subscribe() {
-  //   console.log('启用了订阅')
-  //   var that = this
-  //   const tmplId = 'uURG_sarlVw6GDtD-svdPEp4GufnIO8v1Mxko6X5T_A' // 模板消息ID
-  //   const tmplId1 = 'kV8yNkdehzes3xXdKogqBruwS_upSmtTFKFke41MguU' // 模板消息ID
-  //    const tmplId2 = 'V316Od-eT4_0PodWKepDexz_uJGrGI4Zg-9FiTpXYTI' // 模板消息ID
-  //   wx.requestSubscribeMessage({
-  //     tmplIds: [tmplId,tmplId1],
-  //     success(res) {
-  //       console.log(res)
-  //       that.setData({
-  //         indexMaskShow: false
-  //       })
-  //       if (res[tmplId] === 'accept') {
-  //         console.log(11)
-  //         that.setData({
-  //           indexMaskShow: false
-  //         })
-  //         // 用户点击【允许】
-  //       } else if (res[tmplId] === 'reject') {
-  //         console.log(22)
-  //         that.setData({
-  //           indexMaskShow: false
-  //         })
-  //         wx.showModal({
-  //           title: '提示',
-  //           confirmText:'重新授权',
-  //           cancelText:'不要通知',
-  //           content: '拒绝订阅消息授权后将无法收到通知,是否继续',
-  //           success: function (res) {
-  //             if (res.confirm) {
-  //               console.log('重新授权')
-  //               that.subscribe()
-  //             } else {
-
-  //               console.log('不要通知')
-  //             }
-  //           }
-  //         })
-  //         // 用户点击【取消】
-  //       }
-
-  //       // wx.redirectTo({
-  //       //   url: `/pages/index/index`
-  //       // });
-  //     }
-  //   })
-  // },
   gocollection(number) {
 
     let courseId = this.data.courseId
@@ -350,7 +302,6 @@ Page({
     let userName = this.data.userName
     let avatarUrl = this.data.avatarUrl
     let viewerId = this.data.viewerId
-
     const tmplId2 = 'V316Od-eT4_0PodWKepDexz_uJGrGI4Zg-9FiTpXYTI' // 模板消息ID
     wx.requestSubscribeMessage({
       tmplIds: [tmplId2],
@@ -389,26 +340,16 @@ Page({
         }
       }
     })
-
-    // wx.navigateTo({
-    //   url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
-    // })
-    //保利威網絡直播
-    // wx.navigateTo({
-    //   url: `../component/pages/polyv-test/polyv-test?channelId=${channelId}`
-    // })
-    //保利威網絡直播聊天测试
-    // wx.navigateTo({
-    //   url: `../component/pages/polyv-test/polyv-test?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
-    // })
   },
   toVideoroom() {
+    
     let video_id = this.data.myCourse['courseId']
     let live_id = this.data.live_id
     let live_class_id = this.data.live_class_id
     let video_collection_id = this.data.video_collection_id
+    let problem_course_id =this.data.problem_course_id
     wx.navigateTo({
-      url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}`
+      url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}&problem_course_id=${problem_course_id}`
     })
   },
   handleClickItem1({
@@ -430,9 +371,7 @@ Page({
   },
   selectTap() {
     this.setData({
-      // selectShow: !this.data.selectShow,
       visible1: true,
-      // triangle:!this.data.triangle
     });
   },
   clickin() {
@@ -504,15 +443,6 @@ Page({
     wx.navigateTo({
       url: '../component/pages/addCourse/addCourse'
     })
-    // wx.showToast({
-    //   title: '暂未开放',//提示文字
-    //   duration: 1000,//显示时长
-    //   mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
-    //   icon: 'none', //图标，支持"success"、"loading"  
-    //   success: function () { },//接口调用成功
-    //   fail: function () { },  //接口调用失败的回调函数  
-    //   complete: function () { } //接口调用结束的回调函数  
-    // })
   },
   scrollMove(e) {
     let moveParams = this.data.moveParams;
@@ -653,12 +583,7 @@ Page({
             courseId: res[0].courseId,
             noACtion: 0
           })
-        } else {
-          // let action = [
-          //   {
-          //     name: '该课程暂未设置科目'
-          //   }
-          // ]
+        } else {  
           that.setData({
             actions1: [],
             noACtion: 1
@@ -674,8 +599,22 @@ Page({
     })
   },
   goTestvideo() {
-    this.subscribe(2)
-
+    if(this.data.region_type ==2&&this.data.optionsGo =='toliveclass'){
+      wx.showModal({
+        content: '系统检测到您使用的是海外网络地址，请切换成国内线路再进入直播间',
+        confirmText: "确认",
+        cancelText: "取消",
+        success: (res) => {
+          if (res.confirm) {
+            this.onLoad()
+          } else {
+            console.log('用户点击取消')
+          }
+        }
+      });
+    }else{
+      this.subscribe(2)
+    }
   },
   goindex() {
     wx.navigateTo({
@@ -686,7 +625,27 @@ Page({
     console.log('微信小程序，此处应该触发头部接口')
     this.gettopINfor()
   },
+  //获取用户ip
+  getapi:function(){
+    var _this = this;
+    // 获取IP地址
+    wx.request({
+      url: 'https://tianqiapi.com/ip/',
+      data: {
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res);_this.setData({ip:res.data.ip});
+      }
+    });
+  },
+
   onLoad: function (e) {
+    this.getapi();
+
     wx.getSetting({
       withSubscriptions: true, // 是否同时获取用户订阅消息的订阅状态
       success(res) {
@@ -730,11 +689,16 @@ Page({
                 url: api.user.newLogin,
                 data: {
                   code: t,
-                  version: 1
+                  version:9
                 },
                 method: 'POST',
                 success: function (e) {
                   console.log(e);
+                  that.setData({
+                    region_type:e.data.param.region_type
+                    
+                  })
+                  // console.log(that.data.region_type)
                   if (e.data.param.info_show) {
                     app.globalData.info_show = 1;
                   }

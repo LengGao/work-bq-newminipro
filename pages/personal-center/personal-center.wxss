@@ -127,3 +127,10 @@ page {
     -webkit-transform: translate(0,-50%) rotate(-135deg);
     transform: translate(0,-50%) rotate(-135deg);
 }
+.nick-phone{
+    font-size:30rpx;
+    font-family:'PingFang SC';
+    font-weight: normal!important;
+    color:rgba(255,255,255,1);
+    margin-bottom: 26rpx;
+}

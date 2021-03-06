@@ -10,6 +10,11 @@ Page({
     datas: true,
     courseId: ''
   },
+  goback(){
+    wx.reLaunch({
+      url:  `../../../personal-center/personal-center`
+    })
+  },
   gointro(e) {
     console.log(e)
     let chapterId = e.currentTarget.dataset.chapterid
@@ -103,7 +108,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  // onShareAppMessage: function () {
 
-  }
+  // }
 })

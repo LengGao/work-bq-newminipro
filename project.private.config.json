@@ -1,50 +1,5 @@
 {
-  "description": "项目配置文件",
-  "packOptions": {
-    "ignore": []
-  },
-  "setting": {
-    "urlCheck": false,
-    "es6": true,
-    "postcss": true,
-    "preloadBackgroundData": false,
-    "minified": true,
-    "newFeature": true,
-    "coverView": true,
-    "autoAudits": false,
-    "showShadowRootInWxmlPanel": false,
-    "scopeDataCheck": false,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
-    "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "bundle": false,
-    "useIsolateContext": true,
-    "useCompilerModule": false,
-    "userConfirmedUseCompilerModuleSwitch": true,
-    "userConfirmedBundleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "useApiHostProcess": false
-  },
-  "compileType": "miniprogram",
-  "libVersion": "2.14.4",
-  "appid": "wx0eb278739baa3ca1",
-  "projectname": "%E4%B8%9C%E5%9F%B9%E5%AD%A6%E5%A0%82",
-  "debugOptions": {
-    "hidedInDevtools": []
-  },
-  "isGameTourist": false,
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -226,6 +181,12 @@
           "name": "pages/component/pages/yearTestIntro/yearTestIntro",
           "pathName": "pages/component/pages/yearTestIntro/yearTestIntro",
           "query": "chapter_id=612&courseId=14&chapterName:'hhhh'",
+          "scene": null
+        },
+        {
+          "name": "pages/component/pages/dailyShare/dailyShare",
+          "pathName": "pages/component/pages/dailyShare/dailyShare",
+          "query": "courseId=24321",
           "scene": null
         }
       ]

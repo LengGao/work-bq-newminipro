@@ -189,6 +189,7 @@ Page({
       success: function (res) {
         console.log( res.live_video_learn_time)
         var a = res.live_video_des;
+        console.log(res.live_id)
         d.wxParse("content", "html", a, that, 5);
         that.setData({
           learnTime:  parseInt( res.live_video_learn_time),
@@ -196,7 +197,8 @@ Page({
           video:res.live_video_name,
           courseId:res.course_id,
           live_video_id:res.live_video_id,
-          class_room_id:res.class_room_id
+          class_room_id:res.class_room_id,
+          live_id:res.live_id
         })
         that.playVideo(res)
       },

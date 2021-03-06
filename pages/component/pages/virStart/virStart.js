@@ -101,9 +101,43 @@ Page({
     SceneValue:'',
     shortSceneMap:'',
     fillNewAnswer:[],
+    isfullScreen: false, //答题选项是否布满
+    sceneShortMaskShow:false,//场景题简答遮罩层
     nosubmit:0,
     chapterName:'',
     clearTimer:false
+  },
+  fullScreen(e) {
+     //判断是否是第一次点击提示文字
+     let senceFullScreen  = wx.getStorageSync("senceFullScreen")
+     if(senceFullScreen){
+       
+     }else{
+      wx.showToast({
+        title: '点击灰色箭头可查看下方案例小题',
+        icon: 'none',
+        duration: 4000
+      })
+      wx.setStorageSync("senceFullScreen",true);
+     }
+    let screenHeight = wx.getSystemInfoSync().windowHeight
+    let answerScroll = screenHeight - app.globalData.navHeight - 150
+    console.log(answerScroll)
+    this.setData({
+      isfullScreen: !this.data.isfullScreen
+    })
+    console.log(this.data.isfullScreen)
+    if (this.data.isfullScreen) {
+      this.setData({
+        moveY: answerScroll
+      })
+    } else {
+      this.setData({
+        moveY: 313
+      })
+    }
+
+
   },
   starDrag(event) {
     console.log(event);
@@ -1051,6 +1085,22 @@ Page({
       })
     }
   },
+  showSceneShortMask(){
+    // if( this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer) {
+    //   wx.showToast({
+    //     title: '答案已出,当前题目无法作答',
+    //     icon: 'none',
+    //     duration: 2000
+    //   })
+    //   return
+    // }
+    if(this.data.sceneShortMaskShow==false && this.data.isfullScreen ==false){
+      this.fullScreen()
+    }
+    this.setData({
+      sceneShortMaskShow:!this.data.sceneShortMaskShow
+    })
+  },
   updateShortValue(event) {
     let value = event.detail.value
     this.data.randerTitle.shortMap = value
@@ -1067,8 +1117,10 @@ Page({
   },
   updateShorScenetValue(event){
     let value = event.detail.value
+    this.data.randerTitle.child[this.data.senceIndex - 1].shortMap = value
     this.setData({
-      shortSceneMap: value
+      shortSceneMap: value,
+      randerTitle: this.data.randerTitle
     })
   },
   bindKeyInput(e){

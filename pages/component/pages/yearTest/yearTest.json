@@ -1,8 +1,10 @@
 {
   "navigationBarBackgroundColor": "#199FFF",
-  "navigationBarTextStyle": "white",
+  
   "navigationBarTitleText": "历年真题",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
   "backgroundTextStyle": "light",
-  "navigationStyle": "default",
+ 
   "usingComponents": {}
 }

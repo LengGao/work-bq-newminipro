@@ -31,7 +31,7 @@ Page({
     onReachBottom: function () { },
     gopri(t) {
         let courseId = this.data.courseId
-        console.log(t.currentTarget.dataset.hasdone)
+        console.log(t)
         wx.navigateTo({
             url: `../test/test?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&name=${t.currentTarget.dataset.name}&hasdone=${t.currentTarget.dataset.hasdone}`
         })

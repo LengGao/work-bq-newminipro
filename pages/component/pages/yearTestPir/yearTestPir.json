@@ -2,6 +2,7 @@
   "backgroundTextStyle": "light",
   "navigationBarBackgroundColor": "#fff",
   "navigationBarTitleText": "练习",
+  "navigationStyle": "custom",
   "navigationBarTextStyle": "black",
   "usingComponents": {
     "i-message": "../../../../utils/iview/message/index"

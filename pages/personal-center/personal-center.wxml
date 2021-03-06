@@ -5,7 +5,7 @@
         <view class="top-content flex">
             <image class="top-center-ava" mode="widthFix" src="{{user_info.avatar_url?user_info.avatar_url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def@2x.png'}}" style=""></image>
             <view class="top-content-detail">
-                <text class="nick-name" wx:if="{{user_info.nickname}}">{{user_info.nickname}}</text>
+                <text class="nick-name" wx:if="{{user_info.nickname}}">{{user_info.nickname}} <text class="nick-phone"  wx:if="{{user_info.mobile}}">{{user_info.mobile}}</text></text>
                 <!-- <text class="nick-name">Night belongs bright</text> -->
                 <text class="nick-line">不怕千万人阻挡，只怕自己投降</text>
             </view>

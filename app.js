@@ -251,13 +251,12 @@ App({
                     wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
                 }
             })
-            // console.log(d.WxParseListArr)
+         
             let listArr = d.WxParseListArr;
             listArr.forEach((item, index) => {
                 obj[index].contentCopy = item;
                 msgListArr.push(obj[index]);
             })
-            // console.log( msgListArr)
             obj = msgListArr;
         }
 
@@ -265,7 +264,6 @@ App({
     },
     testWxParse(self, objData) {
         let obj = objData || {};
-        // console.log(obj.content != undefined)
         let d = self.data;
         let msgListArr = [];
         if (obj.content != undefined) {
@@ -289,25 +287,7 @@ App({
         } else {
             wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
             obj.problem_stem_wx = d.content;
-            // obj.content = msgListArr;
-            // console.log(obj)
-            // if(obj.child !=  undefined && obj.child.length >0){ // 如果child存在且不为空
-            //     obj.child.forEach((val, index)=>{ // 循环child
-            //         wxParse.wxParse('content' + index, "html", val.stem, self, 5); // 给child中的标题解析
-            //         val.content.forEach( (val, index)=>{ // 循环每一个选项
-            //             if (index == val.content.length - 1) { //
-            //                 wxParse.wxParseTemArray("WxParseListArr", 'content', val.content.length, self); // 开始解析每一个选项
-            //             }
-            //             let listArr = d.WxParseListArr;
-            //             listArr.forEach((item, index) => {
-            //                 val.content[index].contentCopy = item;
-            //                 msgListArr.push(val.content[index]);
-            //             })
-            //             val.content = msgListArr;
-            //         })
-
-            //     })
-            // }
+           
         }
         return obj;
     },

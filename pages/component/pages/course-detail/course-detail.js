@@ -47,7 +47,9 @@ Page({
     //     //   // param3: 'param3'
     //     // }
     //  },
+    videoControls:true,
     uid: '',
+    problem_course_id:'',//题库id
     info_show: '',
     isIOS: n.globalData.isIOS,
     currentTab: 0,
@@ -175,15 +177,15 @@ Page({
     video_cellection_id: ''
   },
   sumbitComment() {
-    // if (this.data.value2 == '') {
-    //   wx.showToast({
-    //     title: '请完善评价内容',
-    //     icon: 'none',
-    //     mask: true,
-    //     duration: 2000
-    //   })
-    //   return
-    // }
+    if (this.data.value2 == '') {
+      wx.showToast({
+        title: '请完善评价内容',
+        icon: 'none',
+        mask: true,
+        duration: 2000
+      })
+      return
+    }
     let that = this
     let option = {
       course_id: parseInt(this.data.courseId),
@@ -198,7 +200,7 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
-        if (res.data.code == 0) {
+        // if (res.data.code == 0) {
           wx.showToast({
             title: '发表评论成功！',
             icon: 'success',
@@ -212,7 +214,7 @@ Page({
             },
           })
           that.getcomment()
-        }
+        // }
       },
       fail: function (t) {},
       complete: function () {}
@@ -443,7 +445,8 @@ Page({
     })
   },
   goPri() {
-    let id = this.data.courseId
+    let id = this.data.problem_course_id
+    console.log(id)
     wx.navigateTo({
       url: `../chapter/chapter?courseId=${id}`
     })
@@ -463,9 +466,17 @@ Page({
       data: option,
       success: function (res) {
         console.log(res)
+        console.log(res.is_fast)
+        let videoControls = ''
+        if(res.is_fast ==1){
+          videoControls =true
+        }else{
+          videoControls =false
+        }
         that.setData({
           learnTime: res.data.listen_time,
           lessonId: res.listen_id,
+          videoControls:videoControls,
           class_video_id: res.video_class_id
         })
         that.playVideo(res.data.play_info, res.data.listen_time)
@@ -479,6 +490,33 @@ Page({
       },
       fail: function (t) {},
       complete: function () {}
+    })
+  },
+  //获取题库id
+  getALLData() {
+    let that = this
+    let courseId = this.data.courseId
+    let option = {
+      course_id: courseId
+    }
+    app.encryption({
+      url: api.test.getAllData,
+      method: "GET",
+      data: option,
+      success: function (res) {
+
+        console.log(res)
+      
+       
+        that.setData({
+          problem_course_id: res.info.problem_course_id, //以此ID获取习题模式        
+        })
+       
+      },
+      fail: function (t) {},
+      complete: function () {
+        // wx.hideLoading()
+      }
     })
   },
   play(listen_id, listen_time) {
@@ -499,6 +537,16 @@ Page({
         console.log(res)
         that.setData({
           video_mid: res.video_mid,
+        })
+        //判断是否快进
+        let videoControls = ''
+        if(res.is_fast ==1){
+          videoControls =true
+        }else{
+          videoControls =false
+        }
+        that.setData({
+          videoControls: videoControls
         })
         if (res.free == 1 && res.buy == 1) { //免费或者已购买
           that.setData({
@@ -767,17 +815,21 @@ Page({
         info_show: user_info.info_show
       })
     }
-    console.log(this.data.uid)
-    console.log(option.video_collection_id)
+    console.log(option)
+    // console.log(this.data.uid)
+    // console.log(option.video_collection_id)
     clearInterval(this.timeOut);
     this.setData({
       video_id: option.video_id || this.data.video_id,
       courseId: option.courseId || this.data.courseId,
+      // problem_course_id:option.problem_course_id,
       live_id: option.live_id,
       live_class_id: option.live_class_id,
-      video_collection_id: option.video_collection_id
+      video_collection_id: option.video_collection_id,
+
     });
     console.log(option)
+    this.getALLData()//获取题库id
      this.listen(option)//获取播放信息
     try {
       const res = wx.getSystemInfoSync()
@@ -802,22 +854,23 @@ Page({
   },
   onPullDownRefresh: function () {},
   onReachBottom: function () {},
-  // onShareAppMessage: function () {
-  //   var t = this, e = wx.getStorageSync("user_info");
-  //   // t.shareSuccess();
-  //   return {
-  //     title: t.data.video.title,
-  //     // path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id + "&pid=" + e.user_id,
-  //     path: "../course-detail/course-detail?video_id=" + this.data.video_id,
-  //     // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
-  //     success: function (t) {
-  //       console.log("转发成功", t);
-  //     },
-  //     fail: function (t) {
-  //       console.log("转发失败", t);
-  //     }
-  //   };
-  // },
+  onShareAppMessage: function (res) {
+    console.log(res)
+    var t = this, e = wx.getStorageSync("user_info");
+    // t.shareSuccess();
+    return {
+      title: t.data.video.title,
+      // path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id + "&pid=" + e.user_id,
+      path: "pages/component/pages/course-detail/course-detail?video_id=" + this.data.video_id+"&courseId="+ this.data.courseId+"&live_id="+ this.data.live_id+"& live_class_id="+ this.data. live_class_id+"&video_collection_id="+ this.data.video_collection_id,
+      // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
+      success: function (t) {
+        console.log("转发成功", t);
+      },
+      fail: function (t) {
+        console.log("转发失败", t);
+      }
+    };
+  },
   canPlay: function () {
     var t = this;
     wx.hideLoading(), t.setData({
@@ -865,6 +918,7 @@ Page({
     });
   },
   select_date: function (t) {
+    console.log(t)
     wx.closeSocket();
     this.isHide = true;
     this.setData({
@@ -1243,22 +1297,22 @@ Page({
     }
     return hour === 0 ? minute + ':' + second : hour + ':' + minute + ':' + second;
   },
-  onShareAppMessage: function (res) {
-    let that = this
-    return {
-      title: '东培学堂',
-      path: '../../../../pages/index/index',
-      imageUrl: that.data.imgUrl,
-      success: function (shareTickets) {
-        console.log(shareTickets)
-        console.info(shareTickets + '成功');
-        // 转发成功
-      },
-      fail: function (res) {
-        console.log(res + '失败');
-        // 转发失败
-      },
-      complete: function (res) {}
-    }
-  }
+  // onShareAppMessage: function (res) {
+  //   let that = this
+  //   return {
+  //     title: '东培学堂',
+  //     path: '../../../../pages/index/index',
+  //     imageUrl: that.data.imgUrl,
+  //     success: function (shareTickets) {
+  //       console.log(shareTickets)
+  //       console.info(shareTickets + '成功');
+  //       // 转发成功
+  //     },
+  //     fail: function (res) {
+  //       console.log(res + '失败');
+  //       // 转发失败
+  //     },
+  //     complete: function (res) {}
+  //   }
+  // }
 });

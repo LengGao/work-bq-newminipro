@@ -70,7 +70,7 @@ let apiurl = {
     getClassLiveInfo: bq + "/video/getclasslive",
     getOrderList: bq + '/order/getOrderList',
     upload: bq + '/upload',
-    userident: bq + '//user/updateuserident',
+    userident: bq + '/user/updateuserident',
     updateuserident: bq + '/user/userident',
     getindexcategory: bq + '/indexcategory/getindexcategory',
     getcoursecategory: bq + '/indexcategory/getcoursecategory',

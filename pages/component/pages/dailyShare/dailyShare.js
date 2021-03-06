@@ -160,7 +160,7 @@ Page({
     let that = this
     return {
       title: '东培学堂',
-      path: '../../../../pages/index/index',
+      path: "pages/component/pages/dailyShare/dailyShare?courseId="+ this.data.courseId,
       imageUrl: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/dakafenxiang.png',
       success: function (shareTickets) {
         console.info(shareTickets + '成功');

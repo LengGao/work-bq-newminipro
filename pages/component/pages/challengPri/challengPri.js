@@ -30,34 +30,29 @@ Page({
     multipleNum: '0',
     judgmentNum: '0',
     formId: '',
-    tabItems: [
-      {
-        icon:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+    tabItems: [{
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
         name: '上一题',
         action: 'lastQU',
         class: '',
         id: 1,
       },
       {
-        icon:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (1).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (1).png',
         name: '答题卡',
         action: 'cards',
         class: '',
         id: 2,
       },
       {
-        icon:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
         name: '收藏',
         action: 'likes',
         class: '',
         id: 3,
       },
       {
-        icon:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
+        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
         name: '下一题',
         action: 'nextQU',
         class: '',
@@ -65,18 +60,12 @@ Page({
       },
     ],
     ProblemType: '',
-    answerImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerSenceImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerFillImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerShortImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerSceneImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-    answerScenceShortImg:
-      'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerSceneImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+    answerScenceShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
     activeAnswer: 'defaultAnswer',
     multishowFillAny: true,
     multishowScenceShortAny: true,
@@ -116,6 +105,40 @@ Page({
     SceneValue: '',
     shortSceneMap: '',
     fillNewAnswer: [],
+    isfullScreen: false, //答题选项是否布满
+    sceneShortMaskShow: false, //场景题简答遮罩层
+  },
+  fullScreen(e) {
+    //判断是否是第一次点击提示文字
+    let senceFullScreen = wx.getStorageSync("senceFullScreen")
+    if (senceFullScreen) {
+
+    } else {
+      wx.showToast({
+        title: '点击灰色箭头可查看下方案例小题',
+        icon: 'none',
+        duration: 4000
+      })
+      wx.setStorageSync("senceFullScreen", true);
+    }
+    let screenHeight = wx.getSystemInfoSync().windowHeight
+    let answerScroll = screenHeight - app.globalData.navHeight - 150
+    console.log(answerScroll)
+    this.setData({
+      isfullScreen: !this.data.isfullScreen
+    })
+    console.log(this.data.isfullScreen)
+    if (this.data.isfullScreen) {
+      this.setData({
+        moveY: answerScroll
+      })
+    } else {
+      this.setData({
+        moveY: 313
+      })
+    }
+
+
   },
   starDrag(event) {
     console.log(event)
@@ -141,6 +164,7 @@ Page({
     console.log(this.data.moveY, tag)
   },
   lastQU() {
+
     this.setData({
       multiselecting: [],
       wrongAnswer: false,
@@ -148,8 +172,7 @@ Page({
       donotChangeAnswer: false,
     })
     this.setData({
-      answerImg:
-        'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer: 'defaultAnswer',
       correctoption: '',
       multishowAny: true,
@@ -160,10 +183,9 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if (this.data.is_lock == 1) {
-    } else {
-      this.common()
-    }
+    // if (this.data.is_lock == 1) {} else {
+    this.common()
+    // }
     if (curindex < 1) {
       return
     }
@@ -210,8 +232,7 @@ Page({
           if (res.data.code == 200) {
             that.setData({
               likes: false, //表示当前题目未收藏
-              [icon]:
-                'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+              [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
               [classes]: '',
               [name]: '收藏',
             })
@@ -254,8 +275,7 @@ Page({
         if (res.data.code == 200) {
           that.setData({
             likes: true,
-            [icon]:
-              'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
+            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
             [classes]: 'active',
             [name]: '已收藏',
           })
@@ -297,16 +317,14 @@ Page({
         // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
-        if (multiselect == '') {
-        } else {
+        if (multiselect == '') {} else {
           that.submitAnswer(multiselect, curID)
         }
       }
     }
     if (that.data.randerTitle.problem_type == 6) {
       //场景提交
-      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
-      } else {
+      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {} else {
         if (this.data.multiselect != '') {
           this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
         } else if (this.data.SceneValue != '') {
@@ -319,16 +337,14 @@ Page({
     if (that.data.randerTitle.hasSubmit) {
       // 其他模式表明已提交过答案
     } else {
-      if (this.data.fillNewAnswer.length == 0) {
-      } else {
+      if (this.data.fillNewAnswer.length == 0) {} else {
         let answer = ''
         this.data.fillNewAnswer.forEach((value) => {
           answer = answer + value + ','
         })
         that.submitAnswer(answer, curID)
       }
-      if (this.data.shortMap == '') {
-      } else {
+      if (this.data.shortMap == '') {} else {
         let answer = this.data.shortMap
         that.submitAnswer(answer, curID)
       }
@@ -341,14 +357,17 @@ Page({
       multiselecting: [],
     })
     this.setData({
-      answerImg:
-        'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
       activeAnswer: 'defaultAnswer',
       correctoption: '',
       multishowAny: true,
+      answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeShortAnswer: 'defaultAnswer',
+      correcShorttoption: '',
+      multishowShortAny: true,
+      multishowScenceShortAny: true,
     })
-    if (this.data.is_lock == 1) {
-    } else {
+    if (this.data.is_lock == 1) {} else {
       this.common()
     }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
@@ -403,8 +422,7 @@ Page({
     let hasBeenLoad = this.data.randerTitle.child[index] //本地缓存
     if (hasBeenLoad.done != undefined && hasBeenLoad.done == true) {
       //已缓存
-    } else {
-    }
+    } else {}
     // let result = hasBeenLoad.find((value) => value.problem_id == ID);
     // console.log(result)
   },
@@ -493,6 +511,14 @@ Page({
         title: '答案已出,当前题目无法作答',
         icon: 'none',
         duration: 2000,
+      })
+      return
+    }
+    if (this.data.randerTitle.child && this.data.randerTitle.child[this.data.senceIndex - 1].done) { //如果已选答案，再次点击不再触发
+      wx.showToast({
+        title: '答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
       })
       return
     }
@@ -595,8 +621,7 @@ Page({
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({
-        answerImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
         multishowAny: true,
@@ -629,11 +654,11 @@ Page({
           })
         }
 
-        ;(arr = []), (arr01 = []), (arr02 = [])
+        ;
+        (arr = []), (arr01 = []), (arr02 = [])
       }
       this.setData({
-        answerImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeAnswer: 'activeAnswer',
         correctoption: 'activeoption',
         multishowAny: false,
@@ -644,21 +669,56 @@ Page({
     }
   },
   showSenceAnswer() {
+    this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = false
     if (this.data.activeSenceAnswer == 'activeAnswer') {
       this.setData({
-        answerSenceImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeSenceAnswer: 'defaultAnswer',
         correcSencetoption: '',
         multiSenceshowAny: true,
+        randerTitle: this.data.randerTitle
       })
     } else {
+      var data = this.data.randerTitle.child[this.data.senceIndex - 1].content
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].done != true) {
+        var arr = this.data.multiselect
+        var arr01 = this.data.multiAnswer
+        let answer = this.data.randerTitle.child[this.data.senceIndex - 1].answer
+        var arr03 = answer.split(",")
+        console.log(arr, arr01)
+        // console.log(arr=='')
+        if (arr != '') {
+          var arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));
+          data.forEach((item) => {
+            arr02.forEach((i) => {
+              if (i == item.option) {
+                item.nohascolor = true
+              }
+            })
+          })
+        } else {
+          data.forEach((item) => {
+            arr03.forEach((i) => {
+              if (i == item.option) {
+                item.nohascolor = true
+              }
+            })
+          })
+        }
+        arr = [],
+          arr01 = [],
+          arr02 = []
+        console.log(data)
+      }
+      this.data.randerTitle.child[this.data.senceIndex - 1].content = data
+      this.data.randerTitle.child[this.data.senceIndex - 1].done = true
+      this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = true
       this.setData({
-        answerSenceImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeSenceAnswer: 'activeAnswer',
         correcSencetoption: 'activeoption',
         multiSenceshowAny: false,
+        randerTitle: this.data.randerTitle
       })
     }
   },
@@ -734,8 +794,7 @@ Page({
       })
       curIndexNumber = 1
       this.setData({
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (4).png',
       })
     } else if (curIndexNumber >= this.data.all_current_no) {
       wx.showToast({
@@ -746,8 +805,7 @@ Page({
       curIndexNumber = this.data.all_current_no
     } else {
       this.setData({
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
       })
     }
     console.log(curIndexNumber)
@@ -812,7 +870,7 @@ Page({
   sceneCommon() {
     if (
       this.data.randerTitle.child[this.data.senceIndex - 1]
-        .problem_child_type == 2
+      .problem_child_type == 2
     ) {
       //多选题在此提交答案
       if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -826,9 +884,25 @@ Page({
           this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
         }
       }
+    }else{
+      this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
     }
   },
   bindsenceNext() {
+    let that = this
+    this.setData({
+      answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeSenceAnswer: 'defaultAnswer',
+      correcSencetoption: '',
+      multiSenceshowAny: true,
+      multiselecting: [],
+        //场景简答题重置
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeShortAnswer: 'defaultAnswer',
+        correcShorttoption: '',
+        multishowShortAny: true,
+        multishowScenceShortAny: true,
+    })
     console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
     // this.saveScenceRander()
     if (this.data.senceIndex < this.data.senceNum) {
@@ -855,6 +929,19 @@ Page({
     })
   },
   bindsenceLast() {
+    this.setData({
+      answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeSenceAnswer: 'defaultAnswer',
+      correcSencetoption: '',
+      multiSenceshowAny: true,
+      multiselecting: [],
+        //场景简答题重置
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeShortAnswer: 'defaultAnswer',
+        correcShorttoption: '',
+        multishowShortAny: true,
+        multishowScenceShortAny: true,
+    })
     console.log(this.data.senceIndex) // 点击下一题减少-1
     if (this.data.senceIndex <= 1) {
       this.setData({
@@ -867,7 +954,7 @@ Page({
       })
       if (
         this.data.randerTitle.child[this.data.senceIndex - 1]
-          .problem_child_type == 2
+        .problem_child_type == 2
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -880,7 +967,7 @@ Page({
     } else {
       if (
         this.data.randerTitle.child[this.data.senceIndex - 1]
-          .problem_child_type == 2
+        .problem_child_type == 2
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -913,7 +1000,19 @@ Page({
         randerTitle: randerTitle,
         ProblemType: randerTitle.problem_type,
         curID: randerTitle.problem_id,
-      })
+      });
+      // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
+      if (randerTitle.problem_type == 6) {
+        if (randerTitle.child != undefined && randerTitle.child.length > 0) {
+          that.setData({
+            // randerTitle: randerTitle,
+            senceNum: randerTitle.child.length,
+            senceIndex: 1,
+            // ProblemType: randerTitle.problem_type,
+            // curID: randerTitle.problem_id
+          });
+        }
+      }
     } else {
       let option = {
         problem_id: ID,
@@ -937,6 +1036,8 @@ Page({
             ) {
               randerTitle.child.forEach((val, index) => {
                 val = app.testWxParse(that, val) //将解析后的赋值
+                val.showAnswer = false
+                val.done = false
               })
             }
             // 判断当前题目是否已收藏
@@ -981,16 +1082,14 @@ Page({
       //是否已收藏
       that.setData({
         likes: true,
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
         [classes]: 'active',
         [name]: '已收藏',
       })
     } else {
       that.setData({
         likes: true,
-        [icon]:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+        [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
         [classes]: '',
         [name]: '收藏',
       })
@@ -1096,7 +1195,9 @@ Page({
     })
     //获取屏幕宽高
     let that = this
-    const { windowHeight } = wx.getSystemInfoSync()
+    const {
+      windowHeight
+    } = wx.getSystemInfoSync()
     this.data.windowHeight = windowHeight - 127 - 54
     //先去请求所有题目的id，当点击下一题目的时候用id换题目,获取上次的记录答案
     that.getAlltestNumber(options)
@@ -1110,8 +1211,7 @@ Page({
         multiselecting: [],
       })
       this.setData({
-        answerImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeAnswer: 'defaultAnswer',
         correctoption: '',
         multishowAny: true,
@@ -1183,8 +1283,7 @@ Page({
               if (curindex >= 1) {
                 let icon = 'tabItems[0].icon'
                 that.setData({
-                  [icon]:
-                    'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+                  [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
                 })
               }
               that.data.allRender.length = 0
@@ -1211,8 +1310,7 @@ Page({
           //是否已收藏
           that.setData({
             likes: true,
-            [icon]:
-              'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
+            [icon]: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yishuangcang (1).png',
             [classes]: 'active',
             [name]: '已收藏',
           })
@@ -1251,16 +1349,14 @@ Page({
   showfillAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({
-        answerFillImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeFillAnswer: 'defaultAnswer',
         correctFilloption: '',
         multishowFillAny: true,
       })
     } else {
       this.setData({
-        answerFillImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerFillImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeFillAnswer: 'activeAnswer',
         correctFilloption: 'activeoption',
         multishowFillAny: false,
@@ -1268,23 +1364,47 @@ Page({
     }
   },
   showShortAnswer() {
+    let num = e.currentTarget.dataset.num
+    if (num == 1) {
+      this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = true
+    } else {
+      this.data.randerTitle.showAnswer = true
+    }
     if (this.data.activeShortAnswer == 'activeAnswer') {
       this.setData({
-        answerShortImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeShortAnswer: 'defaultAnswer',
         correcShorttoption: '',
         multishowShortAny: true,
+        multishowScenceShortAny: true,
+        randerTitle: this.data.randerTitle
       })
     } else {
       this.setData({
-        answerShortImg:
-          'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeShortAnswer: 'activeAnswer',
         correcShorttoption: 'activeoption',
         multishowShortAny: false,
+        multishowScenceShortAny: false,
+        randerTitle: this.data.randerTitle
       })
     }
+  },
+  showSceneShortMask(){
+    if( this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer) {
+      wx.showToast({
+        title: '答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if(this.data.sceneShortMaskShow==false && this.data.isfullScreen ==false){
+      this.fullScreen()
+    }
+    this.setData({
+      sceneShortMaskShow:!this.data.sceneShortMaskShow
+    })
   },
   updateShortValue(event) {
     let value = event.detail.value
@@ -1302,8 +1422,10 @@ Page({
   },
   updateShorScenetValue(event) {
     let value = event.detail.value
+    this.data.randerTitle.child[this.data.senceIndex - 1].shortMap = value
     this.setData({
       shortSceneMap: value,
+      randerTitle: this.data.randerTitle
     })
   },
   bindKeyInput(e) {

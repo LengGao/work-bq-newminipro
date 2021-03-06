@@ -1,10 +1,17 @@
 <!-- pages/virTest/virTest.wxml -->
+<view class="boom" style="width:750rpx;position:relative">
+    <view class='nav-title' style="position:absolute;left:40rpx;z-index:100;top:88rpx">
+      <text id="gl1" bindtap="goback"></text>
+    </view>
+    <image style="width:750rpx;height:450rpx;position:absolute;top:0rpx" src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/virTestBack.png" />
+  </view>
 <view class="topImage-vir">
-    <navigator url="{{ nodeUrl }}?courseId={{ nondeID }}&exam_length={{ exam_length }}" hover-class="none">
+    <!-- <navigator url="{{ nodeUrl }}?courseId={{ nondeID }}&exam_length={{ exam_length }}" hover-class="none"> -->
         <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/monikaoshi.jpg" style="width:690rpx;height:320rpx;margin-left:30rpx;margin-top:30rpx;border-radius:20rpx;" />
-    </navigator>
+    <!-- </navigator> -->
 </view>
-<view style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(25,159,255,1);margin-left:30rpx;margin-top:64rpx;">
+<view class="virTestContent">
+<view style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(25,159,255,1);margin-left:0rpx;margin-top:64rpx;">
     模拟考试历史记录
 </view>
 <view style="" style="display:flex;flex-direction:column;margin-top:35rpx;" wx:if="{{datas}}">
@@ -27,13 +34,18 @@
                     </view>
                 </view>
             </view>
+            <text id="gl2"></text>
         </view>
-            <!-- <text id="gl1"></text> -->
+          
         <!-- </navigator> -->
 </view>
-<view style="width:750rpx;120rpx;display:flex;justify-content:center;align-items:center;margin-top:85rpx;display:flex;flex-direction: column;" wx:else="{{ datas  }}">
+<view style="width:690rpx;120rpx;display:flex;justify-content:center;align-items:center;margin-top:85rpx;display:flex;flex-direction: column;" wx:else="{{ datas  }}">
     <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/zanwujilv.png" style="width:120rpx;height:120rpx" />
     <text style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(221,221,221,1);margin-top:39rpx">
         暂无记录
     </text>
+</view>
+</view>
+<view class="virTestfooter" >
+    <view class="virTestbtn" bindtap="toVirStart">进入考试</view>
 </view>
