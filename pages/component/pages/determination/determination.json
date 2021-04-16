@@ -1,8 +1,8 @@
 {
   "navigationBarBackgroundColor": "#199FFF",
-  "navigationBarTextStyle": "white",
   "navigationBarTitleText": "自主出题",
   "backgroundTextStyle": "light",
-  "navigationStyle": "default",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
   "usingComponents": {}
 }

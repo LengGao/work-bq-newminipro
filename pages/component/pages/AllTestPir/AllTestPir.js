@@ -15,9 +15,11 @@ Page({
   },
   toVideoroom(e) {
     console.log(e.currentTarget.dataset.id)
+    console.log('不会把')
     let video_id = e.currentTarget.dataset.id
+    let video_collection_id = e.currentTarget.dataset.video_collection_id
     wx.navigateTo({
-      url: `../course-detail/course-detail?video_id=${video_id}&courseId=${video_id}`
+      url: `../course-detail/course-detail?video_id=${video_id}&courseId=${video_id}&video_collection_id=${video_collection_id}`
     })
   },
   getcoursecategory() {
@@ -184,7 +186,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  // onShareAppMessage: function () {
 
-  }
+  // }
 })

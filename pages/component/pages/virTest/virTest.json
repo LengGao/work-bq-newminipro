@@ -1,9 +1,9 @@
 {
   "navigationBarBackgroundColor": "#199FFF",
-  "navigationBarTextStyle": "white",
   "navigationBarTitleText": "模拟考试",
   "backgroundTextStyle": "light",
-  "navigationStyle": "default",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
   "usingComponents": {},
   "enableReachBottom":true
 }

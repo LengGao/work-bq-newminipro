@@ -32,7 +32,7 @@
         </view>
 </view>
 <view style="width:750rpx;height:20rpx;background:rgba(245,245,245,1);margin-top:63rpx"></view>
-<view style="margin-left:40rpx;display:flex;margin-top:35rpx">
+<view style="display:flex;margin-top:35rpx;justify-content:center">
   <view style="display:flex;align-items:center">
       <view style="width:32rpx;height:32rpx;background:rgba(89,210,52,1);border-radius:50%;"></view>
       <view style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);margin-left:19rpx">正确</view>

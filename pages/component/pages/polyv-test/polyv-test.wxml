@@ -1,6 +1,12 @@
-<view class="video-box">
-<view class="video-box">
-  <web-view src="{{url}}"></web-view>
+<view class="plv-mp-demo-watch">
+  <polyv
+    bind:userBanned="handleUserBanned"
+    bind:onError="handlePolyvError"
+    id="plvMpDemoWatch"
+    requestUrl="https://api.polyv.net/live/v3/channel/chat/"
+    allowDanmu="{{ false }}"
+    skinAlwaysShow="{{ true }}"
+    usePlayerSkin="{{ true }}"
+    hasAnswerCard="{{true}}"
+  />
 </view>
-</view>
-

@@ -70,7 +70,7 @@ let apiurl = {
     getClassLiveInfo: bq + "/video/getclasslive",
     getOrderList: bq + '/order/getOrderList',
     upload: bq + '/upload',
-    userident: bq + '//user/updateuserident',
+    userident: bq + '/user/updateuserident',
     updateuserident: bq + '/user/userident',
     getindexcategory: bq + '/indexcategory/getindexcategory',
     getcoursecategory: bq + '/indexcategory/getcoursecategory',
@@ -103,7 +103,7 @@ let apiurl = {
     subscribeClassroomSignIn: bq + '/Reservation/signIn',
     getLiveUrls: bq + "/Live/getLiveUrlForWechat",
     getSecretData:bq + "/Live/getSecretData",
-    
+    polyvWechatAuth:bq + "/Live/polyvWechatAuth",  
   },
   user: {
     newLogin: bq + '/login/login',
@@ -182,6 +182,8 @@ let apiurl = {
     removeCollection: bq + '/problem/removeCollection',
     submitAnswer: bq + '/problem/submitAnswer',
     getLogAnswer: bq + '/problem/getLogAnswer',
+    getErrorProblemCollectionList: bq + '/problem/getErrorProblemCollectionList',
+    answerErrorProblem: bq + '/problem/answerErrorProblem',
     archivePracticeData: bq + '/problem/archivePracticeData',
     getPracticeDRecordBoard: bq + '/problem/getPracticeDRecordBoard',
     getTestExamList: bq + '/problem/getTestExamList',

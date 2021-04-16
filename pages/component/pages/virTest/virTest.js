@@ -11,6 +11,12 @@ Page({
     nondeID:'',
     exam_length:10
   },
+  toVirStart(){
+    // courseId={{ nondeID }}&exam_length={{ exam_length }}"
+    wx.navigateTo({
+      url: `../virStart/virStart?&courseId=${this.data.nondeID}&exam_length=${this.data.exam_length}`
+    })
+  },
   getExaminationList() {
     let that = this
      pages = pages + 1
@@ -40,6 +46,11 @@ Page({
       fail: function (n) {
         console.log('初始化失败')
       }
+    })
+  },
+  goback(){
+    wx.reLaunch({
+      url:  `../../../index/index`
     })
   },
   getTestExamConfig(){
@@ -122,7 +133,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  // onShareAppMessage: function () {
 
-  }
+  // }
 })

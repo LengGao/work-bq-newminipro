@@ -57,11 +57,11 @@ Page({
         name: '联系客服',
         id: 1
       },
-      {
-        url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
-        tosome: '../component/pages/polyv-test/polyv-test',
-        name: '视频polyv',
-      },
+      // {
+      //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/yijianfankui.png',
+      //   tosome: '../component/pages/polyv-test/polyv-test',
+      //   name: '视频polyv',
+      // },
     ],
     adminList:[
       {
@@ -108,12 +108,21 @@ Page({
   onLoad: function (e) {
     n.tabbar("tabBar", 0, this, "usercenter");
     var t = wx.getStorageSync("user_info");
+ console.log(t.mobile)
+ let mobile = t.mobile
+    if (mobile) {
+      //使用正则
+   var ab=   mobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  }
+  t.mobile = ab
+  
     if (app.globalData.info_show == 1) {
       this.data.funlist.splice(0, 1)
     }
     this.setData({
       funlist: this.data.funlist
     })
+    console.log(t)
     courseId =  wx.getStorageSync("problem_course_id").problem_course_id
     this.setData({
       user_info: t,
@@ -176,8 +185,11 @@ Page({
   onReachBottom: function () { },
   onShareAppMessage: function () {
     return {
-      path: "../component/pages/index/index?pid=" + wx.getStorageSync("user_info").user_id
+      path: "/pages/index/index?"
     };
+    // return {
+    //   path: "../component/pages/index/index?pid=" + wx.getStorageSync("user_info").user_id
+    // };
   },
   tabBarRedirect: function (e) {
     wx.reLaunch({

@@ -13,7 +13,7 @@ Page({
     onUnload: function () { },
     onPullDownRefresh: function () { },
     onReachBottom: function () { },
-    onShareAppMessage: function () { },
+    // onShareAppMessage: function () { },
     getActivity: function () {
         var o = this;
         wx.showLoading({

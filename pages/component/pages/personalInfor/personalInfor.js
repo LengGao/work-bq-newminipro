@@ -1,5 +1,4 @@
-import api from '../../api'
-let app = getApp();
+var app = getApp(), api = require("../../../../api.js");
 Page({
 
   /**
@@ -541,7 +540,7 @@ handleImagePreviewback:function(t){
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  // onShareAppMessage: function () {
 
-  }
+  // }
 })

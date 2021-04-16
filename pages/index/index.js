@@ -1,15 +1,18 @@
 require("../../utils/requestapi.js");
 let app = getApp();
-var api = require("../../api.js"), t = (require("../../utils/util.js"), require("../tab-bar/tab-bar.js"));
+var api = require("../../api.js"),
+  t = (require("../../utils/util.js"), require("../tab-bar/tab-bar.js"));
 Page({
   data: {
     isIOS: app.globalData.isIOS,
     visible1: false,
-    channelId:'',
-    openId:'',
-    userName:'',
-    avatarUrl:'',
-    userid:'',
+    region_type:'',
+    channelId: '',
+    openId: '',
+    userName: '',
+    avatarUrl: '',
+    viewerId: '',
+    userid: '',
     moveParams: {
       scrollLeft: 0
     },
@@ -19,24 +22,53 @@ Page({
     courseId: '',
     menuTop: '',
     accuracy: 0,
-    course_list: [
+    course_list: [{
+      name: '初级会计师',
+      id: '0'
+    }],
+    topmenu: [{
+        name: '收藏夹',
+        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png',
+        number: '0',
+        num: '2'
+      },
       {
-        name: '初级会计师',
-        id: '0'
+        name: '错题集',
+        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xingxing.png',
+        number: '0',
+        num: '1'
+      },
+      {
+        name: '做题历史',
+        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png',
+        number: '0',
+        num: '0'
       }
     ],
-    topmenu: [{ name: '收藏夹', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cuotiji.png', number: '0', num: '2' },
-    { name: '错题集', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xingxing.png', number: '0', num: '1' },
-    { name: '做题历史', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png', number: '0', num: '0' }
-    ],
-    fun_list: [{ name: '章节练习', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/zhangjielianxi.png', action: 'prictive' },
-    { name: '历年真题', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/linianzhenti.png', action: 'yearText' },
-    { name: '模拟考试', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/monikaoshi.png', action: 'virText' },
-    { name: '刷题挑战', img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/shuatitiaozhan.png', action: 'changll' },
+    fun_list: [{
+        name: '章节练习',
+        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/zhangjielianxi.png',
+        action: 'prictive'
+      },
+      {
+        name: '历年真题',
+        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/linianzhenti.png',
+        action: 'yearText'
+      },
+      {
+        name: '模拟考试',
+        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/monikaoshi.png',
+        action: 'virText'
+      },
+      {
+        name: '刷题挑战',
+        img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/shuatitiaozhan.png',
+        action: 'changll'
+      },
     ],
     defaultImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png',
-    selectShow: false,//控制下拉列表的显示隐藏，false隐藏、true显示
-    index: 0,//选择的下拉列表下标
+    selectShow: false, //控制下拉列表的显示隐藏，false隐藏、true显示
+    index: 0, //选择的下拉列表下标
     menustat: 0,
     triangle: !0,
     cat_list2: [],
@@ -52,11 +84,161 @@ Page({
     noliving: true,
     images: {},
     allData: {},
+    indexMaskShow: true,
     problem_course_id: '',
     live_class_id: '',
-    video_collection_id:''
+    video_collection_id: ''
+  },
+  subscribe(num) {
+    var num = num
+    var that = this
+    var message = ''
+    var message2 = ''
+    //需要订阅的消息模板，在微信公众平台手动配置获取模板ID
+    if (num == 2) {
+      message = 'V316Od-eT4_0PodWKepDexz_uJGrGI4Zg-9FiTpXYTI'
+      message2 = ''
+    } else {
+      message = 'uURG_sarlVw6GDtD-svdPEp4GufnIO8v1Mxko6X5T_A'
+      message2 = 'kV8yNkdehzes3xXdKogqBruwS_upSmtTFKFke41MguU'
+    }
+    // let message = 'uURG_sarlVw6GDtD-svdPEp4GufnIO8v1Mxko6X5T_A'
+    var arr_template = [];
+    if (message != '') arr_template.push(message);
+    if (message2 != '') arr_template.push(message2);
+    //如果总是拒绝（subscriptionsSetting，2.10.1库才支持）
+    if (this.versionCompare('2.10.1')) {
+      console.log('这里司法所发的')
+      wx.getSetting({
+        withSubscriptions: true, //是否同时获取用户订阅消息的订阅状态，默认不获取
+        success: (res) => {
+          console.log(res)
+          if (res.subscriptionsSetting && res.subscriptionsSetting.itemSettings &&
+            res.subscriptionsSetting.itemSettings[arr_template[0]] == "reject") {
+            //打开设置去设置
+            this.openConfirm('检测到您没打开推送权限，是否去设置打开？')
+          } else {
+            console.log(message, message2)
+            wx.requestSubscribeMessage({
+              tmplIds: arr_template,
+              success: (res) => {
+                if (num == 2) {
+                  let courseId = this.data.banjiID
+                  let live_id = this.data.live_id
+                  let course_id = this.data.course_id
+                  let live_class_id = this.data.live_class_id
+                  wx.reLaunch({
+                    url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
+                  })
+                } else {
+                  wx.reLaunch({
+                    url: num.currentTarget.dataset.url
+                  });
+                }
+                if (res[arr_template[0]] == 'accept') {
+                  //用户允许
+
+                }
+              },
+              fail: (res) => {
+                console.info(res)
+              },
+            })
+
+          }
+
+
+        }
+      })
+    } else if (this.versionCompare('2.4.4')) {
+      console.log('这里')
+      wx.requestSubscribeMessage({
+        tmplIds: [message, message2],
+        success: (res) => {
+          if (num == 2) {
+            let courseId = this.data.banjiID
+            let live_id = this.data.live_id
+            let course_id = this.data.course_id
+            let live_class_id = this.data.live_class_id
+            wx.reLaunch({
+              url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
+            })
+          }
+          if (res[message] == 'accept') {
+            //用户允许    
+          }
+          wx.reLaunch({
+            url: num.currentTarget.dataset.url
+          });
+        },
+        fail: (res) => {
+          console.info(res)
+        },
+      })
+      that.setData({
+        indexMaskShow: false
+      })
+
+    }
+  },
+  //打开设置
+  openConfirm(message) {
+    wx.showModal({
+      content: message,
+      confirmText: "确认",
+      cancelText: "取消",
+      success: (res) => {
+        //点击“确认”时打开设置页面
+        if (res.confirm) {
+          wx.openSetting({
+            success: (res) => {
+              console.log(res.authSetting)
+            },
+            fail: (error) => {
+              console.log(error)
+            }
+          })
+        } else {
+          console.log('用户点击取消')
+        }
+      }
+    });
+  },
+  //基础库版本比较
+  versionCompare(v) {
+    const version = wx.getSystemInfoSync().SDKVersion
+    if (this.compareVersion(version, v) >= 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+  compareVersion: function (v1, v2) {
+    v1 = v1.split('.')
+    v2 = v2.split('.')
+    var len = Math.max(v1.length, v2.length)
+
+    while (v1.length < len) {
+      v1.push('0')
+    }
+    while (v2.length < len) {
+      v2.push('0')
+    }
+
+    for (var i = 0; i < len; i++) {
+      var num1 = parseInt(v1[i])
+      var num2 = parseInt(v2[i])
+
+      if (num1 > num2) {
+        return 1
+      } else if (num1 < num2) {
+        return -1
+      }
+    }
+    return 0
   },
   gocollection(number) {
+
     let courseId = this.data.courseId
     wx.navigateTo({
       url: `../component/pages/collectionAll/collectionAll?number=${number.currentTarget.dataset.number}&courseId=${courseId}`
@@ -115,32 +297,64 @@ Page({
     let live_id = this.data.live_id
     let course_id = this.data.course_id
     let live_class_id = this.data.live_class_id
-    let channelId=this.data.channelId
-    let openId=this.data.openId
-    let userName=this.data.userName
-    let avatarUrl=this.data.avatarUrl
-  
+    let channelId = this.data.channelId
+    let openId = this.data.openId
+    let userName = this.data.userName
+    let avatarUrl = this.data.avatarUrl
+    let viewerId = this.data.viewerId
+    const tmplId2 = 'V316Od-eT4_0PodWKepDexz_uJGrGI4Zg-9FiTpXYTI' // 模板消息ID
+    wx.requestSubscribeMessage({
+      tmplIds: [tmplId2],
+      success(res) {
+        console.log(res)
+        // that.setData({
+        //   indexMaskShow: false
+        // })
+        if (res[tmplId2] === 'accept') {
+          // 用户点击【允许】
+          wx.navigateTo({
+            url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
+          })
 
-    // let channelId=this.data.channelId
-    console.log(this.data.channelId)
-    wx.navigateTo({
-      url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}`
+        } else if (res[tmplId2] === 'reject') {
+          console.log(22)
+
+          wx.showModal({
+            title: '提示',
+            confirmText: '重新授权',
+            cancelText: '不要通知',
+            content: '拒绝订阅消息授权后将无法收到通知,是否继续',
+            success: function (res) {
+              if (res.confirm) {
+                // console.log('重新授权')
+                that.toliveclass()
+              } else {
+                wx.navigateTo({
+                  url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
+                })
+                // console.log('不要通知')
+              }
+            }
+          })
+          // 用户点击【取消】
+        }
+      }
     })
-    //保利威網絡直播
-    // wx.navigateTo({
-    //   url: `../component/pages/polyv-test/polyv-test?channelId=${channelId}`
-    // })
   },
   toVideoroom() {
+    
     let video_id = this.data.myCourse['courseId']
     let live_id = this.data.live_id
     let live_class_id = this.data.live_class_id
     let video_collection_id = this.data.video_collection_id
+    let problem_course_id =this.data.problem_course_id
     wx.navigateTo({
-      url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}`
+      url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}&problem_course_id=${problem_course_id}`
     })
   },
-  handleClickItem1({ detail }) {
+  handleClickItem1({
+    detail
+  }) {
     if (this.data.noACtion) {
       this.setData({
         visible1: false
@@ -157,9 +371,7 @@ Page({
   },
   selectTap() {
     this.setData({
-      // selectShow: !this.data.selectShow,
       visible1: true,
-      // triangle:!this.data.triangle
     });
   },
   clickin() {
@@ -170,7 +382,7 @@ Page({
   },
   // 点击下拉列表
   optionTap(e) {
-    let Index = e.currentTarget.dataset.index;//获取点击的下拉列表的下标
+    let Index = e.currentTarget.dataset.index; //获取点击的下拉列表的下标
     this.setData({
       index: Index,
       selectShow: !this.data.selectShow,
@@ -212,7 +424,7 @@ Page({
     this.setData({
       menuTop: courseId,
       courseId: courseId,
-      nomyCourse:true
+      nomyCourse: true
     });
     this.data.course_list.forEach((item) => {
       if (item.haschoose = true) {
@@ -221,7 +433,7 @@ Page({
     })
     let indexOf = this.data.course_list.findIndex(item => item.course_id === courseId)
     this.data.course_list[indexOf].haschoose = true
-    wx.setStorageSync('topInfo', this.data.course_list)//点击事件，点击后更新缓存。
+    wx.setStorageSync('topInfo', this.data.course_list) //点击事件，点击后更新缓存。
     wx.setStorageSync("courseId", {
       courseId: courseId
     });
@@ -231,15 +443,6 @@ Page({
     wx.navigateTo({
       url: '../component/pages/addCourse/addCourse'
     })
-    // wx.showToast({
-    //   title: '暂未开放',//提示文字
-    //   duration: 1000,//显示时长
-    //   mask: false,//是否显示透明蒙层，防止触摸穿透，默认：false  
-    //   icon: 'none', //图标，支持"success"、"loading"  
-    //   success: function () { },//接口调用成功
-    //   fail: function () { },  //接口调用失败的回调函数  
-    //   complete: function () { } //接口调用结束的回调函数  
-    // })
   },
   scrollMove(e) {
     let moveParams = this.data.moveParams;
@@ -278,8 +481,7 @@ Page({
         that.getALLData();
 
       },
-      fail: function (t) {
-      },
+      fail: function (t) {},
       complete: function () {
         // that.getALLData();
         //首此进入需要出发选中头部事件
@@ -298,6 +500,7 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
+
         console.log(res)
         let problem_course_id = res.info.problem_course_id
         wx.setStorageSync("problem_course_id", {
@@ -315,13 +518,14 @@ Page({
           problem_course_id: res.info.problem_course_id, //以此ID获取习题模式
           live_id: res.info.live_id,
           course_id: res.info.course_id,
-          avatarUrl:res.info.avatarUrl,
-          openId:res.info.openId,
-          userName:res.info.userName,
-          channelId:res.info.channelId,
-        
+          avatarUrl: res.info.avatarUrl,
+          openId: res.info.openId,
+          userName: res.info.userName,
+          channelId: res.info.channelId,
+          viewerId: res.info.uid,
+
           live_class_id: res.info.classroom_info.live_class_id,
-          video_collection_id:res.info.video_info.video_collection_id
+          video_collection_id: res.info.video_info.video_collection_id
         })
         wx.setStorageSync("problem_course_id", {
           problem_course_id: res.info.problem_course_id
@@ -340,11 +544,11 @@ Page({
             noliving: false,
           })
         } else {
-          if(res.info.live_status != 1){
+          if (res.info.live_status != 1) {
             that.setData({
               optionsGo: 'goTestvideo'
             })
-            
+
           }
           that.setData({
             living: res.info.classroom_info,
@@ -352,8 +556,7 @@ Page({
           })
         }
       },
-      fail: function (t) {
-      },
+      fail: function (t) {},
       complete: function () {
         wx.hideLoading()
       }
@@ -380,12 +583,7 @@ Page({
             courseId: res[0].courseId,
             noACtion: 0
           })
-        } else {
-          // let action = [
-          //   {
-          //     name: '该课程暂未设置科目'
-          //   }
-          // ]
+        } else {  
           that.setData({
             actions1: [],
             noACtion: 1
@@ -401,13 +599,22 @@ Page({
     })
   },
   goTestvideo() {
-    let courseId = this.data.banjiID
-    let live_id = this.data.live_id
-    let course_id = this.data.course_id
-    let live_class_id = this.data.live_class_id
-    wx.reLaunch({
-      url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
-    })
+    if(this.data.region_type ==2&&this.data.optionsGo =='toliveclass'){
+      wx.showModal({
+        content: '系统检测到您使用的是海外网络地址，请切换成国内线路再进入直播间',
+        confirmText: "确认",
+        cancelText: "取消",
+        success: (res) => {
+          if (res.confirm) {
+            this.onLoad()
+          } else {
+            console.log('用户点击取消')
+          }
+        }
+      });
+    }else{
+      this.subscribe(2)
+    }
   },
   goindex() {
     wx.navigateTo({
@@ -418,112 +625,164 @@ Page({
     console.log('微信小程序，此处应该触发头部接口')
     this.gettopINfor()
   },
+  //获取用户ip
+  getapi:function(){
+    var _this = this;
+    // 获取IP地址
+    wx.request({
+      url: 'https://tianqiapi.com/ip/',
+      data: {
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res);_this.setData({ip:res.data.ip});
+      }
+    });
+  },
+
   onLoad: function (e) {
+    this.getapi();
+
+    wx.getSetting({
+      withSubscriptions: true, // 是否同时获取用户订阅消息的订阅状态
+      success(res) {
+        console.log(res)
+        const mainSwitch = res.subscriptionsSetting.mainSwitch // 订阅消息总开关
+        const itemSettings = res.subscriptionsSetting.itemSettings // 每一项开关（类型：对象）
+        // 总开关为开，且itemSettings为空或者对应模板id的值为空，则展示订阅消息引导卡片
+
+        if (mainSwitch && (!itemSettings || itemSettings && !itemSettings[tmplId])) {
+          // 显示或隐藏订阅按钮等逻辑操作
+          console.log('订阅')
+          this.setData({
+            indexMaskShow: false
+          })
+        }
+      }
+    })
     let that = this
     wx.showLoading({
       title: '加载中',
       mask: true
     })
-    let limit_admin=wx.getStorageSync('limit_admin');
+
+    let limit_admin = wx.getStorageSync('limit_admin');
     console.log(limit_admin);
-    let now=new Date().getTime();
+    let now = new Date().getTime();
     console.log(now);
-  if (typeof(limit_admin)=="number"&&(now-limit_admin)/1000<3600){
-    //一个小时不再请求；
-    //请求本地存储的用户
-    app.globalData.info_show = 1;
-    that.gettopINfor();
-  }else{
-    let promise = new Promise((resolve, reject) => {
-      wx.login({ // 判断是否授权，，没有则授权
-        success: function (n) {
-          if (n.code) {
-            var t = n.code;
-            console.log(t);
-            app.request({
-              url: api.user.newLogin,
-              data: { code: t,
-              version:2
-              },
-              method: 'POST',
-              success: function (e) {
-                console.log(e);
-                if (e.data.param.info_show) {
-                  app.globalData.info_show = 1;
-                }
-                if (e.code == '10001') {
-                  wx.showModal({
-                    title: "警告",
-                    content: e.message,
-                    showCancel: !1,
-                    success: function () {
-                      wx.reLaunch({
-                        url: '../index/index'
-                      })
-                    }
+    if (typeof (limit_admin) == "number" && (now - limit_admin) / 1000 < 3600) {
+      //一个小时不再请求；
+      //请求本地存储的用户
+      app.globalData.info_show = 1;
+      that.gettopINfor();
+    } else {
+      let promise = new Promise((resolve, reject) => {
+        wx.login({ // 判断是否授权，，没有则授权
+          success: function (n) {
+            if (n.code) {
+              var t = n.code;
+              console.log(t);
+              app.request({
+                url: api.user.newLogin,
+                data: {
+                  code: t,
+                  version:9
+                },
+                method: 'POST',
+                success: function (e) {
+                  console.log(e);
+                  that.setData({
+                    region_type:e.data.param.region_type
+                    
                   })
-                }
-                wx.setStorageSync("user_info", {
-                  nickname: e.data.param.user_nicename,
-                  avatar_url: e.data.param.user_img,
-                  uid: e.data.param.uid,
-                  uuid: e.data.param.uuid,
-                  token: e.data.param.token,
-                  mobile:e.data.param.telphone,
-                  is_admin:e.data.param.is_admin,
-                  info_show:e.data.param.info_show 
-                });
-                //增加本地存储管理员的信息；
-                let local_admin=wx.getStorageSync("local_admin");
-                if (typeof(local_admin) == "undefined"||local_admin==''||e.data.param.is_admin==1){
-                  wx.setStorageSync("local_admin", {
-                      is_root: parseInt(e.data.param.is_admin)==1?1:0,
+                  // console.log(that.data.region_type)
+                  if (e.data.param.info_show) {
+                    app.globalData.info_show = 1;
+                  }
+                  if (e.code == '10001') {
+                    wx.showModal({
+                      title: "警告",
+                      content: e.message,
+                      showCancel: !1,
+                      success: function () {
+                        wx.reLaunch({
+                          url: '../index/index'
+                        })
+                      }
+                    })
+                  }
+                  wx.setStorageSync("user_info", {
+                    nickname: e.data.param.user_nicename,
+                    avatar_url: e.data.param.user_img,
+                    uid: e.data.param.uid,
+                    uuid: e.data.param.uuid,
+                    token: e.data.param.token,
+                    mobile: e.data.param.telphone,
+                    is_admin: e.data.param.is_admin,
+                    info_show: e.data.param.info_show
+                  });
+                  //增加本地存储管理员的信息；
+                  let local_admin = wx.getStorageSync("local_admin");
+                  if (typeof (local_admin) == "undefined" || local_admin == '' || e.data.param.is_admin == 1) {
+                    wx.setStorageSync("local_admin", {
+                      is_root: parseInt(e.data.param.is_admin) == 1 ? 1 : 0,
                       is_uid: e.data.param.uid,
                       is_token: e.data.param.token,
-                      is_uuid:e.data.param.uuid
-                  });
-                }
-                
-              },
-              fail: function (e) {
-                wx.showModal({
-                  title: "警告",
-                  content: e.msg,
-                  showCancel: !1
-                });
-              },
-              complete: function () {
-                return resolve()
-              }
-            })
-          }
-        }
-      })
-    })
+                      is_uuid: e.data.param.uuid
+                    });
+                  }
 
-    promise.then(function (resolve, reject) {
-      that.gettopINfor(resolve, reject)
-    });
-}
-     e && wx.setStorageSync("tmp_options", e), t.tabbar("tabBar", 0, this, "home")
- 
+                },
+                fail: function (e) {
+                  wx.showModal({
+                    title: "警告",
+                    content: e.msg,
+                    showCancel: !1
+                  });
+                },
+                complete: function () {
+                  return resolve()
+                }
+              })
+            }
+          }
+        })
+      })
+
+      promise.then(function (resolve, reject) {
+        that.gettopINfor(resolve, reject)
+      });
+    }
+    e && wx.setStorageSync("tmp_options", e), t.tabbar("tabBar", 0, this, "home")
+
   },
-  onReady: function () { },
-  onShow: function () {
-  },
-  onHide: function () { },
-  onUnload: function () { },
-  onPullDownRefresh: function () { },
-  onReachBottom: function () { },
+  onReady: function () {},
+  onShow: function () {},
+  onHide: function () {},
+  onUnload: function () {},
+  onPullDownRefresh: function () {},
+  onReachBottom: function () {},
   onShareAppMessage: function () {
     return {
       path: "/pages/index/index?"
     };
   },
   tabBarRedirect: function (e) {
-    wx.reLaunch({
+    console.log(e.currentTarget.dataset.url)
+    console.log(e.currentTarget.dataset.key)
+    let key = e.currentTarget.dataset.key
+    if(key==0||key==1){
+      this.subscribe(e)
+    }else{
+ wx.reLaunch({
       url: e.currentTarget.dataset.url
     });
+    }
+   
+   
 
   }
 });

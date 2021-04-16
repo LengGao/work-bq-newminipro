@@ -1,14 +1,14 @@
 // pages/collectionAll/collectionAll.js
 let app = getApp(),
-  util = require("../../../../utils/util.js")
+  util = require('../../../../utils/util.js')
 
-let api = require("../../../../api.js")
+let api = require('../../../../api.js')
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    noContent:false,
+    noContent: false,
     page: 1,
     size: 20,
     hasMore: true,
@@ -23,19 +23,19 @@ Page({
     pageNum3: '',
     historyhasRefesh: '',
     historyhasMore: true,
-    historyScroll:'',
+    historyScroll: '',
     topSelect: [{
         name: '收藏夹',
-        id: '2'
+        id: '2',
       },
       {
         name: '错题集',
-        id: '1'
+        id: '1',
       },
       {
         name: '做题历史',
-        id: '0'
-      }
+        id: '0',
+      },
     ],
 
     wrongList: [],
@@ -49,33 +49,62 @@ Page({
     nohisdata: true,
     tabArr: {
       curHdIndex: 1,
-      curBdIndex: 1
+      curBdIndex: 1,
     },
     chapter: [],
     catalist: [],
     errordata: [],
-    chapterName: '答题数据'
+    chapterName: '答题数据',
   },
   tabFun: function (t) {
-    var e = t.target.dataset.id;
-    console.log("----" + e + "----");
-    var tab = {};
-    tab.curHdIndex = e, tab.curBdIndex = e,
+    var e = t.target.dataset.id
+    console.log(e)
+    let collectionLi = this.data. collectionList
+    console.log(collectionLi)
+    if(collectionLi){
+    collectionLi.forEach((i) => {
+      i.isShow = false
+    })
+    this.setData({
+      // errordata: WoringData,
+       collectionList: collectionLi,
+    })
+  }
+    let WoringData = this.data.errordata
+     //折叠错题集所有下拉菜单
+     console.log(WoringData&&WoringData.length>0)
+    if (WoringData) {
+      console.log(11111)
+      WoringData.forEach((i) => {
+        i.isShow = false
+      })
       this.setData({
-        tabArr: tab
-      });
+        errordata: WoringData,
+        // collectionList: collectionLi,
+      })
+    }
+    console.log('----' + e + '----')
+    var tab = {};
+    (tab.curHdIndex = e),
+    (tab.curBdIndex = e),
+    this.setData({
+      tabArr: tab,
+    })
   },
   ifShow(e) {
-    let d = this.data;
+    let d = this.data
     // d.collectionList[index].isShow = !d.collectionList[index].isShow;
     let collectionLi = d.collectionList
     let problem_chapter_id = e.currentTarget.dataset.chapter_id
     collectionLi.forEach((i) => {
       console.log(i.chapter_id == problem_chapter_id)
       if (i.chapter_id == problem_chapter_id) {
-        if(problem_chapter_id==this.data.collect_chapter_id&&i.isShow==true){
+        if (
+          problem_chapter_id == this.data.collect_chapter_id &&
+          i.isShow == true
+        ) {
           i.isShow = false
-        }else{
+        } else {
           i.isShow = true
         }
       } else {
@@ -87,7 +116,7 @@ Page({
       collect_chapter_id: problem_chapter_id,
       page2: 1,
       collecthasMore: true,
-      collecthasRefesh: false
+      collecthasRefesh: false,
     })
     this.getFavoritesList()
   },
@@ -99,11 +128,11 @@ Page({
     if (this.data.page2 == 1) {
       this.setData({
         collecthasRefesh: false,
-      });
+      })
     } else {
       this.setData({
         collecthasRefesh: true,
-      });
+      })
     }
     let option = {
       problem_course_id: problem_course_id,
@@ -113,7 +142,7 @@ Page({
     console.log(option)
     app.encryption({
       url: api.test.getCollectionProblemList,
-      method: "GET",
+      method: 'GET',
       data: option,
       success: function (res) {
         console.log(res.list)
@@ -127,7 +156,7 @@ Page({
             collecthasRefesh: false,
             pageNum2: pageNum,
             collecthasMore: false,
-            page2: that.data.page2 + 1
+            page2: that.data.page2 + 1,
           })
         }
         if (that.data.page2 == 1) {
@@ -135,39 +164,40 @@ Page({
             collectList: collectTitle,
             collecthasRefesh: false,
             pageNum2: pageNum,
-            page2: that.data.page2 + 1
+            page2: that.data.page2 + 1,
           })
-
         } else if (that.data.page2 > 1 && that.data.page2 <= pageNum) {
-
           if (that.data.page2 == pageNum) {
             that.setData({
-              collecthasMore: false
+              collecthasMore: false,
             })
           }
           that.setData({
             collectList: that.data.collectList.concat(collectTitle),
             collecthasRefesh: false,
             pageNum2: pageNum,
-            page2: that.data.page2 + 1
+            page2: that.data.page2 + 1,
           })
         }
       },
       fail: function (t) {},
-      complete: function () {}
+      complete: function () {},
     })
   },
   Showif(e) {
-    let d = this.data;
+    let d = this.data
     let problem_chapter_id = e.currentTarget.dataset.chapter_id
     let WoringData = d.errordata
     WoringData.forEach((i) => {
       if (i.chapter_id == problem_chapter_id) {
-        if(problem_chapter_id==this.data.problem_chapter_id&&i.isShow==true){
+        if (
+          problem_chapter_id == this.data.problem_chapter_id &&
+          i.isShow == true
+        ) {
           i.isShow = false
-        }else{
+        } else {
           i.isShow = true
-        }  
+        }
       } else {
         i.isShow = false
       }
@@ -190,21 +220,21 @@ Page({
     if (this.data.page == 1) {
       this.setData({
         hasRefesh: false,
-      });
+      })
     } else {
       this.setData({
         hasRefesh: true,
-      });
+      })
     }
     let option = {
       problem_course_id: problem_course_id,
       problem_chapter_id: this.data.problem_chapter_id,
-      page: this.data.page
+      page: this.data.page,
     }
     console.log(option)
     app.encryption({
       url: api.test.getErrorProblemList,
-      method: "GET",
+      method: 'GET',
       data: option,
       success: function (res) {
         // let list = res.list;
@@ -219,7 +249,7 @@ Page({
             hasRefesh: false,
             pageNum: pageNum,
             hasMore: false,
-            page: that.data.page + 1
+            page: that.data.page + 1,
           })
         }
         if (that.data.page == 1) {
@@ -227,13 +257,13 @@ Page({
             wrongList: worongTitle,
             hasRefesh: false,
             pageNum: pageNum,
-            page: that.data.page + 1
+            page: that.data.page + 1,
           })
         } else if (that.data.page > 1 && that.data.page <= pageNum) {
           console.log(that.data.page == pageNum)
           if (that.data.page == pageNum) {
             that.setData({
-              hasMore: false
+              hasMore: false,
             })
           }
           console.log(that.data.hasMore)
@@ -242,75 +272,77 @@ Page({
             wrongList: that.data.wrongList.concat(worongTitle),
             hasRefesh: false,
             pageNum: pageNum,
-            page: that.data.page + 1
+            page: that.data.page + 1,
           })
         }
       },
       fail: function (t) {},
-      complete: function () {}
+      complete: function () {},
     })
   },
   getCollection() {
     let that = this
     let option = {
-      problem_course_id: this.data.problem_course_id
+      problem_course_id: this.data.problem_course_id,
     }
     console.log(option)
     app.encryption({
       url: api.default.getCollection,
-      method: "GET",
+      method: 'GET',
       data: option,
       success: function (res) {
         console.log(res)
         if (res.list.length <= 0) {
           that.setData({
-            nodata: false
+            nodata: false,
           })
-        }else{
+        } else {
           let CollectionTitle = app.errorWxParse(that, res.list)
           that.setData({
-            collectionList: CollectionTitle
+            collectionList: CollectionTitle,
           })
         }
-       
       },
       fail: function (t) {},
-      complete: function () {}
+      complete: function () {},
     })
   },
   getErrorTopicFeedbac() {
-    let that = this
-    let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
+    var that = this
+    let problem_course_id = wx.getStorageSync('problem_course_id')
+      .problem_course_id
     let option = {
-      problem_course_id: problem_course_id
+      problem_course_id: problem_course_id,
     }
     console.log(option)
     app.encryption({
       url: api.test.getProblemErrorCollectionChapter,
-      method: "GET",
+      method: 'GET',
       data: option,
       success: function (res) {
         console.log(res)
         if (res.list.length <= 0) {
           that.setData({
-            errornodata: false
+            errornodata: false,
           })
         } else {
+          // console.log()
           let errorTitle = app.errorWxParse(that, res.list)
+          console.log(errorTitle)
           that.setData({
-            errordata: errorTitle
+            errordata: errorTitle,
           })
         }
       },
       fail: function (t) {},
-      complete: function () {}
+      complete: function () {},
     })
   },
   getBehaviorLogList() {
     let that = this
     let option = {
       problem_course_id: this.data.problem_course_id,
-      page: this.data.page3
+      page: this.data.page3,
     }
     if (!this.data.historyhasMore) return
     this.setData({
@@ -319,22 +351,22 @@ Page({
     if (this.data.page3 == 1) {
       this.setData({
         historyhasRefesh: false,
-      });
+      })
     } else {
       this.setData({
         historyhasRefesh: true,
-      });
+      })
     }
 
     app.encryption({
       url: api.default.getBehaviorLogList,
-      method: "GET",
+      method: 'GET',
       data: option,
       success: function (res) {
         console.log(res.total)
-          if (res.list.length <= 0) {
+        if (res.list.length <= 0) {
           that.setData({
-            nohisdata: false
+            nohisdata: false,
           })
         }
         let pageNum = Math.ceil(res.total / 20)
@@ -346,7 +378,9 @@ Page({
         let historyTitle = app.errorWxParse(that, res.list, 'history')
         // console.log(historyTitle)
         for (let k in historyTitle) {
-          historyTitle[k].create_time = util.js_date_time(historyTitle[k].create_time)
+          historyTitle[k].create_time = util.js_date_time(
+            historyTitle[k].create_time
+          )
         }
 
         if (pageNum < 2) {
@@ -354,90 +388,95 @@ Page({
             hisdata: historyTitle,
             historyhasRefesh: false,
             pageNum3: pageNum,
-            noContent:false ,
+            noContent: false,
             historyhasMore: false,
-            page: that.data.page + 1
+            page: that.data.page + 1,
           })
         }
         if (that.data.page3 == 1) {
           that.setData({
             hisdata: historyTitle,
             pageNum3: pageNum,
-            page3: that.data.page3 + 1
+            page3: that.data.page3 + 1,
           })
           console.log(that.data.hisdata)
         } else if (that.data.page3 > 1 && that.data.page3 <= pageNum) {
           if (that.data.page3 == pageNum) {
             that.setData({
               historyhasMore: false,
-              noContent:false ,
+              noContent: false,
             })
           }
           that.setData({
             hisdata: that.data.hisdata.concat(historyTitle),
             pageNum3: pageNum,
-            page3: that.data.page3 + 1
+            page3: that.data.page3 + 1,
           })
         }
       },
       fail: function (t) {},
-      complete: function () {}
+      complete: function () {},
     })
-
   },
   select_date(t) {
     let id = t.currentTarget.dataset.cid
     wx.navigateTo({
-      url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
+      url: `../errorCardPir/errorCardPir?problem_id=${id}&problem_chapter_id=${this.data.collect_chapter_id}&type=${t.currentTarget.dataset.type}`,
     })
   },
   goforError(t) {
     let id = t.currentTarget.dataset.cid
     wx.navigateTo({
-      url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
+      // url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
+      url: `../errorCardPir/errorCardPir?problem_course_id=${this.data.problem_course_id}&problem_chapter_id=${this.data.problem_chapter_id}&type=${t.currentTarget.dataset.type}`,
     })
   },
   gobefor(e) {
     console.log(e.currentTarget.dataset.index)
-    let pages = getCurrentPages(); // 当前页面
-    let beforePage = pages[pages.length - 2];
+    let pages = getCurrentPages() // 当前页面
+    let beforePage = pages[pages.length - 2]
     let courseId = wx.getStorageSync('courseId').courseId
     // console.log("beforePage");
     // console.log(beforePage);
     wx.navigateBack({
       success: function () {
-        beforePage.getHomePanel(courseId);
-      }
-    });
+        beforePage.getHomePanel(courseId)
+      },
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let problem_course_id = wx.getStorageSync('problem_course_id').problem_course_id
+    let problem_course_id = wx.getStorageSync('problem_course_id')
+      .problem_course_id
     this.setData({
-      problem_course_id: problem_course_id
+      problem_course_id: problem_course_id,
     })
     // wx.startPullDownRefresh();
     console.log(options)
-    let screenHeight = wx.getSystemInfoSync().windowHeight;
-   let historyScroll = screenHeight-app.globalData.navHeight;
-   let that =this
-   let query = wx.createSelectorQuery().select('.fenlei-menu').boundingClientRect(function (res) {  
-   let  thisFenLeiHeight = res.height;
-    console.log(thisFenLeiHeight)
-    console.log(app.globalData.navHeight)
-    that.setData({ 
-      historyScroll:screenHeight-app.globalData.navHeight-thisFenLeiHeight+'px'
-              // setHeight: screenHeight - thisflexBoxHeight - thisbgcolorHeight+'px'
-          });
-          console.log(that.data.historyScroll)
-}).exec(); 
-console.log(this.data.historyScroll)
+    let screenHeight = wx.getSystemInfoSync().windowHeight
+    let historyScroll = screenHeight - app.globalData.navHeight
+    let that = this
+    let query = wx
+      .createSelectorQuery()
+      .select('.fenlei-menu')
+      .boundingClientRect(function (res) {
+        let thisFenLeiHeight = res.height
+        console.log(thisFenLeiHeight)
+        console.log(app.globalData.navHeight)
+        that.setData({
+          historyScroll: screenHeight - app.globalData.navHeight - thisFenLeiHeight + 'px',
+          // setHeight: screenHeight - thisflexBoxHeight - thisbgcolorHeight+'px'
+        })
+        console.log(that.data.historyScroll)
+      })
+      .exec()
+    console.log(this.data.historyScroll)
     this.setData({
       navH: app.globalData.navHeight,
     })
-   
+
     // console.log(screenHeight,historyScroll)
     let tabArr0 = 'tabArr.curHdIndex',
       tabArr1 = 'tabArr.curBdIndex'
@@ -446,8 +485,7 @@ console.log(this.data.historyScroll)
       [tabArr0]: options.number,
       [tabArr1]: options.number,
     })
-    this.getCollection(),
-    this.getErrorTopicFeedbac()
+    this.getCollection(), this.getErrorTopicFeedbac()
     this.getBehaviorLogList()
   },
   loadMore() {
@@ -460,7 +498,7 @@ console.log(this.data.historyScroll)
       hasRefesh: true,
       hasMore: true,
       page: 1,
-    });
+    })
     this.getErrorQues()
   },
   //做题历史加载更多
@@ -472,7 +510,7 @@ console.log(this.data.historyScroll)
       historyhasRefesh: true,
       historyhasMore: true,
       page3: 1,
-    });
+    })
     this.getBehaviorLogList()
   },
   //收藏集加载更多
@@ -484,10 +522,9 @@ console.log(this.data.historyScroll)
       collecthasRefesh: true,
       collecthasMore: true,
       page2: 1,
-    });
+    })
     this.getFavoritesList()
   },
-
 
   // onPullDownRefresh() {
   //   wx.stopPullDownRefresh()
@@ -496,7 +533,7 @@ console.log(this.data.historyScroll)
   //   console.log("上拉加载")
   //   let that = this;
   //   that.setData({
-  //     loading: true, //把"上拉加载"的变量设为false，显示 
+  //     loading: true, //把"上拉加载"的变量设为false，显示
   //     pageIndex: that.data.pageIndex + 5
 
   //   })
@@ -507,37 +544,27 @@ console.log(this.data.historyScroll)
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-
-  },
+  onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
-  },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-
-  },
+  onHide: function () {},
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
-  },
+  onUnload: function () {},
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-
-  },
+  onPullDownRefresh: function () {},
 
   /**
    * 页面上拉触底事件的处理函数
@@ -546,7 +573,5 @@ console.log(this.data.historyScroll)
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
-  }
+  // onShareAppMessage: function () {},
 })

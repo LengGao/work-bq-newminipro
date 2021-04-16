@@ -8,14 +8,18 @@ App({
     onLaunch: function () {
         plv.setApp({
 <<<<<<< HEAD
+<<<<<<< HEAD
             apiId: 'fu8gegebd9',
             apiSecret: '6f614eb7149e446a89866bd056bbb58a'
           });
 =======
             apiId:'fue63gnbpi',
+=======
+            apiId: 'fue63gnbpi',
+>>>>>>> d31938494449037da1dc8564d1dad5f30ba9cd23
             apiSecret: '4041e8c914fe4378880a5626d2547c5a'
         });
-        // this.getSecretData()
+        this.getSecretData()
         //使用polyv
 >>>>>>> refs/remotes/origin/dev
         let that = this
@@ -57,25 +61,23 @@ App({
         chat_socket_url: null,
     },
     getSecretData() {
-        let option = {        
-        }
+        let option = {}
         wx.request({
             url: api.default.getSecretData,
             data: {},
             method: "GET",
-            dataType:  "json",
+            dataType: "json",
             success: function (res) {
                 console.log(res.data.data)
-                if(res.data.code==0){
+                if (res.data.code == 0) {
                     let data = res.data.data.param
                     wx.setStorageSync('user_id', data.user_id);
-                console.log( data.app_id,data.app_secret)
+                    console.log(data.app_id, data.app_secret)
                     plv.setApp({
                         apiId: data.app_id,
                         apiSecret: data.app_secret
                     });
                 }
-               
             }
         });
     },
@@ -259,13 +261,12 @@ App({
                     wxParse.wxParseTemArray("WxParseListArr", 'content', obj.length, self);
                 }
             })
-            // console.log(d.WxParseListArr)
+         
             let listArr = d.WxParseListArr;
             listArr.forEach((item, index) => {
                 obj[index].contentCopy = item;
                 msgListArr.push(obj[index]);
             })
-            // console.log( msgListArr)
             obj = msgListArr;
         }
 
@@ -273,7 +274,6 @@ App({
     },
     testWxParse(self, objData) {
         let obj = objData || {};
-        // console.log(obj.content != undefined)
         let d = self.data;
         let msgListArr = [];
         if (obj.content != undefined) {
@@ -297,25 +297,7 @@ App({
         } else {
             wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
             obj.problem_stem_wx = d.content;
-            // obj.content = msgListArr;
-            // console.log(obj)
-            // if(obj.child !=  undefined && obj.child.length >0){ // 如果child存在且不为空
-            //     obj.child.forEach((val, index)=>{ // 循环child
-            //         wxParse.wxParse('content' + index, "html", val.stem, self, 5); // 给child中的标题解析
-            //         val.content.forEach( (val, index)=>{ // 循环每一个选项
-            //             if (index == val.content.length - 1) { //
-            //                 wxParse.wxParseTemArray("WxParseListArr", 'content', val.content.length, self); // 开始解析每一个选项
-            //             }
-            //             let listArr = d.WxParseListArr;
-            //             listArr.forEach((item, index) => {
-            //                 val.content[index].contentCopy = item;
-            //                 msgListArr.push(val.content[index]);
-            //             })
-            //             val.content = msgListArr;
-            //         })
-
-            //     })
-            // }
+           
         }
         return obj;
     },

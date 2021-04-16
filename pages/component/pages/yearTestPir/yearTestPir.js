@@ -14,6 +14,7 @@ Page({
     question_list: [],
     question_no: 1,
     is_collect: 0,
+    chapterName:'',
     question_num: 40,
     originTitle: [],
     randerTitle: [],
@@ -94,6 +95,7 @@ Page({
     curID: '',
     curIndexNumber: '',
     real_topic_log_id: '',
+    practice_id: '',
     alltestID: [],
     is_lock: 0,
     senceNum: 0,
@@ -102,7 +104,41 @@ Page({
     shortMap: '',
     SceneValue: '',
     shortSceneMap: '',
-    fillNewAnswer: []
+    fillNewAnswer: [],
+    isfullScreen: false, //答题选项是否布满
+    sceneShortMaskShow:false,//场景题简答遮罩层
+  },
+  fullScreen(e) {
+        //判断是否是第一次点击提示文字
+        let senceFullScreen  = wx.getStorageSync("senceFullScreen")
+        if(senceFullScreen){
+          
+        }else{
+         wx.showToast({
+           title: '点击灰色箭头可查看下方案例小题',
+           icon: 'none',
+           duration: 4000
+         })
+         wx.setStorageSync("senceFullScreen",true);
+        }
+    let screenHeight = wx.getSystemInfoSync().windowHeight
+    let answerScroll = screenHeight - app.globalData.navHeight - 150
+    console.log(answerScroll)
+    this.setData({
+      isfullScreen: !this.data.isfullScreen
+    })
+    console.log(this.data.isfullScreen)
+    if (this.data.isfullScreen) {
+      this.setData({
+        moveY: answerScroll
+      })
+    } else {
+      this.setData({
+        moveY: 313
+      })
+    }
+
+
   },
   starDrag(event) {
     console.log(event);
@@ -130,7 +166,10 @@ Page({
     //如果该题目是从上次保存下来则不提交答案
     let that = this
     this.setData({
-      multiselecting: []
+      multiselecting: [],
+      wrongAnswer: false,
+      correctAnswer: false,
+      donotChangeAnswer: false,
     })
     this.setData({
       answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
@@ -142,9 +181,9 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if (this.data.is_lock == 1) {} else {
+    // if (this.data.is_lock == 1) {} else {
       this.common()
-    }
+    // }
     if (curindex < 1) {
       return
     }
@@ -263,10 +302,8 @@ Page({
   common() { //判断当前题目是否已经提交，若没有则提交当前题目
     let that = this
     let curID = that.data.curID
-    console.log(curID)
-    console.log(that.data.randerTitle.problem_type)
+    console.log(curID)   
     if (that.data.randerTitle.problem_type == 2) { //多选题在此提交答案
-      console.log(that.data.randerTitle.hasSubmit)
       if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
@@ -304,7 +341,7 @@ Page({
   },
   nextQU() {
     let that = this
-    let curID = that.data.curID
+   
     this.setData({
       multiselecting: []
     })
@@ -313,12 +350,17 @@ Page({
       activeAnswer: 'defaultAnswer',
       correctoption: '',
       multishowAny: true,
-
+      answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeShortAnswer: 'defaultAnswer',
+      correcShorttoption: '',
+      multishowShortAny: true,
+      multishowScenceShortAny: true,
     })
-    console.log(this.data.is_lock, this.data.multiselect)
-    if (this.data.is_lock == 1) {} else {
+    let curID = that.data.curID
+ 
+    // if (this.data.is_lock == 1) {} else {
       this.common()
-    }
+    // }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
     that.saveRander(curID)
     //首先获取下一题的ID
@@ -430,6 +472,14 @@ Page({
       })
       return
     }
+    if (this.data.randerTitle.child && this.data.randerTitle.child[this.data.senceIndex - 1].done) { //如果已选答案，再次点击不再触发
+      wx.showToast({
+        title: '答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
     let color
     let option = e.currentTarget.dataset.option;
     let answer = e.currentTarget.dataset.answer;
@@ -474,26 +524,15 @@ Page({
             multiselect.splice(i, 1)
             this.setData({
               removeColorOption: option
-            })
-            console.log(this.data.removeColorOption)
-          }
-          // else{
-          //   this.setData({
-          //     removeColorOption:''
-          //   })
-          // }
-        })
-        console.log(this.data.removeColorOption)
-        console.log(this.data.multiselect)
+            })         
+          } 
+        }) 
       }
       this.setData({
         multiselect: multiselect.toString() + ','
       })
-      console.log(this.data.multiselect)
-    }
-    console.log(this.data.removeColorOption)
-
-    if (answer.includes(option)) {
+    } 
+     if (answer.includes(option)) {
       console.log(option)
       color.color = true
       console.log(this.data.removeColorOption == option)
@@ -575,19 +614,56 @@ Page({
     }
   },
   showSenceAnswer() {
+    this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = false
     if (this.data.activeSenceAnswer == 'activeAnswer') {
       this.setData({
         answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeSenceAnswer: 'defaultAnswer',
         correcSencetoption: '',
-        multiSenceshowAny: true
+        multiSenceshowAny: true,
+        randerTitle: this.data.randerTitle
       })
     } else {
+      var data = this.data.randerTitle.child[this.data.senceIndex - 1].content
+      if (this.data.randerTitle.child[this.data.senceIndex - 1].done != true) {
+        var arr = this.data.multiselect
+        var arr01 = this.data.multiAnswer
+        let answer = this.data.randerTitle.child[this.data.senceIndex - 1].answer
+        var arr03 = answer.split(",")
+        console.log(arr, arr01)
+        // console.log(arr=='')
+        if (arr != '') {
+          var arr02 = [...arr01].filter(x => [...arr].every(y => y !== x));
+          data.forEach((item) => {
+            arr02.forEach((i) => {
+              if (i == item.option) {
+                item.nohascolor = true
+              }
+            })
+          })
+        } else {
+          data.forEach((item) => {
+            arr03.forEach((i) => {
+              if (i == item.option) {
+                item.nohascolor = true
+              }
+            })
+          })
+        }
+        arr = [],
+          arr01 = [],
+          arr02 = []
+        console.log(data)
+      }
+      this.data.randerTitle.child[this.data.senceIndex - 1].content = data
+      this.data.randerTitle.child[this.data.senceIndex - 1].done = true
+      this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = true
       this.setData({
         answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeSenceAnswer: 'activeAnswer',
         correcSencetoption: 'activeoption',
-        multiSenceshowAny: false
+        multiSenceshowAny: false,
+        randerTitle: this.data.randerTitle
       })
     }
   },
@@ -604,6 +680,7 @@ Page({
       problem_chapter_id: options.chapter_id,
       operation_type: 0
     }
+    console.log(option)
     app.encryption({ //初始化加载函数获取所有题目ID
       url: api.test.createRealTopicData,
       data: option,
@@ -620,6 +697,7 @@ Page({
         let scenes_problem = list.scenes_problem; //场景
         let short_problem = list.short_problem; //简答
         totalNum = single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
+        console.log(totalNum)
         //合并数组
         let alltestID = [];
         alltestID = alltestID.concat(single_problem).concat(multiple_problem).concat(scenes_problem).concat(judge_problem).concat(fill_problem).concat(short_problem);
@@ -737,9 +815,25 @@ Page({
           this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
         }
       }
+    }else{
+      this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
     }
   },
   bindsenceNext() {
+    let that = this
+    this.setData({
+      answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeSenceAnswer: 'defaultAnswer',
+      correcSencetoption: '',
+      multiSenceshowAny: true,
+      multiselecting: [],
+        //场景简答题重置
+        answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+        activeShortAnswer: 'defaultAnswer',
+        correcShorttoption: '',
+        multishowShortAny: true,
+        multishowScenceShortAny: true,
+    })
     console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
     // this.saveScenceRander()
     if (this.data.senceIndex < this.data.senceNum) {
@@ -766,6 +860,19 @@ Page({
     })
   },
   bindsenceLast() {
+    this.setData({
+      answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+      activeSenceAnswer: 'defaultAnswer',
+      correcSencetoption: '',
+      multiSenceshowAny: true,
+      multiselecting: [],
+       //场景简答题重置
+       answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
+       activeShortAnswer: 'defaultAnswer',
+       correcShorttoption: '',
+       multishowShortAny: true,
+       multishowScenceShortAny: true,
+    })
     console.log(this.data.senceIndex); // 点击下一题减少-1
     if (this.data.senceIndex <= 1) {
       this.setData({
@@ -813,6 +920,18 @@ Page({
         ProblemType: randerTitle.problem_type,
         curID: randerTitle.problem_id
       });
+      // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
+      if (randerTitle.problem_type == 6) {
+        if (randerTitle.child != undefined && randerTitle.child.length > 0) {
+          that.setData({
+            // randerTitle: randerTitle,
+            senceNum: randerTitle.child.length,
+            senceIndex: 1,
+            // ProblemType: randerTitle.problem_type,
+            // curID: randerTitle.problem_id
+          });
+        }
+      }
     } else {
       let option = {
         problem_id: ID,
@@ -833,6 +952,9 @@ Page({
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {
               randerTitle.child.forEach((val, index) => {
                 val = app.testWxParse(that, val) //将解析后的赋值
+                console.log(val)
+                val.showAnswer = false
+                val.done = false
               });
             }
             // 判断当前题目是否已收藏
@@ -1000,7 +1122,7 @@ Page({
   onLoad: function (options = {}) {
     this.setData({
       moveY: 313,
-
+      chapterName:options.chapterName
     })
     //获取屏幕宽高
     let that = this
@@ -1171,24 +1293,51 @@ Page({
       })
     }
   },
-  showShortAnswer() {
+  showShortAnswer(e) {
+    let num = e.currentTarget.dataset.num
+    if (num == 1) {
+      this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = true
+    } else {
+      this.data.randerTitle.showAnswer = true
+    }
     if (this.data.activeShortAnswer == 'activeAnswer') {
       this.setData({
         answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
         activeShortAnswer: 'defaultAnswer',
         correcShorttoption: '',
-        multishowShortAny: true
+        multishowShortAny: true,
+        multishowScenceShortAny: true,
+        randerTitle: this.data.randerTitle
       })
     } else {
       this.setData({
         answerShortImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
         activeShortAnswer: 'activeAnswer',
         correcShorttoption: 'activeoption',
-        multishowShortAny: false
+        multishowShortAny: false,
+        multishowScenceShortAny: false,
+        randerTitle: this.data.randerTitle
       })
     }
   },
+  showSceneShortMask(){
+    if( this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer) {
+      wx.showToast({
+        title: '答案已出,当前题目无法作答',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if(this.data.sceneShortMaskShow==false && this.data.isfullScreen ==false){
+      this.fullScreen()
+    }
+    this.setData({
+      sceneShortMaskShow:!this.data.sceneShortMaskShow
+    })
+  },
   updateShortValue(event) {
+    console.log(event)
     let value = event.detail.value
     this.data.randerTitle.shortMap = value
     this.setData({
@@ -1198,14 +1347,18 @@ Page({
   },
   updateSceneValue(event) {
     let value = event.detail.value
+    console.log(value)
     this.setData({
       SceneValue: value
     })
   },
   updateShorScenetValue(event) {
+console.log(event)
     let value = event.detail.value
+    this.data.randerTitle.child[this.data.senceIndex - 1].shortMap = value
     this.setData({
-      shortSceneMap: value
+      shortSceneMap: value,
+      randerTitle: this.data.randerTitle
     })
   },
   bindKeyInput(e) {
