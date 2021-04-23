@@ -188,6 +188,18 @@
           "pathName": "pages/component/pages/dailyShare/dailyShare",
           "query": "courseId=24321",
           "scene": null
+        },
+        {
+          "name": "pages/component/pages/scheduleCode/scheduleCode",
+          "pathName": "pages/component/pages/scheduleCode/scheduleCode",
+          "query": "scene=arrange_id%3D5%26class_hour_id%3D5",
+          "scene": null
+        },
+        {
+          "name": "pages/component/pages/scheduleSuccess/scheduleSuccess",
+          "pathName": "pages/component/pages/scheduleSuccess/scheduleSuccess",
+          "query": "scene=arrange_id%3D5%26class_hour_id%3D5",
+          "scene": null
         }
       ]
     }

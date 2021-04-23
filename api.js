@@ -104,6 +104,8 @@ let apiurl = {
     getLiveUrls: bq + "/Live/getLiveUrlForWechat",
     getSecretData:bq + "/Live/getSecretData",
     polyvWechatAuth:bq + "/Live/polyvWechatAuth",  
+    getScheduleCode:bq+'/arrange/info',
+    arrangeUpdateSignIn:bq+'/arrange/update',
   },
   user: {
     newLogin: bq + '/login/login',

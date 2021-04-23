@@ -539,16 +539,27 @@ width: 100%;
 }
 
 .live-review {
-    padding: 3rpx 10rpx;
+    /* padding: 3rpx 10rpx;
     text-align: center;
     background: rgba(255, 226, 201, 1);
     border-radius: 4rpx;
     font-size: 20rpx;
     font-family: PingFang SC;
     font-weight: 500;
-    color: rgba(255, 118, 0, 1);
+    color: rgba(255, 118, 0, 1); */
+    padding: 7rpx 29rpx;
+    border: 1px solid #ccc;
+    border-radius: 36rpx;
+    font-size: 24rpx;
 }
+.live-review2 {
 
+    padding: 7rpx 29rpx;
+    border: 1px solid #199fff;
+    border-radius: 36rpx;
+    font-size: 24rpx;
+    color:#199fff
+}
 .repeat {
     margin-left: 10rpx;
     display: flex;
@@ -643,4 +654,9 @@ width: 100%;
     box-shadow: 0px 0px 6px 0px rgba(163, 217, 255, 0.5);
     margin-top: 22rpx;
     border-radius: 20rpx;
+}
+.live-review-box{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20rpx;
 }

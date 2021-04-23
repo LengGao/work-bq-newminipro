@@ -65,7 +65,9 @@
         "pages/faceFail/faceFail",
         "pages/assignTopic/assignTopic",
         "pages/assignTestIntro/assignTestIntro",
-        "pages/polyv-test/polyv-test"       
+        "pages/polyv-test/polyv-test",
+        "pages/scheduleCode/scheduleCode",
+        "pages/scheduleSuccess/scheduleSuccess"
       ]
     }
   ],

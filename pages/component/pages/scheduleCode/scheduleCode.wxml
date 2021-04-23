@@ -1,0 +1,48 @@
+<view wx:for="{{ funlist }}" wx:key="index" wx:for="{{ funlist }}" wx:key="index">
+  <view class="schedule-img">
+    <image style="width:100%;height:228rpx;" src="http://dpsystem.oss-cn-shenzhen.aliyuncs.com/xitongzhuanyong1618472810/2efd02feaac135ab13f4ad3370d8f25c" />
+  </view>
+  <view class="main-card">
+  <!--header-->
+  <view class="detail_head">
+    <!-- <image style="width:142rpx;height:80rpx;margin-right:20rpx" src="{{item.cover_img}}" /> -->
+    <view>
+      <view class="detail-h1">2021年系统集成项目管理师考
+前冲刺强化面授1班</view>
+      <!-- <text>{{item.specific_time_range}}</text> -->
+    </view>
+  </view>
+  <!--主要内容-->
+  <view class="detail_main">
+    <view class="detail_course">
+      <text class="detail_area">上课时间</text>
+      <view class="detail_content">{{item.period}}</view>
+    </view>
+    <view class="detail_course">
+      <text class="detail_area">授课老师</text>
+      <view class="detail_content">{{item.teacher_name}}</view>
+    </view>
+    <view class="detail_course">
+      <text class="detail_area">授课方式</text>
+      <view class="detail_content">{{item.teaching_type==1?'直播':'面授'	}}</view>
+    </view>
+  
+    <view class="detail_course">
+      <text class="detail_area">上课教室</text>
+      <view class="detail_content">{{item.schoolroom_name}}</view>
+    </view>
+    <view class="detail_course">
+      <text class="detail_area">备注信息</text>
+      <view class="detail_content">{{item.remark	}}</view>
+    </view>
+  </view>
+  <!--footer-->
+  <view class="code">
+    <view class="code_img" bindtap="signin">
+      <image src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/code_img.png" />
+      <text class="sign">签到</text>
+    </view>
+  </view>
+</view>
+
+</view>

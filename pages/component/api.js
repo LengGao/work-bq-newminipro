@@ -100,7 +100,9 @@ let apiurl = {
     cancelAppointment: bq + '/Reservation/cancelAppointment',
     getClassroomInfoFromQrcode: bq + '/Reservation/getClassroomInfoFromQrcode',
     reSubscribeClassroom: bq + '//reSubscribeClassroom',
-    subscribeClassroomSignIn: bq + '/Reservation/signIn'
+    subscribeClassroomSignIn: bq + '/Reservation/signIn',
+    getScheduleCode:bq+'arrange/info',
+    arrangeUpdateSignIn:bq+'arrange/update',
   },
   user: {
     newLogin: bq + '/login/login',

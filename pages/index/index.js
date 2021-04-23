@@ -6,7 +6,7 @@ Page({
   data: {
     isIOS: app.globalData.isIOS,
     visible1: false,
-    region_type:'',
+    region_type: '',
     channelId: '',
     openId: '',
     userName: '',
@@ -303,22 +303,30 @@ Page({
     let avatarUrl = this.data.avatarUrl
     let viewerId = this.data.viewerId
     const tmplId2 = 'V316Od-eT4_0PodWKepDexz_uJGrGI4Zg-9FiTpXYTI' // 模板消息ID
+    
+    if(this.data.region_type ==2){//判断是否为海外用户并限制
+      wx.showModal({
+        content: '系统检测到您使用的是海外网络地址，请切换成国内线路再进入直播间',
+        confirmText: "确认",
+        cancelText: "取消",
+        success: (res) => {
+          if (res.confirm) {
+            this.onLoad()
+          } else {
+            console.log('用户点击取消')
+          }
+        }
+      });
+    }else{
     wx.requestSubscribeMessage({
       tmplIds: [tmplId2],
       success(res) {
-        console.log(res)
-        // that.setData({
-        //   indexMaskShow: false
-        // })
         if (res[tmplId2] === 'accept') {
           // 用户点击【允许】
           wx.navigateTo({
             url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
           })
-
         } else if (res[tmplId2] === 'reject') {
-          console.log(22)
-
           wx.showModal({
             title: '提示',
             confirmText: '重新授权',
@@ -326,13 +334,13 @@ Page({
             content: '拒绝订阅消息授权后将无法收到通知,是否继续',
             success: function (res) {
               if (res.confirm) {
-                // console.log('重新授权')
+                // 重新授权
                 that.toliveclass()
               } else {
                 wx.navigateTo({
                   url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
                 })
-                // console.log('不要通知')
+
               }
             }
           })
@@ -340,14 +348,15 @@ Page({
         }
       }
     })
+  }
   },
   toVideoroom() {
-    
+
     let video_id = this.data.myCourse['courseId']
     let live_id = this.data.live_id
     let live_class_id = this.data.live_class_id
     let video_collection_id = this.data.video_collection_id
-    let problem_course_id =this.data.problem_course_id
+    let problem_course_id = this.data.problem_course_id
     wx.navigateTo({
       url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}&problem_course_id=${problem_course_id}`
     })
@@ -549,6 +558,10 @@ Page({
               optionsGo: 'goTestvideo'
             })
 
+          } else {
+            that.setData({
+              optionsGo: 'toliveclass'
+            })
           }
           that.setData({
             living: res.info.classroom_info,
@@ -583,7 +596,7 @@ Page({
             courseId: res[0].courseId,
             noACtion: 0
           })
-        } else {  
+        } else {
           that.setData({
             actions1: [],
             noACtion: 1
@@ -599,22 +612,24 @@ Page({
     })
   },
   goTestvideo() {
-    if(this.data.region_type ==2&&this.data.optionsGo =='toliveclass'){
-      wx.showModal({
-        content: '系统检测到您使用的是海外网络地址，请切换成国内线路再进入直播间',
-        confirmText: "确认",
-        cancelText: "取消",
-        success: (res) => {
-          if (res.confirm) {
-            this.onLoad()
-          } else {
-            console.log('用户点击取消')
-          }
-        }
-      });
-    }else{
-      this.subscribe(2)
-    }
+    // console.log(222)
+    // if(this.data.region_type ==2&&this.data.optionsGo =='toliveclass'){
+    //   wx.showModal({
+    //     content: '系统检测到您使用的是海外网络地址，请切换成国内线路再进入直播间',
+    //     confirmText: "确认",
+    //     cancelText: "取消",
+    //     success: (res) => {
+    //       if (res.confirm) {
+    //         this.onLoad()
+    //       } else {
+    //         console.log('用户点击取消')
+    //       }
+    //     }
+    //   });
+    // }else{
+    //   this.subscribe(2)
+    // }
+    this.subscribe(2)
   },
   goindex() {
     wx.navigateTo({
@@ -626,19 +641,21 @@ Page({
     this.gettopINfor()
   },
   //获取用户ip
-  getapi:function(){
+  getapi: function () {
     var _this = this;
     // 获取IP地址
     wx.request({
       url: 'https://tianqiapi.com/ip/',
-      data: {
-      },
+      data: {},
       method: 'POST',
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        console.log(res);_this.setData({ip:res.data.ip});
+        console.log(res);
+        _this.setData({
+          ip: res.data.ip
+        });
       }
     });
   },
@@ -689,14 +706,14 @@ Page({
                 url: api.user.newLogin,
                 data: {
                   code: t,
-                  version:9
+                  version: 9
                 },
                 method: 'POST',
                 success: function (e) {
                   console.log(e);
                   that.setData({
-                    region_type:e.data.param.region_type
-                    
+                    region_type: e.data.param.region_type
+
                   })
                   // console.log(that.data.region_type)
                   if (e.data.param.info_show) {
@@ -774,15 +791,15 @@ Page({
     console.log(e.currentTarget.dataset.url)
     console.log(e.currentTarget.dataset.key)
     let key = e.currentTarget.dataset.key
-    if(key==0||key==1){
+    if (key == 0 || key == 1) {
       this.subscribe(e)
-    }else{
- wx.reLaunch({
-      url: e.currentTarget.dataset.url
-    });
+    } else {
+      wx.reLaunch({
+        url: e.currentTarget.dataset.url
+      });
     }
-   
-   
+
+
 
   }
 });

@@ -1,0 +1,19 @@
+<view class="success">
+  <!-- 预约成功主体 -->
+  <view class="success_main">
+    <view class="success_img">
+      <image style="width:300rpx;height:300rpx;" src="{{code==200?'http://dpsystem.oss-cn-shenzhen.aliyuncs.com/xitongzhuanyong1618472810/5569995fc520af1a93c874a39ac05dc8':'http://dpsystem.oss-cn-shenzhen.aliyuncs.com/xitongzhuanyong1618472810/02d097285ed1c563e308d3464eac3b45'}}" />
+    </view>
+    <view class="{{code==200?'success1':'error'}}">{{code==200?'签到成功':'签到失败'}}</view>
+    <view class="success_h2">
+      <view>{{message}}</view>
+    </view>
+  </view>
+  <!-- button部分 -->
+  <view class="button">
+    <!-- <view class="continue_btn" bindtap="continue" hidden="{{continueName=='申请重修'}}">
+      {{continueName}}
+    </view> -->
+    <view class="continue_btn" bindtap="mineorder">我知道了</view>
+  </view>
+</view>

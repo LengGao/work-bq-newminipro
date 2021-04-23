@@ -9,6 +9,30 @@ Page({
   data: {
     nodata: false
   },
+  toliveclass(options) {
+    console.log(options)
+    let data = options.currentTarget.dataset.item
+    let userInfo = wx.getStorageSync('user_info')
+    let channelId = data.channel_id
+    let openId = wx.getStorageSync('openId').openId
+    let userName = userInfo.nickname
+    let avatarUrl = userInfo.avatar_url
+    let viewerId = data.user_id
+    console.log(channelId, openId, userName, avatarUrl, viewerId)
+    wx.navigateTo({
+      url: `../live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
+    })
+  },
+  goTestvideo(options) {
+    let data = options.currentTarget.dataset.item
+    console.log(data)
+    let live_id = data.live_id
+    let live_class_id = data.live_class_id
+    // console.log(live_id,live_class_id)
+    wx.reLaunch({
+      url: `../course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
+    })
+  },
   getMyAllClassroom(options) {
     console.log('nimen')
     let that = this
@@ -46,6 +70,7 @@ Page({
       }
     })
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -54,6 +79,9 @@ Page({
     this.getMyAllClassroom(options)
 
   },
+
+
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成

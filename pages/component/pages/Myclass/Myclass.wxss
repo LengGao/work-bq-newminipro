@@ -84,8 +84,12 @@ page {
 .myCourse-btnbox {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     padding-top: 20rpx;
+}
+.myCourse-btnbgk{
+    color: #199fff;
+    border:1rpx solid #199fff!important
 }
 
 .myCourse-btn {
