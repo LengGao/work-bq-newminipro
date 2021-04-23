@@ -202,7 +202,7 @@
 </view>
 <!--简答题-->
 <view hidden="{{ ProblemType == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart'
-    bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
+    bindtouchend="touchEnd" style='height:{{questionHeight}}rpx;padding-bottom:120rpx'>
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
     </view>
@@ -219,7 +219,7 @@
         <view class="referData">参考答案</view>
         <view class="topRefer">
             <text class="correctanswer">正确答案：</text>
-            {{ randerTitle.answer }}
+            <template is="wxParse" data="{{ wxParseData:randerTitle.problem_answer_wx.nodes }}"></template>
         </view>
         <view class="referData">答案解析</view>
         <view class="topRefer">

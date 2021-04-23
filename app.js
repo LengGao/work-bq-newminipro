@@ -287,7 +287,11 @@ App({
             obj.content = msgListArr;
         } else {
             wxParse.wxParse("content", "html", obj.stem, self, 5); //标题
+            wxParse.wxParse("analysis", "html", obj.analyse, self, 5); //分析
+            wxParse.wxParse("answer", "html", obj.answer, self, 5); //答案
             obj.problem_stem_wx = d.content;
+            obj.problem_analyse_wx = d.analysis;
+            obj.problem_answer_wx = d.answer;
            
         }
         return obj;
