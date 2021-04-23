@@ -7,22 +7,13 @@ let app = getApp();
 App({
     onLaunch: function () {
         plv.setApp({
-<<<<<<< HEAD
-<<<<<<< HEAD
-            apiId: 'fu8gegebd9',
-            apiSecret: '6f614eb7149e446a89866bd056bbb58a'
-          });
-=======
-            apiId:'fue63gnbpi',
-=======
             apiId: 'fue63gnbpi',
->>>>>>> d31938494449037da1dc8564d1dad5f30ba9cd23
             apiSecret: '4041e8c914fe4378880a5626d2547c5a'
         });
         this.getSecretData()
         //使用polyv
->>>>>>> refs/remotes/origin/dev
         let that = this
+
         var e = this,
             n = wx.getStorageSync("logs") || [];
         n.unshift(Date.now()), wx.setStorageSync("logs", n), wx.getSetting({

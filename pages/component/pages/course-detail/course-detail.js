@@ -15,16 +15,7 @@ var n = getApp(),
   s = require("../../../../api.js"),
   wxParse = require("../../../../wxParse/wxParse.js");
 require("../../../../utils/util.js");
-<<<<<<< HEAD
 import { getToken, getVideoList, getVideoById } from '../../../../commons/service/index.js'
-=======
-import {
-  getToken,
-  getVideoList,
-  getVideoById
-} from '../../../../commons/service/index.js'
-
->>>>>>> d31938494449037da1dc8564d1dad5f30ba9cd23
 const serviceError = function (msg) {
   wx.showToast({
     title: msg || '获取数据出错',
@@ -35,28 +26,6 @@ let app = getApp();
 var api = require("../../../../api.js")
 Page({
   data: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  // videoOption : {
-  //     mode: 'vod',
-  //     vodVid:'879bbcba3973d9e27b430b5b406c0246_8',
-  //     // mode: 'live',
-  //     // uid: '879bbcba39', // 直播频道uid   userId
-  //     // cid: '1609134574258_8', // 直播频道channelId
-  //     // isAutoChange: true, // 自动切换直播和暂存。
-  //     // vodsrc: '', // 指定回放地址。有暂存视频的情况下，传入暂存视频的mp4或者m3u8。
-  //     // forceVideo: Boolean, // 是否强制使用video标签作为播放器，建议使用live-player
-  //     // statistic: { // 播放器自定义统计参数, 如需添加param4、param5参数，详情见下面init方法详解
-  //     //   param1: 'param1',
-  //     //   // param2: 'param2',
-  //     //   // param3: 'param3'
-  //     // }
-  //  },
->>>>>>> refs/remotes/origin/dev
-    uid:'',
-    info_show:'',
-=======
     class_type: '',
     // videoOption : {
     //     mode: 'vod',
@@ -77,15 +46,16 @@ Page({
     uid: '',
     problem_course_id:'',//题库id
     info_show: '',
->>>>>>> d31938494449037da1dc8564d1dad5f30ba9cd23
     isIOS: n.globalData.isIOS,
     currentTab: 0,
     endTime: '2020-4-20 19:56:00', //2018/11/22 10:40:30这种格式也行
     visible2: false,
+
     tabArr: {
       curHdIndex: 2,
       curBdIndex: 2
     },
+
     live_class_id: '',
     live_id: '',
     chooseOrNot: -1,
@@ -854,13 +824,7 @@ Page({
       video_collection_id: option.video_collection_id,
 
     });
-<<<<<<< HEAD
     this.listen(option)//获取播放信息
-=======
-    console.log(option)
-    this.getALLData()//获取题库id
-     this.listen(option)//获取播放信息
->>>>>>> d31938494449037da1dc8564d1dad5f30ba9cd23
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {
