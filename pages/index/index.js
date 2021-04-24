@@ -123,13 +123,25 @@ Page({
               tmplIds: arr_template,
               success: (res) => {
                 if (num == 2) {
-                  let courseId = this.data.banjiID
-                  let live_id = this.data.live_id
-                  let course_id = this.data.course_id
-                  let live_class_id = this.data.live_class_id
-                  wx.reLaunch({
-                    url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
-                  })
+                  //直播和回顾同时存在时,点击直播回顾跳转到班级直播
+                   console.log(this.data.allData.live_status)
+                  if(this.data.allData.live_status==1){
+                    let courseId = this.data.banjiID  
+                    wx.reLaunch({
+                      url: `../component/pages/Myclass/Myclass?courseId=${courseId}`
+                    })
+                  }else{
+                    //只有回顾时直接跳转回顾页
+                    let courseId = this.data.banjiID
+                    let live_id = this.data.live_id
+                    let course_id = this.data.course_id
+                    let live_class_id = this.data.live_class_id
+                    console.log(live_id,live_class_id)
+                    wx.reLaunch({
+                      url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
+                    })
+                  }
+                
                 } else {
                   wx.reLaunch({
                     url: num.currentTarget.dataset.url
@@ -557,7 +569,6 @@ Page({
             that.setData({
               optionsGo: 'goTestvideo'
             })
-
           } else {
             that.setData({
               optionsGo: 'toliveclass'
@@ -671,7 +682,7 @@ Page({
         const itemSettings = res.subscriptionsSetting.itemSettings // 每一项开关（类型：对象）
         // 总开关为开，且itemSettings为空或者对应模板id的值为空，则展示订阅消息引导卡片
 
-        if (mainSwitch && (!itemSettings || itemSettings && !itemSettings[tmplId])) {
+        if (mainSwitch && (!itemSettings )) {
           // 显示或隐藏订阅按钮等逻辑操作
           console.log('订阅')
           this.setData({

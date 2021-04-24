@@ -174,6 +174,7 @@ Page({
       delta: 1
     })
   },
+  
   wode(ID, nosubmit = 0) { //当用户开始回顾时触发此函数
     console.log('触发')
     let that = this

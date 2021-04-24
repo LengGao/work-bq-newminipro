@@ -6,6 +6,7 @@ Page({
    */
   data: {
     multipleNum: null,
+    type:'',
     singleNum: null,
     judgmentNum: null,
     successOPtion: 'defaultOption',
@@ -51,7 +52,6 @@ Page({
             success: function () {
               beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
             }
-      
          })
         }
       }
@@ -120,6 +120,7 @@ Page({
         }
       }
  })
+ 
    
   },
   settlementRealTopicResult(options){
@@ -190,6 +191,7 @@ Page({
       chapterName: options.chapterName,
       courseId: options.course_id,
       chapterId: options.chapter_id,
+      type:option.type
     })
   },
 

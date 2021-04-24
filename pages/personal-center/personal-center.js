@@ -70,12 +70,12 @@ Page({
       name: '切换账户',
       option: ['仅管理员可用'],
     },
-    {
-      url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/swicth.png',
-      tosome: '../component/pages/polyv-test/polyv-test',
-      name: '直播测试',
-      option: ['仅管理员可用'],
-    },
+    // {
+    //   url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/swicth.png',
+    //   tosome: '../component/pages/polyv-test/polyv-test',
+    //   name: '直播测试',
+    //   option: ['仅管理员可用'],
+    // },
   ]
   },
   recorders() {
