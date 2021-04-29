@@ -37,8 +37,6 @@ Page({
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
     let number = this.data.ID// 前一个页面
-    console.log(beforePage)
-    console.log(number)
     wx.showModal({
       title: '提示',
       content: '查看详情后，将不能查看当前信息，是否查看详情？',
@@ -58,12 +56,9 @@ Page({
   })
   },
   gobefor(e) {
-    console.log(e.currentTarget.dataset.index)
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
     let number = e.currentTarget.dataset.index// 前一个页面
-    console.log(beforePage,number)
-    console.log(pages)
     wx.showModal({
       title: '提示',
       content: '查看详情后，将不能查看当前信息，是否查看详情？',
@@ -87,13 +82,11 @@ Page({
     let option = {
       exam_identity: courseId
     }
-    console.log(option)
     app.encryption({
       url: api.default.examreport,
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
       
       },
       fail: function (t) {
@@ -148,14 +141,12 @@ Page({
       url = api.test.settlementSelfDeterminationResult
     }
        
-      console.log(option)
       app.encryption({//交卷动作
         url: url,
         data: option,
         method: 'POST',
         dataType: "json",
         success: function (res) {
-          console.log(res)
           let nums1 = 'topmenu[0].number'
           let nums2 = 'topmenu[1].number'
           let nums3 = 'topmenu[2].number'
@@ -184,14 +175,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
     this.settlementRealTopicResult(options)
     this.setData({
       navH: app.globalData.navHeight,
       chapterName: options.chapterName,
       courseId: options.course_id,
       chapterId: options.chapter_id,
-      type:option.type
+      type:options.type
     })
   },
 
