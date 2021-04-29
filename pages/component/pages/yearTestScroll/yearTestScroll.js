@@ -150,6 +150,7 @@ Page({
           let nums1 = 'topmenu[0].number'
           let nums2 = 'topmenu[1].number'
           let nums3 = 'topmenu[2].number'
+          console.log(res)
             that.setData({
               [nums1]: res.info.right_problem,
               [nums2]: res.info.fail_problem,
@@ -161,7 +162,7 @@ Page({
               fill_problem: res.list.fill_problem.length == 0 ? [] : res.list.fill_problem,//填空
               scenes_problem: res.list.scenes_problem.length == 0 ? [] : res.list.scenes_problem,//场景
               allScroll: res.info.mark,
-              ID:res.list.single_problem[0].problem_id
+              ID:res.list.single_problem.length && res.list.single_problem[0].problem_id
             })
        
          

@@ -1,10 +1,12 @@
 <!-- pages/answerCard/answerCard.wxml -->
+<import src="../../../../wxParse/wxParse.wxml"></import>
 <view class='nav bg-white' style='height:{{navH}}px'>
     <view class='nav-title'>
      <text class="biaoti" >成绩预览</text>  
       <text id="gl1" bindtap="goback"></text>
     </view>
 </view>
+
 <view class="top-container">
     <view class="top-content">
         <view class="left-logo">
