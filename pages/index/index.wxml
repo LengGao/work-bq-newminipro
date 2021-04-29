@@ -14,10 +14,11 @@
         </scroll-view>
     </view>
     <!-- <view wx:if="{{ true }}" style="font-size:18rpx;" class="scrow-view">请点击右侧添加图表</view> -->
-    <view class="imgs" bindtap="addStory">
+    <!-- <view class="imgs" bindtap="addStory">
         <image mode="widthFix" class="jiaimg " src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/jiahao.png">
         </image>
-    </view>
+    </view> -->
+    <button  bindtap="addStory" class="btn-add" >+</button>
 </view>
 <view class="top-container">
     <view class="top-titles" catchtap='selectTap' wx:if="{{ actions1.length == 0?false:true }}">

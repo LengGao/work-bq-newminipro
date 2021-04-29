@@ -19,10 +19,10 @@
     <view style="display:flex;flex-direction:column;margin-bottom:60px">
         <view wx:for="{{ infos }}" wx:key="index" class="wrapper-allnumber" style="font-size:32rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);height:120rpx">
             <view>
-                <view wx:if="{{ item.rank == 1?false : item.rank == 2?false:item.rank == 3?false:true }}" style="margin-left:16rpx">{{ item.rank }}</view> 
-                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/1.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ item.rank == 1? true : false }}" />
-                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/2.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ item.rank == 2? true : false }}" />
-                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/3.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ item.rank == 3? true : false }}" />
+                <view wx:if="{{ index >2}}" style="margin-left:16rpx">{{ index+1 }}</view> 
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/1.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ index === 0}}" />
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/2.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{ index === 1 }}" />
+                <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/3.png" style="width:56rpx;height:56rpx;border-radius:50%" wx:if="{{index === 2 }}" />
             </view>
             <view style="display:flex;align-items:center;height:88rpx">
                 <image src="{{ item.user_img }}" style="width:80rpx;height:80rpx;border-radius:50%"/>

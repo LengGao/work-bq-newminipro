@@ -73,12 +73,10 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
         that.data.infos.push.apply(that.data.infos,res.list)
         that.setData({
           infos: that.data.infos
         })
-        console.log(that.data.infos)
       },
       fail: function (t) {
         wx.showModal({

@@ -1646,5 +1646,5 @@ button{
     transform: rotate(-90deg);
 }
 .hasvision{
-    color: #e9e3e3;
+    color: #cacaca;
 }

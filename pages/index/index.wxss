@@ -59,29 +59,24 @@ width: 100%;
     justify-content: space-between;
     position: fixed;
     top: 0;
+    padding-left:30rpx;
 }
 
 .scrow-view {
     width: 90%;
 }
 
-.imgs {
+.btn-add {
     width: 34rpx;
     height: 34rpx;
     margin-right: 25rpx;
     position: relative;
     top: 5rpx;
-}
-
-.imgs::before {
-    content: "";
-    position: absolute;
-    width: 80rpx;
-    height: 80rpx;
-    top: -10px;
-    left: -10px;
-    bottom: -10px;
-    right: -10px;
+    background-color: #199FFF;
+    color: #fff;
+    font-size: 26rpx;
+    line-height: 1.25;
+    border-radius: 50%;
 }
 
 .jiaimg {
