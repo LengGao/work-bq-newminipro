@@ -31,12 +31,21 @@ Page({
         color: 'grays'
       }
     ],
-    ID:''
+    ID:'',
+    examLength:0,
+    exam_log_id:''
   },
   goToTest(e) {
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
     let number = this.data.ID// 前一个页面
+    // 查看题目时有考试时长，当前是在查看历史记录，直接跳转到题目
+    if(this.data.examLength){
+      wx.navigateTo({
+        url: `../virStart/virStart?&exam_log_id=${this.data.exam_log_id}&exam_length=${this.data.examLength}&problemId=${number}`
+      })
+      return false
+    }
     wx.showModal({
       title: '提示',
       content: '查看详情后，将不能查看当前信息，是否查看详情？',
@@ -59,20 +68,27 @@ Page({
     let pages = getCurrentPages(); // 当前页面
     let beforePage = pages[pages.length - 2];
     let number = e.currentTarget.dataset.index// 前一个页面
+    // 查看题目时有考试时长，当前是在查看历史记录，直接跳转到题目
+    if(this.data.examLength){
+          wx.navigateTo({
+            url: `../virStart/virStart?&exam_log_id=${this.data.exam_log_id}&exam_length=${this.data.examLength}&problemId=${number}`
+          })
+          return false
+    }
     wx.showModal({
       title: '提示',
       content: '查看详情后，将不能查看当前信息，是否查看详情？',
       showCancel: true,//是否显示取消按钮
       confirmText: "确认",//默认是“确定”
       confirmColor: '#199FFF',//确定文字的颜色
-      success: function (res) {
+      success:  (res)=> {
         if (res.cancel) {
         } else {
-          wx.navigateBack({
-            success: function () {
-              beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
-            }
-         })
+            wx.navigateBack({
+              success:  ()=> {
+                  beforePage.wode &&   beforePage.wode(number, 'nosubmit'); // 执行前一个页面的onLoad方法
+              }
+           })
         }
       }
  })
@@ -98,6 +114,10 @@ Page({
     })
   },
   goback() {
+    if(this.data.examLength){
+      wx.navigateBack()
+      return false
+    }
     wx.showModal({
       title: '提示',
       content: '返回将回到首页，是否返回？',
@@ -118,13 +138,17 @@ Page({
   },
   settlementRealTopicResult(options){
     let that = this
-    let option , url
+    let option , url;
+  console.log(options)
     if(options.type == 4){ //模拟考试
       option = {
         exam_log_id: options.real_topic_log_id,
         problem_course_id: parseInt(options.course_id)
       }
       url = api.test.settlementTestExamResult
+      this.setData({
+        exam_log_id: options.real_topic_log_id
+      })
     }else if (options.type == 5){
       option = {
         real_topic_log_id: options.real_topic_log_id,
@@ -151,6 +175,11 @@ Page({
           let nums2 = 'topmenu[1].number'
           let nums3 = 'topmenu[2].number'
           console.log(res)
+          if(this.data.examLength){
+            that.setData({
+              problemData:res
+            })
+          }
             that.setData({
               [nums1]: res.info.right_problem,
               [nums2]: res.info.fail_problem,
@@ -176,13 +205,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     this.settlementRealTopicResult(options)
     this.setData({
       navH: app.globalData.navHeight,
       chapterName: options.chapterName,
       courseId: options.course_id,
       chapterId: options.chapter_id,
-      type:options.type
+      type:options.type,
+      examLength:options.exam_length
     })
   },
 

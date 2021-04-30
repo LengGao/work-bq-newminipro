@@ -105,7 +105,8 @@ Page({
     sceneShortMaskShow:false,//场景题简答遮罩层
     nosubmit:0,
     chapterName:'',
-    clearTimer:false
+    clearTimer:false,
+    problemId:'',// 历史记录过来 查看详情的题目id
   },
   fullScreen(e) {
      //判断是否是第一次点击提示文字
@@ -177,6 +178,7 @@ Page({
   
   wode(ID, nosubmit = 0) { //当用户开始回顾时触发此函数
     console.log('触发')
+    console.log(ID)
     let that = this
      //首先接受ID作为查找题目参数
      that.setData({ //更新submit，标志用户进入回顾
@@ -185,7 +187,6 @@ Page({
       showAny: false
      })
      let alltestID = this.data.alltestID;
-     console.log(alltestID)
      that.findcurIndex(ID, alltestID, 0);
      that.initText(ID) // 加载题目
   },
@@ -235,6 +236,10 @@ Page({
     that.initText(problem_id);
   },
   myLinsterner(e) {
+    // problemId 存在是在查看详情
+    if(this.data.problemId){
+      return false
+    }
     let content = '考试时间到，请点击确定按钮提交答案'
     this.settlementRealTopicResult(content)
   },
@@ -678,6 +683,46 @@ Page({
       })
     }
   },
+  getHistoryNumber(options) {
+    let that = this
+    that.setData({
+      navH: app.globalData.navHeight,
+    })
+    let option = {
+      exam_log_id: options.exam_log_id
+    }
+    // 根据考试记录id获取所有题目
+    app.encryption({
+      url: api.test.getTestExamRecordBoard,
+      data: option,
+      method: 'GET',
+      dataType: "json",
+      success: function (res) {
+        console.log(res)
+        let list = res.info.list
+        let totalNum;
+        let single_problem = list.single_problem || []; //单选
+        let fill_problem = list.fill_problem || [];//填空
+        let judge_problem = list.judge_problem || [];//判断
+        let multiple_problem = list.multiple_problem || [];//多选
+        let scenes_problem = list.scenes_problem || [];//场景
+        let short_problem = list.short_problem || [];//简答
+        totalNum = single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
+        //合并数组
+        let alltestID = [];
+        alltestID = alltestID.concat(single_problem).concat(multiple_problem).concat(scenes_problem).concat(judge_problem).concat(fill_problem).concat(short_problem);
+        alltestID = alltestID.map((item)=>item.problem_id)
+        that.setData({
+          all_current_no: totalNum,
+          exam_log_id: options.exam_log_id,
+          alltestID: alltestID
+        });
+          //开始加载题目详情 
+          that.wode(options.problemId, 'nosubmit')
+      }
+    }
+    )
+  },
   getAlltestNumber(options) {
     console.log(options)
     let that = this
@@ -714,16 +759,17 @@ Page({
           exam_log_id: res.info.exam_log_id,
           alltestID: alltestID
         });
-        //查找当前题目下标
-        that.findcurIndex(alltestID[0], alltestID, 0);
-        //开始加载题目详情
-        that.initText(alltestID[0]);
+        
+          //查找当前题目下标
+          that.findcurIndex(alltestID[0], alltestID, 0);
+          //开始加载题目详情
+          that.initText(alltestID[0]);
+     
       }
     }
     )
   },
   findcurIndex(curId, allId, start = 1) {
-    console.log(allId)
     let curIndexNumber = allId.findIndex((value) => value == curId)
     curIndexNumber += 1
     let icon = 'tabItems[0].icon'
@@ -909,8 +955,9 @@ Page({
         method: 'GET',
         dataType: "json",
         success: function (res) {
-          console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
+          console.log(222222)
+          console.log(randerTitle)
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {
@@ -992,23 +1039,43 @@ Page({
   },
   goback() {
     this.common()
-    this.settlementRealTopicResult('你正在进行模拟考试，确定退出吗？')
+    // 如果是查看详情的返回 就直接返回上一页
+    if(this.data.problemId){
+      wx.navigateBack({
+        delta: 1, // 返回上一级页面。
+        success: function() {
+            console.log('成功！')
+        }
+      })
+    }else{
+      this.settlementRealTopicResult('你正在进行模拟考试，确定退出吗？')
+    }
   },
   onLoad: function (options = {}) {
-    let times = new Date().getTime()
-    let alltime = options.exam_length * 60 *1000 + times
-    // let alltime =  60 *1000 + times
     this.setData({
-      targetTime2: alltime,
       moveY: 313,
-      chapterName:options.chapterName
+      chapterName:options.chapterName,
     })
     //获取屏幕宽高
     let that = this
     const { windowHeight } = wx.getSystemInfoSync();
     this.data.windowHeight = windowHeight - 127 - 54
     //先去请求所有题目的id，当点击下一题目的时候用id换题目,获取上次的记录答案
-    that.getAlltestNumber(options)
+    // problemId 存在就是历史记录过来查看详情的
+    if(options.problemId){
+      this.setData({
+        problemId:options.problemId
+      })
+      that.getHistoryNumber(options)
+    }else{
+      let times = new Date().getTime()
+      let alltime = options.exam_length * 60 *1000 + times
+      this.setData({
+        targetTime2: alltime,
+      })
+      that.getAlltestNumber(options)
+    }
+
   },
   onReady: function () {},
   onShow: function () { },

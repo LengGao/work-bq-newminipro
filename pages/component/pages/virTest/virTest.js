@@ -21,18 +21,18 @@ Page({
     })
   },
   toYearTestScroll(options) {
-    wx.showToast({
-      title:'该功能尚未开放',
-      icon: 'none',
-      duration: 2000
-    })
-    // let data = options.currentTarget.dataset.item
-    // let chapterName = "模拟考试";
-    // let course_id = this.data.nondeID;
-    // let exam_log_id = data.exam_log_id;
-    // wx.navigateTo({
-    //   url: `../yearTestScroll/yearTestScroll?real_topic_log_id=${exam_log_id}&chapterName=${chapterName}&course_id=${course_id}&type=4`
+    // wx.showToast({
+    //   title:'该功能尚未开放',
+    //   icon: 'none',
+    //   duration: 2000
     // })
+    let data = options.currentTarget.dataset.item
+    let chapterName = "模拟考试";
+    let course_id = this.data.nondeID;
+    let exam_log_id = data.exam_log_id;
+    wx.navigateTo({
+      url: `../yearTestScroll/yearTestScroll?real_topic_log_id=${exam_log_id}&chapterName=${chapterName}&course_id=${course_id}&type=4&exam_length=${this.data.exam_length}`
+    })
   },
   getExaminationList() {
     let that = this
