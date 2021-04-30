@@ -175,11 +175,6 @@ Page({
           let nums2 = 'topmenu[1].number'
           let nums3 = 'topmenu[2].number'
           console.log(res)
-          if(this.data.examLength){
-            that.setData({
-              problemData:res
-            })
-          }
             that.setData({
               [nums1]: res.info.right_problem,
               [nums2]: res.info.fail_problem,

@@ -516,7 +516,7 @@
                         <view class="topRefer">
                             <view class="anyAnswer">
                                 <template is="wxParse"
-                                data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
+                                data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_analyse_wx.nodes }}"></template>
                             </view>
                         </view>
                     </view>
