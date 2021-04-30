@@ -27,11 +27,11 @@ Page({
       url: `../yearTestStart/yearTestStart?chapter_id=${chapterId}&courseId=${courseId}&chapterName=${chapterName}&exam_length=${exam_length}`
     })
   },
-  gettruthinfo(options) {
+  gettruthinfo() {
     let that = this
     let option = {
-      problem_course_id: options.courseId,
-      problem_chapter_id: options.chapterId,
+      problem_course_id: this.data.courseId,
+      problem_chapter_id: this.data.chapterId,
       
     }
     app.encryption({
@@ -68,12 +68,13 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    console.log(1111111111111)
     this.setData({
       chapterId: options.chapterId,
       courseId: options.courseId,
       chapterName: options.chapterName
     })
-    this.gettruthinfo(options)
+    this.gettruthinfo()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

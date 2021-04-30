@@ -6,10 +6,11 @@
       bind:afterCalendarRender="afterCalendarRender" />
   </view>
   <!-- 预约列表 -->
-  <view class="{{calendarShow ?'message-main2':'message-main'}}">
+  <view class="message-main {{calendarShow ?'message-main--up':'message-main--down'}}">
     <!-- 下拉 -->
     <view class="dropdown" bindtap="dropdown">
-      <text id="{{calendarShow ?'gl2':'gl1'}}"></text>
+      <text class="arrow {{calendarShow?'arrow--up':'arrow--down'}}"></text>
+      <view class="tips">{{ calendarShow?'点击查看更多':'收起'}}</view>
     </view>
     <view class="noface" hidden="{{courseInfor.length>0?true:false}}">
       <image src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/noface.png" style="width:290rpx;height:290rpx"></image>

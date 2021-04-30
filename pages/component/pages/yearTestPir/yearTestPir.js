@@ -1059,65 +1059,57 @@ Page({
     });
   },
   goback() {
-    let that = this
-    wx.showModal({
-      title: '提示',
-      content: '你正在进行刷题模式，是否保存当前做题记录？',
-      showCancel: true, //是否显示取消按钮
-      cancelText: "不保存", //默认是“取消”
-      cancelColor: '#333333', //取消文字的颜色
-      confirmText: "保存", //默认是“确定”
-      confirmColor: '#199FFF', //确定文字的颜色
-      success: function (res) {
-        let is_lock
-        if (res.cancel) {
-          is_lock = 0
-          wx.showLoading({
-            title: '正在清除进度...',
-          })
-          //点击取消,默认隐藏弹框
-        } else {
-          is_lock = 1
-          wx.showLoading({
-            title: '正在保存进度...',
-          })
-        }
-        let option = {
-          real_topic_log_id: that.data.real_topic_log_id,
-          is_lock: is_lock
-        }
-        console.log(is_lock)
-        console.log(option)
-        app.encryption({
-          url: api.test.archivePracticeData,
-          data: option,
-          method: 'POST',
-          dataType: "json",
-          success: function (res) {
-            console.log(res)
-            wx.showToast({
-              title: res.data.message,
-              icon: 'none',
-              duration: 2000
-            })
-            wx.hideLoading()
-            let pages = getCurrentPages(); // 当前页面
-            let beforePage = pages[pages.length - 1];
-            let courseId = that.data.courseId
-            wx.navigateBack({
-              success: function () {
-                beforePage.onLoad({
-                  courseId: courseId
-                });
-              }
-            });
-          },
-          fail: function (n) {
-            console.log('333333')
-          }
-        })
-      }
-    })
+    wx.navigateBack();
+    // let that = this
+    // wx.showModal({
+    //   title: '提示',
+    //   content: '你正在进行刷题模式，是否保存当前做题记录？',
+    //   showCancel: true, //是否显示取消按钮
+    //   cancelText: "不保存", //默认是“取消”
+    //   cancelColor: '#333333', //取消文字的颜色
+    //   confirmText: "保存", //默认是“确定”
+    //   confirmColor: '#199FFF', //确定文字的颜色
+    //   success: function (res) {
+    //     let is_lock
+    //     if (res.cancel) {
+    //       is_lock = 0
+    //       wx.showLoading({
+    //         title: '正在清除进度...',
+    //       })
+    //       //点击取消,默认隐藏弹框
+    //     } else {
+    //       is_lock = 1
+    //       wx.showLoading({
+    //         title: '正在保存进度...',
+    //       })
+    //     }
+    //     let option = {
+    //       real_topic_log_id: that.data.real_topic_log_id,
+    //       is_lock: is_lock
+    //     }
+    //     console.log(is_lock)
+    //     console.log(option)
+    //     app.encryption({
+    //       url: api.test.archivePracticeData,
+    //       data: option,
+    //       method: 'POST',
+    //       dataType: "json",
+    //       success: function (res) {
+    //         console.log(res)
+    //         wx.showToast({
+    //           title: res.data.message,
+    //           icon: 'none',
+    //           duration: 2000
+    //         })
+    //         wx.hideLoading()
+    //         wx.navigateBack();
+    //       },
+    //       fail: function (n) {
+    //         console.log('333333')
+    //       }
+    //     })
+    //   }
+    // })
   },
   onLoad: function (options = {}) {
     this.setData({
