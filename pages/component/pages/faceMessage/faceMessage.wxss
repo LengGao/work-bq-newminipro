@@ -1,5 +1,6 @@
 page {
   background: #ffffff;
+  overflow: hidden;
 }
 .loading{  
   padding: 10rpx;  

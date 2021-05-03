@@ -344,9 +344,13 @@ Page({
 
   //日历渲染完成之后
   afterCalendarRender(daylist) {
-    console.log(111)
-    let that = this
-    console.log(this.data.dayStyle)
+    // 没有就延迟执行
+    if(!this.calendar){
+      setTimeout(()=>{
+        this.afterCalendarRender(daylist)
+      },50)
+      return false
+    }
     this.calendar.setTodoLabels({
       // 待办点标记设置
       pos: 'bottom', // 待办点标记位置 ['top', 'bottom']

@@ -3,23 +3,23 @@
   <view class="calendar_box">
     <calendar calendarConfig="{{calendarConfig}}" bind:onTapDay="onTapDay" bind:afterTapDay="afterTapDay"
       bind:whenChangeWeek="whenChangeWeek" bind:whenChangeMonth="whenChangeMonth"
-      bind:afterCalendarRender="afterCalendarRender" />
+     />
   </view>
   <!-- 预约列表 -->
   <view class="message-main {{calendarShow ?'message-main--up':'message-main--down'}}">
     <!-- 下拉 -->
-    <view class="dropdown" bindtap="dropdown">
+    <view class="dropdown" bindtap="dropdown" hidden="{{courseInfor.length === 0}}">
       <text class="arrow {{calendarShow?'arrow--up':'arrow--down'}}"></text>
       <view class="tips">{{ calendarShow?'点击查看更多':'收起'}}</view>
     </view>
-    <view class="noface" hidden="{{courseInfor.length>0?true:false}}">
+    <view class="noface" hidden="{{courseInfor.length>0}}">
       <image src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/noface.png" style="width:290rpx;height:290rpx"></image>
       <view class="noface_text">暂无面授课安排</view>
     </view>
     <loading hidden="{{hidden}}" bindchange="loadingChange">
  加载中...
  </loading> 
- <view style="{{ calendarShow ?'height:500rpx':'height:1000rpx'}}" >
+ <view style="{{ calendarShow ?'height:auto':'height:82vh'}}"  hidden="{{courseInfor.length === 0}}" >
     <scroll-view scroll-y="true" upper-threshold="1" lower-threshold='1'  style="height:100%" bindscrolltolower="loadMore" >
       <!--bindscrolltoupper="refesh"-->
       <view wx:if="{{hasRefesh}}"
