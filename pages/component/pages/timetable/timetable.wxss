@@ -1,0 +1,215 @@
+page {
+  background: #ffffff;
+}
+.loading{  
+  padding: 10rpx;  
+  font-size: 26rpx;
+  color:#666;
+  text-align: center;  
+}
+.faceMessage{
+  height: 100%;
+  width: 100%;
+  background: #fff;
+}
+
+.calendar_box{
+  width: 750rpx;
+  height:620rpx;
+  
+}
+.calendar {
+  /* background-color: #eeedff; */
+  padding-top: 10px;
+  color: #fff;
+  background: #199FFF; 
+}
+.header {
+  background: #199FFF; 
+  font-size: medium; /*修改了标题文字和按钮的大小*/
+  color: #FFFFFF;   /*修改了标题文字和按钮的颜色*/
+  /* display: none!important; */
+}
+/* .calendar .calendar-board .calendar-days .calendar-row .calendar-cell{
+border-radius: 50% !important;
+} */
+.calendar--calendar-cell{
+  border-radius: 10rpx !important;
+}
+.header2 {
+  background: #199FFF; 
+  font-size: medium; /*修改了标题文字和按钮的大小*/
+  color: #FFFFFF;   /*修改了标题文字和按钮的颜色*/
+  display: none !important;
+}
+
+.board {
+  color: #fff;
+  height: 151rpx;
+  overflow: hidden;
+  font-weight:400;
+}
+.board2 {
+  color: #fff;
+  height: 492rpx;
+  overflow: hidden;
+  font-weight:400;
+}
+.square{
+  width:80rpx;
+  height:80rpx;
+  background:rgba(255,255,255,1);
+  border-radius:10rpx;
+}
+.dropdown {
+  height:70rpx;
+  background: #fff;
+  text-align: center;
+}
+.tips{
+  font-size: 20rpx;
+  color: #909399;
+}
+.noface{
+padding:70rpx 232rpx 156rpx 228rpx;
+}
+.noface .noface_text{
+  padding:39rpx 0 0 65rpx;
+  font-size:24rpx;
+  font-family:PingFang SC;
+  font-weight:500;
+  color:rgba(170,170,170,1);
+  line-height:8rpx;
+}
+#gl1 {
+  z-index: 100;
+  text-align: center;
+  width: 25rpx;
+  height: 25rpx;
+  position: absolute;
+ top:28rpx;
+ left:28rpx;
+  border-left: 4rpx solid #199FFF;
+  border-bottom: 4rpx solid #199FFF;
+  -webkit-transform: translate(0, -50%) rotate(-45deg);
+  transform: translate(0, -50%) rotate(-45deg);
+}
+.arrow {
+  display: inline-block;
+  width: 25rpx;
+  height: 25rpx;
+  border-left: 4rpx solid #199FFF;
+  border-bottom: 4rpx solid #199FFF;
+  transition: all .3s;
+}
+.arrow--up{
+  -webkit-transform: rotate(135deg);
+  transform: translate(0,10rpx) rotate(135deg);
+}
+.arrow--down{
+  -webkit-transform:  rotate(-45deg);
+  transform:rotate(-45deg);
+}
+
+.orderlist{
+  color:#333;
+  font-size: 24rpx !important;
+  font-weight: normal ;
+  line-height: 40rpx;
+}
+.coursetitle{
+  color:#999 !important;
+  font-size: 24rpx !important;
+  font-weight: normal ;
+  padding-right: 33rpx !important;
+}
+.courseStatus{
+  font-size: 24rpx !important;
+  font-weight: normal ;
+  padding-right: 10rpx;
+  color:#199FFF !important;
+  /* cursor: pointer !important; */
+}
+.courseStatus2{
+  font-size: 20rpx !important;
+  font-weight: normal ;
+  padding: 7rpx 20rpx;
+  border-radius: 20rpx;
+  color: #fff !important;
+  background: #199FFF;
+  /* cursor: pointer !important; */
+}
+.courseStatus3{
+  font-size: 20rpx !important;
+  font-weight: normal ;
+  padding: 7rpx 20rpx;
+  border-radius: 20rpx;
+  color: #fff !important;
+  background: #cccccc;
+  /* cursor: pointer !important; */
+}
+
+.card_title{
+  font-size: 30rpx;
+  color:#333333;
+  /* border-left: 4rpx solid #199FFF; */
+  padding-left:10rpx;
+  font-weight: bold;
+}
+.message-main{
+  width:750rpx;
+  background:rgba(255,255,255,1);
+  border-radius:20rpx 20rpx 0 0;
+  position: absolute;
+  transition: all .3s;
+}
+.message-main--up{
+  top: 620rpx;
+}
+.message-main--down{
+  top: 150rpx;
+}
+.card{
+  width:690rpx;
+  background:rgba(255,255,255,1);
+  box-shadow:0 0 12rpx 0 rgba(163,217,255,0.4);
+  border-radius:20rpx;
+  padding: 30rpx;
+  font-size: 24rpx;
+}
+.card .card_head{
+  height:30rpx;
+  /* line-height: 97rpx; */
+  font-size:28rpx;
+  font-family:PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+  padding-left:10rpx;
+  border-left:4rpx solid #199FFF;
+  
+
+}
+.card_content{
+  padding-top:20rpx;
+}
+.card_line{
+  display: flex;
+  padding-bottom:10rpx;
+  /* justify-content: space-between; */
+  /* align-items: center; */
+}
+.card_line .line_title{
+  width: 96rpx;
+  font-size: 24rpx;
+  color: #999999;
+  margin-right: 33rpx;
+}
+.line_content{
+  max-width: 500rpx;
+}
+.flexbox{
+  
+  justify-content: space-between;
+  align-items: center;
+}
+

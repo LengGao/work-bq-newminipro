@@ -1,0 +1,10 @@
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#199FFF",
+  "navigationBarTitleText": "我的课表",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "i-card": "../../../../utils/iview/card/index",
+    "calendar": "./../calendar/index"
+  }
+}

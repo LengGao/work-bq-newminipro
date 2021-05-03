@@ -8,6 +8,7 @@
     {
       "root": "pages/component/",
       "pages": [
+        "pages/timetable/timetable",
         "pages/yearTestScroll/yearTestScroll",
         "pages/Myclass/Myclass",
         "pages/determination/determination",

@@ -27,7 +27,7 @@
                 <text class="function-name">{{ item.name }}</text>
             </button>
             <block wx:else>
-            <image class="function-image" src="{{ item.url }}" mode="widthFix" />
+            <image class="function-image {{item.name === '我的课表'?'kebiao':''}}" src="{{ item.url }}" mode="widthFix" />
             <text class="function-name">{{ item.name }}</text>
             </block>
         </view>

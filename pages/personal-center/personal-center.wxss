@@ -63,9 +63,7 @@ page {
     font-weight:500;
     color:rgba(51,51,51,1);
 }
-.fun-sel{
 
-}
 .fenge2{
     width: 750rpx;
     height: 20rpx;
@@ -91,6 +89,10 @@ page {
 .function-image{
     width: 50rpx;
     height: 50rpx;
+}
+.kebiao{
+    width: 40rpx;
+    height: 40rpx;
 }
 .function-name{
     margin-left:13rpx ;
