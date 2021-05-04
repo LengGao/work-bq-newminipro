@@ -10,15 +10,23 @@
 
 .questions-box {
     box-sizing: border-box;
-    width: 670rpx;
-    margin-left: 40rpx;
-    margin-top: 40rpx;
+    padding: 40rpx;
     overflow-y: scroll;
-    position: fixed;
-    bottom: 0;
-    top: 123px;
+    height: 77vh!important;
 }
-
+.questions-box2 {
+    box-sizing: border-box;
+    padding: 40rpx;
+    overflow-y: scroll;
+    height: 85vh!important;
+}
+.questions-sencebox{
+    box-sizing: border-box;
+    padding: 0 40rpx;
+}
+#scrolls{
+    padding-bottom:100rpx;
+}
 
 page {
     font-size: 28rpx;

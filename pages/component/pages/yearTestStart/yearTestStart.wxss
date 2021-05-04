@@ -83,18 +83,7 @@ page {
     font-weight:bold;
     color:rgba(25,159,255,1);
 }
-.questions-box {
-    box-sizing: border-box;
-    width: 670rpx;
-    /* min-height: 930rpx;
-    max-height: 1100rpx; */
-    margin-left: 40rpx;
-    margin-top: 40rpx;
-    overflow-y: scroll;
-    position: absolute;
-    bottom: 0;
-    top: 123px;
-}
+
 .fullScreenImage{
     position: relative;
     top: -14rpx;
@@ -108,26 +97,11 @@ page {
     background:rgba(0,0,0,0.4);
     overflow: hidden;
 }
-.questions-box2 {
-    box-sizing: border-box;
-    width: 670rpx;
-    margin-left: 40rpx;
-    margin-top: 100rpx;
-    overflow-y: scroll;
-    position: absolute;
-    bottom: 0;
-    top: 50px;
-}
+
 .text-type{
     line-height: 50rpx;
 }
-.questions-sencebox{
-    box-sizing: border-box;
-    width: 670rpx;
-    margin-left: 40rpx;
-    margin-top: 30rpx;
-    overflow-y: scroll;
-}
+
  .padding {
     box-sizing: border-box;
     font-size:32rpx;
