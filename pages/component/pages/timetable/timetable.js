@@ -2,7 +2,6 @@ let app = getApp(),
   api = require("../../../../api.js"),
   util = require("../../../../utils/util.js")
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -22,60 +21,30 @@ Page({
       showHandlerOnWeekMode: true,
       defaultDay: ''
     },
-    courseId: 0,
-    // nofaceShow:false,
     calendarShow: true,
     dayStyle: [],
     courseInfor: [],
-    courseStatus: '',
     daytime: '',
-    problem_course_id: '',
-    pageTotal: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function () {
+    this.getUserArrange()
     //初始化今天的日期点击事件
-    let daytime = {
+    const date = new Date()
+    const daytime = {
       detail: {
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-        day: new Date().getDate()
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day:date.getDate()
       }
     }
-    console.log(daytime)
     this.afterTapDay(daytime, 0)
-  },
-  //加载更多
-  loadMore() {
-    console.log('xia拉加载')
-    this.getSubscribeList()
-  },
-
-  //刷新处理
-  refesh: function (e) {
-    console.log('刷新')
-    this.setData({
-      hasRefesh: true,
-      page: 1,
-      hasMore: true,
-    });
-    this.getSubscribeList()
-  },
-
-  /**
-   * 选择日期后执行的事件
-   * currentSelect 当前点击的日期
-   * allSelectedDays 选择的所有日期（当multi为true时，allSelectedDays有值）
-   */
-  onTapDay(e) {
-    // console.log('onTapDay', e.detail)
   },
   //点击日期时触发
   afterTapDay(e, newdatatime) {
-    //  console.log('afterTapDay', e.detail);
     function Appendzero(obj) {
       if (obj < 10) return "0" + "" + obj;
       else return obj;
@@ -93,174 +62,69 @@ Page({
       hasMore:true,
       page:1
     })
-    this.getSubscribeList()
+    this.getUserArrangeDetail(daytime)
   },
   //点击月份时触发
   whenChangeMonth(e) {
-    console.log('whenChangeMonth', e.detail);
     let currentYear = e.detail.next.year
     let currentMonth = e.detail.next.month
-    console.log(currentMonth, currentYear)
-    // => { current: { month: 3, ... }, next: { month: 4, ... }}
+    currentMonth = currentMonth<10?'0'+currentMonth:currentMonth
+    const daytime = currentYear+''+currentMonth
+    this.getUserArrange(daytime)
   },
-
-  // whenChangeWeek(e) {
-  //   console.log('whenChangeWeek', e.detail);
-
-  // },
-
   //点击下拉按钮更改页面样式
   dropdown() {
-    console.log(111)
     this.setData({
       calendarShow: !this.data.calendarShow,
       'calendarConfig.hideHeadOnWeekMode': !this.data.calendarConfig.hideHeadOnWeekMode
     })
-
   },
-  //获取时间轴
-  // getTimeList(courseId, currentMonth, currentYear) {
-  //   console.log('getTimeList')
-
-  // },
-  //面授课堂列表
-  getSubscribeList() {
-    let that = this
+  // 获取指定日期的课表
+  getUserArrangeDetail(date) {
     let option = {
-      problem_course_id: parseInt(this.data.problem_course_id),
-      date_time: parseInt(this.data.daytime),
-      page: this.data.page
+      date
     }
-    if (!this.data.hasMore) return
-    if(this.data.page==1){
-      this.setData({
-        hasRefesh: false,
-      });
-    }else{
-      this.setData({
-        hasRefesh: true,
-      });
-    }
-    console.log(option)
-    that.setData({
-      newDataTime: this.data.daytime,
-      hidden: false
-    })
     app.encryption({
-      url: api.default.getSubscribeList,
+      url: api.test.getUserArrangeDetail,
       method: "GET",
       data: option,
-      success: function (res) {
-        console.log(res)
-        let total = res.total
-        let pageNum = Math.ceil(total / 20)
-        that.setData({
-          hidden: true
-        })
-      
-        let courbox = res.list
-        for (let k in courbox) {
-          courbox[k].show_time = util.js_date_time(courbox[k].show_time)
-          courbox[k].close_time = util.js_date_time(courbox[k].close_time)
-          if (courbox[k].tips_type == 0 || courbox[k].tips_type == 1) {
-            that.setData({
-              courseStatus: 'courseStatus'
-            })
-          } else if (courbox[k].tips_type == 2 || courbox[k].tips_type == 3) {
-            that.setData({
-              courseStatus: 'courseStatus3'
-            })
-          } else {
-            that.setData({
-              courseStatus: 'courseStatus2'
-            })
-          }
-        }
-        if(pageNum<2){
-          that.setData({
-            courseInfor: courbox,
-            hasRefesh: false,
-            pageNum: pageNum, 
-            hasMore:false,
-            noContent:false ,
-            page: that.data.page + 1
+      success:  (res)=> {
+          this.setData({
+            courseInfor:Array.isArray(res)?res:[]
           })
-         }
-        if (that.data.page == 1) {
-          that.setData({
-            courseInfor: courbox,
-            hasRefesh: false,
-            pageNum: pageNum, 
-             hasRefesh: false,
-            page: that.data.page + 1,
-         
-          })
-        } else if (that.data.page > 1 && that.data.page <= pageNum) {
-         
-          if (that.data.page == pageNum) {
-            that.setData({
-              hasMore: false,
-            noContent:true 
-            })
-          }
-          that.setData({
-            courseInfor: that.data.courseInfor.concat(courbox),
-            hasRefesh: false,
-            pageNum: pageNum,
-            page: that.data.page + 1
-          })
-        }
-
-
-        // if (this.data.page > 1) {
-        //   that.setData({
-        //     courseInfor: this.data.courseInfor.concat(courbox),
-        //     hasRefesh: false,
-        //   })
-        // } else {
-        //   that.setData({
-        //     courseInfor: courbox,
-        //     hasRefesh: false,
-        //   })
-        // }
-        // that.setData({
-        //   courseInfor: courbox,
-        //   hasRefesh: false,
-        // })
-        // console.log(this.data.courseInfor)
-
-
-      },
-      fail: function (t) {
-
-      },
-      complete: function () {
-
-      }
+    }
     })
   },
-  tofaceDetail(e) {
-    console.log(e.currentTarget)
-    // let courseid = e.currentTarget.dataset.courseid
-    // let datetime = e.currentTarget.dataset.datetime
-    // let updatethisid = e.currentTarget.dataset.updatethisid
-    // let subscribeStatushave = 1
-    // let newDataTime = this.data.newDataTime
-    let subscribe_classroom_id = e.currentTarget.dataset.subscribe_classroom_id
-
-    // wx.navigateTo({
-    //   url: `../faceDetail/faceDetail?subscribeId=${courseid}&datetime=${datetime}&subscribeStatushave=${subscribeStatushave}&updatethisid=${updatethisid}&newDataTime=${newDataTime}`
-    // })
-    wx.navigateTo({
-      url: `../faceDetail/faceDetail?subscribe_classroom_id=${subscribe_classroom_id}`
+  // 获取月份的课表
+  getUserArrange(month) {
+    let option = {
+      month
+    }
+    app.encryption({
+      url: api.test.getUserArrange,
+      method: "GET",
+      data: option,
+      success:  (res)=> {
+        const dateList =Array.isArray(res)? res.map(item=>{
+          return {
+            year:item.title.substr(0,4),
+            month:item.title.substr(5,2),
+            day:item.title.substr(8,2)
+          }
+        }):[]
+        this.afterCalendarRender(dateList)
+    }
     })
   },
-
   //日历渲染完成之后
   afterCalendarRender(daylist) {
-    console.log(111)
-    let that = this
-    console.log(this.data.dayStyle)
+    // 没有就延迟执行
+    if(!this.calendar){
+      setTimeout(()=>{
+        this.afterCalendarRender(daylist)
+      },50)
+      return false
+    }
     this.calendar.setTodoLabels({
       // 待办点标记设置
       pos: 'bottom', // 待办点标记位置 ['top', 'bottom']

@@ -344,6 +344,8 @@ Page({
 
   //日历渲染完成之后
   afterCalendarRender(daylist) {
+    console.log(1111111)
+    console.log(daylist)
     // 没有就延迟执行
     if(!this.calendar){
       setTimeout(()=>{

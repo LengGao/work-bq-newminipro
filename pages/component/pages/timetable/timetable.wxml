@@ -1,26 +1,26 @@
 <view class="faceMessage">
   <!-- 日历 -->
   <view class="calendar_box">
-    <calendar calendarConfig="{{calendarConfig}}" bind:onTapDay="onTapDay" bind:afterTapDay="afterTapDay"
+    <calendar calendarConfig="{{calendarConfig}}" bind:afterTapDay="afterTapDay"
       bind:whenChangeWeek="whenChangeWeek" bind:whenChangeMonth="whenChangeMonth"
-      bind:afterCalendarRender="afterCalendarRender" />
+     />
   </view>
   <!-- 预约列表 -->
   <view class="message-main {{calendarShow ?'message-main--up':'message-main--down'}}">
     <!-- 下拉 -->
-    <view class="dropdown" bindtap="dropdown">
+    <view class="dropdown" bindtap="dropdown" hidden="{{courseInfor.length === 0}}">
       <text class="arrow {{calendarShow?'arrow--up':'arrow--down'}}"></text>
       <view class="tips">{{ calendarShow?'点击查看更多':'收起'}}</view>
     </view>
-    <view class="noface" hidden="{{courseInfor.length>0?true:false}}">
+    <view class="noface" hidden="{{courseInfor.length>0}}">
       <image src="http://minproimg.oss-cn-hangzhou.aliyuncs.com/images/imgs/noface.png" style="width:290rpx;height:290rpx"></image>
       <view class="noface_text">暂无课程安排</view>
     </view>
     <loading hidden="{{hidden}}" bindchange="loadingChange">
  加载中...
  </loading> 
- <view style="{{ calendarShow ?'height:500rpx':'height:1000rpx'}}" >
-    <scroll-view scroll-y="true" upper-threshold="1" lower-threshold='1'  style="height:100%" bindscrolltolower="loadMore" >
+ <view style="{{ calendarShow ?'height:auto':'height:82vh'}}"  hidden="{{courseInfor.length === 0}}" >
+    <scroll-view scroll-y="true" upper-threshold="1" lower-threshold='1'  style="height:100%"  >
       <!--bindscrolltoupper="refesh"-->
       <view wx:if="{{hasRefesh}}"
         style="display: flex;flex-direction: row;align-items: center;align-self: center;justify-content: center;">
@@ -29,19 +29,18 @@
       <view wx:else style="display:none"><text></text></view>
       <view wx:for="{{courseInfor}}" wx:key="id" style="margin:10rpx 30rpx 30rpx 30rpx">
         <!-- 课程列表 -->
-        <!-- <view class="card" bindtap="tofaceDetail" data-subscribe_classroom_id="{{item.subscribe_classroom_id}}";  data-courseId="{{item.id}}" data-datetime="{{item.timeInfo}}" data-updateThisId="{{item.updateThisId}}"> -->
-        <view class="card" bindtap="tofaceDetail" data-subscribe_classroom_id="{{item.subscribe_classroom_id}}">
+        <view class="card"  data-subscribe_classroom_id="{{item.subscribe_classroom_id}}">
           <view style="width:630rpx;height:50rpx;border-bottom:2rpx solid #F5F5F5">
-            <view class="card_head">{{item.subscribe_classroom_name}}</view>
+            <view class="card_head">{{item.course_name}}</view>
           </view>
           <view class="card_content">
             <view class="card_line">
-              <view class="line_title">课程内容</view>
-              <view class="line_content">{{item.chapter_name}}</view>
+              <view class="line_title">班级名称</view>
+              <view class="line_content">{{item.classroom_name}}</view>
             </view>
             <view class="card_line">
-              <view class="line_title">课程时间</view>
-              <view>{{item.specific_time_range}}</view>
+              <view class="line_title">上课时间</view>
+              <view>{{item.period}}</view>
             </view>
             <view class="card_line">
               <view class="line_title">上课老师</view>
@@ -49,40 +48,19 @@
             </view>
             <view class="card_line">
               <view class="line_title">上课地点</view>
-              <view>{{item.address}}</view>
+              <view>{{item.schoolroom_name}}</view>
             </view>
             <view class="card_line">
-              <view class="line_title">开始预约</view>
-              <view>{{item.show_time}}</view>
+              <view class="line_title">上课类型</view>
+              <view>{{item.teaching_type === 1 ?'面授':'直播'}}</view>
             </view>
             <view class="card_line">
-              <view class="line_title">结束预约</view>
-              <view>{{item.close_time}}</view>
+              <view class="line_title">上课人数</view>
+              <view>{{item.people_number}}</view>
             </view>
-            <view class="card_line flexbox">
-              <view style="display:flex">
-                <view class="line_title">报名人数</view>
-                <view>{{item.subscribe_num}}/{{item.max_num}}</view>
-                人
-              </view>
-              <block wx:if="{{item.tips_type==0||item.tips_type==1}}">
-                <view  class="courseStatus2">
-                {{item.tips}}
-              </view>
-              </block>
-              <block wx:elif="{{item.tips_type==2||item.tips_type==3}}">
-                <view  class="courseStatus3">
-                {{item.tips}}
-              </view>
-              </block>
-            <block wx:else="{{item.tips_type==4||item.tips_type==5}}" >
-              <view class="courseStatus">
-                {{item.tips}}
-              </view>
-         
-            </block>
-            
-           
+            <view class="card_line">
+              <view class="line_title">备　　注</view>
+              <view>{{item.remark || '--'}}</view>
             </view>
           </view>
         </view>

@@ -216,7 +216,9 @@ let apiurl = {
     getSelfDeterminationExamConfig: bq + "/problem/getSelfDeterminationExamConfig",
     createSelfDeterminationData: bq + "/problem/createSelfDeterminationData",
     settlementSelfDeterminationResult: bq + "/problem/settlementSelfDeterminationResult",
-    getSelfDeterminationBoard: bq + "/problem/getSelfDeterminationBoard"
+    getSelfDeterminationBoard: bq + "/problem/getSelfDeterminationBoard",
+    getUserArrange: bq + "/arrange/user",
+    getUserArrangeDetail: bq + "/arrange/detail"
   }
 };
 

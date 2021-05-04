@@ -93,6 +93,8 @@ page {
 .kebiao{
     width: 40rpx;
     height: 40rpx;
+    margin-right: 10rpx;
+    margin-left: 2rpx;
 }
 .function-name{
     margin-left:13rpx ;
