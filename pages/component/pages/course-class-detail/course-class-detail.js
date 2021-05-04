@@ -84,7 +84,8 @@ Page({
     repeating: null,
     socketTime:null,
     fullScreenData: "",
-    SocketTask: ''
+    SocketTask: '',
+    chapterActiveIndex:''
   },
   timeOut: '',
   tabFun: function (t) {
@@ -115,6 +116,22 @@ Page({
   onShow: function () { },
   onHide: function () {
   },
+  // 根据播放的id设置选中的章节
+  setChapterActive(){
+    let index = ''
+    this.data.chapter.forEach((v,i) => {
+      if(v.live_video_arr && v.live_video_arr.length){
+        v.live_video_arr.forEach((child)=>{
+          if(child.live_video_id === this.data.live_video_id){
+            index = i
+          }
+        })
+      }
+    })
+    this.setData({
+      chapterActiveIndex:index
+    });   
+  },
   getVideoInfo: function () {
     wx.showLoading({
       title: "加载中"
@@ -129,7 +146,7 @@ Page({
       url: api.default.getrevielive,
       method: "GET",
       data: option,
-      success: function (e) {
+      success:  (e)=> {
         console.log(e)
         let chapter = e;
         chapter.forEach((v) => {
@@ -141,6 +158,7 @@ Page({
         that.setData({
           isPay: false
         })
+        this.setChapterActive()
       },
       complete: function (t) {
         wx.hideLoading();
@@ -163,9 +181,6 @@ Page({
         // if (0 == e.code) {
         console.log(e)
         that.getPlayInfo(e.data.mediaId);
-        wx.setNavigationBarTitle({
-          title: '直播回顾:' + e.data.title
-        });
         var a = e.data.content + "<span> </span>";
         d.wxParse("content", "html", a, that, 5);
         // } 
@@ -187,9 +202,11 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        console.log( res.live_video_learn_time)
+        console.log( res)
+        wx.setNavigationBarTitle({
+          title: `${res.live_video_name}`
+        });
         var a = res.live_video_des;
-        console.log(res.live_id)
         d.wxParse("content", "html", a, that, 5);
         that.setData({
           learnTime:  parseInt( res.live_video_learn_time),
@@ -201,6 +218,7 @@ Page({
           live_id:res.live_id
         })
         that.playVideo(res)
+        
       },
       fail: function (t) {
       },
@@ -224,6 +242,9 @@ Page({
       data: options,
       success: function (res) {
         console.log(res)
+        wx.setNavigationBarTitle({
+          title: `${res.live_video_name}`
+        });
         var a = res.live_video_des;
         d.wxParse("content", "html", a, that, 5);
         that.setData({
@@ -231,6 +252,7 @@ Page({
           live_id:res.live_id
         })
         that.playVideo(res)
+        that.setChapterActive()
       },
       fail: function (t) {
       },

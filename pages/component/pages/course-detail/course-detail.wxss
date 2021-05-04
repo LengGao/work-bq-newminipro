@@ -1153,6 +1153,9 @@ button{
 .selected .cata-name {
     color: #47c88a;
 }
+.cata-title.chapter-active{
+    color: #199FFF;
+}
 
 .detail-box {
     box-sizing: border-box;

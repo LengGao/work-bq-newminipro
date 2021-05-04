@@ -170,7 +170,8 @@ Page({
     isHide: false,
     courseId: '',
     class_video_id: '',
-    video_cellection_id: ''
+    video_cellection_id: '',
+    chapterActiveIndex:''
   },
   sumbitComment() {
     if (this.data.value2 == '') {
@@ -464,7 +465,7 @@ Page({
         console.log(res)
         console.log(res.is_fast)
         wx.setNavigationBarTitle({
-          title: `视频：${res.media_name}`
+          title: res.media_name
         });
         let videoControls = ''
         if(res.is_fast ==1){
@@ -549,8 +550,12 @@ Page({
         })
         if (res.free == 1 && res.buy == 1) { //免费或者已购买
           that.setData({
-            isPay: true
+            isPay: true,
+            lessonId: listen_id,
+            learnTime: 0,
+            class_video_id:listen_id
           })
+      
         } else {
           that.setData({
             isPay: false
@@ -565,6 +570,7 @@ Page({
         wx.setNavigationBarTitle({
           title: `视频：${res.media.mediaName}`
         });
+        that.setChapterActive()
         let option = {
           video_id: res.media.mediaId
         }
@@ -755,10 +761,9 @@ Page({
             chapter: res
           })
         }
-
       },
       fail: function (t) {},
-      complete: function () {}
+      complete:  ()=>{}
     })
   },
   getcomment() {
@@ -814,11 +819,6 @@ Page({
         info_show: user_info.info_show
       })
     }
-  
-    console.log(11111111111111)
-    console.log(option)
-    // console.log(this.data.uid)
-    // console.log(option.video_collection_id)
     clearInterval(this.timeOut);
     this.setData({
       video_id: option.video_id || this.data.video_id,
@@ -841,6 +841,9 @@ Page({
     this.coursedetail() //获取课程介绍
     this.getcomment() //获取课程评论
     this.getProgrammePosters() //获取课程封面
+    setTimeout(() => {
+    this.setChapterActive()
+    }, 1000);
   },
   onShow: function () {},
   onHide: function () {},
@@ -920,14 +923,30 @@ Page({
     console.log(t)
     wx.closeSocket();
     this.isHide = true;
-    this.setData({
-      lessonId: t.currentTarget.dataset.key,
-      learnTime: 0,
-      class_video_id: t.currentTarget.dataset.key
-    })
+    // this.setData({
+    //   lessonId: t.currentTarget.dataset.key,
+    //   learnTime: 0,
+    //   class_video_id: t.currentTarget.dataset.key
+    // })
     // this.onLoad()
     this.play(t.currentTarget.dataset.key)
 
+  },
+   // 根据播放的id设置选中的章节
+   setChapterActive(){
+    let index = ''
+    this.data.chapter.forEach((v,i) => {
+      if(v.child && v.child.length){
+        v.child.forEach((child)=>{
+          if(child.LessonId === this.data.lessonId){
+            index = i
+          }
+        })
+      }
+    })
+    this.setData({
+      chapterActiveIndex:index
+    });   
   },
   buyVideo: function () {
     var that = this,
@@ -1091,7 +1110,6 @@ Page({
 
   },
   closeControl() {
-    console.log(1111);
     this.setData({
       multiListShow: false,
       rateShow: false

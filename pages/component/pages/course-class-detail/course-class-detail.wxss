@@ -1230,3 +1230,6 @@
   .catalogue .cata-title image.transf {
     transform: rotate(-90deg);
   }
+  .chapter-active{
+    color: #199FFF ;
+  }

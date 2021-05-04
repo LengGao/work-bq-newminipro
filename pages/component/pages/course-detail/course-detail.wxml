@@ -75,7 +75,7 @@
 <!-- 目录 -->
 <view class="catalogue fix-out-box {{tabArr.curBdIndex=='0'?'tactive':''}}">
     <block wx:key="index" wx:for="{{chapter}}" wx:key="index" wx:if='{{!class_type}}'>
-        <view class="cata-title" bindtap="ifShow" data-index="{{index}}">
+        <view class="cata-title {{chapterActiveIndex === index?'chapter-active':''}}" bindtap="ifShow" data-index="{{index}}">
             {{item.title}}
             <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png"
                 class="{{ item.isShow ? 'transf' : '' }}"></image>

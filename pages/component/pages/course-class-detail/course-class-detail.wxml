@@ -48,7 +48,7 @@
 <!-- 目录 -->
 <view class="catalogue fix-out-box {{tabArr.curBdIndex=='0'?'tactive':''}}">
     <block wx:key="index" wx:for="{{chapter}}">
-        <view class="cata-title" bindtap="ifShow" data-index="{{index}}">
+        <view class="cata-title {{chapterActiveIndex === index?'chapter-active':''}}" bindtap="ifShow" data-index="{{index}}">
             {{item.live_name}}
             <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
         </view>
@@ -57,7 +57,7 @@
                 <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
                 <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image>
                 <view class="cata-content twoline">
-                    <text class="cata-name twoline">{{vitem.live_video_name}}</text>
+                    <text class="cata-name twoline {{vitem.live_video_id === live_video_id?'chapter-active':''}}">{{vitem.live_video_name}}</text>
                     <!-- <text class="cata-time">{{vitem.time}}</text> -->
                 </view>
             </view>
