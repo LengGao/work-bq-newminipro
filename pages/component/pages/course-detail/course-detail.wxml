@@ -199,7 +199,7 @@
                         {{courseInfo.star}}
                     </i-rate>
                 </i-cell>
-                <view class="personals">{{courseInfo.studentNum}}人在学</view>
+                <view class="personals">{{courseInfo.studentNum  || 0 }}人在学</view>
             </view>
             <view class="pricesOfdiff" hidden="{{info_show == 1 && uid == 10610}}">
                 <block>

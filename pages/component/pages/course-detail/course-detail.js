@@ -463,6 +463,9 @@ Page({
       success: function (res) {
         console.log(res)
         console.log(res.is_fast)
+        wx.setNavigationBarTitle({
+          title: `视频：${res.media_name}`
+        });
         let videoControls = ''
         if(res.is_fast ==1){
           videoControls =true
@@ -811,6 +814,8 @@ Page({
         info_show: user_info.info_show
       })
     }
+  
+    console.log(11111111111111)
     console.log(option)
     // console.log(this.data.uid)
     // console.log(option.video_collection_id)

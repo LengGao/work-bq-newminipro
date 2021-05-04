@@ -10,7 +10,7 @@ wx:if="{{ !nodata }}">
             <view>
                 <text class="myCourse-time">{{ item.hour_class }}课时</text>
                  <text class="myCourse-time">/</text>
-                <text class="myCourse-time">{{ item.studentNum }}人已学习</text>
+                <text class="myCourse-time">{{ item.studentNum || 0 }}人已学习</text>
             </view>
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
@@ -38,7 +38,7 @@ wx:if="{{ !nodata }}">
                 <!-- <text class="myCourse-time">{{ item.hour_class }}课时</text> -->
                 <block>
 
-                <text class="myCourse-time">{{ item.buy_number }}人已购买</text> 
+                <text class="myCourse-time">{{ item.buy_number  || 0 }}人已购买</text> 
            
                 <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥{{ item.onlinePrice == undefined ? '0' : item.onlinePrice  }}</text>
             </block>
