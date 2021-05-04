@@ -72,7 +72,7 @@
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">判断题</text>
 </view>
-<view class="wrapper-single-option" style="margin-bottom:160rpx">
+<view class="wrapper-single-option" style="padding-bottom:110rpx">
     <view wx:for="{{ judgmentNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.rightStatus == '1' ? 'right': item.rightStatus == '0' ? 'false':''}} " catchtap="gobefor" data-index='{{ item.problemId  }}'>
         <text > {{index+1+ singleNum.length + (multipleNum == false ? 0 : multipleNum.length) }}</text>
     </view>

@@ -35,7 +35,7 @@
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">判断题</text>
 </view>
-<view class="wrapper-single-option" style="margin-bottom:160rpx">
+<view class="wrapper-single-option" style="padding-bottom:110rpx">
     <view wx:for="{{ judgmentNum }}" wx:key="index" class=" {{ successOPtion }} {{ item.correct == '1' ? 'right': item.correct == '0' ? 'right ':''}} "  catchtap="gobefor"  data-index='{{ index }}'>
         <text > {{index+1}} </text>
     </view>

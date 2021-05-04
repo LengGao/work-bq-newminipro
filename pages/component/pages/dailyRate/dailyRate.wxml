@@ -76,7 +76,7 @@
         <text > {{ index + 1 + multipleNum.length + singleNum.length + scenes_problem.length +  judgmentNum.length }} </text>
     </view>
 </view>
-<view class="wrapper-single-option" style="margin-bottom:160rpx">
+<view class="wrapper-single-option" style="padding-bottom:110rpx">
     <view wx:for="{{ short_problem }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}}" data-problem_id='{{ item.problem_id }}' catchtap="gobefor">
         <text > {{ index + 1 + fill_problem.length + multipleNum.length + singleNum.length + scenes_problem.length +  judgmentNum.length}} </text>
     </view>

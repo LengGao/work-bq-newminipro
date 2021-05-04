@@ -42,7 +42,7 @@
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">判断题</text>
 </view>
-<view class="wrapper-single-option" style="margin-bottom:160rpx">
+<view class="wrapper-single-option" style="padding-bottom:110rpx">
     <view wx:for="{{ judge }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.ProblemId}}'>
         <text > {{ index + 1 + multipleNum}} </text>
     </view>
@@ -77,7 +77,7 @@
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">判断题</text>
 </view>
-<view class="wrapper-single-option" style="margin-bottom:160rpx">
+<view class="wrapper-single-option" style="padding-bottom:110rpx">
     <view wx:for="{{ judge }}" wx:key="index" class=" {{ successOPtion }} {{ item.is_right == '1' ? 'right': item.is_right == '0' ? 'right':''}} " catchtap="gobefor"  data-index='{{ item.ProblemId }}'>
         <text > {{index+1+multipleNum}} </text>
     </view>
