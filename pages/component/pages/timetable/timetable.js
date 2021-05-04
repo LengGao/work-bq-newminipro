@@ -59,7 +59,7 @@ Page({
     }
     this.setData({
       daytime: daytime,
-      hasMore:true,
+      hidden:false,
       page:1
     })
     this.getUserArrangeDetail(daytime)
@@ -92,6 +92,11 @@ Page({
           this.setData({
             courseInfor:Array.isArray(res)?res:[]
           })
+    },
+    complete:  () =>{
+      this.setData({
+        hidden:true
+      })
     }
     })
   },

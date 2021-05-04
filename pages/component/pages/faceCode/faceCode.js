@@ -165,7 +165,7 @@ Page({
         }else{
           wx.showToast({
             title: res.data.message,
-            icon: 'fail',
+            icon: 'error',
             duration: 2000
           })
         }
