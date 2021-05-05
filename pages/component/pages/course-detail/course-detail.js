@@ -568,7 +568,7 @@ Page({
           return
         }
         wx.setNavigationBarTitle({
-          title: `视频：${res.media.mediaName}`
+          title: res.media.mediaName
         });
         that.setChapterActive()
         let option = {

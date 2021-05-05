@@ -717,7 +717,7 @@ Page({
                 url: api.user.newLogin,
                 data: {
                   code: t,
-                  version: 9
+                  version: 10
                 },
                 method: 'POST',
                 success: function (e) {
