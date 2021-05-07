@@ -813,7 +813,6 @@ Page({
     })
   },
   onLoad: function (option = {}) {
-    console.log(1111111111111111)
     console.log(option)
     let user_info = wx.getStorageSync("user_info");
     if (user_info) {

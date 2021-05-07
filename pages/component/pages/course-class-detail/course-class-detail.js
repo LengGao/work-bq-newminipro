@@ -97,7 +97,6 @@ Page({
   },
   // onload
   onLoad: function (t = {}) {
-    console.log(1111111111111)
     console.log(t)
     this.setData({
       video_id: t.video_id || this.data.video_id,
