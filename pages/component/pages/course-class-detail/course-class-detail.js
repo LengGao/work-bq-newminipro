@@ -97,6 +97,7 @@ Page({
   },
   // onload
   onLoad: function (t = {}) {
+    console.log(1111111111111)
     console.log(t)
     this.setData({
       video_id: t.video_id || this.data.video_id,
@@ -749,7 +750,7 @@ Page({
         let live_video_id = that.data.live_video_id
         let class_id =that.data.class_room_id
         let video_cellection_id = that.data.live_class_id
-        let sendData = `{"token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}}`
+        let sendData = `{"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}}`
         console.log(sendData);
         that.socketSend(sendData);
       }, 10000)

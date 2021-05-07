@@ -684,7 +684,8 @@ Page({
       clearInterval(that.repeated)
       that.repeated = setInterval(() => {
         let listen_time = that.data.currentTime
-        let sendData = `{"token":"${tokens}","students_user_id":${uid},"count_type":1,"from":1,"listen_time":${listen_time},"video_cellection_id":${video_cellection_id},"class_video_id":${class_video_id}}`;
+        let courseId = that.data.courseId
+        let sendData = `{"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":1,"from":1,"listen_time":${listen_time},"video_cellection_id":${video_cellection_id},"class_video_id":${class_video_id}}`;
         console.log(sendData);
         that.socketSend(sendData);
       }, 10000)
@@ -812,6 +813,8 @@ Page({
     })
   },
   onLoad: function (option = {}) {
+    console.log(1111111111111111)
+    console.log(option)
     let user_info = wx.getStorageSync("user_info");
     if (user_info) {
       this.setData({
