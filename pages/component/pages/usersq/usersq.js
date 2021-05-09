@@ -92,6 +92,35 @@ Page({
       }
     });
   },
+  // 获取用户信息
+  getUserProfile(){
+    const session_key  = wx.getStorageSync('privateInfor').session_key
+    const openid  = wx.getStorageSync('privateInfor').openid
+    wx.getUserProfile({
+      desc: '用于完善学员信息',
+      success: (res) => {
+        wx.request({
+          url: api.user.login,
+          method: "POST",
+          data: {
+            openid,
+            session_key,
+            encryptedData: res.encryptedData,
+            iv: res.iv
+          },
+          success: (e)=>{
+            if (e.data.code == 200) {
+              this.setData({
+                isphone: false,
+              })
+            }
+          },
+          complete: function (e) {
+          }
+        });
+      }
+    })
+  },
   getLogo: function (o) {
     var n = this;
     wx.showLoading({

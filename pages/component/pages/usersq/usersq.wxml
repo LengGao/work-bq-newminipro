@@ -4,8 +4,9 @@
 <view class="middle-image-auth">
      <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/dongpeixuetang.png" style="width:100%;height:100%" />
 </view>
-<button bindgetuserinfo="onGotUserInfo" class="denglu" lang="zh_CN" openType="getUserInfo">登录</button>
-<view style="font-size:28rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin-top:29rpx;width:750rpx;display:flex;justify-content:center">同意微信授权， 查看相关内容</view>
+<!-- <button bindgetuserinfo="onGotUserInfo" class="denglu" lang="zh_CN" openType="getUserInfo">登录</button> -->
+<button bindtap="getUserProfile"  class="denglu" >微信授权</button>
+<view style="font-size:28rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin-top:29rpx;width:750rpx;display:flex;justify-content:center;padding:0 30rpx">东培学堂小程序需要您提供微信授权才能继续提供服务，请点击微信授权。</view>
 <view class="login_cover" hidden='{{isphone}}'>
     <view class="login_phone">
         <view class="login_title">微信授权</view>
