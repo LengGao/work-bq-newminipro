@@ -171,7 +171,8 @@ Page({
     courseId: '',
     class_video_id: '',
     video_cellection_id: '',
-    chapterActiveIndex:''
+    chapterActiveIndex:'',
+    progress_min:0
   },
   sumbitComment() {
     if (this.data.value2 == '') {
@@ -475,6 +476,7 @@ Page({
         }
         that.setData({
           learnTime: res.data.listen_time,
+          progress_min:res.data.listen_time,
           lessonId: res.listen_id,
           videoControls:videoControls,
           class_video_id: res.video_class_id
@@ -579,6 +581,7 @@ Page({
           method: "GET",
           data: option,
           success: function (res) {
+        
             that.playVideo(res, listen_time)
           }
         })
@@ -587,7 +590,6 @@ Page({
       complete: function () {}
     })
     this.coursedetail()
-    this.webSocket()
   },
   playVideo(data, listen_time) {
     clearInterval(this.repeated);
@@ -649,6 +651,7 @@ Page({
     let listen_time = this.data.currentTime
     let video_cellection_id = that.data.video_collection_id
     let class_video_id = that.data.class_video_id
+    
     // 创建Socket
     that.SocketTask = wx.connectSocket({
       // url: 'wss://api.beiqujy.com/wss',
@@ -675,28 +678,56 @@ Page({
     })
     // 监听WebSocket关闭
     that.SocketTask.onClose(res => {
-      console.log('监听到 WebSocket 已关闭！' + ':' + res)
+      console.log('监听到 WebSocket 已关闭！')
+      console.log(res)
       that.reconnect();
     })
     // websocket打开
     that.SocketTask.onOpen(res => {
       console.log('监听到 WebSocket 连接已打开！')
-      clearInterval(that.repeated)
-      that.repeated = setInterval(() => {
-        let listen_time = that.data.currentTime
-        let courseId = that.data.courseId
-        let sendData = `{"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":1,"from":1,"listen_time":${listen_time},"video_cellection_id":${video_cellection_id},"class_video_id":${class_video_id}}`;
-        console.log(sendData);
-        that.socketSend(sendData);
-      }, 10000)
-      // let d = this.data;
-      // let login_data =`{"uid":"${d.uid}","course_id":"${d.course_id}","content":"${comment_data}"}`;
-      // this.socketSend(login_data);
+      this.intervalSendData()
     })
     // 收到websocket消息
     that.SocketTask.onMessage(res => {
       console.log('监听到 接收消息！' + ':' + res.data)
       // this.socketMessage(JSON.parse(res.data));
+    })
+  },
+    // 播放器暂停
+    playPaused() {
+      console.log(111111111111)
+      console.log( this.isHide )
+      clearInterval(this.repeated)
+      this.data.videoplaying = false
+      this.isHide &&  this.sendData()
+    },
+    // 播放
+  handleVideoPlay(){
+      // 开启定时器 发送数据
+    this.intervalSendData()
+  },
+  // 定时发送数据
+  intervalSendData(){
+    clearInterval(this.repeated)
+    this.repeated = setInterval(() => {
+        this.sendData()
+      }, 10000)
+  },
+  // 发送数据
+  sendData(){
+    const listen_time = this.data.currentTime
+    const progress_min = this.data.progress_min
+    const progress_max = this.data.currentTime
+    const tokens = wx.getStorageSync("user_info").token
+    const courseId = this.data.courseId
+    const uid = wx.getStorageSync("user_info").uid
+    const video_cellection_id = this.data.video_collection_id
+    const class_video_id = this.data.class_video_id
+    console.log(progress_max)
+    const sendData = `{"progress_min":${progress_min},"progress_max":${progress_max},"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":1,"from":1,"listen_time":${listen_time},"video_cellection_id":${video_cellection_id},"class_video_id":${class_video_id}}`;
+    this.socketSend(sendData);
+    this.setData({
+      progress_min:progress_max
     })
   },
   reconnect() {
@@ -711,7 +742,6 @@ Page({
     }
   },
   socketSend(data, fn) {
-    console.warn('SocketTask', this.SocketTask, data);
     if (this.SocketTask.readyState == 1) {
       this.SocketTask.send({
         data: data
@@ -925,6 +955,7 @@ Page({
     console.log(t)
     wx.closeSocket();
     this.isHide = true;
+    
     // this.setData({
     //   lessonId: t.currentTarget.dataset.key,
     //   learnTime: 0,
@@ -1204,9 +1235,7 @@ Page({
       this.videoContext.playbackRate(Number(this.data.currentRate))
     }
   },
-  playPaused() {
-    this.data.videoplaying = false
-  },
+
   fullScreen(e) {
     let {
       fullScreen,

@@ -1,9 +1,9 @@
 <view class="video-box">
     <!--first use player-->
     <!-- <player  videoOption="{{ videoOption }}"></player> -->
-
-    <video id="videoPlayer" autoplay bindplay="videoPlayHand" class="vod-video" bindtap="tapVideo" controls="{{videoControls}}"
-        bindpause="playPaused" bindended="playPaused" bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen"
+    <!-- bindplay="videoPlayHand" -->
+    <video id="videoPlayer" autoplay bindplay="handleVideoPlay" class="vod-video" bindtap="tapVideo" controls="{{videoControls}}"
+        bindpause="playPaused"  bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen"
         poster="{{currentPoster}}" initial-time="{{learnTime}}" src="{{currentResource}}" bindwaiting="videoWaiting">
         <cover-view class="video-control" hidden="{{controlHidden}}">
             <cover-view class="video-title">{{currentVideoTitle}}</cover-view>
