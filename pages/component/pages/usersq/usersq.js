@@ -96,15 +96,18 @@ Page({
   getUserProfile(){
     const session_key  = wx.getStorageSync('privateInfor').session_key
     const openid  = wx.getStorageSync('privateInfor').openid
+    const unionid  = wx.getStorageSync('privateInfor').unionid
     wx.getUserProfile({
-      desc: '用于完善学员信息',
+      desc: '请完善学员信息',
       success: (res) => {
+        console.log(res)
         wx.request({
           url: api.user.login,
           method: "POST",
           data: {
             openid,
             session_key,
+            unionid,
             encryptedData: res.encryptedData,
             iv: res.iv
           },
@@ -118,6 +121,9 @@ Page({
           complete: function (e) {
           }
         });
+      },
+      fail: function (e) {
+    
       }
     })
   },

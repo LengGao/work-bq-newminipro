@@ -102,7 +102,8 @@ App({
                 if (200 != n.data.code) {
                     wx.setStorageSync("privateInfor", {
                         openid: n.data.data.param.openid,
-                        session_key: n.data.data.param.session_key
+                        session_key: n.data.data.param.session_key,
+                        unionid: n.data.data.param.unionid,
                     })
                     wx.reLaunch({
                         url: "../component/pages/usersq/usersq"
