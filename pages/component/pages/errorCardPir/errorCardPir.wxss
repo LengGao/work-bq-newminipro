@@ -16,13 +16,7 @@ page {
   font-weight: bold;
   color: rgba(25, 159, 255, 1);
 }
-.questions-box {
-  box-sizing: border-box;
-  width: 670rpx;
-  margin-left: 40rpx;
-  margin-top: 40rpx;
-  overflow-y: scroll;
-}
+
 .test_rich {
   flex: 1;
 }

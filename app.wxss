@@ -12,14 +12,28 @@
     box-sizing: border-box;
     padding: 40rpx;
     overflow-y: scroll;
-    height: 77vh!important;
+    height: calc(100vh - 210rpx - 60px)!important;
 }
 .questions-box2 {
     box-sizing: border-box;
     padding: 40rpx;
     overflow-y: scroll;
-    height: 85vh!important;
+    height: calc(100vh - 98rpx - 60px)!important;
 }
+@media screen and (min-height: 800px) {
+    .questions-box {
+        box-sizing: border-box;
+        padding: 40rpx;
+        overflow-y: scroll;
+        height: calc(100vh - 210rpx - 90px)!important;
+    }
+    .questions-box2 {
+        box-sizing: border-box;
+        padding: 40rpx;
+        overflow-y: scroll;
+        height: calc(100vh - 98rpx - 90px)!important;
+    }
+ }
 .questions-sencebox{
     box-sizing: border-box;
     padding: 0 40rpx;
