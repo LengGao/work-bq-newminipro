@@ -784,7 +784,7 @@ handleVideoPlay(){
     const live_video_id = this.data.live_video_id
     const class_id =this.data.class_room_id
     console.log(progress_max)
-    const sendData = `{"progress_min":${progress_min},"progress_max":${progress_max},"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}`;
+    const sendData = `{"progress_min":${progress_min},"progress_max":${progress_max},"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}}`;
     this.socketSend(sendData);
     this.setData({
       progress_min:progress_max
