@@ -212,7 +212,7 @@ Page({
         d.wxParse("content", "html", a, that, 5);
         that.setData({
           learnTime: res.live_video_learn_time,
-          progress_min:  res.live_video_learn_time,
+          progress_min: res.live_video_learn_time,
           live_video_des:res.live_video_des,
           video:res.live_video_name,
           courseId:res.course_id,
@@ -779,7 +779,7 @@ handleVideoPlay(){
     const tokens = wx.getStorageSync("user_info").token
     const courseId = this.data.courseId
     const uid = wx.getStorageSync("user_info").uid
-    const video_cellection_id = this.data.video_collection_id
+    const video_cellection_id = this.data.live_class_id
     const live_id = this.data.live_id
     const live_video_id = this.data.live_video_id
     const class_id =this.data.class_room_id
