@@ -695,8 +695,6 @@ Page({
   },
     // 播放器暂停
     playPaused() {
-      console.log(111111111111)
-      console.log( this.isHide )
       clearInterval(this.repeated)
       this.data.videoplaying = false
       this.isHide &&  this.sendData()

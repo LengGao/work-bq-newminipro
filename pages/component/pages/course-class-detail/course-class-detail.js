@@ -85,7 +85,8 @@ Page({
     socketTime:null,
     fullScreenData: "",
     SocketTask: '',
-    chapterActiveIndex:''
+    chapterActiveIndex:'',
+    progress_min:0,
   },
   timeOut: '',
   tabFun: function (t) {
@@ -202,6 +203,7 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
+        console.log( 11111111)
         console.log( res)
         wx.setNavigationBarTitle({
           title: `${res.live_video_name}`
@@ -209,7 +211,8 @@ Page({
         var a = res.live_video_des;
         d.wxParse("content", "html", a, that, 5);
         that.setData({
-          learnTime:  parseInt( res.live_video_learn_time),
+          learnTime: res.live_video_learn_time,
+          progress_min:  res.live_video_learn_time,
           live_video_des:res.live_video_des,
           video:res.live_video_name,
           courseId:res.course_id,
@@ -397,6 +400,7 @@ Page({
     this.setData({
       lessonId: t.currentTarget.dataset.key,
       learnTime: 0,
+      progress_min:  0,
       roomId: t.currentTarget.dataset.roomid,
       media_int_id:t.currentTarget.dataset.key,
       live_video_id:t.currentTarget.dataset.roomid
@@ -656,7 +660,8 @@ Page({
       currentResource,
       currentVideoResource,
       currentDefinition: currentVideoResource[0].definitionFormat,
-      learnTime: parseInt(data.live_video_learn_time),
+      learnTime: data.live_video_learn_time || 0,
+      progress_min:   data.live_video_learn_time || 0,
     })
   },
   // 进度改变执行
@@ -668,9 +673,7 @@ Page({
       this.videoContext.playbackRate(Number(this.data.currentRate))
     }
   },
-  playPaused() {
-    this.data.videoplaying = false
-  },
+
   fullScreen(e) {
     let { fullScreen, direction } = e.detail
     console.log(e)
@@ -743,23 +746,48 @@ Page({
     // websocket打开
     that.SocketTask.onOpen(res => {
       console.log('监听到 WebSocket 连接已打开！')
-      clearInterval(that.repeating)
-      that.repeating = setInterval(() => {
-        let listen_time = that.data.currentTime
-        let live_video_id = that.data.live_video_id
-        let class_id =that.data.class_room_id
-        let video_cellection_id = that.data.live_class_id
-        let sendData = `{"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}}`
-        console.log(sendData);
-        that.socketSend(sendData);
-      }, 10000)
-      // let d = this.data;
-      // let login_data =`{"uid":"${d.uid}","course_id":"${d.course_id}","content":"${comment_data}"}`;
-      // this.socketSend(login_data);
+      this.intervalSendData()
     })
     // 收到websocket消息
     that.SocketTask.onMessage(res => {
       console.log('监听到 接收消息！' + ':' + res.data)
+    })
+  },
+   // 播放器暂停
+ playPaused() {
+  clearInterval(this.repeating)
+  this.data.videoplaying = false
+  this.isHide &&  this.sendData()
+},
+     // 播放
+handleVideoPlay(){
+      // 开启定时器 发送数据
+    this.intervalSendData()
+  },
+  // 定时发送数据
+  intervalSendData(){
+    clearInterval(this.repeating)
+    this.repeating = setInterval(() => {
+        this.sendData()
+      }, 10000)
+  },
+  // 发送数据
+  sendData(){
+    const listen_time = this.data.currentTime
+    const progress_min = this.data.progress_min
+    const progress_max = this.data.currentTime
+    const tokens = wx.getStorageSync("user_info").token
+    const courseId = this.data.courseId
+    const uid = wx.getStorageSync("user_info").uid
+    const video_cellection_id = this.data.video_collection_id
+    const live_id = this.data.live_id
+    const live_video_id = this.data.live_video_id
+    const class_id =this.data.class_room_id
+    console.log(progress_max)
+    const sendData = `{"progress_min":${progress_min},"progress_max":${progress_max},"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":2,"from":1,"listen_time":${listen_time},"class_id":${class_id},"live_video_id":${live_video_id},"video_cellection_id":${video_cellection_id},"live_id":${live_id}`;
+    this.socketSend(sendData);
+    this.setData({
+      progress_min:progress_max
     })
   },
   reconnect() {
