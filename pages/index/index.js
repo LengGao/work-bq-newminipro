@@ -89,6 +89,14 @@ Page({
     live_class_id: '',
     video_collection_id: ''
   },
+  handleLiveClick(){
+    console.log(111111111)
+    if(this.allData && this.allData.live_status==1){
+      this.toliveclass()
+    }else{
+      this.goTestvideo()
+    }
+  },
   subscribe(num) {
     var num = num
     var that = this
@@ -717,7 +725,7 @@ Page({
                 url: api.user.newLogin,
                 data: {
                   code: t,
-                  version: 35
+                  version: 40
                 },
                 method: 'POST',
                 success: function (e) {

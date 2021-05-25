@@ -180,7 +180,6 @@ Page({
       },
       success: function (e) {
         // if (0 == e.code) {
-        console.log(e)
         that.getPlayInfo(e.data.mediaId);
         var a = e.data.content + "<span> </span>";
         d.wxParse("content", "html", a, that, 5);
@@ -203,15 +202,14 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        console.log( 11111111)
-        console.log( res)
         wx.setNavigationBarTitle({
           title: `${res.live_video_name}`
         });
         var a = res.live_video_des;
         d.wxParse("content", "html", a, that, 5);
+        console.log(22222222222222222222)
+        console.log(res.live_video_learn_time)
         that.setData({
-          learnTime: res.live_video_learn_time,
           progress_min: res.live_video_learn_time,
           live_video_des:res.live_video_des,
           video:res.live_video_name,
@@ -276,6 +274,8 @@ Page({
         videoId: videoId
       },
       success: function (e) {
+        console.log(1111111)
+        console.log(e)
         if (0 == e.code) {
           t.playVideo(e.data);
         }
@@ -397,6 +397,7 @@ Page({
     clearInterval(this.repeating);
     this.repeating = null
     // this.SocketTask && this.SocketTask.close();
+    console.log(4444444444444444)
     this.setData({
       lessonId: t.currentTarget.dataset.key,
       learnTime: 0,
@@ -612,7 +613,6 @@ Page({
     this.data.isSwitchDefinition = true
     let dataset = e.currentTarget.dataset
     let { url, def } = dataset
-
     this.setData({
       currentResource: url,
       currentDefinition: def,
@@ -621,7 +621,9 @@ Page({
   },
   onReady() {
     this.videoContext = wx.createVideoContext('videoPlayer')
+    console.log(11111111111)
     console.log(this.videoContext)
+  
   },
   onPullDownRefresh() {
     this.setData({
@@ -654,6 +656,8 @@ Page({
       item.definitionFormat = this.computedDef(item.Definition)
       return item
     })
+    console.log(333333333)
+    console.log(data)
     this.setData({
       currentPoster,
       currentVideoTitle,
@@ -661,8 +665,11 @@ Page({
       currentVideoResource,
       currentDefinition: currentVideoResource[0].definitionFormat,
       learnTime: data.live_video_learn_time || 0,
-      progress_min:   data.live_video_learn_time || 0,
+      progress_min: data.live_video_learn_time || 0,
     })
+    setTimeout(() => {
+      this.videoContext.seek(this.data.learnTime || 0)
+ }, 100);
   },
   // 进度改变执行
   timeUpdate(e) {

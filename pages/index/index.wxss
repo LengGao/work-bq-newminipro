@@ -545,14 +545,14 @@ width: 100%;
     padding: 7rpx 29rpx;
     border: 1px solid #ccc;
     border-radius: 36rpx;
-    font-size: 24rpx;
+    font-size: 32rpx;
 }
 .live-review2 {
 
     padding: 7rpx 29rpx;
     border: 1px solid #199fff;
     border-radius: 36rpx;
-    font-size: 24rpx;
+    font-size: 32rpx;
     color:#199fff
 }
 .repeat {
