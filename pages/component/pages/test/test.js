@@ -556,6 +556,12 @@ Page({
     })
     console.log(this.data.randerTitle)
   },
+  // 显示案例题下面的填空题的答案
+  showCompletionAnswer(){
+    this.setData({
+      multiSceneshowAny:!this.data.multiSceneshowAny
+    })
+  },
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({

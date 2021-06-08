@@ -385,9 +385,9 @@
                             <view class="referData">参考答案</view>
                             <view class="topRefer">
                                 <text class="correctanswer">正确答案：</text>
-                                {{ randerTitle.answer }}
+                                {{randerTitle.child[senceIndex - 1].answer}}
                                 <text class="youranswer">你的答案：</text>
-                                {{ randerTitle.option }}
+                                {{ randerTitle.child[senceIndex - 1].option }}
                             </view>
                             <view class="referData">答案解析</view>
                             <view class="topRefer">
@@ -409,7 +409,7 @@
                     <!-- <textarea name="scene" id="scene" cols="30" rows="10" placeholder="多个答案请用逗号隔开" bindinput="updateSceneValue" data-name='content' value="{{SceneValue}}" style="border:2px" auto-focus adjust-position="true"></textarea> -->
                     <input type="text" placeholder="多个答案请用逗号隔开" bindinput="updateSceneValue" data-name='content'
                         value="{{SceneValue}}" style="margin-top:10px" />
-                    <view class="wrapper-option" bindtap="showAnswer">
+                    <view class="wrapper-option" bindtap="showCompletionAnswer">
                         <view class="correctoptions {{ correctSceneoption }}">
                             <image src="{{answerSceneImg}}" mode="widthFix"
                                 style="width:38rpx;height:30rpx;margin-top:6rpx" />
@@ -452,7 +452,8 @@
                         <view class="referData">参考答案</view>
                         <view class="topRefer">
                             <text class="correctanswer">正确答案：</text>
-                            {{ randerTitle.child[senceIndex - 1].answer }}
+                            <template is="wxParse"
+                                    data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_answer_wx.nodes }}"></template>
                         </view>
                         <view class="referData">答案解析</view>
                         <view class="topRefer">

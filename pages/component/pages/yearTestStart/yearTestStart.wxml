@@ -504,7 +504,8 @@
                         <view class="referData">参考答案</view>
                         <view class="topRefer">
                             <text class="correctanswer">正确答案：</text>
-                            {{ randerTitle.child[senceIndex - 1].answer }}
+                            <template is="wxParse"
+                                    data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_answer_wx.nodes }}"></template>
                         </view>
                         <view class="referData">答案解析</view>
                         <view class="topRefer">
