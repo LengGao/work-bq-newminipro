@@ -90,7 +90,7 @@ Page({
     video_collection_id: ''
   },
   handleLiveClick(){
-    console.log(111111111)
+   
     if(this.allData && this.allData.live_status==1){
       this.toliveclass()
     }else{
@@ -116,7 +116,6 @@ Page({
     if (message2 != '') arr_template.push(message2);
     //如果总是拒绝（subscriptionsSetting，2.10.1库才支持）
     if (this.versionCompare('2.10.1')) {
-      console.log('这里司法所发的')
       wx.getSetting({
         withSubscriptions: true, //是否同时获取用户订阅消息的订阅状态，默认不获取
         success: (res) => {
@@ -132,7 +131,6 @@ Page({
               success: (res) => {
                 if (num == 2) {
                   //直播和回顾同时存在时,点击直播回顾跳转到班级直播
-                   console.log(this.data.allData.live_status)
                   if(this.data.allData.live_status==1){
                     let courseId = this.data.banjiID  
                     wx.reLaunch({
@@ -725,7 +723,7 @@ Page({
                 url: api.user.newLogin,
                 data: {
                   code: t,
-                  version: 40
+                  version: 55
                 },
                 method: 'POST',
                 success: function (e) {

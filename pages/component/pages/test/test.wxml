@@ -21,7 +21,7 @@
         <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
             data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
             data-id="{{randerTitle.ProblemId}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                 class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                 <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                     {{vItem.option}}
@@ -65,7 +65,7 @@
             <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
                 data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
                 data-id="{{randerTitle.ProblemId}}">
-                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                     class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
                     <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
                         {{vItem.option}}
@@ -85,7 +85,7 @@
             <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
                 data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
                 data-id="{{randerTitle.ProblemId}}">
-                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                     class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
                     <view
                         class="letter {{  vItem.haschose != true&&vItem.nohascolor ? 'nohascolor':''}}  {{  vItem.haschose == true ? 'correctoption':''}}"
@@ -136,7 +136,7 @@
         <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
             data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-id="{{randerTitle.ProblemId}}"
             data-index="{{index}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                 class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                 <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                     {{vItem.option}}
@@ -278,7 +278,7 @@
                             wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}"
                             data-answer="{{randerTitle.child[senceIndex - 1].answer}}" data-index="{{index}}"
                             data-id="{{randerTitle.child[senceIndex - 1].ProblemId}}">
-                            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                 class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                                 <view class="letter "
                                     wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
@@ -327,7 +327,7 @@
                             <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.child[senceIndex - 1].content }}"
                                 wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}"
                                 data-answer="{{randerTitle.child[senceIndex - 1].answer}}" data-index="{{index}}">
-                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                     class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
                                     <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
                                         {{vItem.option}}
@@ -350,7 +350,7 @@
                             <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.child[senceIndex - 1].content }}"
                                 wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}"
                                 data-answer="{{randerTitle.child[senceIndex - 1].answer}}" data-index="{{index}}">
-                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                     class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
                                     <view
                                         class="letter {{  vItem.haschose != true&&vItem.nohascolor ? 'nohascolor':''}}  {{  vItem.haschose == true ? 'correctoption':''}}"
@@ -413,7 +413,7 @@
                             wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}"
                             data-answer="{{ randerTitle.child[senceIndex - 1].answer}}"
                             data-id="{{ randerTitle.child[senceIndex - 1].ProblemId}}" data-index="{{index}}">
-                            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                 class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                                 <view class="letter "
                                     wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">

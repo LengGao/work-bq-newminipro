@@ -42,6 +42,30 @@
 <view class="fenge2"></view>
 <view class="hotpoint tacitly">
     <view class="hotpoint-top flex-between">
+        <text class="tuijian">公开课</text>
+        <text class="allin" bindtap="checkAllOpenClass" wx:if="{{openClassData.length}}">查看全部</text>
+    </view>
+    <view class="hotpoint-content">
+        <view class="hotpoint-container" wx:for="{{ openClassData }}" wx:key="index" bindtap="handleLiveTap"  data-index="{{index}}" >
+                <view class="hotpoint-image">
+                    <image style="width:100%;height:100%" src="{{ item.live_class_icon }}" />
+                </view>
+            <view class="container-title">{{ item.live_class_name }}</view>
+            <view class="live-time">开播时间：{{item.public_class_live_time}}</view>
+            <view class="container-live-info">
+                <view class="live-teacher">
+                    <image  class="teacher-avator"  src="{{ item.url }}" />
+                    <view class="teacher-name">{{item.teacher_name}}</view>
+                </view>
+                <view class="live-status {{ 'live-status-'+item.public_class_status }}">{{liveStatusMap[item.public_class_status]}}</view>
+            </view>
+        </view>
+        <view wx:if="{{!openClassData.length}}" class="no-data">暂无公开课</view>
+    </view>
+</view>
+<view class="fenge2"></view>
+<view class="hotpoint tacitly">
+    <view class="hotpoint-top flex-between">
         <text class="tuijian">热门推荐</text>
         <text class="allin" bindtap="checkAlls" wx:if="{{ true }}">查看全部</text>
     </view>

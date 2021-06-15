@@ -11,7 +11,15 @@ Page({
     uid:'',
     info_show:'',
     freeCourse: [],
-    // hotpoint:[]
+    // hotpoint:[]，
+    openClassData:[],
+    liveStatusMap: {
+      0: '等待开播',
+      1: '正在直播',
+      2: '直播回顾',
+      3: '直播结束'
+    },
+    userInfoData:{}
   },
   toVideoroom(e) {
     console.log(e.currentTarget.dataset.id)
@@ -136,7 +144,10 @@ Page({
       this.hotpoint()
     } else if (options.id == 2) {
       this.freeCourse()
-    } else {
+    } else if(options.id == 3){
+      this.getUserInfo()
+      this.getOpenClass()
+    }else {
       this.getcoursecategory()
     }
   },
@@ -182,7 +193,79 @@ Page({
   onReachBottom: function () {
 
   },
+  
+  getUserInfo(){
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    app.encryption({
+      url: api.default.getUserInfo,
+      header: {
+        token: token,
+        uuid: uuid
+      },
+      method: 'get',
+      dataType: "json",
+      success: (res) => {
+        this.setData({
+          userInfoData: res || {}
+        })
+      },
+    })
+  },
+  handleLiveTap(e){
+    let currentIndex = e.currentTarget.dataset.index
+    let currentData = this.data.openClassData[currentIndex]
+    let liveStatus = currentData.public_class_status
+    console.log(currentData)
+    let userInfo = this.data.userInfoData || {}
+    if(liveStatus === 2){
+      wx.navigateTo({
+        url: `../../pages/openClassReview/index?liveClassId=${currentData.live_class_id}`
+      })
+      return
+    }
+    if((liveStatus === 1 || liveStatus === 0 )&& currentData.channel_id){
+      wx.navigateTo({
+        url: `../../pages/live-class-room/live-class-room?channelId=${currentData.channel_id}&openId=${userInfo.openId}&userName=${userInfo.userName}&avatarUrl=${userInfo.avatarUrl}&viewerId=${userInfo.uid}&live_class_id=${currentData.live_class_id}`
+      })
+    }else{
+      wx.showToast({
+        title: liveStatus !=3?'敬请期待':'已结束',
+      })
+    }
+  },
+  getOpenClass() {
+    wx.showLoading({
+      title: "加载中"
+    });
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    app.encryption({
+      url: api.default.getOpenClass,
+      header: {
+        token: token,
+        uuid: uuid
+      },
+      method: 'POST',
+      dataType: "json",
+      data: {
+        limit: 99999,
+        page: 1
+      },
+      success: (res) => {
+        this.setData({
+          openClassData:res.list || []
+        })
 
+      },
+      fail: function (res) {
+
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    })
+  },
   /**
    * 用户点击右上角分享
    */

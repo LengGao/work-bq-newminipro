@@ -24,7 +24,7 @@
             data-id="{{randerTitle.ProblemId}}">
             <block wx:if='{{nosubmit}}'>
                 <!-- 表明是回顾状态下的展示 -->
-                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                     class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                     <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                         {{vItem.option}}
@@ -43,7 +43,7 @@
             </block>
             <block wx:if='{{!nosubmit}}'>
                 <!--表明 是考试模式下的展示-->
-                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                     class="wrapper-items {{ vItem.option == randerTitle.option  ? 'correct':'' }} {{  vItem.haschose == true ? 'correct':''  }} ">
                     <view
                         class="letter {{ vItem.option == randerTitle.option ? 'correctoption':'' }} {{  vItem.haschose == true ? 'correctoption':''  }}">
@@ -82,7 +82,7 @@
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
             data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
             data-id="{{randerTitle.ProblemId}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                 class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
                 <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
                     {{vItem.option}}
@@ -131,7 +131,7 @@
             data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-id="{{randerTitle.ProblemId}}"
             data-index="{{index}}">
             <block wx:if='{{nosubmit}}'>
-                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                     class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                     <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                         {{vItem.option}}
@@ -149,7 +149,7 @@
                 </view>
             </block>
             <block wx:if='{{!nosubmit}}'>
-                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                     class="wrapper-items {{ vItem.option == randerTitle.option  ? 'correct':'' }} {{  vItem.haschose == true ? 'correct':''  }} ">
                     <view
                         class="letter {{ vItem.option == randerTitle.option ? 'correctoption':'' }} {{  vItem.haschose == true ? 'correctoption':''  }}">
@@ -290,7 +290,7 @@
                             data-id="{{randerTitle.child[senceIndex - 1].ProblemId}}">
                             <block wx:if='{{nosubmit}}'>
                                 <!-- 表明是回顾状态下的展示 -->
-                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                     class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                                     <view class="letter "
                                         wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
@@ -310,7 +310,7 @@
                             </block>
                             <block wx:if='{{!nosubmit}}'>
                                 <!--表明 是考试模式下的展示-->
-                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                     class="wrapper-items {{ vItem.option == randerTitle.child[senceIndex - 1].option  ? 'correct':'' }} {{  vItem.haschose == true ? 'correct':''  }} ">
                                     <view
                                         class="letter {{ vItem.option == randerTitle.child[senceIndex - 1].option ? 'correctoption':'' }} {{  vItem.haschose == true ? 'correctoption':''  }}">
@@ -352,7 +352,7 @@
                         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.child[senceIndex - 1].content }}"
                             wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}"
                             data-answer="{{randerTitle.child[senceIndex - 1].answer}}" data-index="{{index}}">
-                            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                 class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
                                 <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
                                     {{vItem.option}}
@@ -407,7 +407,7 @@
                             data-answer="{{randerTitle.child[senceIndex - 1].answer}}"
                             data-id="{{randerTitle.child[senceIndex - 1].ProblemId}}" data-index="{{index}}">
                             <block wx:if='{{nosubmit}}'>
-                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                     class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                                     <view class="letter "
                                         wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
@@ -426,7 +426,7 @@
                                 </view>
                             </block>
                             <block wx:if='{{!nosubmit}}'>
-                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap"
+                                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                                     class="wrapper-items {{ vItem.option == randerTitle.child[senceIndex - 1].option  ? 'correct':'' }} {{  vItem.haschose == true ? 'correct':''  }} ">
                                     <view
                                         class="letter {{ vItem.option == randerTitle.child[senceIndex - 1].option ? 'correctoption':'' }} {{  vItem.haschose == true ? 'correctoption':''  }}">

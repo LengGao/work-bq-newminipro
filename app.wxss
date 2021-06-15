@@ -549,3 +549,19 @@ button::after {
     bottom: -10px;
     right: -10px;
 }
+.weui-cell{
+    margin-bottom: 32rpx;
+}
+.weui-input{
+    padding-left: 20rpx;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    -webkit-appearance: none;
+    background-color: transparent;
+    font-size: inherit;
+    color: inherit;
+    height: 1.41176471em;
+    line-height: 1.41176471;
+    border-bottom: 1px solid #F5F5F5;
+}

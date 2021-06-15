@@ -10,6 +10,8 @@ Page({
     options: {},
     channelId: '',
     userId: '',
+    imgUrl:'',
+    isOpenClass:false,
   },
 
   /**
@@ -22,6 +24,12 @@ Page({
   // options.userId = '1588755973413';
   // options.param4 = 'param4';
   // options.param5 = 'param5';
+  if(options.live_class_id){
+    this.setData({
+      isOpenClass:true
+    })
+    this.getLiveClassThumbPosterUrl(options.live_class_id)
+  }
   plv.init(options)
     .catch(err => { // error code
       console.error(err, err.message);
@@ -132,7 +140,43 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  // onShareAppMessage: function () {
-
-  // }
+  onShareAppMessage: function () {
+    console.log(this.data.imgUrl)
+    if(this.data.isOpenClass){
+      return {
+        title: '东培学堂正在直播免费公开课， 点击一起看吧！',
+        imageUrl: this.data.imgUrl,
+        path: `/pages/index/index`
+      }
+    }
+  },
+  // 生成公开课直播的分享图片
+  getLiveClassThumbPosterUrl(live_class_id){
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    if(!uuid){
+      wx.reLaunch({
+        url: '../usersq/usersq',
+      })
+      return
+    }
+    app.encryption({
+      url: api.default.getLiveClassThumbPosterUrl,
+      header: {
+        token: token,
+        uuid: uuid
+      },
+      method: 'get',
+      dataType: "json",
+      data:{
+        live_class_id
+      },
+      success: (res) => {
+        console.log(res)
+        this.setData({
+          imgUrl: res.url || {}
+        })
+      },
+    })
+  },
 })

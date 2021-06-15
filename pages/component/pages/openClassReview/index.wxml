@@ -1,0 +1,37 @@
+<import src="../../../../wxParse/wxParse.wxml"></import>
+<video src="{{videoUrl}}" autoplay="{{true}}"></video>
+<view class="video-tab">
+  <view class="video-tab-item {{activeIndex === index?'video-tab-item-active':''}}" bindtap="onTabChange"
+    wx:for="{{tabData}}" wx:key="index" data-index="{{index}}">{{item.name}}</view>
+</view>
+  <swiper class="video-info" current="{{activeIndex}}" duration="300" bindchange="onSwiperChange">
+    <swiper-item class="siper-item">
+      <view class="video-desc">
+        <view class="live-title text-ellipsis">{{videoDetail.live_class_name}}</view>
+        <view class="live-info-item">
+          <text class="label">直播时间：</text>
+          <text>{{videoDetail.public_class_live_time}}</text>
+        </view>
+        <view class="live-info-item">
+          <text class="label">上课老师：</text>
+          <image src="{{videoDetail.teacher_url}}"  class="teacher-avator" />
+          <text>{{videoDetail.teacher_name}}</text>
+        </view>
+        <view class="live-info-item">
+          <text class="label">课程简介：</text>
+          <text>{{videoDetail.live_class_common}}</text>
+        </view>
+      </view>
+      <view class="video-detail">
+        <template is="wxParse" data="{{ wxParseData:article.nodes }}"></template>
+      </view>
+    </swiper-item>
+    <swiper-item class="swiper-item video-menu">
+      <view class="video-list">
+        <view class="video-list-item {{index === playIndex?'active':''}}" bindtap="onChecked" wx:for="{{videoList}}" wx:key="index" data-index="{{index}}">
+          <text>{{item.live_video_name}}</text>
+          <text class="time">{{iten.media_duration}}</text>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>

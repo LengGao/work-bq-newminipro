@@ -18,7 +18,7 @@
     </view>
     <radio-group class="checked padding">
         <label bindtap="selectAnswer" wx:for="{{ randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.problemId}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                 <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                     {{vItem.option}}
                 </view>
@@ -50,7 +50,7 @@
     </view>
     <radio-group class="checked padding">
         <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}" data-id="{{randerTitle.ProblemId}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                 <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                     {{vItem.option}}
                 </view>
@@ -89,7 +89,7 @@
     </view>
     <radio-group class="checked padding">
         <label bindtap="selectAnswer" wx:for="{{  randerTitle.content }}" wx:key="index" wx:for-item="vItem" data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-id="{{randerTitle.ProblemId}}" data-index="{{index}}">
-            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:nowrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap" class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
                 <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
                     {{vItem.option}}
                 </view>

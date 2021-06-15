@@ -106,6 +106,10 @@ let apiurl = {
     polyvWechatAuth:bq + "/Live/polyvWechatAuth",  
     getScheduleCode:bq+'/arrange/info',
     arrangeUpdateSignIn:bq+'/arrange/update',
+    getOpenClass:bq+'/PublicClass/getPublicClassList',
+    getUserInfo:bq+'/PublicClass/getUserInfo',
+    getPublicClassVideoInfo:bq+'/PublicClass/getPublicClassVideoInfo',
+    getLiveClassThumbPosterUrl:bq+'/PublicClass/getLiveClassThumbPosterUrl',
   },
   user: {
     newLogin: bq + '/login/login',

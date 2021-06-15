@@ -1,0 +1,97 @@
+/* pages/component//pages/openClassReview/index.wxss */
+@import '../../../../wxParse/wxParse.wxss';
+page{
+  height: 100%;
+}
+.text-ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+video{
+  width: 100%;
+}
+.video-tab{
+  padding: 0 24rpx;
+  border-bottom: 1px solid #EEEEEE;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.video-tab .video-tab-item{
+  color: #333333;
+  padding: 24rpx 12rpx;
+  width: fit-content;
+  border-bottom: 4rpx solid #f5f5f5;
+}
+.video-tab .video-tab-item.video-tab-item-active{
+  border-color: #199FFF;
+  color: #199FFF;
+}
+.video-info{
+  height: calc(100% - 550rpx);
+}
+
+.siper-item{
+  overflow-y: auto;
+}
+.video-info .video-desc{
+  padding: 20rpx;
+  background-color: #fff;
+  margin-bottom: 24rpx;
+}
+.video-info .video-desc .live-title{
+  font-size: 32rpx;
+  padding-bottom: 12rpx;
+}
+.live-info-item{
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  line-height: 2;
+}
+.live-info-item .label{
+  color: #199FFF;
+  align-self: start;
+  flex-shrink: 0;
+}
+.live-info-item text{
+  color: #999;
+}
+.live-info-item .teacher-avator{
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+}
+.video-detail{
+  padding: 20rpx;
+  background-color: #fff;
+  line-height: 2;
+}
+.video-menu{
+  background-color: #fff;
+  overflow-y: auto;
+}
+.video-list{
+  padding-left: 38rpx;
+  color: #666666;
+}
+.video-list .video-list-item{
+  padding: 38rpx 38rpx 38rpx 0;
+  border-bottom: 1px solid #EEEEEE;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.video-list .video-list-item .time{
+  color: #999;
+  font-size: 24rpx;
+}
+.video-list .video-list-item.active{
+  color: #199FFF;
+}
+.video-list .video-list-item.active .time{
+  color: #199FFF;
+}

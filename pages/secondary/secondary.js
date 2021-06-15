@@ -1,13 +1,14 @@
-var app = getApp(), api = require("../../api.js"), tab = require("../tab-bar/tab-bar.js");
+var app = getApp(),
+  api = require("../../api.js"),
+  tab = require("../tab-bar/tab-bar.js");
 
 Page({
   data: {
-    uid:0,
-    info_show:0,
+    uid: 0,
+    info_show: 0,
     isIOS: app.globalData.isIOS,
-  
-    banner: [
-      {
+
+    banner: [{
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/01.jpg'
       },
       {
@@ -20,8 +21,7 @@ Page({
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg'
       }
     ],
-    funsel: [
-      {
+    funsel: [{
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ruankaojisuanji.png',
         title: '软考',
         id: '1'
@@ -58,7 +58,15 @@ Page({
       }
     ],
     freeCourse: [],
-    hotpoint: []
+    hotpoint: [],
+    openClassData: [],
+    liveStatusMap: {
+      0: '等待开播',
+      1: '正在直播',
+      2: '直播回顾',
+      3: '直播结束'
+    },
+    userInfoData:{}
   },
   selectmenuAll() {
     this.setData({
@@ -139,9 +147,86 @@ Page({
       }
     })
   },
+  getUserInfo(){
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    app.encryption({
+      url: api.default.getUserInfo,
+      header: {
+        token: token,
+        uuid: uuid
+      },
+      method: 'get',
+      dataType: "json",
+      success: (res) => {
+        this.setData({
+          userInfoData: res || {}
+        })
+      },
+    })
+  },
+  handleLiveTap(e){
+    let currentIndex = e.currentTarget.dataset.index
+    let currentData = this.data.openClassData[currentIndex]
+    let liveStatus = currentData.public_class_status
+    console.log(currentData)
+    let userInfo = this.data.userInfoData || {}
+    if(liveStatus === 2){
+      wx.navigateTo({
+        url: `../component/pages/openClassReview/index?liveClassId=${currentData.live_class_id}`
+      })
+      return
+    }
+    if((liveStatus === 1 || liveStatus === 0 )&& currentData.channel_id){
+      wx.navigateTo({
+        url: `../component/pages/live-class-room/live-class-room?channelId=${currentData.channel_id}&openId=${userInfo.openId}&userName=${userInfo.userName}&avatarUrl=${userInfo.avatarUrl}&viewerId=${userInfo.uid}&live_class_id=${currentData.live_class_id}`
+      })
+    }else{
+      wx.showToast({
+        title: liveStatus !=3?'敬请期待':'已结束',
+      })
+    }
+  },
+  getOpenClass() {
+    wx.showLoading({
+      title: "加载中"
+    });
+    let uuid = wx.getStorageSync("user_info").uuid
+    let token = wx.getStorageSync("user_info").token
+    app.encryption({
+      url: api.default.getOpenClass,
+      header: {
+        token: token,
+        uuid: uuid
+      },
+      method: 'POST',
+      dataType: "json",
+      data: {
+        limit: 2,
+        page: 1
+      },
+      success: (res) => {
+        this.setData({
+          openClassData:res.list || []
+        })
+
+      },
+      fail: function (res) {
+
+      },
+      complete: function () {
+        wx.hideLoading();
+      }
+    })
+  },
   checkAll(e, f) {
     wx.navigateTo({
       url: "../component/pages/AllTestPir/AllTestPir?id=2&name=免费课程"
+    });
+  },
+  checkAllOpenClass(e, f) {
+    wx.navigateTo({
+      url: "../component/pages/AllTestPir/AllTestPir?id=3&name=公开课"
     });
   },
   checkAlls(e, f) {
@@ -197,8 +282,7 @@ Page({
         //   })
         // }
       },
-      fail: function (t) {
-      },
+      fail: function (t) {},
       complete: function () {
 
       }
@@ -226,10 +310,8 @@ Page({
         //   })
         // }
       },
-      fail: function (t) {
-      },
-      complete: function () {
-      }
+      fail: function (t) {},
+      complete: function () {}
     })
   },
   menu() {
@@ -252,29 +334,33 @@ Page({
     })
   },
   onLoad: function (t) {
-    let user_info=wx.getStorageSync("user_info");
-    if(user_info){
-        if(user_info.uid==10610&&user_info.info_show==1)
-        {
-          this.setData({
-            uid:user_info.uid,
-            info_show:user_info.info_show 
-          })
-        }
-     
+    let user_info = wx.getStorageSync("user_info");
+    if (user_info) {
+      if (user_info.uid == 10610 && user_info.info_show == 1) {
+        this.setData({
+          uid: user_info.uid,
+          info_show: user_info.info_show
+        })
+      }
+
     }
     console.log(this.data.uid)
     console.log(this.data.info_show)
-    console.log(this.data.uid==10610&&this.data.info_show==1)
+    console.log(this.data.uid == 10610 && this.data.info_show == 1)
     tab.tabbar("tabBar", 0, this, "shoponline");
-    this.hotpoint(); this.freeCourse(); this.menu(); this.getMycourse()
+    this.getUserInfo()
+    this.getOpenClass()
+    this.hotpoint();
+    this.freeCourse();
+    this.menu();
+    this.getMycourse()
   },
-  onReady: function () { },
-  onShow: function () { },
-  onHide: function () { },
-  onUnload: function () { },
-  onPullDownRefresh: function () { },
-  onReachBottom: function () { },
+  onReady: function () {},
+  onShow: function () {},
+  onHide: function () {},
+  onUnload: function () {},
+  onPullDownRefresh: function () {},
+  onReachBottom: function () {},
   onShareAppMessage: function () {
     return {
       path: "/pages/index/index"
@@ -284,8 +370,8 @@ Page({
   getClassList: function () {
     var a = this;
     wx.showLoading({
-      title: "加载中"
-    }),
+        title: "加载中"
+      }),
       wx.request({
         url: e.video.category_list,
         method: "POST",

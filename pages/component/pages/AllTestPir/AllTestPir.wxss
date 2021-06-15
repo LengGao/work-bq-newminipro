@@ -66,3 +66,38 @@ page{
     font-weight:500;
     color:#999999;
 }
+.myCourse-content-live-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10rpx;
+}
+.myCourse-content-live-info .live-teacher{
+    display: flex;
+    align-items: center;
+}
+.myCourse-content-live-info .live-teacher image{
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 50%;
+    margin-right: 12rpx;
+}
+ .live-time{
+    color: #999;
+    font-size: 20rpx;
+}
+.myCourse-content-live-info .live-status{
+    border: 1px solid #199FFF;
+    padding: 0 8rpx 2rpx ;
+    font-size: 20rpx;
+    color: #199FFF;
+    border-radius: 8rpx;
+}
+.myCourse-content-live-info .live-status.live-status-1{
+    background-color: #199FFF;
+    color: #fff;
+}
+.myCourse-content-live-info .live-status.live-status-3{
+    border-color: #999;
+    color: #999;
+}

@@ -103,6 +103,10 @@ let apiurl = {
     subscribeClassroomSignIn: bq + '/Reservation/signIn',
     getScheduleCode:bq+'arrange/info',
     arrangeUpdateSignIn:bq+'arrange/update',
+    getOpenClass:bq+'/PublicClass/getPublicClassList',
+    getUserInfo:bq+'/PublicClass/getUserInfo',
+    getPublicClassVideoInfo:bq+'/PublicClass/getPublicClassVideoInfo',
+    getLiveClassThumbPosterUrl:bq+'/PublicClass/getLiveClassThumbPosterUrl',
   },
   user: {
     newLogin: bq + '/login/login',
@@ -129,6 +133,7 @@ let apiurl = {
     addProblemOrder: bq + "index/course/addProblemOrder",
     vip_list: bq + "viplist",
     getHomePanel: bq + '/answe/getHomePanel',
+    
 
   },
   video: {

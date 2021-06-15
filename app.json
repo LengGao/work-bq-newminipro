@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/personal-center/personal-center",
-    "pages/secondary/secondary"
+    "pages/secondary/secondary",
+    "pages/personal-center/personal-center"
   ],
   "subPackages": [
     {
@@ -68,7 +68,8 @@
         "pages/assignTestIntro/assignTestIntro",
         "pages/polyv-test/polyv-test",
         "pages/scheduleCode/scheduleCode",
-        "pages/scheduleSuccess/scheduleSuccess"
+        "pages/scheduleSuccess/scheduleSuccess",
+        "pages/openClassReview/index"
       ]
     }
   ],
