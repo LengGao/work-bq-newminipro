@@ -723,7 +723,7 @@ Page({
                 url: api.user.newLogin,
                 data: {
                   code: t,
-                  version: 55
+                  version: 33
                 },
                 method: 'POST',
                 success: function (e) {
