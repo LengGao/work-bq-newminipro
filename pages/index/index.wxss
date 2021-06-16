@@ -331,11 +331,11 @@ width: 100%;
 }
 
 .percentages {
-    font-size: 56rpx;
+    font-size: 44rpx;
     font-family: 'DINPro';
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
-    margin-bottom: 37rpx;
+    margin-bottom: 50rpx;
 }
 
 .gl {

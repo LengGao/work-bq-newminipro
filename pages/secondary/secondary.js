@@ -9,15 +9,18 @@ Page({
     isIOS: app.globalData.isIOS,
 
     banner: [{
+      path:"../component/pages/course-detail/course-detail?courseId=18",
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/01.jpg'
       },
       {
+        path:"../component/pages/course-detail/course-detail?courseId=19",
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/02.jpg'
       },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/03.jpg'
       },
       {
+        path:"../component/pages/course-detail/course-detail?courseId=45",
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/04.jpg'
       }
     ],

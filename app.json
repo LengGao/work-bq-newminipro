@@ -69,7 +69,8 @@
         "pages/polyv-test/polyv-test",
         "pages/scheduleCode/scheduleCode",
         "pages/scheduleSuccess/scheduleSuccess",
-        "pages/openClassReview/index"
+        "pages/openClassReview/index",
+        "pages/articlePreview/index"
       ]
     }
   ],

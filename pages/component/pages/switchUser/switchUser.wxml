@@ -2,7 +2,7 @@
 
 <!-- 添加手机号 wx:if="{{ local_admin.is_root==1 }}" -->
 <view class="body-view" >
-       <input class="weui-input" type="text" placeholder="请输入手机号" style="margin-top:10px" data-index='{{index}}' bindinput="bindKeyInput" value=""  bindinput="mobileInput" />
+       <input  type="text" placeholder="请输入手机号" style="margin-top:10px" data-index='{{index}}' bindinput="bindKeyInput" value=""  bindinput="mobileInput" />
         <text style="color:#199fff;" bindtap="switchInput">切换</text>
 </view>
 <view class="body-view" wx:if="{{ local_mobile.length>0}}" wx:for="{{ local_mobile }}" wx:key="index" >   
