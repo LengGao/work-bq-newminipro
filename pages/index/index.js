@@ -718,12 +718,11 @@ Page({
           success: function (n) {
             if (n.code) {
               var t = n.code;
-              console.log(t);
               app.request({
                 url: api.user.newLogin,
                 data: {
                   code: t,
-                  version: 33
+                  version: app.globalData.version
                 },
                 method: 'POST',
                 success: function (e) {

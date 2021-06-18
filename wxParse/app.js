@@ -38,6 +38,7 @@ App({
     },
     // 新增school_id
     globalData: {
+        version:35,// 版本号
         userInfo: null,
         rdsession: "",
         acct_id: 1,
@@ -88,6 +89,9 @@ App({
                 e.success && e.success(n.data);
             },
             fail: function (n) {
+                wx.showModal({
+                    content: JSON.stringify(n),
+                  })
                 var o = getApp();
                 o.is_on_launch ? (o.is_on_launch = !1, wx.showModal({
                     title: "网络请求出错",

@@ -186,7 +186,8 @@ Page({
       })
     }else{
       wx.showToast({
-        title: liveStatus !=3?'敬请期待':'已结束',
+        icon:'error',
+        title: liveStatus !=3?'直播尚未开始':'直播已结束',
       })
     }
   },

@@ -42,11 +42,11 @@
         </view>
     </scroll-view>
 </view>
-<view class="fenge2"></view>
-<view class="hotpoint tacitly">
+<view class="fenge2" wx:if="{{openClassData.length}}"></view>
+<view class="hotpoint tacitly" wx:if="{{openClassData.length}}">
     <view class="hotpoint-top flex-between">
         <text class="tuijian">公开课</text>
-        <text class="allin" bindtap="checkAllOpenClass" wx:if="{{openClassData.length}}">查看全部</text>
+        <text class="allin" bindtap="checkAllOpenClass" >查看全部</text>
     </view>
     <view class="hotpoint-content">
         <view class="hotpoint-container" wx:for="{{ openClassData }}" wx:key="index" bindtap="handleLiveTap"

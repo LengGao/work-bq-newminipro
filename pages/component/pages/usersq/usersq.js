@@ -9,15 +9,22 @@ Page({
     pid: 0,
     isphone: true,
     userData: '',
+    channelId: '',
+    live_class_id: '',
   },
   notAuthorized: function () {
     wx.navigateTo({
       url: "../../../../pages/index/index"
     });
   },
-  onLoad: function (e) {
-    // wx.getSync("store");
-    // this.getLogo();
+  onLoad: function (options) {
+    if(options.live_class_id){
+      // 公开课用
+      this.setData({
+        live_class_id: options.live_class_id,
+        channelId: options.channelId
+      })
+    }
 
   },
   onReady: function () { },
@@ -26,72 +33,6 @@ Page({
   onUnload: function () { },
   onPullDownRefresh: function () { },
   onReachBottom: function () { },
-  onGotUserInfo: function (n) {
-    let self = this, dat = this.data;
-    if (!n.detail.userInfo) return wx.showToast({
-      title: "已拒绝"
-    })
-    var a = 0;
-    if (wx.getStorageSync("tmp_options")) {
-      var s = wx.getStorageSync("tmp_options");
-      console.log(s), s.pid && (a = s.pid), s.scene && (i = decodeURIComponent(s.scene),
-        i = t.str2Obj(i), a = i.pid ? i.pid : 0);
-    }
-    wx.login({
-      success: function (res) {
-        if (res.code) {
-          var s = res.code;
-          console.log(res),
-            wx.showLoading({
-              title: "登陆中"
-            }),
-            wx.getUserInfo({
-              success: function (n) {
-                console.log(n),
-                  console.log(wx.getStorageSync('privateInfor').openid)
-                wx.request({
-                  url: api.user.login,
-                  method: "POST",
-                  data: {
-                    openid: wx.getStorageSync('privateInfor').openid,
-                    session_key: wx.getStorageSync('privateInfor').session_key,
-                    encryptedData: n.encryptedData,
-                    iv: n.iv
-                  },
-                  success: function (e) {
-                    console.log(e);
-                    var t = e.data;
-                    if (e.data.code == 200) {
-                      self.setData({
-                        isphone: false,
-                      })
-                      // wx.setStorageSync("user_info", n.detail.userInfo);
-                    }
-                  },
-                  complete: function (e) {
-                    wx.hideLoading();
-                  }
-                });
-              },
-              fail: function (e) {
-                wx.hideToast(), getApp().getauth({
-                  content: "需要获取您的用户信息授权",
-                  cancel: !0,
-                  success: function (e) {
-                    e && getApp().login_1();
-                  }
-                });
-              }
-            });
-        } else wx.showToast({
-          title: n.msg
-        });
-      },
-      fail: function (e) {
-        console.log(e);
-      }
-    });
-  },
   // 获取用户信息
   getUserProfile(){
     const session_key  = wx.getStorageSync('privateInfor').session_key
@@ -111,8 +52,9 @@ Page({
             encryptedData: res.encryptedData,
             iv: res.iv
           },
-          success: (e)=>{
-            if (e.data.code == 200) {
+          success: (res)=>{
+            console.log(res)
+            if (res.data.code == 200) {
               this.setData({
                 isphone: false,
               })
@@ -122,8 +64,8 @@ Page({
           }
         });
       },
-      fail: function (e) {
-    
+      fail: function (error) {
+        console.log(error)
       }
     })
   },
@@ -188,17 +130,87 @@ Page({
           encryptedData: e.detail.encryptedData,
           iv: e.detail.iv,
         },
-        success: function (res) {
-          console.log(res)
+        success:  (res)=> {
+          console.log(this.data.live_class_id)
           self.setData({
             isphone: !0
           });
-          wx.reLaunch({
-            url: '../../../../pages/index/index'
-          });
+          if(this.data.live_class_id){
+            wx.reLaunch({
+              url: `../live-class-room/live-class-room?channelId=${this.data.channelId}&live_class_id=${this.data.live_class_id}`
+            });
+          }else{
+            wx.reLaunch({
+              url: '../../../../pages/index/index'
+            });
+          }
+         
         }
       })
     }
   },
+ getUserLoginInfo(){
+  app.request({
+    url: api.user.newLogin,
+    data: {
+      code: t,
+      version: app.globalData.version
+    },
+    method: 'POST',
+    success: function (e) {
+      console.log(e);
+      that.setData({
+        region_type: e.data.param.region_type
 
+      })
+      // console.log(that.data.region_type)
+      if (e.data.param.info_show) {
+        app.globalData.info_show = 1;
+      }
+      if (e.code == '10001') {
+        wx.showModal({
+          title: "警告",
+          content: e.message,
+          showCancel: !1,
+          success: function () {
+            wx.reLaunch({
+              url: '../index/index'
+            })
+          }
+        })
+      }
+      wx.setStorageSync("user_info", {
+        nickname: e.data.param.user_nicename,
+        avatar_url: e.data.param.user_img,
+        uid: e.data.param.uid,
+        uuid: e.data.param.uuid,
+        token: e.data.param.token,
+        mobile: e.data.param.telphone,
+        is_admin: e.data.param.is_admin,
+        info_show: e.data.param.info_show
+      });
+      //增加本地存储管理员的信息；
+      let local_admin = wx.getStorageSync("local_admin");
+      if (typeof (local_admin) == "undefined" || local_admin == '' || e.data.param.is_admin == 1) {
+        wx.setStorageSync("local_admin", {
+          is_root: parseInt(e.data.param.is_admin) == 1 ? 1 : 0,
+          is_uid: e.data.param.uid,
+          is_token: e.data.param.token,
+          is_uuid: e.data.param.uuid
+        });
+      }
+
+    },
+    fail: function (e) {
+      wx.showModal({
+        title: "警告",
+        content: e.msg,
+        showCancel: !1
+      });
+    },
+    complete: function () {
+      return resolve()
+    }
+  })
+ }
 });
