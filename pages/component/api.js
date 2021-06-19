@@ -107,6 +107,7 @@ let apiurl = {
     getUserInfo:bq+'/PublicClass/getUserInfo',
     getPublicClassVideoInfo:bq+'/PublicClass/getPublicClassVideoInfo',
     getLiveClassThumbPosterUrl:bq+'/PublicClass/getLiveClassThumbPosterUrl',
+    getLiveClassPosterUrl:bq+'/PublicClass/getLiveClassPosterUrl',
   },
   user: {
     newLogin: bq + '/login/login',

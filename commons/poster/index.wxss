@@ -1,0 +1,41 @@
+.poster-container{
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 32rpx  90rpx 161rpx;
+  z-index: 8888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background: #2E2E4C;
+}
+
+.poster-container .poster-img{
+  width: 570rpx;
+  height: 1014rpx;
+  border-radius: 20rpx;
+}
+.poster-actions{
+  position: absolute;
+  bottom: 50rpx;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.poster-actions button{
+  width: 270rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #199FFF;
+  font-size: 28rpx;
+  border-radius: 40rpx;
+}
+.poster-actions button.btn-save{
+  color: #fff;
+  background-color: #199FFF;
+}

@@ -1,0 +1,7 @@
+<cover-view class="poster-container" wx:if="{{isShow}}">
+    <cover-image class="poster-img" src="{{url}}" bindload="hanldImgLoad" ></cover-image>
+    <cover-view class="poster-actions">
+      <button size="mini" bindtap="handleCancel">取消</button>
+      <button size="mini" class="btn-save" bindtap="handleSaveImg">保存图片</button>
+    </cover-view>
+</cover-view>

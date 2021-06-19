@@ -15,3 +15,25 @@ page {
 .plv-mp-demo-watch-chatroom {
   height: 400rpx;
 }
+.share-btn{
+  position: absolute;
+  top: 600rpx;
+  right: 2rpx;
+  width: 115rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 250, 227, 0.8);
+  border-top-left-radius:30rpx;
+  border-bottom-left-radius: 30rpx;
+}
+.share-btn image{
+width: 30rpx;
+height: 30rpx;
+margin: 0 4rpx 0 12rpx;
+}
+.share-btn text{
+  color: #333;
+  font-size: 26rpx;
+}

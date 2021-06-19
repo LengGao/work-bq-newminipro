@@ -12,6 +12,9 @@ Page({
     live_class_id: '',
     imgUrl: '',
     isOpenClass: false,
+    shareIshow:false,
+    posterShow:false,
+    posterUrl:''
   },
 
   /**
@@ -24,20 +27,19 @@ Page({
     // options.userId = '1588755973413';
     // options.param4 = 'param4';
     // options.param5 = 'param5';
-  
-    if (options.live_class_id) {
+    if (options.live_class_id || options.b) {
       // 公开课直播需要配置分享
       this.setData({
         isOpenClass: true,
-        live_class_id: options.live_class_id,
-        channelId: options.channelId
+        live_class_id: options.live_class_id || options.b,
+        channelId: options.channelId || options.a
       })
-      this.getLiveClassThumbPosterUrl(options.live_class_id)
+      this.getLiveClassThumbPosterUrl(options.live_class_id || options.b)
     }
     if (!options.viewerId) {
+      // 没有viewerId 都是从分享进来的，要走一下权限接口
       this.getUserAuth()
     } else {
-     
       this.initPLY(options)
     }
   },
@@ -135,7 +137,7 @@ Page({
       return {
         title: '东培学堂正在直播免费公开课， 点击一起看吧！',
         imageUrl: this.data.imgUrl,
-        path: `/pages/component/pages/live-class-room/live-class-room?channelId=${this.data.channelId}&live_class_id=${this.data.live_class_id}`
+        path: `/pages/component/pages/live-class-room/live-class-room?a=${this.data.channelId}&b=${this.data.live_class_id}`
       }
     }
   },
@@ -156,7 +158,6 @@ Page({
   },
   // 生成公开课直播的分享图片
   getLiveClassThumbPosterUrl(live_class_id) {
-
     app.encryption({
       url: api.default.getLiveClassThumbPosterUrl,
       method: 'get',
@@ -218,6 +219,39 @@ Page({
             }
           })
         }
+      }
+    })
+  },
+  handleShare(){
+    this.setData({
+      shareIshow:true
+    })
+  },
+  handleCreatePoster(){
+    this.setData({
+      posterShow:true
+    })
+    if(this.data.posterUrl){
+      return
+    }
+    wx.showLoading({
+      title: '海报生成中...',
+    })
+    app.encryption({
+      url: api.default.getLiveClassPosterUrl,
+      method: 'get',
+      dataType: "json",
+      data: {
+        live_class_id:this.data.live_class_id,
+        channel_id:this.data.channelId
+      },
+      success: (res) => {
+        this.setData({
+          posterUrl:res.url
+        })
+      },
+      fail:()=>{
+       wx.hideLoading()
       }
     })
   }

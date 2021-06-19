@@ -4,6 +4,8 @@
   "navigationBarTitleText": "课程直播",
   "navigationBarTextStyle": "black",
   "usingComponents": {
-    "polyv":"../../../../lib/polyv-sdk/components/polyv/polyv"
+    "polyv":"../../../../lib/polyv-sdk/components/polyv/polyv",
+    "shareModal":"../../../../commons/shareModal/index",
+    "poster":"../../../../commons/poster/index"
   }
 }

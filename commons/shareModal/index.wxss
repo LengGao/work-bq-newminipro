@@ -1,0 +1,47 @@
+.share-mask{
+  background:#000;
+  opacity:0;
+  position:fixed;
+  top:0;
+  right:0;
+  bottom: 0;
+  left:0;
+  z-index:8886
+}
+.share-container {
+  position: fixed;
+  width: 100vw;
+  bottom: -320rpx;
+  z-index:8887
+}
+.share-container .share-btns{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20rpx 40rpx;
+  border-bottom: 10rpx solid #F5F5F5;
+  background-color: #fff;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+}
+.share-container .share-btns button{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+  color: #666;
+  font-size: 24rpx;
+}
+.share-container .share-btns button image{
+  width: 100rpx;
+  height: 100rpx;
+}
+.share-cancel{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background-color: #fff;
+  color: #666;
+  border-radius: 0;
+}

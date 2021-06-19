@@ -1,12 +1,11 @@
 <view class="plv-mp-demo-watch">
-  <polyv
-    bind:userBanned="handleUserBanned"
-    bind:onError="handlePolyvError"
-    id="plvMpDemoWatch"
-    requestUrl="https://api.polyv.net/live/v3/channel/chat/"
-    allowDanmu="{{ true }}"
-    skinAlwaysShow="{{ true }}"
-    usePlayerSkin="{{ true }}"
-    hasAnswerCard="{{true}}"
-  />
+  <polyv bind:userBanned="handleUserBanned" controls="{{false}}" bind:onError="handlePolyvError" id="plvMpDemoWatch"
+    requestUrl="https://api.polyv.net/live/v3/channel/chat/" allowDanmu="{{ true }}" skinAlwaysShow="{{ true }}"
+    usePlayerSkin="{{ true }}" hasAnswerCard="{{true}}" />
+  <button class="share-btn"  bindtap="handleShare">
+    <image src="../../../../imgs/icon-share.png"></image>
+    <text>分享</text>
+  </button>
 </view>
+<shareModal isShow="{{shareIshow}}" bindposter="handleCreatePoster"/>
+<poster isShow="{{posterShow}}" url="{{posterUrl}}" />
