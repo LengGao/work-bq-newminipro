@@ -38,7 +38,7 @@ App({
     },
     // 新增school_id
     globalData: {
-        version:35,// 版本号
+        version:77,// 版本号
         userInfo: null,
         rdsession: "",
         acct_id: 1,
