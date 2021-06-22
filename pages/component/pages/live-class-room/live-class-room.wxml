@@ -2,7 +2,7 @@
   <polyv bind:userBanned="handleUserBanned" controls="{{false}}" bind:onError="handlePolyvError" id="plvMpDemoWatch"
     requestUrl="https://api.polyv.net/live/v3/channel/chat/" allowDanmu="{{ true }}" skinAlwaysShow="{{ true }}"
     usePlayerSkin="{{ true }}" hasAnswerCard="{{true}}" />
-  <button class="share-btn"  bindtap="handleShare">
+  <button class="share-btn" wx:if="{{isOpenClass}}"  bindtap="handleShare">
     <image src="../../../../imgs/icon-share.png"></image>
     <text>分享</text>
   </button>

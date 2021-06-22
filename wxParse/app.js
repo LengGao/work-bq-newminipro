@@ -38,6 +38,7 @@ App({
     },
     // 新增school_id
     globalData: {
+        organizationId:3,// 机构id
         version:77,// 版本号
         userInfo: null,
         rdsession: "",
@@ -75,6 +76,7 @@ App({
             data: e.data || {},
             method: e.method || "GET",
             dataType: e.dataType || "json",
+            header: e.header || {},
             success: function (n) {
                 // 错误码不为200去授权
                 if (200 != n.data.code) {

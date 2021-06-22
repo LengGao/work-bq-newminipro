@@ -184,6 +184,9 @@ Page({
               code,
               version: app.globalData.version
             },
+            header:{
+              'organization-id':app.globalData.organizationId
+             },
             method: 'POST',
             success: (res) => {
               const data = res.data || {}

@@ -90,8 +90,7 @@ Page({
     video_collection_id: ''
   },
   handleLiveClick(){
-   
-    if(this.allData && this.allData.live_status==1){
+    if(this.data.allData && this.data.allData.live_status==1){
       this.toliveclass()
     }else{
       this.goTestvideo()
@@ -646,6 +645,7 @@ Page({
     // }else{
     //   this.subscribe(2)
     // }
+    console.log(111111111111)
     this.subscribe(2)
   },
   goindex() {
@@ -723,6 +723,9 @@ Page({
                 data: {
                   code: t,
                   version: app.globalData.version
+                },
+                header:{
+                 'organization-id':app.globalData.organizationId
                 },
                 method: 'POST',
                 success: function (e) {

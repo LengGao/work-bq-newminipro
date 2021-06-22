@@ -45,6 +45,9 @@ Page({
         wx.request({
           url: api.user.login,
           method: "POST",
+          header:{
+            'organization-id':app.globalData.organizationId
+           },
           data: {
             openid,
             session_key,
@@ -124,6 +127,9 @@ Page({
       wx.request({
         url: api.user.bindPhone,
         method: "POST",
+        header:{
+          'organization-id':app.globalData.organizationId
+         },
         data: {
           openid: wx.getStorageSync('privateInfor').openid,
           session_key: wx.getStorageSync('privateInfor').session_key,
