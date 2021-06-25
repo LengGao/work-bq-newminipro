@@ -19,7 +19,7 @@ wx:if="{{ !nodata }}">
                 </view>
                 <block >
                 <text class="havelearn" 
-                hidden="{{info_show == 1 && uid == 10610}}"
+                hidden="{{info_show == 1}}"
                 style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥{{ item.originPrice }}</text>
             </block>
             </view>
@@ -34,7 +34,7 @@ wx:if="{{ !nodata }}">
             <view class="myCourse-content-title">
                 {{item.title}}
             </view>
-            <view style="display: flex;justify-content: space-between"  hidden="{{info_show == 1 && uid == 10610}}">
+            <view style="display: flex;justify-content: space-between"  hidden="{{info_show == 1 }}">
                 <!-- <text class="myCourse-time">{{ item.hour_class }}课时</text> -->
                 <block>
 

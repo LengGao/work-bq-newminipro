@@ -201,7 +201,7 @@
                 </i-cell>
                 <view class="personals">{{courseInfo.studentNum  || 0 }}人在学</view>
             </view>
-            <view class="pricesOfdiff" hidden="{{info_show == 1 && uid == 10610}}">
+            <view class="pricesOfdiff" hidden="{{info_show == 1 }}">
                 <block>
                     <text class="newPrices">￥{{courseInfo.onlinePrice}}</text>
                     <text class="oldPrices">￥{{courseInfo.originPrice}}</text>

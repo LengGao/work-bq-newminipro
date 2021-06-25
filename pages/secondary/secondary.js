@@ -340,7 +340,7 @@ Page({
   onLoad: function (t) {
     let user_info = wx.getStorageSync("user_info");
     if (user_info) {
-      if (user_info.uid == 10610 && user_info.info_show == 1) {
+      if (user_info.info_show == 1) {
         this.setData({
           uid: user_info.uid,
           info_show: user_info.info_show
@@ -350,7 +350,6 @@ Page({
     }
     console.log(this.data.uid)
     console.log(this.data.info_show)
-    console.log(this.data.uid == 10610 && this.data.info_show == 1)
     tab.tabbar("tabBar", 0, this, "shoponline");
     this.getUserInfo()
     this.getOpenClass()
