@@ -1083,7 +1083,7 @@ button{
     box-sizing: border-box;
 }
 .catalogue .cata-title {
-    height: 100rpx;
+    min-height: 100rpx;
     display: flex;
     padding-right: 39rpx;
     padding-left: 30rpx;
@@ -1145,7 +1145,8 @@ button{
 }
 
 .cata-time {
-    display: block;
+    margin-left: 10rpx;
+    flex-shrink: 0;
     font-size: 24rpx;
     color: rgb(12, 207, 241);
 }
@@ -1638,6 +1639,7 @@ button{
 }
 
 .catalogue .cata-title image {
+    flex-shrink: 0;
     width: 18rpx;
     height: 30rpx;
     transform: rotate(90deg);
