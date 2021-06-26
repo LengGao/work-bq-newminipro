@@ -466,7 +466,7 @@ Page({
         console.log(res)
         console.log(res.is_fast)
         wx.setNavigationBarTitle({
-          title: res.media_name
+          title: res.video_class_name
         });
         let videoControls = ''
         if(res.is_fast ==1){
@@ -570,7 +570,7 @@ Page({
           return
         }
         wx.setNavigationBarTitle({
-          title: res.media.mediaName
+          title: res.video_class_name
         });
         that.setChapterActive()
         let option = {
