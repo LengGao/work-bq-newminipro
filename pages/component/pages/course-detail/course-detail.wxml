@@ -203,8 +203,8 @@
             </view>
             <view class="pricesOfdiff" hidden="{{info_show == 1 }}">
                 <block>
-                    <text class="newPrices">￥{{courseInfo.onlinePrice}}</text>
-                    <text class="oldPrices">￥{{courseInfo.originPrice}}</text>
+                    <text class="newPrices">￥{{courseInfo.originPrice}}</text>
+                    <text class="oldPrices">￥{{courseInfo.onlinePrice}}</text>
                 </block>
             </view>
         </view>
