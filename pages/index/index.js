@@ -142,6 +142,13 @@ Page({
                     let course_id = this.data.course_id
                     let live_class_id = this.data.live_class_id
                     console.log(live_id,live_class_id)
+                    if(!live_class_id){
+                      wx.showToast({
+                        icon:"error",
+                        title: '暂无视频回顾',
+                      })
+                      return 
+                    }
                     wx.reLaunch({
                       url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
                     })
@@ -177,6 +184,13 @@ Page({
             let live_id = this.data.live_id
             let course_id = this.data.course_id
             let live_class_id = this.data.live_class_id
+            if(!live_class_id){
+              wx.showToast({
+                icon:"error",
+                title: '暂无视频回顾',
+              })
+              return 
+            }
             wx.reLaunch({
               url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
             })
@@ -374,6 +388,7 @@ Page({
     let live_class_id = this.data.live_class_id
     let video_collection_id = this.data.video_collection_id
     let problem_course_id = this.data.problem_course_id
+    
     wx.navigateTo({
       url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}&problem_course_id=${problem_course_id}`
     })

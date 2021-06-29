@@ -208,9 +208,9 @@ Page({
         var a = res.live_video_des;
         d.wxParse("content", "html", a, that, 5);
         console.log(22222222222222222222)
-        console.log(res.live_video_learn_time)
+        console.log(res)
         that.setData({
-          progress_min: res.live_video_learn_time,
+          progress_min: res.live_video_learn_time || 0,
           live_video_des:res.live_video_des,
           video:res.live_video_name,
           courseId:res.course_id,
