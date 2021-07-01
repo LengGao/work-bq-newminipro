@@ -25,8 +25,6 @@ Page({
   },
   goTestvideo(options) {
     let data = options.currentTarget.dataset.item
-    console.log(data)
-    return
     let live_id = data.live_id
     let live_class_id = data.live_class_id
     // console.log(live_id,live_class_id)

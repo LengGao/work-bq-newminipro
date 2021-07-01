@@ -90,6 +90,7 @@ Page({
     video_collection_id: ''
   },
   handleLiveClick(){
+    console.log(111111)
     if(this.data.allData && this.data.allData.live_status==1){
       this.toliveclass()
     }else{
@@ -141,7 +142,6 @@ Page({
                     let live_id = this.data.live_id
                     let course_id = this.data.course_id
                     let live_class_id = this.data.live_class_id
-                    console.log(live_id,live_class_id)
                     if(!live_class_id){
                       wx.showToast({
                         icon:"error",
@@ -642,7 +642,7 @@ Page({
       }
     })
   },
-  goTestvideo() {
+  goTestvideo(e) {
     // console.log(222)
     // if(this.data.region_type ==2&&this.data.optionsGo =='toliveclass'){
     //   wx.showModal({

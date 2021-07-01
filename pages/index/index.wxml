@@ -153,8 +153,8 @@
                 
                 <text class="live-review" wx:else>直播回顾</text> -->
                 <view>
-                    <text class="live-review2" wx:if="{{ allData.live_status==1?true:false }}"  bindtap='toliveclass' >直播</text>
-                    <text  class="live-review"  bindtap="goTestvideo" wx:if="{{live_class_id}}" style="margin-left:20rpx">直播回顾</text>
+                    <text class="live-review2" wx:if="{{ allData.live_status==1?true:false }}"  catchtap='toliveclass' >直播</text>
+                    <text  class="live-review"  catchtap="goTestvideo" style="margin-left:20rpx">直播回顾</text>
                 </view>
             </view>
             <!-- <view class="myCourse-info-bottom">
