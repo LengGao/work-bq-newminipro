@@ -1,73 +1,35 @@
-<view class="video-box">
-
-    <video id="videoPlayer" autoplay bindplay="videoPlayHandle" class="vod-video" bindtap="tapVideo" bindpause="playPaused" bindended="playPaused" bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen" poster="{{currentPoster}}" initial-time="{{learnTime}}" src="{{currentResource}}" bindwaiting="videoWaiting">
-        <cover-view class="video-control" hidden="{{controlHidden}}">
-            <cover-view class="video-title">{{currentVideoTitle}}</cover-view>
-            <cover-view class="multi" capture-catch:tap="switchResource">
-                {{currentDefinition}}
-            </cover-view>
-            <cover-view class="multi rate" capture-catch:tap="showSwitchRate">
-                x {{currentRate}}
-            </cover-view>
-        </cover-view>
-        <cover-view class="multi-list{{multiListShow ? ' active': ''}}{{fullScreenData}}">
-            <cover-view class="multi-item{{ item.definitionFormat === currentDefinition ? ' active ' : ' ' }}" wx:for="{{currentVideoResource}}" bindtap="switchDefinition" data-url="{{item.PlayURL}}" data-def="{{item.definitionFormat}}" wx:key="Definition">
-                {{item.definitionFormat}}
-            </cover-view>
-            <cover-view class="close-btn-wrap" hidden="{{fullScreenData === ''}}">
-                <cover-view class="close-btn" bindtap="closeControl">x</cover-view>
-            </cover-view>
-        </cover-view>
-        <cover-view class="multi-list rate{{rateShow ? ' active': ''}}{{fullScreenData}}">
-            <cover-view wx:for="{{['0.5', '0.8', '1.0', '1.25', '1.5']}}" wx:key="index" class="multi-item rate{{ item === currentRate ? ' active' : '' }}" data-rate="{{item}}" bindtap="switchRate">
-                {{item}}
-            </cover-view>
-            <cover-view class="close-btn-wrap" hidden="{{fullScreenData === ''}}">
-                <cover-view class="close-btn" bindtap="closeControl">x</cover-view>
-            </cover-view>
-        </cover-view>
-    </video>
-    <!-- <view class="middle-box" hidden="{{isPay}}">
-        <view class="inner-box">
-            <view class="psy-tips">
-                <text>视频加载中</text>
-                <image mode="widthFix" src="../../images/pay-line-tips.png"></image>
+<video id="video" 
+autoplay src="{{playUrl}}" 
+catchtap="handleVideoClick"
+controls="{{isShowControls}}"
+bindtimeupdate="onTimeUpdate"
+>
+    <cover-view class="video-control" wx:if="{{isShowControls}}">
+        <cover-view class="speed" catchtap="hanldeSpeedClick">{{activeSpeedValue}}</cover-view>
+        <cover-view class="quality" catchtap="hanldeQualityClick">{{qualityNameMap[activeQualityValue]}}</cover-view>
+    </cover-view>
+    <cover-view class="video-control-panel" animation="{{animationData}}">
+        <cover-view class="panel-item {{activeSpeedValue === item.value?'actived':''}}" catchtap="handleSpeedChange" wx:for="{{speedArr}}"  wx:key="index" data-val="{{item.value}}" wx:if="{{isShowSpeed}}">{{item.name}}</cover-view>
+        <cover-view class="panel-item {{activeQualityValue === item.value?'actived':''}}" wx:for="{{qualityArr}}" wx:key="index" catchtap="handleQualityChange" data-val="{{item.value}}"  wx:if="{{isShowQuality}}">{{item.name}}</cover-view>
+    </cover-view>
+</video>
+<view class="chapter-list">
+    <view class="chapter-list-item {{item.isUp?'chapter-list-item-up':''}} {{index === activeChapterIndex?'chapter-active':''}}" wx:for="{{chapterList}}" wx:key="index" >
+        <view class="chapter-list-item-head"  bindtap="handleChapterClick" data-index="{{index}}">
+            <text class="ellipsis">{{item.chapter_name}}</text>
+            <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="arrow {{item.isUp?'arrow-up':''}}"></image>
+        </view>
+        <view class="video-list">
+            <view class="video-list-item {{vIndex === activeVideoIndex?'video-active':''}}"
+             wx:for="{{item.lesson_list}}"
+             wx:for-index="vIndex"
+             data-index="{{index}}" 
+             data-vindex="{{vIndex}}"
+             wx:key="vIndex"
+               catchtap="handleVideoSelect" >
+                <text class="ellipsis">{{item.title}}</text>
+                <text>{{item.duration}}</text>
             </view>
         </view>
-    </view> -->
-</view>
-<view bindtap="tabFun" class="price-menu">
-    <view class="menu-item {{tabArr.curHdIndex==0?'priceactive com_color com_after':''}}" data-id="0" id="tab-hd02">
-        视频目录
-    </view>
-    <view class="menu-item {{tabArr.curHdIndex==2?'priceactive com_color com_after':''}}" data-id="2" id="tab-hd03">
-        视频介绍
-    </view>
-    <!-- <view class="menu-item {{tabArr.curHdIndex==3?'priceactive com_color com_after':''}}" data-id="3" id="tab-hd04">评论</view> -->
-</view>
-<!-- 目录 -->
-<view class="catalogue fix-out-box {{tabArr.curBdIndex=='0'?'tactive':''}}">
-    <block wx:key="index" wx:for="{{chapter}}">
-        <view class="cata-title {{chapterActiveIndex === index?'chapter-active':''}}" bindtap="ifShow" data-index="{{index}}">
-            {{item.live_name}}
-            <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image>
-        </view>
-        <view class="cata-list" wx:if="{{item.isShow}}">
-            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.id ?'selected com_color':''}}" data-key="{{vitem.media_int_id}}" wx:for="{{item.live_video_arr}}" wx:for-item="vitem" data-roomid="{{vitem.live_video_id}}">
-                <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
-                <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image>
-                <view class="cata-content twoline">
-                    <text class="cata-name twoline {{vitem.live_video_id === live_video_id?'chapter-active':''}}">{{vitem.live_video_name}}</text>
-                    <!-- <text class="cata-time">{{vitem.time}}</text> -->
-                </view>
-            </view>
-        </view>
-    </block>
-</view>
-<!-- <import src="../../../../wxParse/wxParse.wxml"></import> -->
-<view class="fix-out-box {{tabArr.curBdIndex=='2'?'tactive':''}}">
-    <view class="shop-brief">
-        <text class="course-title">{{video}}</text>
-        <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
     </view>
 </view>
