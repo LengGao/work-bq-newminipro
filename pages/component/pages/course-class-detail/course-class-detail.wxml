@@ -1,6 +1,6 @@
 <video id="video" 
 autoplay src="{{playUrl}}" 
-catchtap="handleVideoClick"
+catchtap="openVideoControl"
 controls="{{isShowControls}}"
 bindtimeupdate="onTimeUpdate"
 >
@@ -26,7 +26,7 @@ bindtimeupdate="onTimeUpdate"
              data-index="{{index}}" 
              data-vindex="{{vIndex}}"
              wx:key="vIndex"
-               catchtap="handleVideoSelect" >
+               catchtap="handleVideoToggle" >
                 <text class="ellipsis">{{item.title}}</text>
                 <text>{{item.duration}}</text>
             </view>

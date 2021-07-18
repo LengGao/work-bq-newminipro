@@ -50,14 +50,14 @@ Page({
     activeVideoIndex: 0
   },
   // onload
-  onLoad: function () {
+  onLoad: function ({classroom_id}) {
     this.initVideo()
-    this.getChapterList()
+    this.getChapterList(classroom_id)
   },
   onShow: function () {},
   onHide: function () {},
   // 获取视频章节列表
-  getChapterList(classroom_id = 56) {
+  getChapterList(classroom_id) {
     const data = {
       classroom_id
     }
@@ -77,6 +77,7 @@ Page({
         })
         this.setQualityArr(currentPlayData)
         this.setPlayUrl(currentPlayData)
+        this.openVideoControl()
       },
     });
   },
@@ -108,7 +109,7 @@ Page({
     })
   },
   // 视频选中
-  handleVideoSelect(e) {
+  handleVideoToggle(e) {
     const index = e.currentTarget.dataset.index;
     const vIndex = e.currentTarget.dataset.vindex;
     const currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
@@ -120,6 +121,7 @@ Page({
     })
     this.setQualityArr(currentPlayData)
     this.setPlayUrl(currentPlayData)
+    this.openVideoControl()
   },
   // 根据当前视频信息，设置画质数组
   setQualityArr(data){
@@ -183,7 +185,7 @@ Page({
     }, 300);
   },
   // 点击video标签
-  handleVideoClick(e) {
+  openVideoControl() {
     // 如果画质面板是开的就先关闭
     if (this.data.isShowPanel) {
       this.hideControlPanel()

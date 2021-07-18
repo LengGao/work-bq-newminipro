@@ -414,27 +414,29 @@ width: 100%;
 
 .img-myCourse {
     width: 210rpx;
-    height: 119rpx;
+    height: 130rpx;
+    flex-shrink: 0;
 }
-
+.img-myCourse image{
+    border-radius: 10rpx;
+ }
 .myCourse-content {
     display: flex;
     margin-top: 40rpx;
 }
 
 .myCourse-info {
-    height: 130rpx;
-    width: 420rpx;
-    margin-left: 20rpx;
+    padding-left: 20rpx;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
+    width: calc(100% - 210rpx);
 }
 
 .myCourse-info-bottom {
     display: flex;
     justify-content: space-between;
+    align-items:center;
 }
 
 .havelearn {
@@ -469,7 +471,6 @@ width: 100%;
     display: inline-block;
     line-height: 25rpx;
     padding: 3rpx 14rpx 3rpx 14rpx;
-    margin-left: 10rpx;
     background: rgba(214, 238, 255, 1);
     border-radius: 4rpx;
     font-size: 20rpx;
@@ -494,7 +495,7 @@ width: 100%;
 
 .myCourse-content-title {
     width: 100%;
-    font-size: 32rpx;
+    font-size: 30rpx;
     font-family: PingFang SC;
     font-weight: 500;
     color: rgba(51, 51, 51, 1);
@@ -502,7 +503,9 @@ width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
+.myCourse-content-cneter{
+   margin-top: -14rpx;
+}
 .personal-infor {
     display: flex;
     align-items: center;
@@ -511,7 +514,7 @@ width: 100%;
 
 .personal-name {
     margin-left: 10rpx;
-    font-size: 20rpx;
+    font-size: 24rpx;
     font-family: PingFang SC;
     font-weight: 500;
     color: rgba(51, 51, 51, 1);
@@ -547,13 +550,12 @@ width: 100%;
     border-radius: 36rpx;
     font-size: 32rpx;
 }
-.live-review2 {
-
-    padding: 7rpx 29rpx;
-    border: 1px solid #199fff;
-    border-radius: 36rpx;
-    font-size: 32rpx;
-    color:#199fff
+.live-status {
+    padding: 2rpx 12rpx;
+    border-radius: 6rpx;
+    background: #DDF6C4;
+    font-size: 24rpx;
+    color:#478C01
 }
 .repeat {
     margin-left: 10rpx;

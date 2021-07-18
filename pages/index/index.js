@@ -86,17 +86,11 @@ Page({
     allData: {},
     indexMaskShow: true,
     problem_course_id: '',
-    live_class_id: '',
-    video_collection_id: ''
+    classroom_id: '',
+    video_collection_id: '',
+    classroom:''
   },
-  handleLiveClick(){
-    console.log(111111)
-    if(this.data.allData && this.data.allData.live_status==1){
-      this.toliveclass()
-    }else{
-      this.goTestvideo()
-    }
-  },
+ 
   subscribe(num) {
     var num = num
     var that = this
@@ -139,10 +133,9 @@ Page({
                   }else{
                     //只有回顾时直接跳转回顾页
                     let courseId = this.data.banjiID
-                    let live_id = this.data.live_id
                     let course_id = this.data.course_id
-                    let live_class_id = this.data.live_class_id
-                    if(!live_class_id){
+                    let classroom_id = this.data.classroom_id
+                    if(!classroom_id){
                       wx.showToast({
                         icon:"error",
                         title: '暂无视频回顾',
@@ -150,7 +143,7 @@ Page({
                       return 
                     }
                     wx.reLaunch({
-                      url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
+                      url: `../component/pages/course-class-detail/course-class-detail?classroom_id=${classroom_id}`
                     })
                   }
                 
@@ -181,10 +174,9 @@ Page({
         success: (res) => {
           if (num == 2) {
             let courseId = this.data.banjiID
-            let live_id = this.data.live_id
             let course_id = this.data.course_id
-            let live_class_id = this.data.live_class_id
-            if(!live_class_id){
+            let classroom_id = this.data.classroom_id
+            if(!classroom_id){
               wx.showToast({
                 icon:"error",
                 title: '暂无视频回顾',
@@ -192,7 +184,7 @@ Page({
               return 
             }
             wx.reLaunch({
-              url: `../component/pages/course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
+              url: `../component/pages/course-class-detail/course-class-detail?classroom_id=${classroom_id}`
             })
           }
           if (res[message] == 'accept') {
@@ -323,74 +315,36 @@ Page({
       visible1: false
     });
   },
-  toliveclass() {
-    let video_id = this.data.banjiID
-    let live_id = this.data.live_id
-    let course_id = this.data.course_id
-    let live_class_id = this.data.live_class_id
-    let channelId = this.data.channelId
+   // 去班级回顾视频页
+   toClassVideo(){
+     const classroom = this.data.classroom
+    if(!classroom.class_video_count){
+      wx.showToast({
+        icon:"error",
+        title: '暂无班级视频',
+      })
+      return 
+    }
+    wx.navigateTo({
+      url: `../component/pages/course-class-detail/course-class-detail?classroom_id=${classroom.classroom_id}`
+    })
+  },
+  toliveclass(e) {
+    const index = e.currentTarget.dataset.index
+    const data = this.data.living[index]
+    const channelId = data.channel_id
     let openId = this.data.openId
     let userName = this.data.userName
     let avatarUrl = this.data.avatarUrl
     let viewerId = this.data.viewerId
-    const tmplId2 = 'V316Od-eT4_0PodWKepDexz_uJGrGI4Zg-9FiTpXYTI' // 模板消息ID
-    
-    if(this.data.region_type ==2){//判断是否为海外用户并限制
-      wx.showModal({
-        content: '系统检测到您使用的是海外网络地址，请切换成国内线路再进入直播间',
-        confirmText: "确认",
-        cancelText: "取消",
-        success: (res) => {
-          if (res.confirm) {
-            this.onLoad()
-          } else {
-            console.log('用户点击取消')
-          }
-        }
-      });
-    }else{
-    wx.requestSubscribeMessage({
-      tmplIds: [tmplId2],
-      success(res) {
-        if (res[tmplId2] === 'accept') {
-          // 用户点击【允许】
-          wx.navigateTo({
-            url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
-          })
-        } else if (res[tmplId2] === 'reject') {
-          wx.showModal({
-            title: '提示',
-            confirmText: '重新授权',
-            cancelText: '不要通知',
-            content: '拒绝订阅消息授权后将无法收到通知,是否继续',
-            success: function (res) {
-              if (res.confirm) {
-                // 重新授权
-                that.toliveclass()
-              } else {
-                wx.navigateTo({
-                  url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
-                })
-
-              }
-            }
-          })
-          // 用户点击【取消】
-        }
-      }
+    wx.navigateTo({
+      url: `../component/pages/live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
     })
-  }
   },
   toVideoroom() {
-
-    let video_id = this.data.myCourse['courseId']
-    let live_id = this.data.live_id
-    let live_class_id = this.data.live_class_id
-    let video_collection_id = this.data.video_collection_id
-    let problem_course_id = this.data.problem_course_id
-    
+    const myCourse =  this.data.myCourse
     wx.navigateTo({
-      url: `../component/pages/course-detail/course-detail?live_id=${live_id}&courseId=${video_id}&live_class_id=${live_class_id}&video_collection_id=${video_collection_id}&problem_course_id=${problem_course_id}`
+      url: `../component/pages/course-detail/course-detail?courseId=${myCourse.course_id}&video_collection_id=${myCourse.video_collection_id}`
     })
   },
   handleClickItem1({
@@ -519,12 +473,9 @@ Page({
             }
           })
         }
-        that.getALLData();
-
       },
       fail: function (t) {},
       complete: function () {
-        // that.getALLData();
         //首此进入需要出发选中头部事件
         that.selectmenu(that.data.courseId)
       }
@@ -536,6 +487,9 @@ Page({
     let option = {
       course_id: courseId
     }
+    wx.showLoading({
+      title: '加载中',
+    })
     app.encryption({
       url: api.test.getAllData,
       method: "GET",
@@ -543,7 +497,11 @@ Page({
       success: function (res) {
 
         console.log(res)
-        let problem_course_id = res.info.problem_course_id
+        res.classroom = Array.isArray(res.classroom)?{}:res.classroom
+        res.course = Array.isArray(res.course)?{}:res.course
+        res.problem = Array.isArray(res.problem)?{}:res.problem
+        res.user = Array.isArray(res.user)?{}:res.user
+        let problem_course_id = res.problem.problem_course_id
         wx.setStorageSync("problem_course_id", {
           problem_course_id: problem_course_id
         });
@@ -551,54 +509,35 @@ Page({
         let topmenu1 = 'topmenu[1].number'
         let topmenu2 = 'topmenu[2].number'
         that.setData({
-          [topmenu0]: res.info.favorites,
-          [topmenu1]: res.info.fail_question,
-          [topmenu2]: res.info.history,
-          accuracy: res.info.correct_rate,
-          allData: res.info,
-          problem_course_id: res.info.problem_course_id, //以此ID获取习题模式
-          live_id: res.info.live_id,
-          course_id: res.info.course_id,
-          avatarUrl: res.info.avatarUrl,
-          openId: res.info.openId,
-          userName: res.info.userName,
-          channelId: res.info.channelId,
-          viewerId: res.info.uid,
-
-          live_class_id: res.info.classroom_info.live_class_id,
-          video_collection_id: res.info.video_info.video_collection_id
+          [topmenu0]: res.problem.favorites,
+          [topmenu1]: res.problem.fail_question,
+          [topmenu2]: res.problem.history,
+          accuracy: res.problem.correct_rate,
+          allData: res,
+          problem_course_id, //以此ID获取习题模式
+          course_id: res.course.course_id,
+          avatarUrl: res.user.user_img,
+          openId: res.user.apple_openid,
+          userName: res.user.user_realname,
+          viewerId: res.user.uid,
+          classroom_id: res.classroom.classroom_id,
+          classroom:res.classroom,
+          video_collection_id: res.course.video_collection_id
         })
-        wx.setStorageSync("problem_course_id", {
-          problem_course_id: res.info.problem_course_id
-        });
-        if (res.info.has_video == 0) {
+        if (res.course.course_id) {
+          that.setData({
+            myCourse: res.course
+          })
+        } else {
           that.setData({
             nomyCourse: false
           })
-        } else {
-          that.setData({
-            myCourse: res.info.video_info
-          })
         }
-        if (res.info.has_classroom == 0) {
-          that.setData({
-            noliving: false,
-          })
-        } else {
-          if (res.info.live_status != 1) {
-            that.setData({
-              optionsGo: 'goTestvideo'
-            })
-          } else {
-            that.setData({
-              optionsGo: 'toliveclass'
-            })
-          }
-          that.setData({
-            living: res.info.classroom_info,
-            noliving: true
-          })
-        }
+        that.setData({
+          living: res.live,
+          noliving: !!res.live.length
+        })
+     
       },
       fail: function (t) {},
       complete: function () {
@@ -660,7 +599,6 @@ Page({
     // }else{
     //   this.subscribe(2)
     // }
-    console.log(111111111111)
     this.subscribe(2)
   },
   goindex() {

@@ -56,8 +56,6 @@ Page({
       curBdIndex: 2
     },
 
-    live_class_id: '',
-    live_id: '',
     chooseOrNot: -1,
     starIndex2: 0,
     starIndextext: '请选择星级',
@@ -115,7 +113,6 @@ Page({
     countDownList: [],
     actEndTimeList: [],
     video_password: "",
-    video_id: "",
     play_time: 0,
     trywatch_status: 0,
     is_trywatch: 0,
@@ -454,7 +451,7 @@ Page({
     let that = this
     let option = {
       course_id: parseInt(t.courseId),
-      live_id: that.data.live_id,
+      live_id:0,
       video_collection_id: t.video_collection_id
     }
     console.log(option)
@@ -638,7 +635,7 @@ Page({
     // console.log(course_id)
     // console.log(e.currentTarget)
     wx.navigateTo({
-      url: `../course-detail/course-detail?video_id=${course_id}&courseId=${course_id}&video_collection_id=${video_collection_id}`
+      url: `../course-detail/course-detail?courseId=${course_id}&video_collection_id=${video_collection_id}`
     })
     console.log('不会把')
   },
@@ -851,13 +848,8 @@ Page({
     }
     clearInterval(this.timeOut);
     this.setData({
-      video_id: option.video_id || this.data.video_id,
       courseId: option.courseId || this.data.courseId,
-      // problem_course_id:option.problem_course_id,
-      live_id: option.live_id,
-      live_class_id: option.live_class_id,
       video_collection_id: option.video_collection_id,
-
     });
     this.listen(option)//获取播放信息
     try {
@@ -871,9 +863,7 @@ Page({
     this.coursedetail() //获取课程介绍
     this.getcomment() //获取课程评论
     this.getProgrammePosters() //获取课程封面
-    setTimeout(() => {
-    this.setChapterActive()
-    }, 1000);
+    
   },
   onShow: function () {},
   onHide: function () {},
@@ -892,8 +882,7 @@ Page({
     // t.shareSuccess();
     return {
       title: t.data.video.title,
-      // path: "/pages/course-detail/course-detail?video_id=" + this.data.video_id + "&pid=" + e.user_id,
-      path: "pages/component/pages/course-detail/course-detail?video_id=" + this.data.video_id+"&courseId="+ this.data.courseId+"&live_id="+ this.data.live_id+"& live_class_id="+ this.data. live_class_id+"&video_collection_id="+ this.data.video_collection_id,
+      path: "pages/component/pages/course-detail/course-detail?courseId="+ this.data.courseId+"&video_collection_id="+ this.data.video_collection_id,
       // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
       success: function (t) {
         console.log("转发成功", t);

@@ -98,25 +98,24 @@
     <view class="myCourse-title">我的课程</view>
     <view class="myCourse-content" wx:if="{{ nomyCourse }}" bindtap='toVideoroom'>
         <view class="img-myCourse">
-            <image style="width:100%;height:100%" src="{{ allData.cover_img }}" />
+            <image style="width:100%;height:100%" src="{{ myCourse.cover_img }}" />
         </view>
         <view class="myCourse-info">
-            <view class="myCourse-content-title">{{ myCourse.video_name}}</view>
-            <view>
+            <view class="myCourse-content-title">{{ myCourse.course_name}}</view>
+            <view class="myCourse-content-cneter">
                 <text class="myCourse-name" style="display:none">会计</text>
-                <text class="myCourse-time">{{myCourse.lesson }}课时</text>
-                <text class="myCourse-times">{{myCourse.learn_num}}人已学习</text>
+                <text class="myCourse-time">{{myCourse.lesson_count }}课时</text>
+                <text class="myCourse-times">{{myCourse.user_count}}人已学习</text>
             </view>
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
                     <view style="width:32rpx;height:32rpx;">
                         <image mode="scaleToFill" class="personal-img-myCourse"
-                            src="{{ myCourse.lecturer_img == '' ? '/static/img/default.jpg':  myCourse.lecturer_img}}"
+                            src="{{ myCourse.teacher_img == '' ? '/static/img/default.jpg':  myCourse.teacher_img}}"
                             binderror="errorFunction"></image>
                     </view>
-                    <text class="personal-name">{{ myCourse.lecturer_name }}</text>
+                    <text class="personal-name">{{ myCourse.teacher_name }}</text>
                 </view>
-                <!-- <text class="havelearn">{{myCourse.number}}人已学习</text> -->
             </view>
         </view>
     </view>
@@ -131,51 +130,57 @@
         </view>
     </view>
 </view>
-<view class="myCourse" style="margin-bottom:40rpx;margin-top: 20rpx;">
+<view class="myCourse" style="margin-bottom:40rpx;margin-top: 20rpx;"  wx:if="{{ noliving }}">
     <view class="title-course">
         <text class="myCourse-title-live"
             style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">
-            班级直播
+            我的直播
         </text>
-        <!-- <text class="course-data" style="display:none">查看课程表</text> -->
     </view>
-    <view class="myCourse-content"  wx:if="{{ noliving }}" bindtap='handleLiveClick'>
-        <view class="img-myCourse" bindtap='{{ optionsGo }}'>
-            <image src="{{ allData.cover_img }}" style="width:100%;height:100%"></image>
+    <!-- <view class="myCourse-content"  bindtap='handleLiveClick'> -->
+    <view class="myCourse-content" bindtap="toliveclass" data-index="{{index}}"  wx:for="{{living}}" wx:key="index">
+        <!-- <view class="img-myCourse" bindtap='{{ optionsGo }}'> -->
+        <view class="img-myCourse">
+            <image src="{{ item.live_img }}" style="width:100%;height:100%"></image>
         </view>
         <view class="myCourse-info">
-            <text class="myCourse-content-title">{{living.classroom_name}}</text>
-            <view class="live-review-box"> 
-                <!-- <text class="myCourse-time" style="background:#fff;padding:0;font-size:24rpx;margin:0"
-                    wx:if="{{ allData.live_status==1?true:false }}">
-                    直播时间：{{ allData.live_time }}
-                </text> 
-                
-                <text class="live-review" wx:else>直播回顾</text> -->
-                <view>
-                    <text class="live-review2" wx:if="{{ allData.live_status==1?true:false }}"  catchtap='toliveclass' >直播</text>
-                    <text  class="live-review"  catchtap="goTestvideo" style="margin-left:20rpx">直播回顾</text>
-                </view>
-            </view>
-            <!-- <view class="myCourse-info-bottom">
+            <text class="myCourse-content-title">{{item.live_class_name}}</text>
+            <view class="myCourse-info-bottom">
                 <view class="personal-infor">
                     <view style="width:32rpx;height:32rpx;">
                         <image mode="scaleToFill" class="personal-img-myCourse"
-                            src="{{living.teacher_img == '' ? '/static/img/default.jpg': living.teacher_img }}"
-                            binderror="errorLiving"></image>
+                            src="{{ item.teacher_img == '' ? '/static/img/default.jpg':  myCourse.teacher_img}}"
+                            binderror="errorFunction"></image>
                     </view>
-                    <text class="personal-name">{{living.teacher_name}}</text>
+                    <text class="personal-name">{{ item.teacher_name }}</text>
                 </view>
-              
-            </view> -->
+                <view class="live-status"  catchtap='toliveclass'  >
+                 直播中
+                </view>
+            </view>
         </view>
     </view>
-    <view class="nomyCourse-content" wx:else>
-        <view style="display:flex;justify-content:center;align-items:center;flex-direction:column">
-            <text style="font-size:24rpx;color:#cecece;letter-spacing:1rpx">你还没有加入班级</text>
-            <!-- <button   bindcontact="handleContact"  openType="contact" style="font-size:28rpx;color:#199FFF;margin-top:20rpx;border:1rpx solid #199FFF;padding:6rpx 12rpx;border-radius:15rpx;letter-spacing:1rpx;line-height:28rpx;background:#fff"> 直播开通 </button> -->
+    
+</view>
+<view class="myCourse" style="margin-bottom:40rpx;margin-top: 20rpx;"  wx:if="{{ classroom.classroom_id }}">
+    <view class="title-course">
+        <text class="myCourse-title-live"
+            style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">
+            班级视频
+        </text>
+    </view>
+    <view class="myCourse-content" bindtap="toClassVideo" >
+        <view class="img-myCourse">
+            <image src="{{ classroom.class_icon }}" style="width:100%;height:100%"></image>
+        </view>
+        <view class="myCourse-info">
+            <text class="myCourse-content-title">{{classroom.classroom_name}}</text>
+            <view class="myCourse-info-bottom">
+               <view>视频数量：{{classroom.class_video_count}}</view>
+            </view>
         </view>
     </view>
+    
 </view>
 <import src="../tab-bar/tab-bar.wxml"></import>
 <template is="tabBar" data="{{tabBar:bindData.tabBar}}"></template>
