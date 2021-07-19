@@ -9,9 +9,9 @@ Page({
     animationData: {},
     qualityNameMap: {
       'od': '原画',
-      'hd': '高清',
-      'sd': '标清',
-      'ld': '流畅',
+      'hd': '超清',
+      'sd': '高清',
+      'ld': '标清',
     },
     qualityArr: [],
     speedArr: [{
@@ -132,21 +132,21 @@ Page({
         value: 'od'
       })
     }
-    if(data.hd_play_url){
-      qualityArr.push({
-        name: '高清',
-        value: 'hd'
-      })
-    }
     if(data.sd_play_url){
       qualityArr.push({
-        name: '标清',
+        name: '高清',
         value: 'sd'
+      })
+    }
+    if(data.hd_play_url){
+      qualityArr.push({
+        name: '超清',
+        value: 'hd'
       })
     }
     if(data.ld_play_url){
       qualityArr.push({
-        name: '流畅',
+        name: '标清',
         value: 'ld'
       })
     }
