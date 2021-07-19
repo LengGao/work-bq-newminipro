@@ -427,6 +427,7 @@ Page({
       }
     })
     let indexOf = this.data.course_list.findIndex(item => item.course_id === courseId)
+    indexOf =  indexOf === -1?0:indexOf
     this.data.course_list[indexOf].haschoose = true
     wx.setStorageSync('topInfo', this.data.course_list) //点击事件，点击后更新缓存。
     wx.setStorageSync("courseId", {
