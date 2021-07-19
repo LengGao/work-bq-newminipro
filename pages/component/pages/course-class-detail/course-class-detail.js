@@ -126,16 +126,16 @@ Page({
   // 根据当前视频信息，设置画质数组
   setQualityArr(data){
     const qualityArr = []
-    if(data.od_play_url){
-      qualityArr.push({
-        name: '原画',
-        value: 'od'
-      })
-    }
     if(data.sd_play_url){
       qualityArr.push({
         name: '高清',
         value: 'sd'
+      })
+    }
+    if(data.od_play_url){
+      qualityArr.push({
+        name: '原画',
+        value: 'od'
       })
     }
     if(data.hd_play_url){
@@ -187,23 +187,13 @@ Page({
   // 点击video标签
   openVideoControl() {
     // 如果画质面板是开的就先关闭
-    if (this.data.isShowPanel) {
-      this.hideControlPanel()
-    } else {
-      // 切换控制栏显示
-      clearTimeout(this.colseTime)
-      if (!this.data.isShowControls) {
-        // 打开5秒后自动关闭
-        this.colseTime = setTimeout(() => {
-          this.setData({
-            isShowControls: false
-          })
-        }, 5000);
-      }
-      this.setData({
-        isShowControls: !this.data.isShowControls
-      })
-    }
+      this.data.isShowPanel && this.hideControlPanel()
+  },
+  //清晰度，速率跟随control一起显示隐藏
+  onControlsToggle(e){
+    this.setData({
+      isShowControls:e.detail.show
+    })
   },
   // 切换播放速率
   handleSpeedChange(e) {
@@ -213,7 +203,6 @@ Page({
     })
     this.setPlaybackRate(val)
     this.hideControlPanel()
-
   },
   // 切换播放画质
   handleQualityChange(e) {
@@ -227,7 +216,6 @@ Page({
   // 点击播放速率
   hanldeSpeedClick() {
     this.setData({
-      isShowControls: false,
       isShowSpeed: true,
       isShowQuality: false
     })
@@ -236,7 +224,6 @@ Page({
   // 点击画质
   hanldeQualityClick() {
     this.setData({
-      isShowControls: false,
       isShowSpeed: false,
       isShowQuality: true
     })

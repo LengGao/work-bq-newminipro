@@ -25,14 +25,13 @@
             </view>
           
         </view>
-        <view class="myCourse-btnbox">
+        <!-- <view class="myCourse-btnbox">
             <view></view>
             <view>
             <view class="myCourse-btn myCourse-btnbgk" bindtap="toliveclass" data-item="{{item}}" wx:if="{{item.live_status==1}}">直播</view>
             <view class="myCourse-btn"  bindtap="goTestvideo" wx:if="{{item.media && item.media.length}}"  data-item="{{item}}">直播回顾</view>
-            <!-- <view class="myCourse-btn">录播视频</view> -->
         </view>
-        </view>
+        </view> -->
         </view>
    
     </view>

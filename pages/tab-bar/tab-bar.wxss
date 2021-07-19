@@ -31,7 +31,24 @@ page {
     justify-content: space-around;
     z-index: 111111;
 }
-
+/* 适配iphoneX iphoneXS */
+@media screen and (device-width:375px) and (device-height:812px){
+    .tabBar {
+        padding-bottom: 48rpx;
+    }
+    page{
+        padding-bottom: 154rpx;
+    }
+}
+/* 适配iphoneXR iphoneXSMax */
+@media screen and (device-width:414px) and (device-height:896px){
+    .tabBar {
+      padding-bottom: 48rpx;
+    }
+    page{
+        padding-bottom: 154rpx;
+    }
+}
 .iconBox {
     width: 53rpx;
     height: 53rpx;

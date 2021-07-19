@@ -565,3 +565,19 @@ button::after {
     line-height: 1.41176471;
     border-bottom: 1px solid #F5F5F5;
 }
+
+/*题目底部样式*/
+/* 适配iphoneX iphoneXS */
+@media screen and (device-width:375px) and (device-height:812px){
+    .tabbottom {
+        padding-bottom: 48rpx;
+        box-sizing: content-box;
+    }
+}
+/* 适配iphoneXR iphoneXSMax */
+@media screen and (device-width:414px) and (device-height:896px){
+    .tabbottom {
+      padding-bottom: 48rpx;
+      box-sizing: content-box;
+    }
+}

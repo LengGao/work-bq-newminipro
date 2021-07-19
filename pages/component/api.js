@@ -161,7 +161,7 @@ let apiurl = {
     applylive: bq + "applylive",
     writeNote: bq + "index/index/writeNote",
     getlastplayinfo: bq + '/video/getlastplayinfo',
-   
+    getClassroomVideoDirectory: bq + '/Homepage/getClassroomVideoDirectory'
   },
   order: {
     video_kaituan: bq + "createpintuan",
@@ -180,7 +180,7 @@ let apiurl = {
   },
   test: {
     getCollectionCourses: bq + '/Course/getCourseCollection',
-    getAllData: bq + '/Course/getCourseInfo',
+    getAllData: bq + '/Homepage/getHomepageData',
     createPracticeData: bq + '/problem/createPracticeData',
     getProblemDetail: bq + '/problem/getProblem',
     insertCollection: bq + '/problem/insertCollection',

@@ -183,7 +183,6 @@ let apiurl = {
   },
   test: {
     getCollectionCourses: bq + '/Course/getCourseCollection',
-    // getAllData: bq + '/Course/getCourseInfo',
     getAllData: bq + '/Homepage/getHomepageData',
     createPracticeData: bq + '/problem/createPracticeData',
     getProblemDetail: bq + '/problem/getProblem',

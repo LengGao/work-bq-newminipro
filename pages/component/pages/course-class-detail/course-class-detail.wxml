@@ -1,8 +1,8 @@
 <video id="video" 
 autoplay src="{{playUrl}}" 
 catchtap="openVideoControl"
-controls="{{isShowControls}}"
 bindtimeupdate="onTimeUpdate"
+bindcontrolstoggle="onControlsToggle"
 >
     <cover-view class="video-control" wx:if="{{isShowControls}}">
         <cover-view class="speed" catchtap="hanldeSpeedClick">{{activeSpeedValue}}</cover-view>

@@ -1305,7 +1305,20 @@ button{
     align-items: center;
     box-shadow: 0px -1px 0px 0px rgba(238, 238, 238, 1);
 }
-
+/* 适配iphoneX iphoneXS */
+@media screen and (device-width:375px) and (device-height:812px){
+    .footer-bar {
+        padding-bottom: 48rpx;
+        box-sizing: content-box;
+    }
+}
+/* 适配iphoneXR iphoneXSMax */
+@media screen and (device-width:414px) and (device-height:896px){
+    .footer-bar {
+      padding-bottom: 48rpx;
+      box-sizing: content-box;
+    }
+}
 .footer-bar .item00,
 .footer-bar .item11,
 .footer-bar .item01 {
