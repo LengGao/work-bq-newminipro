@@ -94,6 +94,36 @@
         <text class="fun-name">{{ item.name }}</text>
     </view>
 </view>
+<view class="myCourse"   wx:if="{{ noliving }}">
+    <view class="myCourse-title">
+        我的直播
+    </view>
+    <!-- <view class="myCourse-content"  bindtap='handleLiveClick'> -->
+    <view class="myCourse-content" bindtap="toliveclass" data-index="{{index}}"  wx:for="{{living}}" wx:key="index">
+        <!-- <view class="img-myCourse" bindtap='{{ optionsGo }}'> -->
+        <view class="img-myCourse">
+            <image src="{{ item.live_img }}" style="width:100%;height:100%"></image>
+            <view class="live-status"  catchtap='toliveclass'  >
+            <image src="https://oss-file.beiqujy.com/wangzhan1607926239/broading.gif"></image>
+                 直播中
+                </view>
+        </view>
+        <view class="myCourse-info">
+            <text class="myCourse-content-title">{{item.live_class_name}}</text>
+            <view class="myCourse-info-bottom">
+                <view class="personal-infor">
+                    <view style="width:32rpx;height:32rpx;">
+                        <image mode="scaleToFill" class="personal-img-myCourse"
+                            src="{{ item.teacher_img == '' ? '/static/img/default.jpg':  myCourse.teacher_img}}"
+                            binderror="errorFunction"></image>
+                    </view>
+                    <text class="personal-name">{{ item.teacher_name }}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    
+</view>
 <view class="myCourse">
     <view class="myCourse-title">我的课程</view>
     <view class="myCourse-content" wx:if="{{ nomyCourse }}" bindtap='toVideoroom'>
@@ -130,45 +160,8 @@
         </view>
     </view>
 </view>
-<view class="myCourse"   wx:if="{{ noliving }}">
-    <view class="title-course">
-        <text class="myCourse-title-live"
-            style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">
-            我的直播
-        </text>
-    </view>
-    <!-- <view class="myCourse-content"  bindtap='handleLiveClick'> -->
-    <view class="myCourse-content" bindtap="toliveclass" data-index="{{index}}"  wx:for="{{living}}" wx:key="index">
-        <!-- <view class="img-myCourse" bindtap='{{ optionsGo }}'> -->
-        <view class="img-myCourse">
-            <image src="{{ item.live_img }}" style="width:100%;height:100%"></image>
-        </view>
-        <view class="myCourse-info">
-            <text class="myCourse-content-title">{{item.live_class_name}}</text>
-            <view class="myCourse-info-bottom">
-                <view class="personal-infor">
-                    <view style="width:32rpx;height:32rpx;">
-                        <image mode="scaleToFill" class="personal-img-myCourse"
-                            src="{{ item.teacher_img == '' ? '/static/img/default.jpg':  myCourse.teacher_img}}"
-                            binderror="errorFunction"></image>
-                    </view>
-                    <text class="personal-name">{{ item.teacher_name }}</text>
-                </view>
-                <view class="live-status"  catchtap='toliveclass'  >
-                 直播中
-                </view>
-            </view>
-        </view>
-    </view>
-    
-</view>
-<view class="myCourse" style="margin-bottom:40rpx;margin-top: 20rpx;"  wx:if="{{ classroom.classroom_id }}">
-    <view class="title-course">
-        <text class="myCourse-title-live"
-            style="font-size:32rpx;font-family:PingFang SC;font-weight:bold;color:rgba(51,51,51,1);">
-            班级视频
-        </text>
-    </view>
+<view class="myCourse"   wx:if="{{ classroom.classroom_id }}">
+    <view class="myCourse-title">直播回顾</view>
     <view class="myCourse-content" bindtap="toClassVideo" >
         <view class="img-myCourse">
             <image src="{{ classroom.class_icon }}" style="width:100%;height:100%"></image>

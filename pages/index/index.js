@@ -81,7 +81,7 @@ Page({
     myCourse: [],
     optionsGo: 'toliveclass',
     nomyCourse: true,
-    noliving: true,
+    noliving: false,
     images: {},
     allData: {},
     indexMaskShow: true,
@@ -321,7 +321,7 @@ Page({
     if(!classroom.class_video_count){
       wx.showToast({
         icon:"error",
-        title: '暂无班级视频',
+        title: '暂无视频',
       })
       return 
     }

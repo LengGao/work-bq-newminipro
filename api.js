@@ -164,7 +164,8 @@ let apiurl = {
     applylive: bq + "applylive",
     writeNote: bq + "index/index/writeNote",
     getlastplayinfo: bq + '/video/getlastplayinfo',
-    getClassroomVideoDirectory: bq + '/Homepage/getClassroomVideoDirectory'
+    getClassroomVideoDirectory: bq + '/Homepage/getClassroomVideoDirectory',
+    classroomVideoRecord: bq + '/VideoStatistics/classroomVideoRecord',
   },
   order: {
     video_kaituan: bq + "createpintuan",

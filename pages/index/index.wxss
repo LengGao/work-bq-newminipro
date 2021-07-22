@@ -395,11 +395,13 @@ width: 100%;
 .myCourse {
     width: 690rpx;
     margin: auto;
-    border-radius: 20rpx;
     display: flex;
     flex-direction: column;
-    margin: 35rpx 29rpx 0rpx 30rpx;
-
+    padding: 40rpx 0 ;
+    border-bottom: 1px dashed #ededed;
+}
+.myCourse:nth-last-child(2){
+    border-bottom:none;
 }
 
 .myCourse-title {
@@ -413,16 +415,18 @@ width: 100%;
 }
 
 .img-myCourse {
-    width: 210rpx;
+    width: 230rpx;
     height: 130rpx;
     flex-shrink: 0;
+    border-radius: 10rpx;
+    position: relative;
 }
 .img-myCourse image{
     border-radius: 10rpx;
  }
 .myCourse-content {
     display: flex;
-    margin-top: 40rpx;
+    margin-top: 30rpx;
 }
 
 .myCourse-info {
@@ -551,11 +555,19 @@ width: 100%;
     font-size: 32rpx;
 }
 .live-status {
+    position: absolute;
+    left: 0;
+    top: 0;
     padding: 2rpx 12rpx;
-    border-radius: 6rpx;
-    background: #DDF6C4;
-    font-size: 24rpx;
-    color:#478C01
+    border-top-left-radius: 10rpx;
+    background: rgba(25, 159, 255, 1);
+    font-size: 20rpx;
+    color:#fff
+}
+.live-status image{
+    width: 16rpx;
+    height: 20rpx;
+    border-radius: 0;
 }
 .repeat {
     margin-left: 10rpx;

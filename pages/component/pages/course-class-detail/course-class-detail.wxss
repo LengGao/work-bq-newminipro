@@ -38,7 +38,7 @@
 .chapter-list .chapter-list-item {
     padding: 0 20rpx;
     border-bottom: 2rpx solid #EEEEEE;
-    max-height: 80rpx;
+    max-height: 104rpx;
     transition: max-height .3s;
     overflow: hidden;
 }
@@ -53,7 +53,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20rpx 0;
+    padding: 32rpx 0;
 }
 .chapter-list .chapter-list-item .chapter-list-item-head:active{
     background-color: #f1f2f5;
@@ -76,7 +76,7 @@
     align-items: center;
     justify-content: space-between;
     border-top: 2rpx solid #EEEEEE;
-    padding: 20rpx 12rpx;
+    padding: 32rpx 12rpx;
     color: #000;
 }
 
