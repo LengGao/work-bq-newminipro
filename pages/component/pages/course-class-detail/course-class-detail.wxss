@@ -1,3 +1,6 @@
+page{
+    height: 100%;
+}
 #video{
     width: 100%;
     position: relative;
@@ -34,6 +37,11 @@
    }
    .video-control-panel .panel-item.actived{
     color: #199fff;
+    }
+    .chapter-list{
+        height: calc(100% - 450rpx);
+        overflow-y: auto;
+        padding-bottom: 20rpx;
     }
 .chapter-list .chapter-list-item {
     padding: 0 20rpx;

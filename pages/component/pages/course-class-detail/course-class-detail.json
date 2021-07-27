@@ -3,5 +3,6 @@
   "navigationBarBackgroundColor": "#fff",
   "navigationBarTitleText": "直播回顾",
   "navigationBarTextStyle": "black",
+  "disableScroll":true,
   "usingComponents": {}
 }
