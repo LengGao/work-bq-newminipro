@@ -1,11 +1,13 @@
 import plv from './lib/polyv-sdk/index.js';
 import crypto from './utils/common.util';
+import { initEid } from './mp_ecard_sdk/main';
 var api = require("api.js"),
     wxParse = require("./wxParse/wxParse.js");
 let app = getApp();
 // import plv from '*/lib/polyv-sdk/index';
 App({
     onLaunch: function () {
+        initEid();
         plv.setApp({
             apiId: 'fue63gnbpi',
             apiSecret: '4041e8c914fe4378880a5626d2547c5a'
@@ -175,6 +177,13 @@ App({
                         success: function () {}, //接口调用成功
                         fail: function () {}, //接口调用失败的回调函数  
                         complete: function () {} //接口调用结束的回调函数  
+                    })
+                }else if (n.data.code == 1) {
+                    wx.showToast({
+                        title: n.data.message ? n.data.message : "失败", //提示文字
+                        duration: 2000, //显示时长
+                        mask: true, //是否显示透明蒙层，防止触摸穿透，默认：false  
+                        icon: 'none', //图标，支持"success"、"loading"  
                     })
                 }
                 let data
