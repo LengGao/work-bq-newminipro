@@ -2,7 +2,7 @@
     <!--first use player-->
     <!-- <player  videoOption="{{ videoOption }}"></player> -->
     <!-- bindplay="videoPlayHand" -->
-    <video id="videoPlayer" enable-progress-gesture="{{false}}"  autoplay bindplay="handleVideoPlay" class="vod-video" bindtap="tapVideo" 
+    <video id="videoPlayer" enable-progress-gesture="{{hideProgressMask}}"  autoplay bindplay="handleVideoPlay" class="vod-video" bindtap="tapVideo" 
         bindpause="playPaused"  bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen"
         poster="{{currentPoster}}" initial-time="{{learnTime}}" src="{{currentResource}}" bindwaiting="videoWaiting">
         <cover-view class="video-control" hidden="{{controlHidden}}">
@@ -10,7 +10,7 @@
             <cover-view class="multi" capture-catch:tap="switchResource">
                 {{currentDefinition}}
             </cover-view>
-            <cover-view class="multi rate" capture-catch:tap="showSwitchRate">
+            <cover-view class="multi rate" capture-catch:tap="showSwitchRate" hidden="{{!hideProgressMask}}">
                 x {{currentRate}}
             </cover-view>
         </cover-view>
@@ -34,7 +34,7 @@
                 <cover-view class="close-btn" bindtap="closeControl">x</cover-view>
             </cover-view>
         </cover-view>
-        <cover-view class="video-control-mask" hidden="{{hideProgressMask}}"></cover-view>
+        <cover-view class="video-control-mask" bindtouchmove="onMoveMask"  hidden="{{hideProgressMask}}"></cover-view>
     </video>
     <view class="middle-box" hidden="{{isPay}}">
         <view class="inner-box">

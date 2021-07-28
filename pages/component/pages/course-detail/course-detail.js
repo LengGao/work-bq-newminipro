@@ -203,6 +203,12 @@ Page({
       }
     })
   },
+  onMoveMask(){
+    wx.showToast({
+      title: '当前视频不支持快进',
+      icon:'none'
+    })
+  },
   // 设置下次扫脸验证时间
   setVerifyTime() {
     this.nextVerifyTime = this.videoVerifyNode.shift()
