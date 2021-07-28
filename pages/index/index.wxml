@@ -119,6 +119,7 @@
                     </view>
                     <text class="personal-name">{{ item.teacher_name }}</text>
                 </view>
+                <view class="live-btn">进入直播</view>
             </view>
         </view>
     </view>
@@ -169,7 +170,7 @@
         <view class="myCourse-info">
             <text class="myCourse-content-title">{{classroom.classroom_name}}</text>
             <view class="myCourse-info-bottom">
-               <view>视频数量：{{classroom.class_video_count}}</view>
+               <view class="video-number">视频数量：{{classroom.class_video_count}}</view>
             </view>
         </view>
     </view>

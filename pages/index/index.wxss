@@ -669,3 +669,16 @@ width: 100%;
     justify-content: flex-end;
     margin-bottom: 20rpx;
 }
+.live-btn{
+    font-size: 24rpx;
+    background: #199fff;
+    color: #fff;
+    padding: 8rpx 14rpx;
+    border-radius: 10rpx;
+}
+.live-btn:active{
+    opacity: 0.7;
+}
+.video-number{
+    color: #a3a3a3;
+}
