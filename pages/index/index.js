@@ -498,10 +498,10 @@ Page({
       success: function (res) {
 
         console.log(res)
-        res.classroom = Array.isArray(res.classroom)?{}:res.classroom
-        res.course = Array.isArray(res.course)?{}:res.course
-        res.problem = Array.isArray(res.problem)?{}:res.problem
-        res.user = Array.isArray(res.user)?{}:res.user
+        res.classroom = Array.isArray(res.classroom)?{}:res.classroom || {}
+        res.course = Array.isArray(res.course)?{}:res.course || {}
+        res.problem = Array.isArray(res.problem)?{}:res.problem || {}
+        res.user = Array.isArray(res.user)?{}:res.user || {}
         let problem_course_id = res.problem.problem_course_id
         wx.setStorageSync("problem_course_id", {
           problem_course_id: problem_course_id
