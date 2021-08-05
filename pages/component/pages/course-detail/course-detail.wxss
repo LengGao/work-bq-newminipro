@@ -633,6 +633,7 @@ color: #999999;
     top: 0;
     z-index: 20;
     background: #000;
+    overflow: hidden;
 }
 
 .video-box .course-video {
@@ -1665,4 +1666,15 @@ button{
 }
 .hasvision{
     color: #cacaca;
+}
+#videoPlayer{
+    position: relative;
+}
+.video-control-mask{
+    height: 80rpx;
+    position: absolute;
+    bottom: 20rpx;
+    left: 13%;
+    right: 13%;
+    z-index: 1;
 }

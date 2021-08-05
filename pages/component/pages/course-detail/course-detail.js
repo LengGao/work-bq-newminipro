@@ -15,7 +15,11 @@ var n = getApp(),
   s = require("../../../../api.js"),
   wxParse = require("../../../../wxParse/wxParse.js");
 require("../../../../utils/util.js");
-import { getToken, getVideoList, getVideoById } from '../../../../commons/service/index.js'
+import {
+  getToken,
+  getVideoList,
+  getVideoById
+} from '../../../../commons/service/index.js'
 const serviceError = function (msg) {
   wx.showToast({
     title: msg || '获取数据出错',
@@ -24,6 +28,9 @@ const serviceError = function (msg) {
 }
 let app = getApp();
 var api = require("../../../../api.js")
+import {
+  startEid
+} from '../../../../mp_ecard_sdk/main';
 Page({
   data: {
     class_type: '',
@@ -42,9 +49,8 @@ Page({
     //     //   // param3: 'param3'
     //     // }
     //  },
-    videoControls:true,
     uid: '',
-    problem_course_id:'',//题库id
+    problem_course_id: '', //题库id
     info_show: '',
     isIOS: n.globalData.isIOS,
     currentTab: 0,
@@ -168,8 +174,108 @@ Page({
     courseId: '',
     class_video_id: '',
     video_cellection_id: '',
-    chapterActiveIndex:'',
-    progress_min:0
+    chapterActiveIndex: '',
+    progress_min: 0,
+    hideProgressMask: true,
+  },
+  videoVerifyNode: [],
+  nextVerifyTime: null,
+  tokenLoading: false,
+  closeMaskVlaue: false,
+  getCourseVideoDetectInfo(video_class_id) {
+    app.encryption({
+      url: api.video.getCourseVideoDetectInfo,
+      method: "get",
+      data: {
+        video_class_id
+      },
+      success: (res) => {
+        console.log(111111, res)
+        this.setData({
+          hideProgressMask: !!res.progress_status
+        })
+        this.videoVerifyNode = []
+        this.nextVerifyTime = null
+        if (res.status === 2) {
+          this.videoVerifyNode = res.detect_time_point_data
+          this.setVerifyTime()
+        }
+      }
+    })
+  },
+  onMoveMask(){
+    wx.showToast({
+      title: '当前视频不支持快进',
+      icon:'none'
+    })
+  },
+  // 设置下次扫脸验证时间
+  setVerifyTime() {
+    this.nextVerifyTime = this.videoVerifyNode.shift()
+  },
+  getEidResult(token) {
+    app.encryption({
+      url: api.video.getEidResult,
+      method: "get",
+      data: {
+        token
+      },
+      success: (res) => {
+        console.log(res)
+        // 扫脸成功继续播放
+        if (res.status === 2) {
+          this.setVerifyTime()
+          this.videoContext.play()
+        }
+      }
+    })
+  },
+  getEidToken(time_point) {
+    this.tokenLoading = true
+    app.encryption({
+      url: api.video.getEidToken,
+      method: "get",
+      data: {
+        video_class_id: this.data.class_video_id,
+        time_point
+      },
+      success: (res) => {
+        console.log(res)
+        // 待验证
+        if (res.status === 1) {
+          this.openFace(res.token)
+        }
+        // 已验证
+        if (res.status === 2) {
+          this.setVerifyTime()
+          this.videoContext.play()
+        }
+       
+      },
+
+      complete: () => {
+        setTimeout(() => {
+          this.tokenLoading = false
+        }, 500);
+      }
+    })
+  },
+  openFace(token) {
+    startEid({
+      data: {
+        token,
+      },
+      verifyDoneCallback: (res) => {
+        const {
+          token,
+          verifyDone
+        } = res;
+        console.log('收到核身完成的res:', res);
+        console.log('核身的token是:', token);
+        console.log('是否完成核身:', verifyDone);
+        this.getEidResult(token)
+      },
+    });
   },
   sumbitComment() {
     if (this.data.value2 == '') {
@@ -196,19 +302,19 @@ Page({
       success: function (res) {
         console.log(res)
         // if (res.data.code == 0) {
-          wx.showToast({
-            title: '发表评论成功！',
-            icon: 'success',
-            mask: true,
-            duration: 1200,
-            success: function () {
-              that.setData({
-                visible2: false,
-                value2: ''
-              });
-            },
-          })
-          that.getcomment()
+        wx.showToast({
+          title: '发表评论成功！',
+          icon: 'success',
+          mask: true,
+          duration: 1200,
+          success: function () {
+            that.setData({
+              visible2: false,
+              value2: ''
+            });
+          },
+        })
+        that.getcomment()
         // }
       },
       fail: function (t) {},
@@ -297,15 +403,34 @@ Page({
   },
   handleOpen2() {
     console.log('点击了评价对话框')
-    this.setData({
-      visible2: true
-    });
+    // 进度条遮罩会挡住评价，所以打开评价时关闭它
+    this.closeMaskVlaue = this.data.hideProgressMask
+    if(!this.closeMaskVlaue){
+      this.setData({
+        visible2: true,
+        hideProgressMask:true
+      });
+    }else{
+      this.setData({
+        visible2: true,
+      });
+    }
+    
   },
   handleClose2() {
-    this.setData({
-      visible2: false,
-      value2: ''
-    });
+    if(!this.closeMaskVlaue){
+      this.setData({
+        visible2: false,
+        value2: '',
+        hideProgressMask:false
+      });
+    }else{
+      this.setData({
+        visible2: false,
+        value2: ''
+      });
+    }
+    
   },
   select_team: function (t) {
     this.setData({
@@ -451,7 +576,7 @@ Page({
     let that = this
     let option = {
       course_id: parseInt(t.courseId),
-      live_id:0,
+      live_id: 0,
       video_collection_id: t.video_collection_id
     }
     console.log(option)
@@ -465,27 +590,15 @@ Page({
         wx.setNavigationBarTitle({
           title: res.video_class_name
         });
-        let videoControls = ''
-        if(res.is_fast ==1){
-          videoControls =true
-        }else{
-          videoControls =false
-        }
+
         that.setData({
           learnTime: res.data.listen_time,
-          progress_min:res.data.listen_time,
+          progress_min: res.data.listen_time,
           lessonId: res.listen_id,
-          videoControls:videoControls,
           class_video_id: res.video_class_id
         })
         that.playVideo(res.data.play_info, res.data.listen_time)
-        // if (res.data == undefined) {
-        //   that.playVideo(res.data.play_info, res.data.listen_time)
-        // } else {
-        //   that.setData({
-        //     myCourse: false
-        //   })
-        // }
+        that.getCourseVideoDetectInfo(res.video_class_id)
       },
       fail: function (t) {},
       complete: function () {}
@@ -505,12 +618,12 @@ Page({
       success: function (res) {
 
         console.log(res)
-      
-       
+
+
         that.setData({
           problem_course_id: res.info.problem_course_id, //以此ID获取习题模式        
         })
-       
+
       },
       fail: function (t) {},
       complete: function () {
@@ -533,28 +646,18 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        console.log(res)
+        const video_class_id = res.video_class_id
         that.setData({
           video_mid: res.video_mid,
-        })
-        //判断是否快进
-        let videoControls = ''
-        if(res.is_fast ==1){
-          videoControls =true
-        }else{
-          videoControls =false
-        }
-        that.setData({
-          videoControls: videoControls
         })
         if (res.free == 1 && res.buy == 1) { //免费或者已购买
           that.setData({
             isPay: true,
             lessonId: listen_id,
             learnTime: 0,
-            class_video_id:listen_id
+            class_video_id: listen_id
           })
-      
+
         } else {
           that.setData({
             isPay: false
@@ -578,8 +681,8 @@ Page({
           method: "GET",
           data: option,
           success: function (res) {
-        
             that.playVideo(res, listen_time)
+            that.getCourseVideoDetectInfo(video_class_id)
           }
         })
       },
@@ -589,6 +692,7 @@ Page({
     this.coursedetail()
   },
   playVideo(data, listen_time) {
+    console.log(22222222, data)
     clearInterval(this.repeated);
     clearInterval(this.socketTime)
     this.repeated = null
@@ -648,7 +752,7 @@ Page({
     let listen_time = this.data.currentTime
     let video_cellection_id = that.data.video_collection_id
     let class_video_id = that.data.class_video_id
-    
+
     // 创建Socket
     that.SocketTask = wx.connectSocket({
       // url: 'wss://api.beiqujy.com/wss',
@@ -690,26 +794,26 @@ Page({
       // this.socketMessage(JSON.parse(res.data));
     })
   },
-    // 播放器暂停
-    playPaused() {
-      clearInterval(this.repeated)
-      this.data.videoplaying = false
-      this.isHide &&  this.sendData()
-    },
-    // 播放
-  handleVideoPlay(){
-      // 开启定时器 发送数据
+  // 播放器暂停
+  playPaused() {
+    clearInterval(this.repeated)
+    this.data.videoplaying = false
+    this.isHide && this.sendData()
+  },
+  // 播放
+  handleVideoPlay() {
+    // 开启定时器 发送数据
     this.intervalSendData()
   },
   // 定时发送数据
-  intervalSendData(){
+  intervalSendData() {
     clearInterval(this.repeated)
     this.repeated = setInterval(() => {
-        this.sendData()
-      }, 10000)
+      this.sendData()
+    }, 10000)
   },
   // 发送数据
-  sendData(){
+  sendData() {
     const listen_time = this.data.currentTime
     const progress_min = this.data.progress_min
     const progress_max = this.data.currentTime
@@ -722,7 +826,7 @@ Page({
     const sendData = `{"progress_min":${progress_min},"progress_max":${progress_max},"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":1,"from":1,"listen_time":${listen_time},"video_cellection_id":${video_cellection_id},"class_video_id":${class_video_id}}`;
     this.socketSend(sendData);
     this.setData({
-      progress_min:progress_max
+      progress_min: progress_max
     })
   },
   reconnect() {
@@ -766,22 +870,22 @@ Page({
           var arr = []
           let data = res
           // delete data.class_type;
-          for(let i  in data){
+          for (let i in data) {
             console.log(i)
-            if(i=='class_type'){}else{
+            if (i == 'class_type') {} else {
               arr.push(data[i])
             }
           }
           // arr.push(data)
-           console.log(arr)
+          console.log(arr)
           // let arr = Array.from(data)
-          console.log(arr); 
-          console.log( res.class_type); 
+          console.log(arr);
+          console.log(res.class_type);
           that.setData({
             chapter: arr,
             class_type: res.class_type
           })
-         
+
         } else {
           that.setData({
             chapter: res
@@ -789,7 +893,7 @@ Page({
         }
       },
       fail: function (t) {},
-      complete:  ()=>{}
+      complete: () => {}
     })
   },
   getcomment() {
@@ -851,7 +955,7 @@ Page({
       courseId: option.courseId || this.data.courseId,
       video_collection_id: option.video_collection_id,
     });
-    this.listen(option)//获取播放信息
+    this.listen(option) //获取播放信息
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {
@@ -863,7 +967,7 @@ Page({
     this.coursedetail() //获取课程介绍
     this.getcomment() //获取课程评论
     this.getProgrammePosters() //获取课程封面
-    
+
   },
   onShow: function () {},
   onHide: function () {},
@@ -878,11 +982,12 @@ Page({
   onReachBottom: function () {},
   onShareAppMessage: function (res) {
     console.log(res)
-    var t = this, e = wx.getStorageSync("user_info");
+    var t = this,
+      e = wx.getStorageSync("user_info");
     // t.shareSuccess();
     return {
       title: t.data.video.title,
-      path: "pages/component/pages/course-detail/course-detail?courseId="+ this.data.courseId+"&video_collection_id="+ this.data.video_collection_id,
+      path: "pages/component/pages/course-detail/course-detail?courseId=" + this.data.courseId + "&video_collection_id=" + this.data.video_collection_id,
       // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
       success: function (t) {
         console.log("转发成功", t);
@@ -942,31 +1047,23 @@ Page({
     console.log(t)
     wx.closeSocket();
     this.isHide = true;
-    
-    // this.setData({
-    //   lessonId: t.currentTarget.dataset.key,
-    //   learnTime: 0,
-    //   class_video_id: t.currentTarget.dataset.key
-    // })
-    // this.onLoad()
     this.play(t.currentTarget.dataset.key)
-
   },
-   // 根据播放的id设置选中的章节
-   setChapterActive(){
+  // 根据播放的id设置选中的章节
+  setChapterActive() {
     let index = ''
-    this.data.chapter.forEach((v,i) => {
-      if(v.child && v.child.length){
-        v.child.forEach((child)=>{
-          if(child.LessonId === this.data.lessonId){
+    this.data.chapter.forEach((v, i) => {
+      if (v.child && v.child.length) {
+        v.child.forEach((child) => {
+          if (child.LessonId === this.data.lessonId) {
             index = i
           }
         })
       }
     })
     this.setData({
-      chapterActiveIndex:index
-    });   
+      chapterActiveIndex: index
+    });
   },
   buyVideo: function () {
     var that = this,
@@ -1136,14 +1233,10 @@ Page({
     })
   },
   tapVideo(e) {
-    console.log(e)
-    console.log('tapVideo')
     this.setData({
       multiListShow: false,
       rateShow: false,
     })
-    console.log(this.data.videoPlaying)
-    // if (this.data.videoPlaying && !this.data.fullScreenData) {
     if (this.data.videoPlaying) {
       this.setData({
         controlHidden: !this.data.controlHidden
@@ -1193,22 +1286,6 @@ Page({
   },
   onReady() {
     this.videoContext = wx.createVideoContext('videoPlayer')
-    console.log(this.videoContext)
-  },
-  onPullDownRefresh() {
-    this.setData({
-      loadAll: false,
-      page: 1,
-      total: 0,
-      videoList: [],
-    })
-    this.loadData(() => {
-      wx.stopPullDownRefresh()
-    })
-  },
-  tapPlay(e) {
-    let vid = e.currentTarget.dataset['vid']
-    this.playVideo(vid)
   },
   // 进度改变执行
   timeUpdate(e) {
@@ -1218,8 +1295,12 @@ Page({
     this.data.currentTime = currentTime
     this.data.videoplaying = true
     if (this.data.videoplaying && this.data.currentRate != 1.0) {
-      // console.log(this.data.currentRate);
       this.videoContext.playbackRate(Number(this.data.currentRate))
+    }
+    // 到达验证时间去验证
+    if (this.nextVerifyTime && currentTime >= this.nextVerifyTime) {
+      this.videoContext.pause();
+      !this.tokenLoading && this.getEidToken(this.nextVerifyTime)
     }
   },
 
@@ -1245,109 +1326,5 @@ Page({
     })
     console.log(this.data.fullScreenData)
   },
-  loadData(cb) {
-    if (this.data.loadAll || this.data.loading) {
-      return
-    }
-    if (this.data.userInfo !== null) {
-      this.getVideoList(cb)
-    } else {
-      getToken({
-          url: '/user/randomUser'
-        })
-        .then(({
-          data
-        }) => {
-          console.log(data)
-          this.data.userInfo = data
-          this.getVideoList()
-        })
-        .catch(err => {
-          serviceError('获取token失败')
-          console.log(err)
-        })
-    }
-  },
-  getVideoList(cb) {
-    this.loading = true
-    if (this.data.userInfo === null) {
-      reject(new Error('no user'))
-    } else {
-      let {
-        token
-      } = this.data.userInfo
-      let {
-        page,
-        size
-      } = this.data
-      getVideoList({
-          url: '/vod/getRecommendVideoList',
-          data: {
-            token,
-            pageIndex: page,
-            pageSize: size,
-          }
-        }).then(({
-          data
-        }) => {
 
-          if (page === 1) {
-            this.playVideo(data.videoList[0].videoId)
-          }
-
-          this.loading = false
-          let loadAll = false
-          if ((page + 1) * size >= data.total) {
-            loadAll = true
-          }
-          data.videoList.forEach(item => item.duration = this.getVideoTime(item.duration))
-          this.setData({
-            loadAll,
-            total: data.total,
-            page: page + 1,
-            videoList: this.data.videoList.concat(data.videoList)
-          })
-          typeof cb === 'function' && cb();
-        })
-        .catch(err => {
-          this.loading = false
-          serviceError('获取视频列表失败')
-          typeof cb === 'function' && cb();
-        })
-    }
-  },
-  getVideoTime(duration) {
-    let secondTotal = Math.round(duration);
-
-    let hour = Math.floor(secondTotal / 3600);
-    let minute = Math.floor((secondTotal - hour * 3600) / 60);
-
-    let second = secondTotal - hour * 3600 - minute * 60;
-
-    if (minute < 10) {
-      minute = '0' + minute;
-    }
-    if (second < 10) {
-      second = '0' + second;
-    }
-    return hour === 0 ? minute + ':' + second : hour + ':' + minute + ':' + second;
-  },
-  // onShareAppMessage: function (res) {
-  //   let that = this
-  //   return {
-  //     title: '东培学堂',
-  //     path: '../../../../pages/index/index',
-  //     imageUrl: that.data.imgUrl,
-  //     success: function (shareTickets) {
-  //       console.log(shareTickets)
-  //       console.info(shareTickets + '成功');
-  //       // 转发成功
-  //     },
-  //     fail: function (res) {
-  //       console.log(res + '失败');
-  //       // 转发失败
-  //     },
-  //     complete: function (res) {}
-  //   }
-  // }
 });

@@ -163,6 +163,9 @@ let apiurl = {
     getlastplayinfo: bq + '/video/getlastplayinfo',
     getClassroomVideoDirectory: bq + '/Homepage/getClassroomVideoDirectory',
     classroomVideoRecord: bq + '/VideoStatistics/classroomVideoRecord',
+    getEidToken: bq + '/FaceDetect/getEidToken',
+    getCourseVideoDetectInfo: bq + '/FaceDetect/getCourseVideoDetectInfo',
+    getEidResult: bq + '/FaceDetect/getEidResult',
   },
   order: {
     video_kaituan: bq + "createpintuan",
