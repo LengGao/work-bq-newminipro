@@ -109,7 +109,7 @@
             <view class="container-detail " style="margin-top:20rpx" hidden="{{info_show == 1 }}">
                 <block>
                     <text class="container-price">免费</text>
-                    <text class="container-personal">{{ item.buy_number || 0 }}人购买</text>
+                    <!-- <text class="container-personal">{{ item.buy_number || 0 }}人购买</text> -->
                 </block>
             </view>
         </view>
