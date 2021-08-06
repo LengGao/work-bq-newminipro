@@ -38,9 +38,9 @@ wx:if="{{ !nodata }}">
                 <!-- <text class="myCourse-time">{{ item.hour_class }}课时</text> -->
                 <block>
 
-                <text class="myCourse-time">{{ item.buy_number  || 0 }}人已购买</text> 
+                <text class="myCourse-time" wx:if="{{item.onlinePrice !== undefined}}">{{ item.buy_number  || 0 }}人已购买</text> 
            
-                <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">￥{{ item.onlinePrice == undefined ? '0' : item.onlinePrice  }}</text>
+                <text class="havelearn" style="color:#FF6731;font-size:24rpx;font-weight:bold;">{{ item.onlinePrice == undefined ? '免费' :'￥'+ item.onlinePrice  }}</text>
             </block>
             </view>
             <!-- <view class="myCourse-info-bottom">

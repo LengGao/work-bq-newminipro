@@ -32,6 +32,13 @@ Page({
     gopri(t) {
         let courseId = this.data.courseId
         console.log(t)
+        if(t.currentTarget.dataset.total<1){
+            wx.showToast({
+              title: '该章节无题目',
+              icon:"none"
+            })
+            return
+        }
         wx.navigateTo({
             url: `../test/test?chapter_id=${t.currentTarget.dataset.cid}&courseId=${courseId}&name=${t.currentTarget.dataset.name}&hasdone=${t.currentTarget.dataset.hasdone}`
         })

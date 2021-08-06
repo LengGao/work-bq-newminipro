@@ -39,14 +39,15 @@ page{
     color: #199fff;
     }
     .chapter-list{
-        height: calc(100% - 450rpx);
+        position: relative;
+        height: calc(100% - 225px);
         overflow-y: auto;
         padding-bottom: 20rpx;
     }
 .chapter-list .chapter-list-item {
     padding: 0 20rpx;
     border-bottom: 2rpx solid #EEEEEE;
-    max-height: 104rpx;
+    max-height: 100rpx;
     transition: max-height .3s;
     overflow: hidden;
 }
