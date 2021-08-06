@@ -166,6 +166,7 @@ let apiurl = {
     getEidToken: bq + '/FaceDetect/getEidToken',
     getCourseVideoDetectInfo: bq + '/FaceDetect/getCourseVideoDetectInfo',
     getEidResult: bq + '/FaceDetect/getEidResult',
+    courseWatchStatusForDetect: bq + '/FaceDetect/courseWatchStatusForDetect',
   },
   order: {
     video_kaituan: bq + "createpintuan",

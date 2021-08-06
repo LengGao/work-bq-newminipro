@@ -7,7 +7,7 @@ let config = {
   //bqUrl: 'http://dongpei.local/wechat/v2',//
   //  bqUrl: 'https://testapi.beiqujy.com/wechat/v2',//测试地址
   bqUrl: 'https://formal.api.beiqujy.com/wechat/v2',//测试地址
-  //bqUrl: 'http://a.cc/wechat/v2',
+  // bqUrl: 'http://a.cc/wechat/v2',
   // bqUrl: 'http://sc.dp.com/wechat/v2',
   // sockForCount:'wss://testapi.beiqujy.com/count',//测试地址
   // liaotian: 'wss://testapi.beiqujy.com/chat',//测试地址

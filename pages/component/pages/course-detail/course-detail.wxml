@@ -2,7 +2,7 @@
     <!--first use player-->
     <!-- <player  videoOption="{{ videoOption }}"></player> -->
     <!-- bindplay="videoPlayHand" -->
-    <video id="videoPlayer" enable-progress-gesture="{{hideProgressMask}}"  autoplay bindplay="handleVideoPlay" class="vod-video" bindtap="tapVideo" 
+    <video id="videoPlayer" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"  autoplay bindplay="handleVideoPlay" class="vod-video" bindtap="tapVideo" 
         bindpause="playPaused"  bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen"
         poster="{{currentPoster}}" initial-time="{{learnTime}}" src="{{currentResource}}" bindwaiting="videoWaiting">
         <cover-view class="video-control" hidden="{{controlHidden}}">

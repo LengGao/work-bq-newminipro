@@ -90,7 +90,7 @@ Page({
     video_collection_id: '',
     classroom:''
   },
- 
+  linkLoading:false,
   subscribe(num) {
     var num = num
     var that = this
@@ -343,9 +343,33 @@ Page({
   },
   toVideoroom() {
     const myCourse =  this.data.myCourse
-    wx.navigateTo({
-      url: `../component/pages/course-detail/course-detail?courseId=${myCourse.course_id}&video_collection_id=${myCourse.video_collection_id}`
+    if(this.linkLoading) return
+    this.linkLoading = true
+    app.encryption({
+      url: api.video.courseWatchStatusForDetect,
+      method: "GET",
+      data:{course_id:myCourse.course_id},
+      success:  (res) =>{
+        if(res.status){
+          wx.showModal({
+            title:'温馨提示',
+            showCancel:false,
+            content: res.message,
+            confirmText:'好的'
+          })
+        }else{
+          wx.navigateTo({
+            url: `../component/pages/course-detail/course-detail?courseId=${myCourse.course_id}&video_collection_id=${myCourse.video_collection_id}`
+          })
+        }
+      },
+      complete:()=>{
+        setTimeout(() => {
+        this.linkLoading = false
+        }, 500);
+      }
     })
+   
   },
   handleClickItem1({
     detail

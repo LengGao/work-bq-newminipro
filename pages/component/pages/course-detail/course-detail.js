@@ -1196,9 +1196,7 @@ Page({
   // 阿里云
   // 视频缓冲触发事件
   videoWaiting() {
-    this.setData({
-      controlHidden: true
-    })
+ 
   },
   computedDef(definition) {
     let def = {
@@ -1214,10 +1212,7 @@ Page({
   videoPlayHandle(e) {
     console.log('videoPlayHandle')
     this.data.videoPlaying = true
-    this.setData({
-      controlHidden: false,
-      multiListShow: false
-    })
+   
     this.videoContext.playbackRate(Number(this.data.currentRate))
     if (this.data.isSwitchDefinition) {
       console.log('seek')
@@ -1237,11 +1232,6 @@ Page({
       multiListShow: false,
       rateShow: false,
     })
-    if (this.data.videoPlaying) {
-      this.setData({
-        controlHidden: !this.data.controlHidden
-      })
-    }
   },
   switchResource() {
     console.log('switch')
@@ -1268,6 +1258,11 @@ Page({
       rateShow: false
     })
   },
+  onControlsToggle(e){
+    this.setData({
+      controlHidden: !e.detail.show
+    })
+  },
   // 超清高清标清
   switchDefinition(e) {
     this.data.isSwitchDefinition = true
@@ -1277,11 +1272,13 @@ Page({
       url,
       def
     } = dataset
-
+    const currentTime =  this.data.currentTime
     this.setData({
       currentResource: url,
       currentDefinition: def,
       multiListShow: false,
+    },()=>{
+        this.videoContext.seek(currentTime)
     })
   },
   onReady() {
@@ -1313,9 +1310,7 @@ Page({
     let fullScreenData = ""
     if (fullScreen) {
       fullScreenData = " full-screen " + direction
-      this.setData({
-        controlHidden: false
-      })
+    
     }
     console.log({
       fullScreen,
