@@ -434,7 +434,7 @@ width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: calc(100% - 210rpx);
+    width: calc(100% - 230rpx);
 }
 
 .myCourse-info-bottom {
