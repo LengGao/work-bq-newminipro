@@ -201,7 +201,7 @@ Page({
     const index = e.currentTarget.dataset.index;
     const vIndex = e.currentTarget.dataset.vindex;
     const currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
-    if(this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex){
+    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
       return false
     }
     this.setData({
@@ -258,6 +258,9 @@ Page({
     if (!isToggleQuality) {
       this.startTime = +currentPlayData.last_second
       this.currentPlayId = currentPlayData.id
+      wx.setNavigationBarTitle({
+        title: currentPlayData.title
+      });
     }
     let playUrl = ''
     switch (this.data.activeQualityValue) {
@@ -274,13 +277,14 @@ Page({
         playUrl = currentPlayData.sd_play_url
         break
     }
+    const currentTime = this.currentPlayTime
     this.setData({
       playUrl,
     }, () => {
       // 如果是切换画质就是设置当前时间
       setTimeout(() => {
-        this.setPlaySeek(isToggleQuality ? this.currentPlayTime : this.startTime)
-      },20);
+        this.setPlaySeek(isToggleQuality ? currentTime : this.startTime)
+      }, 20);
     })
   },
   // 点击video标签
