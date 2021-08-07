@@ -1,4 +1,4 @@
-import * as echarts from '../../../../ec-canvas/echarts';
+import * as echarts from '../ec-canvas/echarts';
 let app = getApp();
 var api = require("../../../../api.js");
 function initChart2(data, canvas, width, height, dpr) {
@@ -423,7 +423,7 @@ Page({
         let Practise0 = 'practise[0].name'
         let Practise1 = 'practise[1].name'
         let Practise2 = 'practise[2].name'
-        console.log(res.Practise.collection, res.Practise.error)
+        // console.log(res.Practise.collection, res.Practise.error)
         that.setData({
           [everyDate0]: res.Practise.day,
           [everyDate1]: res.Top.watchTime,

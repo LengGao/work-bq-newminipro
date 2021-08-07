@@ -1,1 +1,1 @@
-{"component":true,"usingComponents":{"danmu":"../danmu/danmu","skin":"../skin/skin"}}
+{"component":true,"usingComponents":{"danmu":"../danmu/danmu","skin":"../skin/skin","rtc-modal":"../rtc-modal/rtc-modal","room":"../room/room"}}

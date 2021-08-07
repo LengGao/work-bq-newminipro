@@ -6,6 +6,7 @@
     skin="{{ skin }}"
     id="plvLivePlayerComp"
     videoOption="{{ videoOption }}"
+    objectFit="{{ objectFit }}"
     menuType="{{ menuType }}"
     isSwitched="{{ isSwitched }}"
     usePlayerSkin="{{ usePlayerSkin }}"
@@ -13,7 +14,11 @@
     skinAlwaysShow="{{ skinAlwaysShow }}"
     bind:onLiveStorageProgress="onLiveStorageProgress"
     bind:onLiveVodEnd="onLiveVodEnd"
-    bind:onLiveStatusChange="onLiveStatusChange"/>
+    bind:onLiveStatusChange="onLiveStatusChange"
+    bind:refreshStatus="onRefreshStatus"
+  >
+    <slot></slot>
+  </plv-live-player>
   <!-- 点播播放器 -->
   <view class="plv-mp-vod-player-box" wx:else>
     <video
@@ -22,8 +27,9 @@
       src="{{ vodSrc }}"
       muted="{{ muted }}"
       autoplay
+      picture-in-picture-mode="{{ pipMode }}"
       enable-danmu="{{ true }}"
-      object-fit="contain"
+      object-fit="{{ objectFit }}"
       bindtap="showSetControl"
       bindtimeupdate="onVodTimeUpdate"
       bindplay="onVodPlay"
@@ -50,6 +56,8 @@
             class="setting-item-btn setting-btn-rate {{ currentRate === index ? 'btn-selected' : '' }}">{{ item }}</cover-view>
         </cover-view>
       </cover-view>
+
+      <slot></slot>
     </video>
   </view>
 </view>

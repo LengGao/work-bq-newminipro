@@ -1,6 +1,6 @@
 <view class="plv-ppt plv-mp-skin__{{ skin }}" style="width:{{width}}rpx;height:{{height}}rpx">
   <view id="plvPPTDom" class="plv-ppt-dom">
-    <image src="{{imgUrl}}" class="plv-ppt-dom-img" mode="aspectFit" bindload='handleImgLoad'></image>
+        <image src="{{imgUrl}}" class="plv-ppt-dom-img" mode="aspectFit" bindload='handleImgLoad' hidden="{{ isBoard }}"></image>
     <view id="plvPPTDomLoad" class="plv-ppt-dom-load" style="display:{{isLoading?'block':'none'}}">
       <view class="line-spin-fade-loader">
         <view class="line-spin-fade-laoder__view"></view>

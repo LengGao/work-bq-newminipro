@@ -2,6 +2,7 @@ import config from './config.js';
 let bq = config.bqUrl;
 let sock = config.liaotian;
 let sockForCount = config.sockForCount
+console.log(123333)
 let apiurl = {
   default: {
     countSocket: sock,
