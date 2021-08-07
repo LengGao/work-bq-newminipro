@@ -1,6 +1,6 @@
 // pages/component//pages/openClassReview/index.js
 var app = getApp(),
-  api = require("../../api"),
+  api = require("../../../../api"),
   wxParse = require("../../../../wxParse/wxParse.js");;
 Page({
 

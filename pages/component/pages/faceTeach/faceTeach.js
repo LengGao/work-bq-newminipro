@@ -1,4 +1,4 @@
-var t, app = getApp(), api = require("../../api.js"),
+var t, app = getApp(), api = require("../../../../api.js"),
   app = getApp()
   
 Page({

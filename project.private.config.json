@@ -106,12 +106,6 @@
           "scene": null
         },
         {
-          "name": "pages/component/pages/polyv-test/polyv-test",
-          "pathName": "pages/component/pages/polyv-test/polyv-test",
-          "query": "courseId=10",
-          "scene": null
-        },
-        {
           "name": "pages/component/pages/course-detail/course-detail",
           "pathName": "pages/component/pages/course-detail/course-detail",
           "query": "video_id=17&courseId=17",
