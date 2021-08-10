@@ -114,7 +114,7 @@
                 <view class="personal-infor">
                     <view style="width:32rpx;height:32rpx;">
                         <image mode="scaleToFill" class="personal-img-myCourse"
-                            src="{{ item.teacher_img == '' ? '/static/img/default.jpg':  myCourse.teacher_img}}"
+                            src="{{ item.teacher_img == '' ? '/static/img/default.jpg':  item.teacher_url}}"
                             binderror="errorFunction"></image>
                     </view>
                     <text class="personal-name">{{ item.teacher_name }}</text>

@@ -1,0 +1,14 @@
+<!--miniprogram/pages/room/room.wxml-->
+<!-- 在模版上放置标签 -->
+<view class="page-room {{direction}}" hidden="{{ !rtcMode }}">
+  <view class="plv-rtc-bg-mask"></view>
+  <trtc-room 
+    id="trtc-component" 
+    config="{{rtcConfig}}" 
+    direction="{{rtcDirection}}" 
+    teacherNameplateInfo="{{teacherNameplateInfo}}"
+    viewerNameplateInfo="{{viewerNameplateInfo}}"
+    >
+    <slot></slot>
+  </trtc-room>
+</view>

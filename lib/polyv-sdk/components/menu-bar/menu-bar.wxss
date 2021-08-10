@@ -1,1 +1,72 @@
-.plv-mp-menubar-wrap{font-size:0;text-align:left;box-shadow:0 6rpx 10rpx 0 rgba(0,0,0,.05);box-sizing:border-box;white-space:nowrap;overflow:auto;width:100%;-webkit-overflow-scrolling:touch;background:#44434e}.plv-mp-menubar-item{display:inline-block;line-height:74rpx;font-size:26rpx;color:#bfbfbf;letter-spacing:0;padding:0 10rpx;text-align:center;overflow:hidden}.plv-mp-menubar-item__on{color:#fff;box-shadow:inset 0 -4rpx #fff}.plv-mp-menubar-wrap__less{display:flex;justify-content:center}.plv-mp-menubar-wrap__less>.plv-mp-menubar-item{flex-grow:1;text-align:center}.plv-mp-menubar-wrap__less .plv-mp-quiz__tips{position:relative}.plv-mp-menubar-wrap__less .plv-mp-quiz__tips:after{content:"";position:absolute;width:8px;height:8px;background:#f24453;border-radius:4px;top:16px;margin-left:4px}.plv-mp-skin__white{box-shadow:0 10rpx 20rpx 0 rgba(4,0,0,.15)}.plv-mp-skin__white>.plv-mp-menubar-item{color:#212121;background:#fff}.plv-mp-skin__white>.plv-mp-menubar-item__on{color:#009aff}
+@charset "UTF-8";
+.plv-mp-menubar-wrap {
+  font-size: 0;
+  text-align: left;
+  box-shadow: 0 6rpx 10rpx 0 rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  background: #44434e;
+}
+
+/**
+默认皮肤
+ */
+.plv-mp-menubar-item {
+  display: inline-block;
+  line-height: 74rpx;
+  font-size: 26rpx;
+  color: #bfbfbf;
+  letter-spacing: 0;
+  padding: 0 10rpx;
+  text-align: center;
+  overflow: hidden;
+}
+
+.plv-mp-menubar-item__on {
+  color: #fff;
+  box-shadow: inset 0 -4rpx #fff;
+}
+
+.plv-mp-menubar-wrap__less {
+  display: flex;
+  justify-content: center;
+}
+
+.plv-mp-menubar-wrap__less > .plv-mp-menubar-item {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.plv-mp-menubar-wrap__less .plv-mp-quiz__tips {
+  position: relative;
+}
+
+.plv-mp-menubar-wrap__less .plv-mp-quiz__tips:after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #f24453;
+  border-radius: 4px;
+  top: 16px;
+  margin-left: 4px;
+}
+
+/**
+白天皮肤
+ */
+.plv-mp-skin__white {
+  box-shadow: 0 10rpx 20rpx 0 rgba(4, 0, 0, 0.15);
+}
+
+.plv-mp-skin__white > .plv-mp-menubar-item {
+  color: #212121;
+  background: #fff;
+}
+
+.plv-mp-skin__white > .plv-mp-menubar-item__on {
+  color: #009aff;
+}

@@ -10,7 +10,7 @@
   <block wx:else>
     <block wx:for="{{ contentArr }}" wx:for-index="itemIndex" wx:for-item="item" wx:key="itemIndex">
       <text class="plv-mp-chat-msg-content-title" wx:if="{{ item.type === 'text' }}">{{ item.content }}</text>
-      <image wx:else src="{{ item.url }}" style="width:30px;height:30px;" mode="widthFix"></image>
+      <image class="plv-mp-chat-msg-emtion-pic" wx:else src="{{ item.url }}" style="width:30px;height:30px;" mode="widthFix"></image>
     </block>
   </block>
 </view>

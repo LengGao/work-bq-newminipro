@@ -1,0 +1,21 @@
+<template name='nameplate'>
+  <view class="plv-rtc-nameplate {{type}}">
+  <!-- wx:if="{{ type === 'audio' || video }}" -->
+    <image
+      hidden="{{ video && type === 'video' }}"
+      class="plv-rtc-nameplate__bg__img" 
+      src="{{ avatar }}" />
+    <view class="plv-rtc-nameplate__content {{type}}">
+      <view class="plv-rtc-nameplate__content__avatar {{type}}">
+        <image 
+          class="plv-rtc-nameplate__content__avatar__image" 
+          src="{{ avatar }}" />
+      </view>
+      <view class="plv-rtc-nameplate__content__status">
+        <text class="plv-rtc-nameplate__content__nickname">{{nickName}}</text>
+        <image hidden="{{ !audio }}" class="plv-rtc-nameplate__content__mic" src="../../assets/images/rtc/mic@2x.png" />
+        <image hidden="{{ audio }}" class="plv-rtc-nameplate__content__mic" src="../../assets/images/rtc/banmic@2x.png" />
+      </view>
+    </view>
+  </view>
+</template>

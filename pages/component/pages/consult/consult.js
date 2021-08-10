@@ -1,4 +1,4 @@
-getApp(), require("../../api.js");
+getApp();
 
 Page({
     data: {},

@@ -6,7 +6,7 @@
   "setting": {
     "urlCheck": false,
     "es6": true,
-    "enhance": false,
+    "enhance": true,
     "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,
@@ -156,12 +156,7 @@
           "query": "chapter_id=1484&courseId=39&name='每日打卡'&type:3",
           "scene": null
         },
-        {
-          "name": "pages/component/pages/polyv-test/polyv-test",
-          "pathName": "pages/component/pages/polyv-test/polyv-test",
-          "query": "courseId=10",
-          "scene": null
-        },
+       
         {
           "name": "pages/component/pages/course-detail/course-detail",
           "pathName": "pages/component/pages/course-detail/course-detail",

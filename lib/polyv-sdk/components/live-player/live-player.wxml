@@ -9,17 +9,47 @@
       请刷新重试或向管理员反馈{{ errorCode }}
     </cover-view>
   </cover-view>
+  <!-- 连麦按钮 -->
+  <rtc-modal
+    status="{{rtcStatus}}"
+    visible="{{rtcVisible}}"
+    bind:rtcRequestConnect="onRtcRequestConnect"
+    bind:rtcCancelConnect="onRtcCancelConnect"
+    bind:rtcHangUp="onRtcHangUp"
+  ></rtc-modal>
+  <!-- rtc直播间 -->
+  <room 
+    id="plv-rtc-room-component"
+    tokenParams="{{tokenParams}}"
+    rtcMode="{{rtcMode}}"
+    teacherNameplateInfo="{{teacherNameplateInfo}}"
+    viewerNameplateInfo="{{viewerNameplateInfo}}"
+    rtcDirection="{{rtcDirection}}"
+    bind:publishStreamSuccess="onPublishStreamSuccess"
+    bind:disconnectRoom="onDisconnectRoom"
+  >
+    <image class="plv-rtc-room-component-bg" src="{{ teacherNameplateInfo.avatar }}"/>
+    <!-- <slot></slot> -->
+  </room>
   <!-- 直播播放 当forceVideo为true则强制使用video组件直播 -->
+      <!-- hidden="{{ rtcMode }}" -->
   <live-player
-    wx:if="{{ liveMode === 1 && !forceVideo }}"
+    wx:if="{{ liveMode === 1 && !forceVideo}}"
+    hidden="{{ rtcMode }}"
     class="plv-player-live__player plv-player-live__player__live"
     id="plvLivePlayer"
     src="{{ videoSrc }}"
     min-cache="1"
     max-cache="1"
-    autoplay="true"
+    autoplay="{{true}}"
+    object-fit="{{ objectFit !== 'contain' ? 'fillCrop' : objectFit }}"
     catchtap="showPlayControl"
-    bindstatechange="onStateChange">
+    picture-in-picture-mode="{{ pipMode }}"
+    bindstatechange="onStateChange"
+    auto-pause-if-navigate="{{autoPauseIfNavigate}}"
+    auto-pause-if-open-native="{{autoPauseIfOpenNative}}"
+    binderror="onLivePlayerError"
+  >
     <danmu wx:if="{{ danmuEnabled && closeDanmuEnable === 'N' && isDocTypeAndNotSwitch && allowDanmu }}" />
     <skin
       wx:if="{{ (showControl || skinAlwaysShow )&& usePlayerSkin }}"
@@ -37,7 +67,9 @@
       bind:changeScreen="changeScreen"
       bind:changeLine="changeLine"
       bind:updateDanmuEnabled="updateDanmuEnabled" />
+   <!-- <slot></slot> -->
   </live-player>
+
   <!-- 暂存|回放列表| 暖场视频 -->
   <video
     wx:elif="{{ liveMode === 2 || (liveMode !== 0 && forceVideo) }}"
@@ -47,17 +79,26 @@
     loop="{{ isWarm }}"
     controls="{{ liveMode === 2 }}"
     enable-danmu="{{ true }}"
-    autoplay
+    autoplay="{{ true }}"
+    object-fit="{{ objectFit }}"
+    picture-in-picture-mode="{{ pipMode }}"
     bindtap="showPlayControl"
     bindended="onLiveVodEnded"
     binderror="onLiveVodError"
-    bindtimeupdate="onLiveTimeUpdate"/>
+    bindtimeupdate="onLiveTimeUpdate"
+    auto-pause-if-navigate="{{autoPauseIfNavigate}}"
+    auto-pause-if-open-native="{{autoPauseIfOpenNative}}"
+  >
+    <!-- <slot></slot> -->
+  </video>
   <!-- 暖场图片 | 当前暂无直播 -->
-  <image
-    wx:else
-    src="{{ imgSrc }}"
-    class="plv-player-live__player plv-player-live__player__image"
-    mode="aspectFill"/>
+  <block wx:else>
+    <image
+      src="{{ imgSrc }}"
+      class="plv-player-live__player plv-player-live__player__image"
+      mode="aspectFill"/>
+    <!-- <slot></slot> -->
+  </block>
     <danmu wx:if="{{ liveMode !== 2 && forceVideo && danmuEnabled && closeDanmuEnable === 'N' && allowDanmu }}" />
     <skin
       wx:if="{{ usePlayerSkin && forceVideo && ((showControl && ((liveMode === 1) || liveMode === 2)) || skinAlwaysShow) }}"
@@ -75,4 +116,5 @@
       bind:changeLine="changeLine"
       bind:changeRate="changeRate"
       bind:updateDanmuEnabled="updateDanmuEnabled" />
+    <slot></slot>
 </view>

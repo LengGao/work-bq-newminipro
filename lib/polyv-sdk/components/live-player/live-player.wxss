@@ -1,1 +1,69 @@
-.plv-player-live{position:relative}.plv-player-live,.plv-player-live__player{width:100%;height:100%}.plv-player-live__player__tips{position:absolute;bottom:20rpx;left:10rpx;font-size:14px}.plv-player-live__canot__watch{position:absolute;z-index:99;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;box-sizing:border-box;color:#fff;background-color:#000}.plv-player-live__canot__watch .player-canot-watch__view{line-height:1.5}.plv-player-live__canot__watch .player-canot-watch__image{width:60px;height:60px;margin:0 auto}.plv-control-setting-playback{position:absolute;width:32px;height:32px;top:50%;transform:translateY(-50%);right:10px}
+@charset "UTF-8";
+.plv-player-live {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.plv-player-live__player {
+  width: 100%;
+  height: 100%;
+}
+
+.plv-player-live__player__tips {
+  position: absolute;
+  bottom: 20rpx;
+  left: 10rpx;
+  font-size: 14px;
+}
+
+.plv-player-live__player.true {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 100px;
+}
+
+/**
+限制观看报错面板
+ */
+.plv-player-live__canot__watch {
+  position: absolute;
+  z-index: 99;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  box-sizing: border-box;
+  color: #fff;
+  background-color: #000;
+}
+
+.plv-player-live__canot__watch .player-canot-watch__view {
+  line-height: 1.5;
+}
+
+.plv-player-live__canot__watch .player-canot-watch__image {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.plv-control-setting-playback {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+}
+
+.plv-rtc-room-component-bg {
+  position: absolute;
+  top: 0;
+  left: -25%;
+  width: 150%;
+  height: 100%;
+  background-image: linear-gradient(180deg, #000000 22%, #354C57 96%);
+  filter: blur(40px);
+}

@@ -1,0 +1,14 @@
+<view class="plv-mp-rtc" hidden="{{!visible}}">
+  <image class="plv-mp-rtc-icon" bind:tap="buttonTap" src="../../assets/images/rtc/{{status}}@2x.png"/>
+  <view class="plv-mp-rtc-modal" hidden="{{!dialogShow}}">
+    <view class="plv-mp-rtc-modal__window">
+      <image class="plv-mp-rtc-modal__img" src="../../assets/images/rtc/mask.png"/>
+      <view class="plv-mp-rtc-modal__text plv-mp-rtc-modal__title">提示</view>
+      <view class="plv-mp-rtc-modal__text plv-mp-rtc-modal__content">{{tips}}</view>
+      <view class="plv-mp-rtc-modal__btns">
+        <button class="plv-mp-rtc-button plv-mp-rtc-modal__btns--confirm" bind:tap="onConfim">{{confimBtn}}</button>
+        <button class="plv-mp-rtc-button plv-mp-rtc-modal__btns--cancel" bind:tap="onCancel">{{cancelBtn}}</button>
+      </view>
+    </view>
+  </view>
+</view>
