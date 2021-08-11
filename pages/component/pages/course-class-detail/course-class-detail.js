@@ -63,6 +63,16 @@ Page({
   },
   onShow: function () {},
   onHide: function () {},
+  // 记录播放班级视频
+  classroomVideoBehaviorRecord(){
+    app.encryption({
+      url: api.video.classroomVideoBehaviorRecord,
+      method: "GET",
+      data: {
+        classroom_video_lesson_id:this.currentPlayId
+      },
+    })
+  },
   // 获取视频章节列表
   getChapterList(classroom_id) {
     const data = {
@@ -281,6 +291,7 @@ Page({
     this.setData({
       playUrl,
     }, () => {
+      !isToggleQuality && this.classroomVideoBehaviorRecord()
       // 如果是切换画质就是设置当前时间
       setTimeout(() => {
         this.setPlaySeek(isToggleQuality ? currentTime : this.startTime)

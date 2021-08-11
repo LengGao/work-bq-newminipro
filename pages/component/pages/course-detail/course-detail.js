@@ -129,7 +129,6 @@ Page({
     currentRate: '1.0',
     videoPlaying: false,
     controlHidden: true,
-    currentTime: 0,
     isSwitchDefinition: false,
     currentVideoId: '',
     currentPoster: '',
@@ -156,7 +155,7 @@ Page({
   // 扫脸相关
   videoVerifyNode: [],
   nextVerifyTime: null,
-  tokenLoading: false,
+  prevVerifyTime: null,
   closeMaskVlaue: false,
   // 视频播放统计相关
   currentPlayTime: 0,
@@ -479,7 +478,17 @@ Page({
     })
     console.log('不会把')
   },
-
+  // 记录播放课程视频
+  courseVideoBehaviorRecord(){
+    app.encryption({
+      url: api.video.courseVideoBehaviorRecord,
+      method: "GET",
+      data: {
+        course_video_lesson_id:this.currentPlayId
+      },
+    })
+  },
+  // 获取课程视频目录
   getCourse() {
     let option = {
       course_id: this.data.courseId
@@ -555,14 +564,17 @@ Page({
       title: row.title
     });
     // 设置扫脸相关参数
-    this.videoVerifyNode = row.detect_time_point_data
+    this.videoVerifyNode = [...row.detect_time_point_data]
+    console.log( this.videoVerifyNode)
     this.setVerifyTime()
+
     this.setData({
       hideProgressMask: !!row.is_fast,
       currentDefinition: currentVideoResource[0].definitionFormat,
       currentResource: currentVideoResource[0].url,
       currentVideoResource
     }, () => {
+      this.courseVideoBehaviorRecord()
       setTimeout(() => {
         this.setPlaySeek(this.startTime)
       }, 20);
@@ -578,6 +590,7 @@ Page({
   setVerifyTime() {
     this.nextVerifyTime = this.videoVerifyNode.shift()
   },
+  // 获取扫脸结果
   getEidResult(token) {
     app.encryption({
       url: api.video.getEidResult,
@@ -589,14 +602,15 @@ Page({
         console.log(res)
         // 扫脸成功继续播放
         if (res.status === 2) {
+          this.prevVerifyTime = this.nextVerifyTime
           this.setVerifyTime()
           this.videoContext.play()
         }
       }
     })
   },
+  // 获取token去扫脸
   getEidToken(time_point) {
-    this.tokenLoading = true
     app.encryption({
       url: api.video.getEidToken,
       method: "get",
@@ -612,32 +626,18 @@ Page({
         }
         // 已验证
         if (res.status === 2) {
+          this.prevVerifyTime = time_point
           this.setVerifyTime()
           this.videoContext.play()
         }
-
-      },
-
-      complete: () => {
-        setTimeout(() => {
-          this.tokenLoading = false
-        }, 500);
       }
     })
   },
   openFace(token) {
     startEid({
-      data: {
-        token,
-      },
+      data: { token },
       verifyDoneCallback: (res) => {
-        const {
-          token,
-          verifyDone
-        } = res;
-        console.log('收到核身完成的res:', res);
-        console.log('核身的token是:', token);
-        console.log('是否完成核身:', verifyDone);
+        const { token } = res;
         this.getEidResult(token)
       },
     });
@@ -656,7 +656,7 @@ Page({
     // 到达验证时间去验证
     if (this.nextVerifyTime && currentTime >= this.nextVerifyTime) {
       this.videoContext.pause();
-      !this.tokenLoading && this.getEidToken(this.nextVerifyTime)
+      this.nextVerifyTime !== this.prevVerifyTime && this.getEidToken(this.nextVerifyTime)
     }
     // 记录当前播放时间
     this.currentPlayTime = currentTime
@@ -828,13 +828,6 @@ Page({
   },
   onShow: function () {},
   onHide: function () {},
-  onUnload: function () {
-    this.isHide = true;
-    wx.closeSocket();
-    clearInterval(this.repeated);
-    clearInterval(this.socketTime)
-    this.repeated = null
-  },
   onPullDownRefresh: function () {},
   onReachBottom: function () {},
   onShareAppMessage: function (res) {
@@ -1038,7 +1031,7 @@ Page({
       url,
       def
     } = dataset
-    const currentTime = this.data.currentTime
+    const currentTime = this.currentPlayTime
     this.setData({
       currentResource: url,
       currentDefinition: def,
