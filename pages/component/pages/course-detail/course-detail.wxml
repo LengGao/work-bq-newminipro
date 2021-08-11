@@ -2,7 +2,7 @@
     <!--first use player-->
     <video id="videoPlayer" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"
         autoplay bindplay='onPlay' bindpause='onPause' bindended='onPlayEnd' class="vod-video" bindtap="tapVideo"
-        bindtimeupdate="onTimeUpdate" bindfullscreenchange="fullScreen" poster="{{currentPoster}}"
+        bindtimeupdate="onTimeUpdate" bindfullscreenchange="fullScreen" 
          src="{{currentResource}}" >
         <cover-view class="video-control" hidden="{{controlHidden}}">
             <cover-view class="video-title">{{currentVideoTitle}}</cover-view>
@@ -201,7 +201,6 @@
             <view class="ratesMark">
                 <i-cell title="禁用点击和手势选择星">
                     <i-rate disabled="{{true}}" value="{{courseInfo.star}}">
-                        {{courseInfo.star}}
                     </i-rate>
                 </i-cell>
                 <view class="personals">{{courseInfo.studentNum  || 0 }}人在学</view>

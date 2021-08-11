@@ -773,26 +773,6 @@ Page({
       fail: function (t) {},
       complete: function () {}
     })
-  }, // onload
-  getProgrammePosters() {
-    let that = this
-    let option = {
-      courseId: this.data.courseId,
-      scene: 'video_id=' + this.data.courseId,
-      pages: 'pages/index/index'
-    }
-    app.encryption({
-      url: api.default.getProgrammePosters,
-      method: "GET",
-      data: option,
-      success: function (res) {
-        that.setData({
-          imgUrl: res.imgUrl
-        })
-      },
-      fail: function (t) {},
-      complete: function () {}
-    })
   },
   changes(e) {
     this.setData({
@@ -808,7 +788,6 @@ Page({
         info_show: user_info.info_show
       })
     }
-    clearInterval(this.timeOut);
     this.setData({
       courseId: option.courseId || this.data.courseId,
       video_collection_id: option.video_collection_id,
@@ -819,11 +798,9 @@ Page({
         this.data.isAndroid = true
       }
     } catch (e) {}
-    // this.webSocket()//开启socket
     this.getCourse() //获取课程目录
     this.coursedetail() //获取课程介绍
     this.getcomment() //获取课程评论
-    this.getProgrammePosters() //获取课程封面
 
   },
   onShow: function () {},
@@ -885,7 +862,6 @@ Page({
               that.getCourse() //获取课程目录
               that.coursedetail() //获取课程介绍
               that.getcomment() //获取课程评论
-              that.getProgrammePosters() //获取课程封面
             },
             fail: function (t) {
               console.log(t)
