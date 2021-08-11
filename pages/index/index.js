@@ -660,7 +660,7 @@ Page({
 
     wx.getSetting({
       withSubscriptions: true, // 是否同时获取用户订阅消息的订阅状态
-      success(res) {
+      success:(res)=> {
         console.log(res)
         const mainSwitch = res.subscriptionsSetting.mainSwitch // 订阅消息总开关
         const itemSettings = res.subscriptionsSetting.itemSettings // 每一项开关（类型：对象）
