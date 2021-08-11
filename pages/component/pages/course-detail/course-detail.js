@@ -15,17 +15,7 @@ var n = getApp(),
   s = require("../../../../api.js"),
   wxParse = require("../../../../wxParse/wxParse.js");
 require("../../../../utils/util.js");
-import {
-  getToken,
-  getVideoList,
-  getVideoById
-} from '../../../../commons/service/index.js'
-const serviceError = function (msg) {
-  wx.showToast({
-    title: msg || '获取数据出错',
-    icon: 'none'
-  })
-}
+
 let app = getApp();
 var api = require("../../../../api.js")
 import {
@@ -33,22 +23,7 @@ import {
 } from '../../../../mp_ecard_sdk/main';
 Page({
   data: {
-    class_type: '',
-    // videoOption : {
-    //     mode: 'vod',
-    //     vodVid:'879bbcba3973d9e27b430b5b406c0246_8',
-    //     // mode: 'live',
-    //     // uid: '879bbcba39', // 直播频道uid   userId
-    //     // cid: '1609134574258_8', // 直播频道channelId
-    //     // isAutoChange: true, // 自动切换直播和暂存。
-    //     // vodsrc: '', // 指定回放地址。有暂存视频的情况下，传入暂存视频的mp4或者m3u8。
-    //     // forceVideo: Boolean, // 是否强制使用video标签作为播放器，建议使用live-player
-    //     // statistic: { // 播放器自定义统计参数, 如需添加param4、param5参数，详情见下面init方法详解
-    //     //   param1: 'param1',
-    //     //   // param2: 'param2',
-    //     //   // param3: 'param3'
-    //     // }
-    //  },
+    course_type: '',
     uid: '',
     problem_course_id: '', //题库id
     info_show: '',
@@ -173,110 +148,24 @@ Page({
     isHide: false,
     courseId: '',
     class_video_id: '',
-    video_cellection_id: '',
-    chapterActiveIndex: '',
-    progress_min: 0,
     hideProgressMask: true,
+    currentPlayData: {},
+    activeChapterIndex: 0,
+    activeVideoIndex: 0
   },
+  // 扫脸相关
   videoVerifyNode: [],
   nextVerifyTime: null,
   tokenLoading: false,
   closeMaskVlaue: false,
-  getCourseVideoDetectInfo(video_class_id) {
-    app.encryption({
-      url: api.video.getCourseVideoDetectInfo,
-      method: "get",
-      data: {
-        video_class_id
-      },
-      success: (res) => {
-        console.log(111111, res)
-        this.setData({
-          hideProgressMask: !!res.progress_status
-        })
-        this.videoVerifyNode = []
-        this.nextVerifyTime = null
-        if (res.status === 2) {
-          this.videoVerifyNode = res.detect_time_point_data
-          this.setVerifyTime()
-        }
-      }
-    })
-  },
-  onMoveMask(){
-    wx.showToast({
-      title: '当前视频不支持快进',
-      icon:'none'
-    })
-  },
-  // 设置下次扫脸验证时间
-  setVerifyTime() {
-    this.nextVerifyTime = this.videoVerifyNode.shift()
-  },
-  getEidResult(token) {
-    app.encryption({
-      url: api.video.getEidResult,
-      method: "get",
-      data: {
-        token
-      },
-      success: (res) => {
-        console.log(res)
-        // 扫脸成功继续播放
-        if (res.status === 2) {
-          this.setVerifyTime()
-          this.videoContext.play()
-        }
-      }
-    })
-  },
-  getEidToken(time_point) {
-    this.tokenLoading = true
-    app.encryption({
-      url: api.video.getEidToken,
-      method: "get",
-      data: {
-        video_class_id: this.data.class_video_id,
-        time_point
-      },
-      success: (res) => {
-        console.log(res)
-        // 待验证
-        if (res.status === 1) {
-          this.openFace(res.token)
-        }
-        // 已验证
-        if (res.status === 2) {
-          this.setVerifyTime()
-          this.videoContext.play()
-        }
-       
-      },
+  // 视频播放统计相关
+  currentPlayTime: 0,
+  time: 1000 * 10,
+  timer: null,
+  startTime: 0,
+  currentTime: 0,
+  currentPlayId: "",
 
-      complete: () => {
-        setTimeout(() => {
-          this.tokenLoading = false
-        }, 500);
-      }
-    })
-  },
-  openFace(token) {
-    startEid({
-      data: {
-        token,
-      },
-      verifyDoneCallback: (res) => {
-        const {
-          token,
-          verifyDone
-        } = res;
-        console.log('收到核身完成的res:', res);
-        console.log('核身的token是:', token);
-        console.log('是否完成核身:', verifyDone);
-        this.getEidResult(token)
-      },
-    });
-  },
   sumbitComment() {
     if (this.data.value2 == '') {
       wx.showToast({
@@ -405,32 +294,32 @@ Page({
     console.log('点击了评价对话框')
     // 进度条遮罩会挡住评价，所以打开评价时关闭它
     this.closeMaskVlaue = this.data.hideProgressMask
-    if(!this.closeMaskVlaue){
+    if (!this.closeMaskVlaue) {
       this.setData({
         visible2: true,
-        hideProgressMask:true
+        hideProgressMask: true
       });
-    }else{
+    } else {
       this.setData({
         visible2: true,
       });
     }
-    
+
   },
   handleClose2() {
-    if(!this.closeMaskVlaue){
+    if (!this.closeMaskVlaue) {
       this.setData({
         visible2: false,
         value2: '',
-        hideProgressMask:false
+        hideProgressMask: false
       });
-    }else{
+    } else {
       this.setData({
         visible2: false,
         value2: ''
       });
     }
-    
+
   },
   select_team: function (t) {
     this.setData({
@@ -571,151 +460,7 @@ Page({
       url: `../chapter/chapter?courseId=${id}`
     })
   },
-  listen: function (t) {
-    console.log(t)
-    let that = this
-    let option = {
-      course_id: parseInt(t.courseId),
-      live_id: 0,
-      video_collection_id: t.video_collection_id
-    }
-    console.log(option)
-    app.encryption({
-      url: api.video.getlastplayinfo,
-      method: "GET",
-      data: option,
-      success: function (res) {
-        console.log(res)
-        console.log(res.is_fast)
-        wx.setNavigationBarTitle({
-          title: res.video_class_name
-        });
 
-        that.setData({
-          learnTime: res.data.listen_time,
-          progress_min: res.data.listen_time,
-          lessonId: res.listen_id,
-          class_video_id: res.video_class_id
-        })
-        that.playVideo(res.data.play_info, res.data.listen_time)
-        that.getCourseVideoDetectInfo(res.video_class_id)
-      },
-      fail: function (t) {},
-      complete: function () {}
-    })
-  },
-  //获取题库id
-  getALLData() {
-    let that = this
-    let courseId = this.data.courseId
-    let option = {
-      course_id: courseId
-    }
-    app.encryption({
-      url: api.test.getAllData,
-      method: "GET",
-      data: option,
-      success: function (res) {
-
-        console.log(res)
-
-
-        that.setData({
-          problem_course_id: res.info.problem_course_id, //以此ID获取习题模式        
-        })
-
-      },
-      fail: function (t) {},
-      complete: function () {
-        // wx.hideLoading()
-      }
-    })
-  },
-  play(listen_id, listen_time) {
-    let that = this
-    // that.setData({
-    //   lessonId: listen_id,
-    //   learnTime:listen_time
-    // })
-    let option = {
-      listen_id: listen_id
-    }
-    console.log(option)
-    app.encryption({
-      url: api.video.play,
-      method: "GET",
-      data: option,
-      success: function (res) {
-        const video_class_id = res.video_class_id
-        that.setData({
-          video_mid: res.video_mid,
-        })
-        if (res.free == 1 && res.buy == 1) { //免费或者已购买
-          that.setData({
-            isPay: true,
-            lessonId: listen_id,
-            learnTime: 0,
-            class_video_id: listen_id
-          })
-
-        } else {
-          that.setData({
-            isPay: false
-          })
-          wx.showToast({
-            title: '该视频尚未免费开放',
-            icon: 'none',
-            duration: 2000
-          })
-          return
-        }
-        wx.setNavigationBarTitle({
-          title: res.video_class_name
-        });
-        that.setChapterActive()
-        let option = {
-          video_id: res.media.mediaId
-        }
-        app.encryption({
-          url: api.video.getvideoinfo,
-          method: "GET",
-          data: option,
-          success: function (res) {
-            that.playVideo(res, listen_time)
-            that.getCourseVideoDetectInfo(video_class_id)
-          }
-        })
-      },
-      fail: function (t) {},
-      complete: function () {}
-    })
-    this.coursedetail()
-  },
-  playVideo(data, listen_time) {
-    console.log(22222222, data)
-    clearInterval(this.repeated);
-    clearInterval(this.socketTime)
-    this.repeated = null
-    this.SocketTask && this.SocketTask.close();
-    this.webSocket()
-    this.isHide = false
-    this.data.videoPlaying = false
-    let currentPoster = data.VideoBase.CoverURL
-    let currentResource = data.PlayInfoList.PlayInfo[0].PlayURL
-    let currentVideoTitle = data.VideoBase.Title
-    let currentVideoResource = data.PlayInfoList.PlayInfo.map(item => {
-      item.definitionFormat = this.computedDef(item.Definition)
-      return item
-    })
-    console.log(currentVideoResource)
-    this.setData({
-      currentPoster,
-      currentVideoTitle,
-      currentResource,
-      currentVideoResource,
-      currentDefinition: currentVideoResource[0].definitionFormat
-    })
-  },
   //小于10的格式化函数（2变成02）
   timeFormat(param) {
     return param < 10 ? '0' + param : param;
@@ -723,15 +468,6 @@ Page({
   //小于0的格式化函数（不会出现负数）
   timeFormin(param) {
     return param < 0 ? 0 : param;
-  },
-  //是否显示详细目录
-  ifShow(e) {
-    let index = e.currentTarget.dataset.index;
-    let d = this.data;
-    d.chapter[index].isShow = !d.chapter[index].isShow;
-    this.setData({
-      chapter: d.chapter
-    })
   },
   toCourseDetail(e) {
     let course_id = e.currentTarget.dataset.course_id
@@ -744,157 +480,279 @@ Page({
     console.log('不会把')
   },
 
-  webSocket() {
-    let that = this
-    let uid = wx.getStorageSync("user_info").uid
-    let course_id = this.data.courseId
-    let tokens = wx.getStorageSync("user_info").token
-    let listen_time = this.data.currentTime
-    let video_cellection_id = that.data.video_collection_id
-    let class_video_id = that.data.class_video_id
-
-    // 创建Socket
-    that.SocketTask = wx.connectSocket({
-      // url: 'wss://api.beiqujy.com/wss',
-      url: api.default.sockForCount + `?token=${tokens}&students_user_id=${uid}&count_type=1&from=1&listen_time=${listen_time}&class_video_id=${class_video_id}&course_id=${course_id}&video_cellection_id=${video_cellection_id}`,
-      header: {
-        'content-type': 'application/json'
-      },
-      method: 'get',
-      success: function (res) {
-        console.log('WebSocket连接创建', res)
-      },
-      fail: function (err) {
-        console.log('网络异常');
-        wx.showToast({
-          title: '网络异常！',
-        })
-        console.log(err)
-      },
-    })
-    // 监听webSocket错误
-    that.SocketTask.onError(res => {
-      console.log('监听到 WebSocket 打开错误，请检查！')
-      that.SocketTask.close();
-    })
-    // 监听WebSocket关闭
-    that.SocketTask.onClose(res => {
-      console.log('监听到 WebSocket 已关闭！')
-      console.log(res)
-      that.reconnect();
-    })
-    // websocket打开
-    that.SocketTask.onOpen(res => {
-      console.log('监听到 WebSocket 连接已打开！')
-      this.intervalSendData()
-    })
-    // 收到websocket消息
-    that.SocketTask.onMessage(res => {
-      console.log('监听到 接收消息！' + ':' + res.data)
-      // this.socketMessage(JSON.parse(res.data));
-    })
-  },
-  // 播放器暂停
-  playPaused() {
-    clearInterval(this.repeated)
-    this.data.videoplaying = false
-    this.isHide && this.sendData()
-  },
-  // 播放
-  handleVideoPlay() {
-    // 开启定时器 发送数据
-    this.intervalSendData()
-  },
-  // 定时发送数据
-  intervalSendData() {
-    clearInterval(this.repeated)
-    this.repeated = setInterval(() => {
-      this.sendData()
-    }, 10000)
-  },
-  // 发送数据
-  sendData() {
-    const listen_time = this.data.currentTime
-    const progress_min = this.data.progress_min
-    const progress_max = this.data.currentTime
-    const tokens = wx.getStorageSync("user_info").token
-    const courseId = this.data.courseId
-    const uid = wx.getStorageSync("user_info").uid
-    const video_cellection_id = this.data.video_collection_id
-    const class_video_id = this.data.class_video_id
-    console.log(progress_max)
-    const sendData = `{"progress_min":${progress_min},"progress_max":${progress_max},"course_id":"${courseId}","token":"${tokens}","students_user_id":${uid},"count_type":1,"from":1,"listen_time":${listen_time},"video_cellection_id":${video_cellection_id},"class_video_id":${class_video_id}}`;
-    this.socketSend(sendData);
-    this.setData({
-      progress_min: progress_max
-    })
-  },
-  reconnect() {
-    let that = this
-    clearInterval(that.repeated)
-    if (!this.isHide) {
-      console.log('重连');
-      clearTimeout(this.socketTime);
-      this.socketTime = setTimeout(() => {
-        that.webSocket();
-      }, 5000)
-    }
-  },
-  socketSend(data, fn) {
-    if (this.SocketTask.readyState == 1) {
-      this.SocketTask.send({
-        data: data
-      })
-      fn && fn();
-    } else {
-      this.SocketTask.close();
-      // wx.showToast({
-      //   title: "网络连接失败,请检查网络",
-      //   icon: "none"
-      // });
-    }
-  },
   getCourse() {
-    let that = this
     let option = {
-      courseId: this.data.courseId
+      course_id: this.data.courseId
     }
     app.encryption({
-      url: api.default.chapterList,
+      url: api.default.getCourseVideoDirectory,
       method: "GET",
       data: option,
-      success: function (res) {
-        console.log(res)
-
-        if (res.class_type) {
-          var arr = []
-          let data = res
-          // delete data.class_type;
-          for (let i in data) {
-            console.log(i)
-            if (i == 'class_type') {} else {
-              arr.push(data[i])
-            }
+      success: (res) => {
+        console.log(1111, res)
+        const lastCid = res.last_data.chapter_id;
+        const lastVid = res.last_data.lesson_id;
+        let activeChapterIndex = 0
+        let activeVideoIndex = 0
+        res.list.forEach((item, index) => {
+          if (item.id === lastCid) {
+            activeChapterIndex = index;
+            item.lesson_list.forEach((child, cIndex) => {
+              if (child.id === lastVid) {
+                activeVideoIndex = cIndex;
+              }
+            });
           }
-          // arr.push(data)
-          console.log(arr)
-          // let arr = Array.from(data)
-          console.log(arr);
-          console.log(res.class_type);
-          that.setData({
-            chapter: arr,
-            class_type: res.class_type
-          })
-
-        } else {
-          that.setData({
-            chapter: res
-          })
-        }
+        });
+        const currentPlayData = res.list[activeChapterIndex].lesson_list[activeVideoIndex]
+        this.setData({
+          chapterList: res.list.map((item, index) => ({
+            ...item,
+            isShow: index === activeChapterIndex,
+          })),
+          currentPlayData,
+          activeChapterIndex,
+          activeVideoIndex,
+          course_type:res.course_type
+        })
+        this.setPlayUrl(currentPlayData)
       },
       fail: function (t) {},
       complete: () => {}
     })
+  },
+  // 设置播放的URL
+  setPlayUrl(row) {
+    console.log(111111, row)
+    const currentVideoResource = []
+    if (row.ld_play_url) {
+      currentVideoResource.push({
+        definitionFormat: '标清',
+        url: row.ld_play_url
+      })
+    }
+    if (row.sd_play_url) {
+      currentVideoResource.push({
+        definitionFormat: '高清',
+        url: row.sd_play_url
+      })
+    }
+    if (row.hd_play_url) {
+      currentVideoResource.push({
+        definitionFormat: '超清',
+        url: row.hd_play_url
+      })
+    }
+    if (row.od_play_url) {
+      currentVideoResource.push({
+        definitionFormat: '原画',
+        url: row.od_play_url
+      })
+    }
+    this.startTime = +row.last_second
+    this.currentPlayId = row.id
+    wx.setNavigationBarTitle({
+      title: row.title
+    });
+    // 设置扫脸相关参数
+    this.videoVerifyNode = row.detect_time_point_data
+    this.setVerifyTime()
+    this.setData({
+      hideProgressMask: !!row.is_fast,
+      currentDefinition: currentVideoResource[0].definitionFormat,
+      currentResource: currentVideoResource[0].url,
+      currentVideoResource
+    }, () => {
+      setTimeout(() => {
+        this.setPlaySeek(this.startTime)
+      }, 20);
+    })
+  },
+  onMoveMask() {
+    wx.showToast({
+      title: '当前视频不支持快进',
+      icon: 'none'
+    })
+  },
+  // 设置下次扫脸验证时间
+  setVerifyTime() {
+    this.nextVerifyTime = this.videoVerifyNode.shift()
+  },
+  getEidResult(token) {
+    app.encryption({
+      url: api.video.getEidResult,
+      method: "get",
+      data: {
+        token
+      },
+      success: (res) => {
+        console.log(res)
+        // 扫脸成功继续播放
+        if (res.status === 2) {
+          this.setVerifyTime()
+          this.videoContext.play()
+        }
+      }
+    })
+  },
+  getEidToken(time_point) {
+    this.tokenLoading = true
+    app.encryption({
+      url: api.video.getEidToken,
+      method: "get",
+      data: {
+        course_video_lesson_id: this.currentPlayId,
+        time_point
+      },
+      success: (res) => {
+        console.log(res)
+        // 待验证
+        if (res.status === 1) {
+          this.openFace(res.token)
+        }
+        // 已验证
+        if (res.status === 2) {
+          this.setVerifyTime()
+          this.videoContext.play()
+        }
+
+      },
+
+      complete: () => {
+        setTimeout(() => {
+          this.tokenLoading = false
+        }, 500);
+      }
+    })
+  },
+  openFace(token) {
+    startEid({
+      data: {
+        token,
+      },
+      verifyDoneCallback: (res) => {
+        const {
+          token,
+          verifyDone
+        } = res;
+        console.log('收到核身完成的res:', res);
+        console.log('核身的token是:', token);
+        console.log('是否完成核身:', verifyDone);
+        this.getEidResult(token)
+      },
+    });
+  },
+  // 设置播放位置
+  setPlaySeek(value) {
+    this.videoContext.seek(value)
+  },
+  // 监听播放位置变化
+  onTimeUpdate(e) {
+    let {currentTime} = e.detail
+    this.data.videoplaying = true
+    if (this.data.videoplaying && this.data.currentRate != 1.0) {
+      this.videoContext.playbackRate(Number(this.data.currentRate))
+    }
+    // 到达验证时间去验证
+    if (this.nextVerifyTime && currentTime >= this.nextVerifyTime) {
+      this.videoContext.pause();
+      !this.tokenLoading && this.getEidToken(this.nextVerifyTime)
+    }
+    // 记录当前播放时间
+    this.currentPlayTime = currentTime
+  },
+  // 开始播放
+  onPlay() {
+    this.intervalSend()
+  },
+  // 暂停播放
+  onPause() {
+    this.stopSend()
+  },
+  // 播放结束
+  onPlayEnd() {
+    this.stopSend()
+    this.startTime = 0
+  },
+  // 离开页面
+  onUnload() {
+    this.stopSend()
+  },
+  // 停止发送
+  stopSend() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+      this.sendData();
+      // 停止的时候修改当前播放的这条的last_second
+      this.data.chapterList[this.data.activeChapterIndex].lesson_list[
+        this.data.activeVideoIndex
+      ].last_second = this.currentPlayTime;
+      this.setData({
+        chapterList: this.data.chapterList
+      })
+    }
+  },
+  // 间隔发送
+  intervalSend() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    this.timer = setInterval(() => {
+      this.sendData();
+    }, this.time);
+  },
+  // 发送数据
+  sendData() {
+    this.currentTime = this.currentPlayTime;
+    const data = {
+      start: this.startTime,
+      end: this.currentTime,
+      course_video_lesson_id: this.currentPlayId,
+    };
+    const times = this.currentTime - this.startTime;
+    // 时间差必须小于当前发送间隔时间的2.2倍且大于0，才视为有效数据
+    if (times <= (this.time / 1000) * 2.2 && times > 0) {
+      console.log(data)
+      this.courseVideoRecord(data);
+    }
+    this.startTime = this.currentTime;
+  },
+  // 统计接口
+  courseVideoRecord(data) {
+    app.encryption({
+      url: api.video.courseVideoRecord,
+      method: "GET",
+      data,
+      success: (res) => {
+        // console.log(res)
+      }
+    });
+  },
+  // 章节展开
+  handleChapterClick(e) {
+    const index = e.currentTarget.dataset.index;
+    this.data.chapterList[index].isShow = !this.data.chapterList[index].isShow
+    this.setData({
+      chapterList: this.data.chapterList
+    })
+  },
+  // 视频切换
+  handleVideoToggle(e) {
+    this.stopSend()
+    const index = e.currentTarget.dataset.index;
+    const vIndex = e.currentTarget.dataset.vindex;
+    const currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
+    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
+      return false
+    }
+    this.setData({
+      currentPlayData,
+      activeChapterIndex: index,
+      activeVideoIndex: vIndex,
+    })
+    this.setPlayUrl(currentPlayData)
   },
   getcomment() {
     let that = this
@@ -955,7 +813,6 @@ Page({
       courseId: option.courseId || this.data.courseId,
       video_collection_id: option.video_collection_id,
     });
-    this.listen(option) //获取播放信息
     try {
       const res = wx.getSystemInfoSync()
       if (res.system.toLowerCase().indexOf('android') > -1) {
@@ -997,74 +854,9 @@ Page({
       }
     };
   },
-  canPlay: function () {
-    var t = this;
-    wx.hideLoading(), t.setData({
-      can_play: 1
-    });
-  },
-  endPlay: function (t) {
-    var e = this;
-    wx.showToast({
-      title: "播放结束"
-    }), e.stopAudio();
-  },
-  onPalyAudio: function () {
-    this.setData({
-      audioPlayStatus: 1
-    });
-  },
-  onPauseAudio: function () {
-    this.setData({
-      audioPlayStatus: 0
-    });
-  },
-  onStopAudio: function () {
-    this.setData({
-      audioPlayStatus: 0
-    });
-  },
-  pauseAudio: function () {
-    var t = this;
-    a.pause(), t.setData({
-      audioPlayStatus: 0
-    });
-  },
-  playAudio: function () {
-    var t = this;
-    a.play(), a.src || (a.src = t.data.video.chapter[t.data.current_chapter].video_url),
-      0 == t.data.can_play && wx.showLoading({
-        title: "缓冲中"
-      });
-  },
-  stopAudio: function () {
-    var t = this;
-    a.stop(), t.setData({
-      audioPlayStatus: 0
-    });
-  },
-  select_date: function (t) {
-    console.log(t)
-    wx.closeSocket();
-    this.isHide = true;
-    this.play(t.currentTarget.dataset.key)
-  },
-  // 根据播放的id设置选中的章节
-  setChapterActive() {
-    let index = ''
-    this.data.chapter.forEach((v, i) => {
-      if (v.child && v.child.length) {
-        v.child.forEach((child) => {
-          if (child.LessonId === this.data.lessonId) {
-            index = i
-          }
-        })
-      }
-    })
-    this.setData({
-      chapterActiveIndex: index
-    });
-  },
+ 
+  
+  
   buyVideo: function () {
     var that = this,
       e = this.data.video;
@@ -1194,33 +986,7 @@ Page({
       };
   },
   // 阿里云
-  // 视频缓冲触发事件
-  videoWaiting() {
- 
-  },
-  computedDef(definition) {
-    let def = {
-      FD: "流畅",
-      LD: "标清",
-      SD: "高清 ",
-      OD: "原画",
-      "2K": "2K",
-      "4K": "4K",
-    }
-    return def[definition]
-  },
-  videoPlayHandle(e) {
-    console.log('videoPlayHandle')
-    this.data.videoPlaying = true
-   
-    this.videoContext.playbackRate(Number(this.data.currentRate))
-    if (this.data.isSwitchDefinition) {
-      console.log('seek')
-      this.videoContext.seek(this.data.currentTime)
-      this.data.isSwitchDefinition = false
-    }
 
-  },
   closeControl() {
     this.setData({
       multiListShow: false,
@@ -1258,7 +1024,7 @@ Page({
       rateShow: false
     })
   },
-  onControlsToggle(e){
+  onControlsToggle(e) {
     this.setData({
       controlHidden: !e.detail.show
     })
@@ -1272,33 +1038,17 @@ Page({
       url,
       def
     } = dataset
-    const currentTime =  this.data.currentTime
+    const currentTime = this.data.currentTime
     this.setData({
       currentResource: url,
       currentDefinition: def,
       multiListShow: false,
-    },()=>{
-        this.videoContext.seek(currentTime)
+    }, () => {
+      this.videoContext.seek(currentTime)
     })
   },
   onReady() {
     this.videoContext = wx.createVideoContext('videoPlayer')
-  },
-  // 进度改变执行
-  timeUpdate(e) {
-    let {
-      currentTime
-    } = e.detail
-    this.data.currentTime = currentTime
-    this.data.videoplaying = true
-    if (this.data.videoplaying && this.data.currentRate != 1.0) {
-      this.videoContext.playbackRate(Number(this.data.currentRate))
-    }
-    // 到达验证时间去验证
-    if (this.nextVerifyTime && currentTime >= this.nextVerifyTime) {
-      this.videoContext.pause();
-      !this.tokenLoading && this.getEidToken(this.nextVerifyTime)
-    }
   },
 
   fullScreen(e) {
@@ -1310,16 +1060,11 @@ Page({
     let fullScreenData = ""
     if (fullScreen) {
       fullScreenData = " full-screen " + direction
-    
+
     }
-    console.log({
-      fullScreen,
-      direction
-    })
     this.setData({
       fullScreenData
     })
-    console.log(this.data.fullScreenData)
   },
 
 });

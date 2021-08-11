@@ -43,7 +43,7 @@ Page({
     activeSpeedValue: '1.0',
     isShowQuality: false,
     activeQualityValue: '',
-    currentPlayData: [],
+    currentPlayData: {},
     toggleQuality: false,
     activeChapterIndex: 0,
     activeVideoIndex: 0

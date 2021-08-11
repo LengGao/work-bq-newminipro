@@ -30,7 +30,7 @@ let apiurl = {
     hostcourse: bq + '/course/hostcourse',
     freecourse: bq + '/course/freecourse',
 
-    chapterList: bq + '/course/chapterList',
+    getCourseVideoDirectory: bq + '/CourseVideo/getCourseVideoDirectory',
     getMyCourse: bq + '/course/getMyCourse',
     getCourse: bq + '/Course/getCourse',
     getSubject: bq + '/course/getSubject',
@@ -166,10 +166,11 @@ let apiurl = {
     getlastplayinfo: bq + '/video/getlastplayinfo',
     getClassroomVideoDirectory: bq + '/Homepage/getClassroomVideoDirectory',
     classroomVideoRecord: bq + '/VideoStatistics/classroomVideoRecord',
-    getEidToken: bq + '/FaceDetect/getEidToken',
+    getEidToken: bq + '/CourseVideo/getEidToken',
     getCourseVideoDetectInfo: bq + '/FaceDetect/getCourseVideoDetectInfo',
-    getEidResult: bq + '/FaceDetect/getEidResult',
+    getEidResult: bq + '/CourseVideo/getEidResult',
     courseWatchStatusForDetect: bq + '/FaceDetect/courseWatchStatusForDetect',
+    courseVideoRecord: bq + '/VideoStatistics/courseVideoRecord',
   },
   order: {
     video_kaituan: bq + "createpintuan",

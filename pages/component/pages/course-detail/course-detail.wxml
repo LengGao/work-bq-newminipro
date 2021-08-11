@@ -1,10 +1,9 @@
 <view class="video-box">
     <!--first use player-->
-    <!-- <player  videoOption="{{ videoOption }}"></player> -->
-    <!-- bindplay="videoPlayHand" -->
-    <video id="videoPlayer" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"  autoplay bindplay="handleVideoPlay" class="vod-video" bindtap="tapVideo" 
-        bindpause="playPaused"  bindtimeupdate="timeUpdate" bindfullscreenchange="fullScreen"
-        poster="{{currentPoster}}" initial-time="{{learnTime}}" src="{{currentResource}}" bindwaiting="videoWaiting">
+    <video id="videoPlayer" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"
+        autoplay bindplay='onPlay' bindpause='onPause' bindended='onPlayEnd' class="vod-video" bindtap="tapVideo"
+        bindtimeupdate="onTimeUpdate" bindfullscreenchange="fullScreen" poster="{{currentPoster}}"
+         src="{{currentResource}}" >
         <cover-view class="video-control" hidden="{{controlHidden}}">
             <cover-view class="video-title">{{currentVideoTitle}}</cover-view>
             <cover-view class="multi" capture-catch:tap="switchResource">
@@ -16,8 +15,8 @@
         </cover-view>
         <cover-view class="multi-list{{multiListShow ? ' active': ''}}{{fullScreenData}}">
             <cover-view class="multi-item{{ item.definitionFormat === currentDefinition ? ' active ' : ' ' }}"
-                wx:for="{{currentVideoResource}}" wx:key="index" bindtap="switchDefinition" data-url="{{item.PlayURL}}"
-                data-def="{{item.definitionFormat}}" wx:key="Definition">
+                wx:for="{{currentVideoResource}}" wx:key="index" bindtap="switchDefinition" data-url="{{item.url}}"
+                data-def="{{item.definitionFormat}}" >
                 {{item.definitionFormat}}
             </cover-view>
             <cover-view class="close-btn-wrap" hidden="{{fullScreenData === ''}}">
@@ -34,7 +33,7 @@
                 <cover-view class="close-btn" bindtap="closeControl">x</cover-view>
             </cover-view>
         </cover-view>
-        <cover-view class="video-control-mask" bindtouchmove="onMoveMask"  hidden="{{hideProgressMask}}"></cover-view>
+        <cover-view class="video-control-mask" bindtouchmove="onMoveMask" hidden="{{hideProgressMask}}"></cover-view>
     </video>
     <view class="middle-box" hidden="{{isPay}}">
         <view class="inner-box">
@@ -75,26 +74,31 @@
 </view>
 <!-- 目录 -->
 <view class="catalogue fix-out-box {{tabArr.curBdIndex=='0'?'tactive':''}}">
-    <block wx:key="index" wx:for="{{chapter}}" wx:key="index" wx:if='{{!class_type}}'>
-        <view class="cata-title {{chapterActiveIndex === index?'chapter-active':''}}" bindtap="ifShow" data-index="{{index}}">
-            {{item.title}}
+    <block wx:key="index" wx:for="{{chapterList}}" wx:key="index" wx:if='{{course_type == 1}}'>
+        <view class="cata-title {{activeChapterIndex === index?'chapter-active':''}}" bindtap="handleChapterClick"
+            data-index="{{index}}">
+            {{item.chapter_name}}
             <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png"
                 class="{{ item.isShow ? 'transf' : '' }}"></image>
         </view>
         <view class="cata-list" wx:if="{{item.isShow}}">
-            <view bindtap="select_date"
-                class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}"
-                data-key="{{vitem.LessonId}}" wx:for="{{item.child}}" wx:for-item="vitem" wx:key="index">
-                <!-- <image class="cata-icon icon01" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog.png"></image>
-                <image class="cata-icon icon02" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-catalog2.png"></image> -->
+            <view 
+                class="cata-item flex-st {{vIndex === activeVideoIndex && activeChapterIndex === index?'selected com_color':''}}"
+                wx:for="{{item.lesson_list}}"
+             wx:for-index="vIndex"
+             wx:for-item="vItem"
+             data-index="{{index}}" 
+             data-vindex="{{vIndex}}"
+             wx:key="vIndex"
+               catchtap="handleVideoToggle" >
                 <view class="cata-content twoline">
-                    <text class="cata-name twoline {{ vitem.hasVisit == 0 ?'':'hasvision'}}"> • {{vitem.lessonName}}</text>
-                    <text class="cata-time" wx:if="{{ vitem.isFree }}">免费</text>
+                    <text class="cata-name twoline {{ vItem.last_second > 0 ?'hasvision':''}}"> • {{vItem.title}}</text>
+                    <text class="cata-time" wx:if="{{ vItem.is_free }}">免费</text>
                 </view>
             </view>
         </view>
     </block>
-    <block wx:key="index" wx:for="{{chapter}}" wx:key="index" wx:if='{{class_type}}'>
+    <block wx:key="index" wx:for="{{chapterList}}" wx:key="index" wx:if='{{course_type == 2}}'>
         <view class="cata-title" bindtap="toCourseDetail" data-video_collection_id='{{ item.video_collection_id }}'
             data-index="{{index}}" data-course_id="{{item.course_id}}">
             {{item.course_name}}
