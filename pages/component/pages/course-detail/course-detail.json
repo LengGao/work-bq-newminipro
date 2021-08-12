@@ -3,6 +3,7 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "课程介绍",
     "navigationBarTextStyle": "black",
+    "disableScroll":true,
     "usingComponents": {
         "i-rate": "../../../../utils/iview/rate/index",
         "i-modal": "../../../../utils/iview/modal/index",
