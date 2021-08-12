@@ -470,11 +470,8 @@ Page({
   },
   toCourseDetail(e) {
     let course_id = e.currentTarget.dataset.course_id
-    let video_collection_id = e.currentTarget.dataset.video_collection_id
-    // console.log(course_id)
-    // console.log(e.currentTarget)
     wx.navigateTo({
-      url: `../course-detail/course-detail?courseId=${course_id}&video_collection_id=${video_collection_id}`
+      url: `../course-detail/course-detail?courseId=${course_id}`
     })
     console.log('不会把')
   },
@@ -576,6 +573,7 @@ Page({
     }, () => {
       this.courseVideoBehaviorRecord()
       setTimeout(() => {
+        console.log(this.startTime )
         this.setPlaySeek(this.startTime)
       }, 20);
     })
@@ -781,6 +779,7 @@ Page({
   },
   onLoad: function (option = {}) {
     console.log(option)
+    this.videoContext = wx.createVideoContext('videoPlayer')
     let user_info = wx.getStorageSync("user_info");
     if (user_info) {
       this.setData({
@@ -790,14 +789,7 @@ Page({
     }
     this.setData({
       courseId: option.courseId || this.data.courseId,
-      video_collection_id: option.video_collection_id,
     });
-    try {
-      const res = wx.getSystemInfoSync()
-      if (res.system.toLowerCase().indexOf('android') > -1) {
-        this.data.isAndroid = true
-      }
-    } catch (e) {}
     this.getCourse() //获取课程目录
     this.coursedetail() //获取课程介绍
     this.getcomment() //获取课程评论
@@ -814,7 +806,7 @@ Page({
     // t.shareSuccess();
     return {
       title: t.data.video.title,
-      path: "pages/component/pages/course-detail/course-detail?courseId=" + this.data.courseId + "&video_collection_id=" + this.data.video_collection_id,
+      path: "pages/component/pages/course-detail/course-detail?courseId=" + this.data.courseId ,
       // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
       success: function (t) {
         console.log("转发成功", t);
@@ -1017,7 +1009,7 @@ Page({
     })
   },
   onReady() {
-    this.videoContext = wx.createVideoContext('videoPlayer')
+  
   },
 
   fullScreen(e) {

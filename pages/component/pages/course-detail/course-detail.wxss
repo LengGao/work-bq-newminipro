@@ -42,44 +42,16 @@
 }
 
 .tab-title {
-    /* height: 201rpx; */
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
     background: #fff;
     padding: 30rpx 30rpx;
-    box-sizing: border-box;
-
 }
-
-.tab-container {
-    display: flex;
-    flex-direction: column;
-    /* height: 100%; */
-    justify-content: space-around;
-}
-
-.share-buttons {
-    display: flex;
-    flex-direction: column;
-}
-
-.share-buttons>image {
-    width: 40rpx;
-    height: 40rpx;
-}
-.share-buttons>text {
-    font-size: 26rpx;
-    font-family: 'PingFang SC';
-    font-weight: 500;
-    color: rgba(153, 153, 153, 1);
-}
-.tab-container-title {
+.course-title {
     font-size: 36rpx;
-    font-family: PingFang SC;
-    font-weight: 500; 
     color: #333333;
-    /* margin-top: 11rpx; */
+    overflow: hidden;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .ratesMark {
@@ -724,17 +696,6 @@ button{
     background: #bf8c00;
 }
 
-.share-btn {
-    display: block;
-    width: 80rpx;
-    height: 80rpx;
-    position: fixed;
-    right: 24rpx;
-    bottom: 160rpx;
-    z-index: 50;
-    border-radius: 100%;
-    box-shadow: 0px 2px 6px 0px rgba(119, 187, 255, 0.4);
-}
 
 .price-menu {
     display: flex;
@@ -794,7 +755,7 @@ button{
     position: fixed;
     left: 0;
     top: 516rpx;
-    bottom: 92rpx;
+    bottom: 0;
     overflow-y: auto;
 }
 
@@ -1677,4 +1638,23 @@ button{
     left: 13%;
     right: 13%;
     z-index: 1;
+}
+.flex-sb{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flex-sb .actions{
+    display: flex;
+    align-items: center;
+}
+.flex-sb .actions button{
+    display: flex;
+    flex-direction: column;
+    padding: 0 12rpx;
+    margin-left: 20rpx;
+    background-color: #fff;
+}
+.flex-sb .actions button text{
+line-height: 1;
 }
