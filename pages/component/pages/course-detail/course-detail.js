@@ -519,8 +519,26 @@ Page({
           currentPlayData,
           activeChapterIndex,
           activeVideoIndex,
-          course_type:res.course_type
+          course_type:res.course_type,
+          isPay:true
         })
+        if (currentPlayData.can_watch == 0) {
+          wx.showToast({
+            title: '该课时暂未免费开放',
+            icon:'none'
+          })
+          this.setData({
+            isPay:false
+          })
+          return;
+        }
+        if(!this.urlValidate(currentPlayData)){
+          wx.showToast({
+            title: '视频资源已失效',
+            icon:'none'
+          })
+          return
+        }
         this.setPlayUrl(currentPlayData)
       },
       fail: function (t) {},
@@ -736,15 +754,43 @@ Page({
       chapterList: this.data.chapterList
     })
   },
+  urlValidate(row) {
+    return !!(
+      row.sd_play_url ||
+      row.ld_play_url ||
+      row.od_play_url ||
+      row.hd_play_url
+    );
+  },
   // 视频切换
   handleVideoToggle(e) {
-    this.stopSend()
     const index = e.currentTarget.dataset.index;
     const vIndex = e.currentTarget.dataset.vindex;
     const currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
-    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
-      return false
+    this.setData({
+      isPay:true
+    })
+    if (currentPlayData.can_watch == 0) {
+      wx.showToast({
+        title: '该课时暂未免费开放',
+        icon:'none'
+      })
+      this.setData({
+        isPay:false
+      })
+      return;
     }
+    if(!this.urlValidate(currentPlayData)){
+      wx.showToast({
+        title: '视频资源已失效',
+        icon:'none'
+      })
+      return
+    }
+    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
+      return 
+    }
+    this.stopSend()
     this.setData({
       currentPlayData,
       activeChapterIndex: index,

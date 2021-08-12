@@ -73,6 +73,14 @@ Page({
       },
     })
   },
+  urlValidate(row) {
+    return !!(
+      row.sd_play_url ||
+      row.ld_play_url ||
+      row.od_play_url ||
+      row.hd_play_url
+    );
+  },
   // 获取视频章节列表
   getChapterList(classroom_id) {
     const data = {
@@ -107,6 +115,13 @@ Page({
           activeChapterIndex,
           activeVideoIndex
         })
+        if(!this.urlValidate(currentPlayData)){
+          wx.showToast({
+            title: '视频资源已失效',
+            icon:'none'
+          })
+          return
+        }
         this.setQualityArr(currentPlayData)
         this.setPlayUrl(currentPlayData)
         this.openVideoControl()
@@ -207,13 +222,20 @@ Page({
   },
   // 视频切换
   handleVideoToggle(e) {
-    this.stopSend()
     const index = e.currentTarget.dataset.index;
     const vIndex = e.currentTarget.dataset.vindex;
     const currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
-    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
-      return false
+    if(!this.urlValidate(currentPlayData)){
+      wx.showToast({
+        title: '视频资源已失效',
+        icon:'none'
+      })
+      return
     }
+    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
+      return 
+    }
+    this.stopSend()
     this.setData({
       currentPlayData,
       activeChapterIndex: index,
