@@ -36,20 +36,6 @@
     </video>
     <view class="middle-box" hidden="{{isPay}}">
         <view class="inner-box">
-            <view class='countdown-contant' wx:if="{{ false }}">
-                <!-- <view class='name_right'> -->
-                <view class="countdown-titles">距离活动结束:</view>
-                <view>
-                    <text class="countdown-title">{{day}}天</text>
-                    <text style="color:#fff;padding:0 3rpx ">:</text>
-                    <text class="countdown-title">{{hou}}</text>
-                    <text style="color:#fff;padding:0 3rpx">:</text>
-                    <text class="countdown-title">{{min}}</text>
-                    <text style="color:#fff;padding: 0 3rpx">:</text>
-                    <text class="countdown-title">{{sec}}</text>
-                </view>
-                <!-- </view> -->
-            </view>
             <image mode='widthFix' src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/countdown.jpg"
                 class="countdown-image" wx:if="{{ false }}" />
             <view class="psy-tips">
@@ -62,13 +48,13 @@
 <!-- 新增 -->
 <view bindtap="tabFun" class="price-menu">
     <view class="menu-item {{tabArr.curHdIndex==2?'priceactive com_color com_after':''}}" data-id="2" id="tab-hd03">
-        课程介绍
+        介绍
     </view>
     <view class="menu-item {{tabArr.curHdIndex==0?'priceactive com_color com_after':''}}" data-id="0" id="tab-hd02">
-        课程目录
+        目录
     </view>
     <view class="menu-item {{tabArr.curHdIndex==3?'priceactive com_color com_after':''}}" data-id="3" id="tab-hd04">
-        学生评价
+        评价
     </view>
 </view>
 <!-- 目录 -->
@@ -98,83 +84,9 @@
             {{item.course_name}}
             <!-- <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/right_tips.png" class="{{ item.isShow ? 'transf' : '' }}"></image> -->
         </view>
-        <!-- <view class="cata-list" wx:if="{{item.isShow}}">
-            <view bindtap="select_date" class="cata-item flex-st {{lessonId == vitem.LessonId ?'selected com_color':''}}" data-key="{{vitem.LessonId}}" wx:for="{{item.child}}" wx:for-item="vitem" wx:key="index"> 
-                <view class="cata-content twoline">
-                    <text class="cata-name twoline {{ vitem.hasVisit == 0 ?'':'hasvision'}}">    • {{vitem.lessonName}}</text>
-                    <text class="cata-time" wx:if="{{ vitem.isFree }}">免费</text>
-                </view>
-            </view>
-        </view> -->
     </block>
 </view>
-<view class="fix-out-box {{tabArr.curBdIndex=='1'?'tactive':''}}">
-    <view class="ping-tuan">
-        <view class="selled-nmu flex-st">
-            <text>已销售</text>
-            <text class="stress">{{video.virtual_sellnum}}件</text>
-        </view>
-        <block wx:if="{{(video.is_pay==1||video.is_pay=='1')&&creatteam.length>0}}">
-            <view class="activity-box">
-                <view class="act-head flex-st">
-                    <text class="line0"></text>
-                    <text>拼团购买，团队人数越多，价格越优惠</text>
-                </view>
-                <view class="wripper-box flex-be">
-                    <view class="item00 flex-st">
-                        <view class="count-title">距离拼购结束还有</view>
-                        <view class="countdown">
-                            <text class="dady">{{formatTime.dd}}天</text>
-                            <text class="colon">:</text>
-                            <text class="time">{{formatTime.hh}}</text>
-                            <text class="colon">:</text>
-                            <text class="time">{{formatTime.mm}}</text>
-                            <text class="colon">:</text>
-                            <text class="time">{{formatTime.ss}}</text>
-                        </view>
-                    </view>
-                    <view class="r-wripper flex-column-center" wx:if="{{detail_id==0}}">
-                        <button bindtap="showteam">去参团</button>
-                    </view>
-                    <view class="r-wripper flex-column-center" wx:else>
-                        <button bindtap="sharePartner">邀请好友</button>
-                    </view>
-                </view>
-            </view>
-            <navigator class="pintuan-rule" hoverClass="none" url="#">
-                <view class="rule-head flex-be">
-                    <view class="act-head flex-st">
-                        <text class="line0"></text>
-                        <text>拼购玩法</text>
-                    </view>
-                    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-rule.png">
-                    </image>
-                </view>
-                <view class="process0 flex-ce">
-                    <view class="prce-text">
-                        <text>1</text>
-                        <text>开团/参团</text>
-                    </view>
-                    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-rule.png">
-                    </image>
-                    <view class="prce-text">
-                        <text>2</text>
-                        <text>邀请好友</text>
-                    </view>
-                    <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-rule.png">
-                    </image>
-                    <view class="prce-text">
-                        <text>3</text>
-                        <text>满员发货</text>
-                    </view>
-                </view>
-                <view class="refund">
-                    <text>不满自动退款</text>
-                </view>
-            </navigator>
-        </block>
-    </view>
-</view>
+
 <import src="../../../../wxParse/wxParse.wxml"></import>
 <view class="fix-out-box {{tabArr.curBdIndex=='2'?'tactive':''}}">
     <view class="tab-title">
@@ -289,99 +201,7 @@
         </view>
     </view>
 </view>
-<view class="pop-masks-other" hidden="{{flag2}}">
-    <view class="other-sum-pop">
-        <view class="other-sum-title">输入密码</view>
-        <input bindinput="getPassword" type="text" value="{{video_password}}"></input>
-        <view class="other-btn">
-            <text bindtap="hidepop2">取消</text>
-            <text bindtap="submitpassword">确定</text>
-        </view>
-    </view>
-</view>
-<view class="pop-masks-other" hidden="{{buypop}}">
-    <view class="pop-of-buy">
-        <image class="bgpic" mode="widthFix"
-            src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/icon-video-title.png"></image>
-        <view bindtap="ownbuyclose" class="close-buy">
-            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/close-pop-icon.png">
-            </image>
-        </view>
-        <view class="tips-text">
-            <text>此视频为付费视频</text>
-            <text>单独购买需支付{{video.present_price}}元</text>
-            <text>开通VIP自由畅享全站视频</text>
-        </view>
-        <view class="buy-pop-btn flex-ce">
-            <button bindtap="buyVideo" class="subbtn btn01" hoverClass="none">单独购买</button>
-            <navigator class="subbtn btn02" hoverClass="none" url="../buy-vip/buy-vip">
-                开通VIP
-            </navigator>
-        </view>
-    </view>
-</view>
-<view class="pop-masks-other" hidden="{{teamx}}">
-    <view class="teams-pop">
-        <view class="ct-head">选择参团规模</view>
-        <view bindtap="hideteam" class="close-ct">
-            <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/closepopicon.png"></image>
-        </view>
-        <view class="teams-box">
-            <view bindtap="select_team" class="ct-menu {{state1==index?'selected':''}}" data-key="{{index}}"
-                wx:for="{{team}}" wx:key="index">
-                <text class="ct001">{{item.person_num}}人</text>
-            </view>
-        </view>
-        <scroll-view scrollY class="scroll02" data-key="{{index}}" hidden="{{state1!=index}}" wx:for="{{team}}"
-            wx:key="index">
-            <view class="pintuan-team flex-be" wx:for="{{item.ptdetail}}" wx:for-item="jitem" wx:key="index">
-                <view class="left-info flex-st">
-                    <view class="team-member">
-                        <view class="mem-pic">
-                            <image mode="widthFix" src="{{jitem.avatar_url}}"></image>
-                        </view>
-                        <view class="mem-pic">
-                            <image mode="widthFix"
-                                src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/pintuan-avatar.png"></image>
-                        </view>
-                    </view>
-                    <view class="cantuan-staus flex-column-center">
-                        <text>
-                            还差
-                            <text class="num0">{{jitem.need_num-jitem.join_num}}</text>
-                            人成团
-                        </text>
-                        <text class="re-time">剩余{{countDown}}</text>
-                    </view>
-                </view>
-                <navigator class="join-team" hoverClass="none"
-                    url="../pingou-detail/pingou-detail?detail_id={{jitem.id}}">
-                    去参团
-                </navigator>
-            </view>
-        </scroll-view>
-    </view>
-</view>
-<view class="pop-masks-other" hidden="{{teampop}}">
-    <view class="found-team">
-        <view class="teams-pop" style="position: static">
-            <view class="ct-head">选择开团规模</view>
-            <view bindtap="hidefund" class="close-ct">
-                <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/closepopicon.png">
-                </image>
-            </view>
-        </view>
-        <scroll-view scrollY class="fd-scroll">
-            <view class="team-outer">
-                <view bindtap="fundTeam" class="teamnum {{statete==index?'foundteam':''}}" data-id="{{item.id}}"
-                    data-key="{{index}}" wx:for="{{creatteam}}" wx:key="index">
-                    <text>{{item.person_num}}人团（￥{{item.price}}）</text>
-                </view>
-            </view>
-        </scroll-view>
-        <button bindtap="kaituan" class="choose-team" hoverClass="none">确定</button>
-    </view>
-</view>
+
 <!-- 评论弹窗 -->
 <i-modal visible="{{ visible2 }}" bind:ok="handleClose2" bind:cancel="handleClose2">
     <!-- <i-icon type="close" size="28" color="#80848f" /> -->
@@ -409,41 +229,4 @@
         <image class="closing" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/closeing.png" />
     </view>
 </i-modal>
-<!-- <view class="footer-bar flex-st">
-    <button class="function-list flex-be" openType="contact" style="background:#fff;line-height:36rpx">
-        <view class="flex-column">
-            <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/kefuanniu.png" mode="widthFix"
-                style="width:40rpx;height:40rpx" />
-            <text class="serviceMan">客服</text>
-        </view>
-    </button>
-    <button class="function-list flex-be" open-type="share" style="background:#fff;line-height:36rpx">
-        <view class="flex-column">
-            <image src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/fenxianganniu.png" mode="widthFix"
-                style="width:40rpx;height:40rpx" />
-            <text class="serviceMan">分享</text>
-        </view>
-    </button>
-    <button  style="background:#fff;line-height:32rpx">
-            <view class="share-buttons">
-                <image class="" mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/fenxianganniu.png" />
-                <text class="serviceMan"></text>
-            </view>
-        </button>
-    <view class="flex-column">
-        <i-icon type="collection" color="#666666" size='20' />
-        <text class="serviceMan">收藏</text>
-    </view>
-    <view class="flex-center">
-        <view class="freeText" bindtap="goPri">免费题库</view>
-        <view class="immiWatch" bindtap="buyVideo" wx:if="{{ !isPay }}">立即观看</view>
-        <view class="immiWatch" wx:else>已开放</view>
-    </view>
-</view> -->
-<i-action-sheet visible="{{ visible3 }}" actions="{{ actions3 }}" show-cancel bind:cancel="handleCancel3"
-    bind:click="handleClickItem3" mask-closable="{{ false }}">
-    <view slot="header" style="padding: 16px">
-        <view style="color: #444;font-size: 16px" bindtap='sureSomething'>确定吗？</view>
-        <text>删除后无法恢复哦</text>
-    </view>
-</i-action-sheet>
+

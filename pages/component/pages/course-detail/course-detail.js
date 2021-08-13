@@ -1,21 +1,7 @@
-function t(t, e, a) {
-  return e in t ? Object.defineProperty(t, e, {
-    value: a,
-    enumerable: !0,
-    configurable: !0,
-    writable: !0
-  }) : t[e] = a, t;
-}
-var e, a, o, i = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (t) {
-  return typeof t;
-} : function (t) {
-  return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t;
-};
-var n = getApp(),
-  s = require("../../../../api.js"),
-  wxParse = require("../../../../wxParse/wxParse.js");
-require("../../../../utils/util.js");
 
+
+var wxParse = require("../../../../wxParse/wxParse.js");
+require("../../../../utils/util.js");
 let app = getApp();
 var api = require("../../../../api.js")
 import {
@@ -25,18 +11,12 @@ Page({
   data: {
     course_type: '',
     uid: '',
-    problem_course_id: '', //题库id
     info_show: '',
-    isIOS: n.globalData.isIOS,
-    currentTab: 0,
-    endTime: '2020-4-20 19:56:00', //2018/11/22 10:40:30这种格式也行
     visible2: false,
-
     tabArr: {
       curHdIndex: 2,
       curBdIndex: 2
     },
-
     chooseOrNot: -1,
     starIndex2: 0,
     starIndextext: '请选择星级',
@@ -83,46 +63,8 @@ Page({
         chooseOrNot: '-1'
       }
     ],
-    personal: '2000',
-    starIndex4: 4.2,
-    state1: 0,
-    flag2: !0,
-    buypop: !0,
-    teamx: !0,
-    teampop: !0,
-    show_modal: !1,
-    countDownList: [],
-    actEndTimeList: [],
-    video_password: "",
-    play_time: 0,
-    trywatch_status: 0,
-    is_trywatch: 0,
-    video_source_list: [],
-    current_chapter: 0,
     urls: ["https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/mall-goods002.jpg", "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/mall-goods001.jpg"],
-    kaituan_id: "",
-    collectIcon: "https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/ic-like000.png",
-    audio_context: "",
-    is_audio: 0,
-    pintuan_time: 0,
-    audioPlayStatus: 0,
-    can_play: 0,
-    detail_id: 0,
-    listen_time: 0,
-    // 新
     comment_list: [],
-    p: 1,
-    video: {},
-    lessonId: '',
-    learnTime: 0,
-    // 阿里云
-    page: 1,
-    size: 5,
-    userInfo: null,
-    videoList: [],
-    total: 0,
-    loading: false,
-    loadAll: false,
     currentResource: '',
     multiListShow: false,
     rateShow: false,
@@ -130,23 +72,14 @@ Page({
     videoPlaying: false,
     controlHidden: true,
     isSwitchDefinition: false,
-    currentVideoId: '',
-    currentPoster: '',
-    currentVideoTitle: '',
     currentVideoResource: [],
     currentDefinition: '',
-    isAndroid: false,
     fullScreenData: "",
     value2: '',
     startNum: '1',
     tag: '',
     isPay: true,
-    SocketTask: null,
-    testWorker: null,
-    repeated: null,
-    isHide: false,
     courseId: '',
-    class_video_id: '',
     hideProgressMask: true,
     currentPlayData: {},
     activeChapterIndex: 0,
@@ -208,9 +141,6 @@ Page({
       fail: function (t) {},
       complete: function () {}
     })
-  },
-  sureSomething() {
-    console.log('123')
   },
   chooseTips(e) {
     console.log(e.currentTarget.dataset.index)
@@ -318,54 +248,8 @@ Page({
         value2: ''
       });
     }
-
   },
-  select_team: function (t) {
-    this.setData({
-      state1: t.currentTarget.dataset.key
-    });
-  },
-  fundTeam: function (t) {
-    this.setData({
-      kaituan_id: t.currentTarget.dataset.id,
-      statete: t.currentTarget.dataset.key
-    });
-  },
-  showpop2: function () {
-    this.setData({
-      flag2: !1
-    });
-  },
-  hidepop2: function () {
-    this.setData({
-      flag2: !0
-    });
-  },
-  showteam: function () {
-    this.setData({
-      teamx: !1
-    });
-  },
-  hideteam: function () {
-    this.setData({
-      teamx: !0
-    });
-  },
-  hidefund: function () {
-    this.setData({
-      teampop: !0
-    });
-  },
-  ownbuy: function () {
-    this.setData({
-      buypop: !1
-    });
-  },
-  ownbuyclose: function () {
-    this.setData({
-      buypop: !0
-    });
-  },
+ 
   tabFun: function (t) {
     var e = t.target.dataset.id;
     console.log("----" + e + "----");
@@ -375,20 +259,7 @@ Page({
         tabArr: a
       });
   },
-  showGallery: function (e) {
-    var a, o = e.currentTarget.dataset.current,
-      i = this.data.urls;
-    $wuxGallery.show((a = {
-      current: o,
-      urls: i
-    }, t(a, "delete", function (t, e) {
-      return e.splice(t, 1), this.setData({
-        urls: e
-      }), !0;
-    }), t(a, "cancel", function () {
-      return console.log("Close gallery");
-    }), a));
-  },
+  
   previewImage: function (t) {
     var e = t.currentTarget.dataset.current;
     this.data.urls;
@@ -396,45 +267,12 @@ Page({
       urls: [e]
     });
   },
-  countDown: function () {
-    var that = this;
-    var nowTime = new Date().getTime(); //现在时间（时间戳）
-    var endTime = new Date(that.data.endTime).getTime(); //结束时间（时间戳）
-    var time = (endTime - nowTime) / 1000; //距离结束的毫秒数
-    // 获取天、时、分、秒
-    let day = parseInt(time / (60 * 60 * 24));
-    let hou = parseInt(time % (60 * 60 * 24) / 3600);
-    let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
-    let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
-    // console.log(day + "," + hou + "," + min + "," + sec)
-    day = that.timeFormin(day),
-      hou = that.timeFormin(hou),
-      min = that.timeFormin(min),
-      sec = that.timeFormin(sec)
-    that.setData({
-      day: that.timeFormat(day),
-      hou: that.timeFormat(hou),
-      min: that.timeFormat(min),
-      sec: that.timeFormat(sec)
-    })
-    // 每1000ms刷新一次
-    if (time > 0) {
-      that.setData({
-        countDown: true
-      })
-      setTimeout(this.countDown, 1000);
-    } else {
-      that.setData({
-        countDown: false
-      })
-    }
-  },
+
   coursedetail() {
     let that = this
     let option = {
       course_id: this.data.courseId
     }
-    console.log(option)
     app.encryption({
       url: api.default.coursedetail,
       method: "GET",
@@ -452,28 +290,11 @@ Page({
       complete: function () {}
     })
   },
-  goPri() {
-    let id = this.data.problem_course_id
-    console.log(id)
-    wx.navigateTo({
-      url: `../chapter/chapter?courseId=${id}`
-    })
-  },
-
-  //小于10的格式化函数（2变成02）
-  timeFormat(param) {
-    return param < 10 ? '0' + param : param;
-  },
-  //小于0的格式化函数（不会出现负数）
-  timeFormin(param) {
-    return param < 0 ? 0 : param;
-  },
   toCourseDetail(e) {
     let course_id = e.currentTarget.dataset.course_id
     wx.navigateTo({
       url: `../course-detail/course-detail?courseId=${course_id}`
     })
-    console.log('不会把')
   },
   // 记录播放课程视频
   courseVideoBehaviorRecord(){
@@ -841,17 +662,14 @@ Page({
     this.getcomment() //获取课程评论
 
   },
+  onReady() {},
   onShow: function () {},
   onHide: function () {},
   onPullDownRefresh: function () {},
   onReachBottom: function () {},
   onShareAppMessage: function (res) {
-    console.log(res)
-    var t = this,
-      e = wx.getStorageSync("user_info");
-    // t.shareSuccess();
     return {
-      title: t.data.video.title,
+      title: this.data.currentPlayData.title,
       path: "pages/component/pages/course-detail/course-detail?courseId=" + this.data.courseId ,
       // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
       success: function (t) {
@@ -862,138 +680,6 @@ Page({
       }
     };
   },
- 
-  
-  
-  buyVideo: function () {
-    var that = this,
-      e = this.data.video;
-    let d = this.data;
-    (wx.showLoading({
-        title: "提交中"
-      }),
-      app.encryption({
-        url: api.default.wxauth,
-        method: "POST",
-        data: {
-          course_id: that.data.courseId,
-          shouldbe_price: that.data.courseInfo.onlinePrice,
-          amount: that.data.courseInfo.originPrice
-        },
-        success: function (e) {
-          console.log(e.wx_pay_data)
-          let a = e.wx_pay_data
-          wx.requestPayment({
-            appId: a.appid,
-            timeStamp: a.timeStamp,
-            nonceStr: a.nonce_str,
-            package: a.prepay_id,
-            signType: a.signType,
-            paySign: a.paySign,
-            success: function (e) {
-              console.log(e)
-
-              wx.showToast({
-                title: "订单支付成功",
-                icon: "success"
-              })
-              that.getCourse() //获取课程目录
-              that.coursedetail() //获取课程介绍
-              that.getcomment() //获取课程评论
-            },
-            fail: function (t) {
-              console.log(t)
-              wx.showToast({
-                title: "订单未支付",
-                icon: 'none'
-              });
-            }
-          });
-          // 0 == e.code ? 
-          // n.request({
-          //   url: s.order.get_pay_data,
-          //   method: "POST",
-          //   data: {
-          //     orderId: e.data.orderId,
-          //     openid: wx.getStorageSync('openid')
-          //   },
-          //   success: function (e) {
-          //     console.log(e);
-          //     if (wx.hideLoading(), 0 == e.code) {
-          //       var a = e.data;
-
-          //     } else wx.showModal({
-          //       title: "提示",
-          //       content: e.msg,
-          //       showCancel: !1
-          //     });
-          //   },
-          //   complete() {
-          //     wx.hideLoading();
-          //   }
-          // })
-          //  : wx.showModal({
-          //   title: "警告",
-          //   content: e.msg,
-          //   showCancel: !1
-          // });
-        },
-        complete() {
-          wx.hideLoading();
-        }
-      }));
-  },
-  shareSuccess: function () {
-    var t = this;
-    n.request({
-      url: s.video.share_success,
-      method: "POST",
-      data: {
-        video_id: t.data.video_id
-      },
-      success: function (t) {
-        0 == t.errcode || wx.showModal({
-          title: "警告",
-          content: t.msg,
-          showCancel: !1
-        });
-      }
-    });
-  },
-  sharePartner: function () {
-    wx.navigateTo({
-      url: "../pingou-detail/pingou-detail?detail_id=" + this.data.detail_id
-    });
-  },
-  setCountDown: function () {
-    var t = this,
-      e = t.data.pintuan_time;
-    if ((e -= 1) > 0) {
-      var a = t.getFormat(e),
-        i = a.dd + "天" + a.hh + ":" + a.mm + ":" + a.ss;
-      t.setData({
-        pintuan_time: e,
-        formatTime: a,
-        countDown: i
-      }), o = setTimeout(t.setCountDown, 1e3);
-    }
-  },
-  getFormat: function (t) {
-    var e = parseInt(t),
-      a = 0,
-      o = 0,
-      i = 0;
-    return e > 60 && (a = parseInt(e / 60), e = parseInt(e % 60), a > 60 && (o = parseInt(a / 60),
-        a = parseInt(a % 60), o > 24 && (i = parseInt(o / 24), o = parseInt(o % 24)))),
-      e = e > 9 ? e : "0" + e, a = a > 9 ? a : "0" + a, o = o > 9 ? o : "0" + o, i = i > 9 ? i : "0" + i, {
-        ss: e,
-        mm: a,
-        hh: o,
-        dd: i
-      };
-  },
-  // 阿里云
-
   closeControl() {
     this.setData({
       multiListShow: false,
@@ -1039,7 +725,6 @@ Page({
   // 超清高清标清
   switchDefinition(e) {
     this.data.isSwitchDefinition = true
-
     let dataset = e.currentTarget.dataset
     let {
       url,
@@ -1054,10 +739,7 @@ Page({
       this.videoContext.seek(currentTime)
     })
   },
-  onReady() {
-  
-  },
-
+ 
   fullScreen(e) {
     let {
       fullScreen,
@@ -1067,7 +749,6 @@ Page({
     let fullScreenData = ""
     if (fullScreen) {
       fullScreenData = " full-screen " + direction
-
     }
     this.setData({
       fullScreenData
