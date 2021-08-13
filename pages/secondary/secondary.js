@@ -267,57 +267,6 @@ Page({
       }
     })
   },
-  getMycourse() {
-    let that = this
-    app.encryption({
-      url: api.default.ad,
-      method: "GET",
-      success: function (res) {
-        console.log(res)
-        that.banner(res[0].adGroupId)
-        // if (res.data == undefined) {
-        //   that.setData({
-        //     myCourse: res,
-        //     nomyCourse:true
-        //   })
-        // } else {
-        //   that.setData({
-        //     nomyCourse: false
-        //   })
-        // }
-      },
-      fail: function (t) {},
-      complete: function () {
-
-      }
-    })
-  },
-  banner(adGroupId) {
-    let that = this
-    let option = {
-      adGroupId: adGroupId
-    }
-    app.encryption({
-      url: api.default.banner,
-      method: "POST",
-      data: option,
-      success: function (res) {
-        console.log(res)
-        // if (res.data == undefined) {
-        //   that.setData({
-        //     myCourse: res,
-        //     nomyCourse:true
-        //   })
-        // } else {
-        //   that.setData({
-        //     nomyCourse: false
-        //   })
-        // }
-      },
-      fail: function (t) {},
-      complete: function () {}
-    })
-  },
   menu() {
     let that = this
     app.encryption({
@@ -356,7 +305,6 @@ Page({
     this.hotpoint();
     this.freeCourse();
     this.menu();
-    this.getMycourse()
   },
   onReady: function () {},
   onShow: function () {},
