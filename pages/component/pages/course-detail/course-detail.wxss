@@ -1043,26 +1043,27 @@ button{
 .catalogue {
     background: #fff;
     box-sizing: border-box;
+    padding: 0 30rpx;
 }
 .catalogue .cata-title {
     min-height: 100rpx;
     display: flex;
-    padding-right: 39rpx;
-    padding-left: 30rpx;
+    /* padding-right: 39rpx; */
+    /* padding-left: 30rpx; */
     justify-content: space-between;
     align-items: center;
     padding-right: 20rpx;
-    background: rgba(245, 245, 245, 1);
+    /* background: rgba(245, 245, 245, 1); */
     font-size: 28rpx;
     font-family: PingFang SC;
     font-weight: bold;
     color: rgba(102, 102, 102, 1);
+    border-bottom: 1px dashed #eee;
 
 }
 
 .cata-item {
     align-items: center;
-    /* width: 36rpx; */
 }
 
 .cata-icon {
@@ -1092,6 +1093,7 @@ button{
 .cata-content {
     flex: 1;
     border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
     padding: 22rpx 30rpx;
     display: flex;
     justify-content: space-between;

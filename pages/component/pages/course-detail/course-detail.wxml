@@ -1,6 +1,6 @@
 <view class="video-box">
     <!--first use player-->
-    <video id="videoPlayer" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"
+    <video id="videoPlayer" initial-time="{{initTime}}" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"
         autoplay bindplay='onPlay' bindpause='onPause' bindended='onPlayEnd' class="vod-video" bindtap="tapVideo"
         bindtimeupdate="onTimeUpdate" bindfullscreenchange="fullScreen" src="{{currentResource}}">
         <cover-view class="video-control" hidden="{{controlHidden}}">
@@ -48,13 +48,13 @@
 <!-- 新增 -->
 <view bindtap="tabFun" class="price-menu">
     <view class="menu-item {{tabArr.curHdIndex==2?'priceactive com_color com_after':''}}" data-id="2" id="tab-hd03">
-        介绍
+        简 介
     </view>
     <view class="menu-item {{tabArr.curHdIndex==0?'priceactive com_color com_after':''}}" data-id="0" id="tab-hd02">
-        目录
+        目 录
     </view>
     <view class="menu-item {{tabArr.curHdIndex==3?'priceactive com_color com_after':''}}" data-id="3" id="tab-hd04">
-        评价
+        评 价
     </view>
 </view>
 <!-- 目录 -->
