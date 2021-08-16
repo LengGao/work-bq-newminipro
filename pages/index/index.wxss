@@ -496,7 +496,19 @@ width: 100%;
     font-weight: 500;
     color: #478C01;
 }
-
+.myCourse-face{
+    height: 30rpx;
+    display: inline-block;
+    line-height: 25rpx;
+    padding: 3rpx 14rpx 3rpx 14rpx;
+    margin-left: 10rpx;
+    background: #ff976a48;
+    border-radius: 4rpx;
+    font-size: 20rpx;
+    font-family: 'PingFang SC';
+    font-weight: 500;
+    color: #ff976a;
+}
 .myCourse-content-title {
     width: 100%;
     font-size: 30rpx;
@@ -678,6 +690,19 @@ width: 100%;
 }
 .live-btn:active{
     opacity: 0.7;
+}
+.buy-satatus{
+    font-size: 24rpx;
+    color: #fff;
+    padding: 4rpx 14rpx;
+    border-radius: 10rpx;
+}
+.buy-satatus.buy-satatus--success{
+    background: #07c160;
+
+}
+.buy-satatus.buy-satatus--warning{
+    background: #ff976a;
 }
 .video-number{
     color: #a3a3a3;

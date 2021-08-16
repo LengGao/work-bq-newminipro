@@ -80,7 +80,7 @@ Page({
     noACtion: 0,
     myCourse: [],
     optionsGo: 'toliveclass',
-    nomyCourse: true,
+    nomyCourse: false,
     noliving: false,
     images: {},
     allData: {},

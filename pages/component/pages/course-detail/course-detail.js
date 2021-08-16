@@ -527,6 +527,7 @@ Page({
   onPlayEnd() {
     this.stopSend()
     this.startTime = 0
+    this.setPlaySeek(0)
   },
   // 离开页面
   onUnload() {

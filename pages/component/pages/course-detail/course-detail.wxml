@@ -9,7 +9,7 @@
                 {{currentDefinition}}
             </cover-view>
             <cover-view class="multi rate" capture-catch:tap="showSwitchRate" hidden="{{!hideProgressMask}}">
-                x {{currentRate}}
+                {{currentRate}} x
             </cover-view>
         </cover-view>
         <cover-view class="multi-list{{multiListShow ? ' active': ''}}{{fullScreenData}}">
@@ -23,10 +23,10 @@
             </cover-view>
         </cover-view>
         <cover-view class="multi-list rate{{rateShow ? ' active': ''}}{{fullScreenData}}">
-            <cover-view wx:for="{{['0.5', '0.8', '1.0', '1.25', '1.5']}}" wx:key="item"
+            <cover-view wx:for="{{['0.5', '0.8', '1.0', '1.25', '1.5','2.0']}}" wx:key="item"
                 class="multi-item rate{{ item === currentRate ? ' active' : '' }}" data-rate="{{item}}"
                 bindtap="switchRate">
-                {{item}}
+                {{item}} x
             </cover-view>
             <cover-view class="close-btn-wrap" hidden="{{fullScreenData === ''}}">
                 <cover-view class="close-btn" bindtap="closeControl">x</cover-view>
@@ -71,9 +71,11 @@
                 class="cata-item flex-st {{vIndex === activeVideoIndex && activeChapterIndex === index?'selected com_color':''}}"
                 wx:for="{{item.lesson_list}}" wx:for-index="vIndex" wx:for-item="vItem" data-index="{{index}}"
                 data-vindex="{{vIndex}}" wx:key="vIndex" catchtap="handleVideoToggle">
-                <view class="cata-content twoline">
-                    <text class="cata-name twoline {{ vItem.last_second > 0 ?'hasvision':''}}"> • {{vItem.title}}</text>
-                    <text class="cata-time" wx:if="{{ vItem.is_free }}">免费</text>
+                <view class="cata-content twoline {{ vItem.last_second > 0 ?'hasvision':''}}">
+                    <text class="cata-name twoline "> • {{vItem.title}}</text>
+                    <text class="cata-free" wx:if="{{ vItem.is_free }}">免费</text>
+                    <text class="cata-face" wx:if="{{ vItem.detect_time_point_data.length }}">实名</text>
+                    <text class="cata-time">{{vItem.duration}}</text>
                 </view>
             </view>
         </view>

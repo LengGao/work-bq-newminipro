@@ -134,9 +134,9 @@
         <view class="myCourse-info">
             <view class="myCourse-content-title">{{ myCourse.course_name}}</view>
             <view class="myCourse-content-cneter">
-                <text class="myCourse-name" style="display:none">会计</text>
                 <text class="myCourse-time">{{myCourse.lesson_count }}课时</text>
                 <text class="myCourse-times">{{myCourse.user_count}}人已学习</text>
+                <text class="myCourse-face" wx:if="{{myCourse.is_detect}}">实名</text>
             </view>
             <view class="myCourse-info-bottom">
                 <view class="personal-infor">
@@ -147,6 +147,7 @@
                     </view>
                     <text class="personal-name">{{ myCourse.teacher_name }}</text>
                 </view>
+                <view class="buy-satatus buy-satatus--{{myCourse.is_buy === 1?'success':'warning'}}">{{myCourse.is_buy === 1?'已报读':'未报读'}}</view>
             </view>
         </view>
     </view>

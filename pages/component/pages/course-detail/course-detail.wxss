@@ -487,6 +487,9 @@ color: #999999;
     z-index: 999;
     box-sizing: border-box;
     padding: 50rpx 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .multi-list.rate {
@@ -500,7 +503,6 @@ color: #999999;
 .multi-item {
     text-align: center;
     color: #fff;
-    line-height: 80rpx;
     transition: color ease 0.3s;
 }
 
@@ -1043,23 +1045,20 @@ button{
 .catalogue {
     background: #fff;
     box-sizing: border-box;
-    padding: 0 30rpx;
+    padding: 0 30rpx 40rpx;
 }
 .catalogue .cata-title {
     min-height: 100rpx;
     display: flex;
-    /* padding-right: 39rpx; */
-    /* padding-left: 30rpx; */
     justify-content: space-between;
     align-items: center;
-    padding-right: 20rpx;
-    /* background: rgba(245, 245, 245, 1); */
+    padding: 36rpx 0;
     font-size: 28rpx;
     font-family: PingFang SC;
     font-weight: bold;
-    color: rgba(102, 102, 102, 1);
+    color: #333;
     border-bottom: 1px dashed #eee;
-
+    word-break: break-all;
 }
 
 .cata-item {
@@ -1093,31 +1092,43 @@ button{
 .cata-content {
     flex: 1;
     border-bottom: 1px solid #eee;
-    background-color: #f9f9f9;
-    padding: 22rpx 30rpx;
+    padding: 36rpx 0rpx 36rpx 30rpx;
     display: flex;
-    justify-content: space-between;
+    align-items: flex-start;
+    color: #666;
 }
 
 .cata-name {
     display: block;
-    margin-bottom: 14rpx;
     font-size: 28rpx;
     font-family: PingFang SC;
     font-weight: 500;
-    color: rgba(102, 102, 102, 1);
 }
 
 .cata-time {
-    margin-left: 10rpx;
+    margin-left: auto;
     flex-shrink: 0;
+    margin-left: auto;
+}
+.cata-free {
+    color: #199FFF;
+    flex-shrink: 0;
+    margin-left: 12rpx;
     font-size: 24rpx;
-    color: rgb(12, 207, 241);
+    border: 1px solid #199FFF;
+    border-radius: 8rpx;
+    padding: 0 8rpx;
+}
+.cata-face{
+    color: #ff976a;
+    flex-shrink: 0;
+    margin: 0 12rpx;
+    font-size: 24rpx;
+    border: 1px solid #ff976a;
+    border-radius: 8rpx;
+    padding: 0 8rpx;
 }
 
-.selected .cata-name {
-    color: #47c88a;
-}
 .cata-title.chapter-active{
     color: #199FFF;
 }
@@ -1628,7 +1639,7 @@ button{
     transform: rotate(-90deg);
 }
 .hasvision{
-    color: #cacaca;
+    color: #ccc;
 }
 #videoPlayer{
     position: relative;
