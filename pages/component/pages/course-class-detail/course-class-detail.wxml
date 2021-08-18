@@ -7,9 +7,10 @@ bindcontrolstoggle="onControlsToggle"
 bindplay='onPlay'
 bindpause='onPause'
 bindended='onPlayEnd'
+initial-time="{{initTime}}"
 >
     <cover-view class="video-control" wx:if="{{isShowControls}}">
-        <cover-view class="speed" catchtap="hanldeSpeedClick">{{activeSpeedValue}}</cover-view>
+        <cover-view class="speed" catchtap="hanldeSpeedClick">{{activeSpeedValue}} x</cover-view>
         <cover-view class="quality" catchtap="hanldeQualityClick">{{qualityNameMap[activeQualityValue]}}</cover-view>
     </cover-view>
     <cover-view class="video-control-panel" animation="{{animationData}}">

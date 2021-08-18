@@ -2,11 +2,9 @@
 import config from './config.js';
 let bq = config.bqUrl;
 let sock = config.liaotian;
-let sockForCount = config.sockForCount
 let apiurl = {
   default: {
     countSocket: sock,
-    sockForCount:sockForCount,
     newupload: bq + '/img',
     proInit: bq + '/Information/getQuestion',
     quesList: bq + '/chat/foundGroup',

@@ -7,6 +7,7 @@ import {
 } from '../../../../mp_ecard_sdk/main';
 Page({
   data: {
+    courseInfo:{},
     course_type: '',
     uid: '',
     info_show: '',
@@ -115,7 +116,6 @@ Page({
       star: parseInt(this.data.startNum),
       tag_id: this.data.tag,
     }
-    console.log(option)
     app.encryption({
       url: api.default.submitcomment,
       method: "POST",
@@ -149,7 +149,6 @@ Page({
     })
     let index = e.currentTarget.dataset.index
     let num = 'tips[' + index + '].chooseOrNot'
-    console.log()
     if (this.data.tips[index].chooseOrNot != '-1') {
       this.setData({
         [num]: '-1'
@@ -278,8 +277,8 @@ Page({
       method: "GET",
       data: option,
       success: function (res) {
-        let courseInfo = res;
         console.log(res)
+        let courseInfo = res;
         var a = courseInfo.about + "<span></span>";
         wxParse.wxParse("content", "html", a, that, 5);
         that.setData({
@@ -316,7 +315,15 @@ Page({
       method: "GET",
       data: option,
       success: (res) => {
-        console.log(1111, res)
+        console.log(res)
+        if(res.course_type === 2){
+          // 全科班
+          this.setData({
+            chapterList: res.list,
+            course_type: res.course_type,
+          })
+          return
+        }
         const lastCid = res.last_data.chapter_id;
         const lastVid = res.last_data.lesson_id;
         let activeChapterIndex = 0
@@ -331,7 +338,7 @@ Page({
             });
           }
         });
-        const currentPlayData = res.list[activeChapterIndex].lesson_list[activeVideoIndex]
+        const currentPlayData = res.list[activeChapterIndex]?res.list[activeChapterIndex].lesson_list[activeVideoIndex] :{}
         this.setData({
           chapterList: res.list.map((item, index) => ({
             ...item,
@@ -343,6 +350,13 @@ Page({
           course_type: res.course_type,
           isPay: true
         })
+        if(!res.list.length){
+          wx.showToast({
+            title: '该课程无目录',
+            icon: 'none'
+          })
+          return
+        }
         if (currentPlayData.can_watch == 0) {
           wx.showToast({
             title: '该课时暂未免费开放',
@@ -368,7 +382,6 @@ Page({
   },
   // 设置播放的URL
   setPlayUrl(row) {
-    console.log(111111, row)
     const currentVideoResource = []
     if (row.ld_play_url) {
       currentVideoResource.push({
@@ -409,11 +422,9 @@ Page({
     }, () => {
       this.courseVideoBehaviorRecord()
       setTimeout(() => {
-        console.log(this.startTime)
         this.setPlaySeek(this.startTime)
         // 设置扫脸相关参数
         this.videoVerifyNode = [...row.detect_time_point_data]
-        console.log(this.videoVerifyNode)
         this.prevVerifyTime = null
         this.setVerifyTime()
       }, 20);
@@ -421,7 +432,7 @@ Page({
   },
   onMoveMask() {
     wx.showToast({
-      title: '当前视频不支持快进',
+      title: '当前视频不支持拖拽',
       icon: 'none'
     })
   },
@@ -438,7 +449,6 @@ Page({
         token
       },
       success: (res) => {
-        console.log(res)
         // 扫脸成功继续播放
         if (res.status === 2) {
           this.prevVerifyTime =  this.nextVerifyTime
@@ -460,7 +470,6 @@ Page({
         time_point
       },
       success: (res) => {
-        console.log(res)
         // 待验证
         if (res.status === 1) {
           this.openFace(res.token)
@@ -508,7 +517,6 @@ Page({
     }
     // 到达验证时间去验证
     if (this.nextVerifyTime && currentTime >= this.nextVerifyTime) {
-      console.log('currentTime',currentTime)
       this.videoContext.pause();
       this.nextVerifyTime !== this.prevVerifyTime && this.getEidToken(this.nextVerifyTime)
     }
@@ -569,7 +577,6 @@ Page({
     const times = this.currentTime - this.startTime;
     // 时间差必须小于当前发送间隔时间的2.2倍且大于0，才视为有效数据
     if (times <= (this.time / 1000) * 2.2 && times > 0) {
-      console.log(data)
       this.courseVideoRecord(data);
     }
     this.startTime = this.currentTime;
@@ -755,6 +762,9 @@ Page({
       multiListShow: false,
     }, () => {
       this.videoContext.seek(currentTime)
+      this.setData({
+        initTime:currentTime
+      })
     })
   },
 

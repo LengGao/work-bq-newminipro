@@ -7,6 +7,7 @@ Page({
     isShowControls: false,
     isShowPanel: false,
     animationData: {},
+    initTime: 0,
     qualityNameMap: {
       'od': '原画',
       'hd': '超清',
@@ -64,12 +65,12 @@ Page({
   onShow: function () {},
   onHide: function () {},
   // 记录播放班级视频
-  classroomVideoBehaviorRecord(){
+  classroomVideoBehaviorRecord() {
     app.encryption({
       url: api.video.classroomVideoBehaviorRecord,
       method: "GET",
       data: {
-        classroom_video_lesson_id:this.currentPlayId
+        classroom_video_lesson_id: this.currentPlayId
       },
     })
   },
@@ -115,10 +116,10 @@ Page({
           activeChapterIndex,
           activeVideoIndex
         })
-        if(!this.urlValidate(currentPlayData)){
+        if (!this.urlValidate(currentPlayData)) {
           wx.showToast({
             title: '视频资源已失效',
-            icon:'none'
+            icon: 'none'
           })
           return
         }
@@ -138,6 +139,9 @@ Page({
   // 设置播放位置
   setPlaySeek(value) {
     this.videoContext.seek(value)
+    this.setData({
+      initTime: value
+    })
   },
   // 监听播放位置变化
   onTimeUpdate(e) {
@@ -225,15 +229,15 @@ Page({
     const index = e.currentTarget.dataset.index;
     const vIndex = e.currentTarget.dataset.vindex;
     const currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
-    if(!this.urlValidate(currentPlayData)){
+    if (!this.urlValidate(currentPlayData)) {
       wx.showToast({
         title: '视频资源已失效',
-        icon:'none'
+        icon: 'none'
       })
       return
     }
     if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
-      return 
+      return
     }
     this.stopSend()
     this.setData({
@@ -313,8 +317,13 @@ Page({
     this.setData({
       playUrl,
     }, () => {
-      !isToggleQuality && this.classroomVideoBehaviorRecord()
-      // 如果是切换画质就是设置当前时间
+      if (!isToggleQuality) {
+        this.setData({
+          activeSpeedValue: '1.0'
+        })
+        this.setPlaybackRate('1.0')
+        this.classroomVideoBehaviorRecord()
+      }
       setTimeout(() => {
         this.setPlaySeek(isToggleQuality ? currentTime : this.startTime)
       }, 20);

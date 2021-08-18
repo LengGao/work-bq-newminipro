@@ -1,6 +1,6 @@
 <view class="video-box">
     <!--first use player-->
-    <video id="videoPlayer" initial-time="{{initTime}}" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"
+    <video id="videoPlayer" wx:if="{{currentResource}}" poster="{{courseInfo.cover_img}}" initial-time="{{initTime}}" bindcontrolstoggle="onControlsToggle" enable-progress-gesture="{{hideProgressMask}}"
         autoplay bindplay='onPlay' bindpause='onPause' bindended='onPlayEnd' class="vod-video" bindtap="tapVideo"
         bindtimeupdate="onTimeUpdate" bindfullscreenchange="fullScreen" src="{{currentResource}}">
         <cover-view class="video-control" hidden="{{controlHidden}}">
@@ -34,6 +34,7 @@
         </cover-view>
         <cover-view class="video-control-mask" bindtouchmove="onMoveMask" hidden="{{hideProgressMask}}"></cover-view>
     </video>
+    <image wx:else class="cover-img" src="{{courseInfo.cover_img}}"></image>
     <view class="middle-box" hidden="{{isPay}}">
         <view class="inner-box">
             <image mode='widthFix' src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/countdown.jpg"
@@ -73,7 +74,7 @@
                 data-vindex="{{vIndex}}" wx:key="vIndex" catchtap="handleVideoToggle">
                 <view class="cata-content twoline {{ vItem.last_second > 0 ?'hasvision':''}}">
                     <text class="cata-name twoline "> • {{vItem.title}}</text>
-                    <text class="cata-free" wx:if="{{ vItem.is_free }}">免费</text>
+                    <text class="cata-free" wx:if="{{ vItem.is_free && !vItem.is_buy}}">免费</text>
                     <text class="cata-face" wx:if="{{ vItem.detect_time_point_data.length }}">实名</text>
                     <text class="cata-time">{{vItem.duration}}</text>
                 </view>

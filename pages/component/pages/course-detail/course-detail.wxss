@@ -489,7 +489,7 @@ color: #999999;
     padding: 50rpx 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content:center; */
 }
 
 .multi-list.rate {
@@ -503,6 +503,7 @@ color: #999999;
 .multi-item {
     text-align: center;
     color: #fff;
+    line-height: 60rpx;
     transition: color ease 0.3s;
 }
 
@@ -930,11 +931,7 @@ button{
     font-size: 26rpx;
 }
 
-.teams-box .selected text {
-    color: #fff;
-    background: #f3a030;
-    box-sizing: border-box;
-}
+
 
 .pintuan-team {
     height: 124rpx;
@@ -1638,9 +1635,7 @@ button{
 .catalogue .cata-title image.transf {
     transform: rotate(-90deg);
 }
-.hasvision{
-    color: #ccc;
-}
+
 #videoPlayer{
     position: relative;
 }
@@ -1670,4 +1665,18 @@ button{
 }
 .flex-sb .actions button text{
 line-height: 1;
+} 
+.hasvision{
+    color: #ccc;
 }
+.hasvision .cata-free{
+    color: #ccc;
+    border-color: #ccc;
+}
+.selected text {
+    color: #199FFF;
+}
+.selected .cata-free{
+    color: #199FFF;
+    border-color: #199FFF;
+ }
