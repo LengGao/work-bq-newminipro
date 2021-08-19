@@ -443,7 +443,6 @@ Page({
     this.setData({
       menuTop: courseId,
       courseId: courseId,
-      nomyCourse: true
     });
     this.data.course_list.forEach((item) => {
       if (item.haschoose = true) {
@@ -551,7 +550,8 @@ Page({
         })
         if (res.course.course_id) {
           that.setData({
-            myCourse: res.course
+            myCourse: res.course,
+            nomyCourse: true
           })
         } else {
           that.setData({

@@ -73,7 +73,7 @@ let apiurl = {
     getindexcategory: bq + '/indexcategory/getindexcategory',
     getcoursecategory: bq + '/indexcategory/getcoursecategory',
     closeOrder: bq + '/order/closeOrder',
-    getMyAllClassroom: bq + '/User/getMyClassroom',
+    getClassroomList: bq + '/UserCenter/getClassroomList',
     getBehaviorLogList: bq + '/problem/getProblemHistory',
     wxauth: bq + '/order/buy',
     collectionList: bq + '/problem/getProblem',

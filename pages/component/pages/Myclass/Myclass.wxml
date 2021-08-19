@@ -1,8 +1,8 @@
 <block>
-    <view class="myCourse" hidden="{{ nodata }}" wx:for="{{ myclass }}" wx:key="index">
+    <view class="myCourse" hidden="{{ nodata }}" wx:for="{{ myclass }}" wx:key="index" data-index="{{index}}" bindtap="toClassVideo">
         <view style="display:flex;margin-bottom:31rpx;align-items:center">
           <view style="width:6rpx;height:26rpx;background:rgba(25,159,255,1);"></view>
-          <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin-left:20rpx">{{ item.join_time }}加入班级</view>
+          <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:rgba(153,153,153,1);margin-left:20rpx">{{ item.add_time }}加入班级</view>
         </view>
         <view>
             <view class="myCourse-content" >
@@ -12,26 +12,18 @@
             <view class="myCourse-info">
                 <view class="myCourse-content-title">{{item.classroom_name}}</view>
                 <view>
-                    <text class="myCourse-time">{{ item.lesson }}课时</text>
-                    <text class="myCourse-time">/</text>
-                    <text class="myCourse-time">{{item.student_number}}人已学习</text>
+                    <text class="myCourse-time">班级人数：{{item.class_user_count}} </text>
+                    <text class="myCourse-time">视频数量：{{ item.class_video_count }}</text>
                 </view>
                 <view class="myCourse-info-bottom">
                     <view class="personal-infor">
-                        <image mode="widthFix" class="personal-img-myCourse" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png" binderror="errorFunction"></image>
+                        <image mode="widthFix" class="personal-img-myCourse" src="{{item.teacher_url?item.teacher_url:'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/avatar-def%402x.png'}}" binderror="errorFunction"></image>
                         <text class="personal-name">{{ item.teacher_name || '--'}}</text>
                     </view>
                 </view>
             </view>
           
         </view>
-        <!-- <view class="myCourse-btnbox">
-            <view></view>
-            <view>
-            <view class="myCourse-btn myCourse-btnbgk" bindtap="toliveclass" data-item="{{item}}" wx:if="{{item.live_status==1}}">直播</view>
-            <view class="myCourse-btn"  bindtap="goTestvideo" wx:if="{{item.media && item.media.length}}"  data-item="{{item}}">直播回顾</view>
-        </view>
-        </view> -->
         </view>
    
     </view>

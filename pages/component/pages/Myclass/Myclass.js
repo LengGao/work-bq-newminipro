@@ -9,52 +9,36 @@ Page({
   data: {
     nodata: false
   },
-  toliveclass(options) {
-    console.log(options)
-    let data = options.currentTarget.dataset.item
-    let userInfo = wx.getStorageSync('user_info')
-    let channelId = data.channel_id
-    let openId = wx.getStorageSync('openId').openId
-    let userName = userInfo.nickname
-    let avatarUrl = userInfo.avatar_url
-    let viewerId = data.user_id
-    console.log(channelId, openId, userName, avatarUrl, viewerId)
-    wx.navigateTo({
-      url: `../live-class-room/live-class-room?channelId=${channelId}&openId=${openId}&userName=${userName}&avatarUrl=${avatarUrl}&viewerId=${viewerId}`
-    })
-  },
-  goTestvideo(options) {
-    let data = options.currentTarget.dataset.item
-    let live_id = data.live_id
-    let live_class_id = data.live_class_id
-    // console.log(live_id,live_class_id)
-    wx.reLaunch({
-      url: `../course-class-detail/course-class-detail?live_id=${live_id}&live_class_id=${live_class_id}`
-    })
-  },
-  getMyAllClassroom(options) {
-    console.log('nimen')
-    let that = this
-    let courseId = options.courseId
-    let option = {
-      courseId: courseId
+
+  // 去班级回顾视频页
+  toClassVideo(e) {
+    const index = e.currentTarget.dataset.index
+    const classroom = this.data.myclass[index] || {}
+    if (!classroom.class_video_count) {
+      wx.showToast({
+        icon: "error",
+        title: '暂无视频',
+      })
+      return
     }
-    console.log(option)
+    wx.navigateTo({
+      url: `../course-class-detail/course-class-detail?classroom_id=${classroom.class_id}`
+    })
+  },
+  getClassroomList() {
     app.encryption({
-      url: api.default.getMyAllClassroom,
+      url: api.default.getClassroomList,
       method: "GET",
-      data: option,
-      success: function (res) {
+      success: (res) => {
         console.log(res)
         res.forEach(i => {
           i.join_time = util.js_date_time(i.update_time)
         })
-        that.setData({
+        this.setData({
           myclass: res
         })
-        console.log('nimenhao', that.data.nodata)
         if (res.data != undefined) {
-          that.setData({
+          this.setData({
             nodata: true
           })
 
@@ -73,9 +57,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    console.log(options)
-    this.getMyAllClassroom(options)
+  onLoad: function () {
+    this.getClassroomList()
 
   },
 
