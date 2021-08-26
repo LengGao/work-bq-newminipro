@@ -300,7 +300,7 @@ Page({
     let that = this
     let curID = that.data.curID
     console.log(curID)
-    if (that.data.randerTitle.problem_type == 2) { //多选题在此提交答案
+    if ([2,4].includes(that.data.randerTitle.problem_type)) { //多选题在此提交答案
       if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
@@ -867,7 +867,8 @@ Page({
     })
   },
   sceneCommon() {
-    if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) { //多选题在此提交答案
+    console.log(this.data.SceneValue)
+    if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
       if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
       } else {
         if (this.data.multiselect != '') {
@@ -946,7 +947,7 @@ Page({
         icon: 'none',
         duration: 2000
       })
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) { //多选题在此提交答案
+      if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
@@ -954,7 +955,7 @@ Page({
         }
       }
     } else {
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) { //多选题在此提交答案
+      if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
