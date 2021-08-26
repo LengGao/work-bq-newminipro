@@ -843,7 +843,8 @@ Page({
             randerTitle: that.data.randerTitle,
             SceneValue: '', //场景模式下填空清空
             shortSceneMap: '', //场景模式下简答清空
-            shortMap: '' //简答题清空
+            shortMap: '' ,//简答题清空
+            fillNewAnswer:[]//填空题清空
           })
           console.log(that.data.randerTitle)
           let curRander = that.data.randerTitle;
@@ -867,8 +868,7 @@ Page({
     })
   },
   sceneCommon() {
-    console.log(this.data.SceneValue)
-    if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
+    // if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
       if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
       } else {
         if (this.data.multiselect != '') {
@@ -879,9 +879,9 @@ Page({
           this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
         }
       }
-    }else{
-      this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
-    }
+    // }else{
+    //   this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
+    // }
   },
   bindsenceNext() {
     let that = this
