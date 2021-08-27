@@ -6,9 +6,9 @@
 
     </view>
 </view>
-<view class="title" hidden="{{ ProblemType == '6'?true:false }}">
+<view class="title" hidden="{{ ProblemType == '7'?true:false }}">
     <view class="marks">
-        {{ ProblemType == '1'?'单选题':ProblemType =='2'?'多选题':ProblemType =='3'?'判断题':ProblemType =='4'?'填空题':ProblemType =='5'?'简答题':ProblemType =='6'?'场景题':'' }}
+        {{ ProblemType == '1'?'单选题':ProblemType =='2'?'多选题':ProblemType =='3'?'判断题':ProblemType =='4'?'不定项题':ProblemType =='5'?'填空题':ProblemType =='6'?'简答题':ProblemType =='7'?'场景题':'' }}
     </view>
     <text class="marks">{{ curIndexNumber == 0 ?'1':curIndexNumber }}/{{ all_current_no }}</text>
 </view>
@@ -179,7 +179,54 @@
         </view>
     </radio-group>
 </view>
-<view hidden="{{ ProblemType == '4'?false:true }}" class="questions-box" bindtouchstart='touchStart'
+<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd"
+    hidden="{{ ProblemType == '4'?false:true }}" style='height:{{questionHeight}}rpx'>
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
+        <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
+    </view>
+    <radio-group class="checked padding">
+        <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
+            data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
+            data-id="{{randerTitle.ProblemId}}">
+            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
+                class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
+                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
+                    {{vItem.option}}
+                </view>
+                <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
+                <image wx:if="{{ correctAnswer && vItem.color ? true: false }}" mode="widthFix"
+                    src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
+                <image wx:if="{{ wrongAnswer && vItem.err ? true : false }}" mode="widthFix"
+                    src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
+                <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
+                    <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
+                </view>
+            </view>
+        </label>
+        <!-- <view class="wrapper-option" bindtap="showAnswer">
+            <view class="correctoptions {{ correctoption }}">
+                <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
+                <text class=" {{activeAnswer}}">答案</text>
+            </view>
+        </view> -->
+        <view wx:if="{{ nosubmit }}" style="margin-bottom:98rpx">
+            <view class="referData">参考答案</view>
+            <view class="topRefer">
+                <text class="correctanswer">正确答案：</text>
+                {{ randerTitle.answer }}
+                <!-- <text class="youranswer">你的答案：</text>
+                {{ option }} -->
+            </view>
+            <view class="referData">答案解析</view>
+            <view class="topRefer">
+                <view class="anyAnswer">
+                    <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}"></template>
+                </view>
+            </view>
+        </view>
+    </radio-group>
+</view>
+<view hidden="{{ ProblemType == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart'
     bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
@@ -211,7 +258,7 @@
         </view>
     </view>
 </view>
-<view hidden="{{ ProblemType == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart'
+<view hidden="{{ ProblemType == '6'?false:true }}" class="questions-box" bindtouchstart='touchStart'
     bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
@@ -239,9 +286,9 @@
         </view>
     </view>
 </view>
-<view class="{{isfullScreen&&ProblemType == '6'?'sceneMask':''}}  " bindtap="fullScreen">
+<view class="{{isfullScreen&&ProblemType == '7'?'sceneMask':''}}  " bindtap="fullScreen">
 </view>
-<view hidden="{{ ProblemType == '6'?false:true }}" class="questions-box2" bindtouchstart='touchStart'
+<view hidden="{{ ProblemType == '7'?false:true }}" class="questions-box2" bindtouchstart='touchStart'
     bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word;margin-bottom:255px;text-indent:2em; line-height:45rpx">
         <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
@@ -457,7 +504,60 @@
                         </view>
                     </radio-group>
                 </view>
-                <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '4'?false:true }}"
+                <view class="questions-sencebox" bindtouchstart='touchStart' catchtouchend="touchSceneEnd"
+                    hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '4'?false:true }}"
+                    style='height:100%'>
+                    <view class="text-type padding">
+                        <template is="wxParse"
+                            data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_stem_wx.nodes }}"></template>
+                    </view>
+                    <radio-group class="checked padding">
+                        <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.child[senceIndex - 1].content }}"
+                            wx:key="option" wx:for-item="vItem" data-option="{{vItem.option}}"
+                            data-answer="{{randerTitle.child[senceIndex - 1].answer}}" data-index="{{index}}">
+                            <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
+                                class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
+                                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
+                                    {{vItem.option}}
+                                </view>
+                                <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
+                                <image wx:if="{{ correctAnswer && vItem.color ? true: false }}" mode="widthFix"
+                                    src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png"
+                                    class="topimages" />
+                                <image wx:if="{{ wrongAnswer && vItem.err ? true : false }}" mode="widthFix"
+                                    src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png"
+                                    class="topimages" />
+                                <view
+                                    class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
+                                    <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
+                                </view>
+                            </view>
+                        </label>
+                        <!-- <view class="wrapper-option" bindtap="showSenceAnswer">
+                            <view class="correctoptions {{ correcSencetoption }}">
+                                <image src="{{answerSenceImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
+                                <text class=" {{activeSenceAnswer}}">答案</text>
+                            </view>
+                        </view> -->
+                        <view wx:if="{{ nosubmit }}" style="margin-bottom:98rpx">
+                            <view class="referData">参考答案</view>
+                            <view class="topRefer">
+                                <text class="correctanswer">正确答案：</text>
+                                {{ randerTitle.child[senceIndex - 1].answer }}
+                                <!-- <text class="youranswer">你的答案：</text>
+                                {{ option }} -->
+                            </view>
+                            <view class="referData">答案解析</view>
+                            <view class="topRefer">
+                                <view class="anyAnswer">
+                                    <template is="wxParse"
+                                        data="{{ wxParseData:randerTitle.child[senceIndex - 1].problem_analyse_wx.nodes }}"></template>
+                                </view>
+                            </view>
+                        </view>
+                    </radio-group>
+                </view>
+                <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '5'?false:true }}"
                     class="questions-sencebox" bindtouchstart='touchStart' catchtouchend="touchSceneEnd" style='height:100%'>
                     <!-- 单选题 -->
                     <view class="text-type padding">
@@ -490,7 +590,7 @@
                         </view>
                     </view>
                 </view>
-                <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '5'?false:true }}"
+                <view hidden="{{ randerTitle.child[senceIndex - 1].problem_child_type == '6'?false:true }}"
                 class="questions-sencebox" bindtouchstart='touchStart' catchtouchend="touchSceneEnd"
                     style='height:100%'>
                     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">

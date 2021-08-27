@@ -281,7 +281,7 @@ Page({
     let that = this
     let curID = that.data.curID
     console.log(curID)
-    if (that.data.randerTitle.problem_type == 2) {
+    if ([2,4].includes(that.data.randerTitle.problem_type)) {
       //多选题在此提交答案
       if (that.data.randerTitle.hasSubmit) {
         // 表明已提交过答案
@@ -292,7 +292,7 @@ Page({
         }
       }
     }
-    if (that.data.randerTitle.problem_type == 6) {
+    if (that.data.randerTitle.problem_type == 7) {
       //场景提交
       if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {} else {
         if (this.data.multiselect != '') {
@@ -699,31 +699,13 @@ Page({
         data: option,
         success: function (res) {
           console.log(res)
-          let list = res.list
-          let totalNum
-          let single_problem = list.single_problem || [] //单选
-          let fill_problem = list.fill_problem || [] //填空
-          let judge_problem = list.judge_problem || [] //判断
-          let multiple_problem = list.multiple_problem || [] //多选
-          let scenes_problem = list.scenes_problem || [] //场景
-          let short_problem = list.short_problem || [] //简答
-          totalNum =
-            single_problem.length +
-            multiple_problem.length +
-            scenes_problem.length +
-            judge_problem.length +
-            fill_problem.length +
-            short_problem.length
+          let list = res.list || []
+          // 案例题id会重复，所以去重
+          let totalNum = Array.from(new Set(list.map(item=>item.problem_id))).length 
+    
           //合并数组
-          let alltestID = []
-          alltestID = alltestID
-            .concat(single_problem)
-            .concat(multiple_problem)
-            .concat(scenes_problem)
-            .concat(judge_problem)
-            .concat(fill_problem)
-            .concat(short_problem)
-          console.log(totalNum, alltestID)
+          let alltestID = [];
+          alltestID = list.map(item=>item.problem_id)
           that.setData({
             all_current_no: totalNum, //总题数
             // challenge_id: res.challenge_id,
@@ -849,7 +831,7 @@ Page({
         console.log(res)
         //提交完答案，清空多选题答案数组,并查看是否已缓存，并改变其中的标识符（hasSubmit）
         if (res.data.code == 200) {
-          if (that.data.randerTitle.problem_type == 6) {
+          if (that.data.randerTitle.problem_type == 7) {
             console.log(curID)
             that.data.randerTitle.child[curID].hasSubmit = true
           }
@@ -860,6 +842,7 @@ Page({
             SceneValue: '', //场景模式下填空清空
             shortSceneMap: '', //场景模式下简答清空
             shortMap: '', //简答题清空
+            fillNewAnswer:[]
           })
           console.log(that.data.randerTitle)
           let curRander = that.data.randerTitle
@@ -886,10 +869,10 @@ Page({
     })
   },
   sceneCommon() {
-    if (
-      this.data.randerTitle.child[this.data.senceIndex - 1]
-      .problem_child_type == 2
-    ) {
+    // if (
+    //   [2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1]
+    //   .problem_child_type)
+    // ) {
       //多选题在此提交答案
       if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
         // 表明已提交过答案
@@ -902,7 +885,7 @@ Page({
           this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
         }
       }
-    }
+    // }
   },
   bindsenceNext() {
     console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
@@ -942,8 +925,8 @@ Page({
         duration: 2000,
       })
       if (
-        this.data.randerTitle.child[this.data.senceIndex - 1]
-        .problem_child_type == 2
+        [2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1]
+        .problem_child_type)
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -955,8 +938,8 @@ Page({
       }
     } else {
       if (
-        this.data.randerTitle.child[this.data.senceIndex - 1]
-        .problem_child_type == 2
+        [2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1]
+        .problem_child_type)
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -1001,7 +984,7 @@ Page({
         method: 'GET',
         dataType: 'json',
         success: function (res) {
-          console.log(res, res.info.problem_type)
+          console.log(res)
           let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
           randerTitle.showAnswer = false
          console.log('哈哈哈')
@@ -1012,7 +995,7 @@ Page({
             randerTitle.done = false
           }
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
-          if (randerTitle.problem_type == 6) {
+          if (randerTitle.problem_type == 7) {
             if (
               randerTitle.child != undefined &&
               randerTitle.child.length > 0
@@ -1123,7 +1106,7 @@ Page({
     // console.log(beforePage);
     wx.navigateBack({
       success: function () {
-        beforePage.onLoad(number)
+        // beforePage.onLoad(number)
       },
     })
   },

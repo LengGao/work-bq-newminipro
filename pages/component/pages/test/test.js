@@ -757,9 +757,9 @@ Page({
         let fill_problem = list.fill_problem; //填空
         let judge_problem = list.judge_problem; //判断
         let multiple_problem = list.multiple_problem; //多选
-        let indefinite_problem = list.indefinite_problem; //不定项
         let scenes_problem = list.scenes_problem; //场景
         let short_problem = list.short_problem; //简答
+        let indefinite_problem = list.indefinite_problem; //不定项
         totalNum = indefinite_problem.length+single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
         //合并数组
         let alltestID = [];
@@ -1230,7 +1230,7 @@ Page({
   onShow: function () {},
   onHide: function () {
     clearTimeout(t);
-    if (this.data.randerTitle.problem_type == 2) {
+    if ([2,4].includes(this.data.randerTitle.problem_type)) {
       this.setData({
         multiselecting: []
       })

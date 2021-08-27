@@ -702,11 +702,11 @@ Page({
         let multiple_problem = list.multiple_problem; //多选
         let scenes_problem = list.scenes_problem; //场景
         let short_problem = list.short_problem; //简答
-        totalNum = single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
-        console.log(totalNum)
+        let indefinite_problem = list.indefinite_problem; //不定项
+        totalNum = indefinite_problem.length+single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
         //合并数组
         let alltestID = [];
-        alltestID = alltestID.concat(single_problem).concat(multiple_problem).concat(scenes_problem).concat(judge_problem).concat(fill_problem).concat(short_problem);
+        alltestID = alltestID.concat(single_problem,multiple_problem,judge_problem,indefinite_problem,fill_problem,short_problem,scenes_problem);
         that.setData({
           all_current_no: totalNum,
           real_topic_log_id: res.info.real_topic_log_id,

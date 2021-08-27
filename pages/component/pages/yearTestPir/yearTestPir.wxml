@@ -171,6 +171,78 @@
         </view>
     </radio-group>
 </view>
+<view class="questions-box" bindtouchstart='touchStart' bindtouchend="touchEnd"
+    hidden="{{ ProblemType == '4'?false:true }}" style='height:{{questionHeight}}rpx'>
+    <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
+        <template is="wxParse" data="{{ wxParseData:randerTitle.problem_stem_wx.nodes }}"></template>
+    </view>
+    <radio-group class="checked padding" style="margin-bottom:200rpx;">
+        <block wx:if="{{randerTitle.showAnswer==false}}">
+            <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
+                data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
+                data-id="{{randerTitle.ProblemId}}">
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
+                    class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
+                    <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
+                        {{vItem.option}}
+                    </view>
+                    <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
+                    <image wx:if="{{ correctAnswer && vItem.color ? true: false }}" mode="widthFix"
+                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
+                    <image wx:if="{{ wrongAnswer && vItem.err ? true : false }}" mode="widthFix"
+                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
+                    <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
+                        <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
+                    </view>
+                </view>
+            </label>
+        </block>
+        <block wx:if="{{randerTitle.showAnswer==true}}">
+            <label bindtap="multiselectAnswer" wx:for="{{  randerTitle.content }}" wx:key="option" wx:for-item="vItem"
+                data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
+                data-id="{{randerTitle.ProblemId}}">
+
+                <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
+                    class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
+                    <view
+                        class="letter {{  vItem.haschose != true&&vItem.nohascolor ? 'nohascolor':''}}  {{  vItem.haschose == true ? 'correctoption':''}}"
+                        wx:if="{{ vItem.haschose != true}}">
+                        {{vItem.option}}
+                    </view>
+                    <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
+                    <image wx:if="{{ randerTitle.showAnswer && vItem.color ? true: false }}" mode="widthFix"
+                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
+                    <image wx:if="{{ randerTitle.showAnswer && vItem.err ? true : false }}" mode="widthFix"
+                        src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
+                    <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
+                        <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
+                    </view>
+                </view>
+            </label>
+        </block>
+        <view class="wrapper-option">
+            <view class="correctoptions {{ correctoption }}" bindtap="showAnswer">
+                <image src="{{answerImg}}" mode="widthFix" style="width:38rpx;height:30rpx;margin-top:6rpx" />
+                <text class=" {{activeAnswer}}">答案</text>
+            </view>
+        </view>
+        <view hidden="{{ multishowAny }}" style="margin-bottom:98rpx">
+            <view class="referData">参考答案</view>
+            <view class="topRefer">
+                <text class="correctanswer">正确答案：</text>
+                {{ randerTitle.answer }}
+                <!-- <text class="youranswer">你的答案：</text>
+                {{ option }} -->
+            </view>
+            <view class="referData">答案解析</view>
+            <view class="topRefer">
+                <view class="anyAnswer">
+                    <template is="wxParse" data="{{ wxParseData:randerTitle.problem_analyse_wx.nodes }}"></template>
+                </view>
+            </view>
+        </view>
+    </radio-group>
+</view>
 <view hidden="{{ ProblemType == '5'?false:true }}" class="questions-box" bindtouchstart='touchStart'
     bindtouchend="touchEnd" style='height:{{questionHeight}}rpx'>
     <view class="text-type padding" style="text-overflow:ellipsis;word-wrap:break-word">
