@@ -206,6 +206,7 @@ Page({
     //开始加载题目详情
     that.initText(problem_id);
   },
+
   likes() {
     let that = this;
     let icon = 'tabItems[2].icon';

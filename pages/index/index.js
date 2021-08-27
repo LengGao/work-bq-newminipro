@@ -39,7 +39,7 @@ Page({
         num: '1'
       },
       {
-        name: '做题历史',
+        name: '做题数',
         img: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/lishi.png',
         number: '0',
         num: '0'
@@ -533,9 +533,9 @@ Page({
         let topmenu1 = 'topmenu[1].number'
         let topmenu2 = 'topmenu[2].number'
         that.setData({
-          [topmenu0]: res.problem.favorites,
-          [topmenu1]: res.problem.fail_question,
-          [topmenu2]: res.problem.history,
+          [topmenu0]: res.problem.favorites || 0,
+          [topmenu1]: res.problem.fail_question|| 0,
+          [topmenu2]: res.problem.history || 0,
           accuracy: res.problem.correct_rate,
           allData: res,
           problem_course_id, //以此ID获取习题模式

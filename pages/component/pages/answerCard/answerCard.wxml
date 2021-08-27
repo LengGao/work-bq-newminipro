@@ -84,7 +84,7 @@
     <text class="top-wrapper-fenge"></text>
     <text class="top-wrapper-title">场景题</text>
 </view>
-<view class="wrapper-single-option" style="padding-bottom:120rpx">
+<view class="wrapper-single-option" style="padding-bottom:160rpx">
     <view wx:for="{{ scenes_problem }}" wx:key="index" class=" {{ successOPtion }} {{ !test && item.status != '-1' ? 'done' : item.status == '1' ? 'right': item.status == '0' ? 'false':''}}" data-problem_id='{{ item.problem_id }}' catchtap="gobefor">
         <text > {{ index + 1 +short_problem.length + fill_problem.length + indefinite_problem.length + judgmentNum.length + multipleNum.length  + singleNum.length}} </text>
     </view>
