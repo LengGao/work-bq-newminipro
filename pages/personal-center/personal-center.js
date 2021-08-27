@@ -21,7 +21,8 @@ Page({
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/xuexibaogao.png',
         name: '学习报告',
-        action: 'learns'
+        // action: 'learns'，
+        action: ''
       },
       {
         url: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/goumaijilu.png',
