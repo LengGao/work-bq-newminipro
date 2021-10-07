@@ -23,7 +23,7 @@
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
-    "useApiHostProcess": false,
+    "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -156,7 +156,6 @@
           "query": "chapter_id=1484&courseId=39&name='每日打卡'&type:3",
           "scene": null
         },
-       
         {
           "name": "pages/component/pages/course-detail/course-detail",
           "pathName": "pages/component/pages/course-detail/course-detail",

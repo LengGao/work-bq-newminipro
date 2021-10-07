@@ -98,7 +98,7 @@ Page({
   startTime: 0,
   currentTime: 0,
   currentPlayId: "",
-
+  hideTimer:null,
   sumbitComment() {
     if (this.data.value2 == '') {
       wx.showToast({
@@ -722,12 +722,24 @@ Page({
     this.setData({
       multiListShow: true
     })
+    this.timeOutHide()
   },
   showSwitchRate(rate) {
     this.setData({
       rateShow: true
     })
+    this.timeOutHide()
   },
+    // 自动隐藏
+    timeOutHide(){
+      this.hideTimer && clearTimeout(this.hideTimer)
+       this.hideTimer = setTimeout(() => {
+        this.setData({
+          multiListShow: false,
+          rateShow: false,
+        })
+        }, 5000);
+      },
   switchRate(e) {
     let dataset = e.currentTarget.dataset
     let {

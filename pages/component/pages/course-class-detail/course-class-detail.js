@@ -55,6 +55,7 @@ Page({
   startTime: 0,
   currentTime: 0,
   currentPlayId: "",
+  hideTimer:null,
   // onload
   onLoad: function ({
     classroom_id
@@ -386,6 +387,14 @@ Page({
       isShowPanel: true,
       animationData: this.animation.export()
     })
+    this.timeOutHide()
+  },
+  // 自动隐藏
+  timeOutHide(){
+  this.hideTimer && clearTimeout(this.hideTimer)
+   this.hideTimer = setTimeout(() => {
+      this.hideControlPanel()
+    }, 5000);
   },
   // 隐藏画质，速率面板
   hideControlPanel() {
