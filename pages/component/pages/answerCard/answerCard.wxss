@@ -50,6 +50,9 @@ page{
     align-items: flex-start;
     
 }
+.wrapper-single-option--last{
+    padding-bottom: 110rpx;
+}
 .defaultOption{
     width:80rpx;
     height:80rpx;

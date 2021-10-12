@@ -7,5 +7,9 @@ function fn(arr, arg) {
     result.toString = arr.join(",");
     return (result)
 };
-
-module.exports.fn = fn;
+function indeOf(target,value){
+    console.log(111111111111)
+    return target.indexOf(value)
+}
+module.exports.fn = fn 
+module.exports.indeOf = indeOf 

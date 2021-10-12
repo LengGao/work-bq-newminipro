@@ -179,6 +179,7 @@ Page({
   wode(ID, nosubmit = 0) { //当用户开始回顾时触发此函数
     console.log('触发')
     console.log(ID)
+    this.showAnswer()
     let that = this
      //首先接受ID作为查找题目参数
      that.setData({ //更新submit，标志用户进入回顾
@@ -645,25 +646,10 @@ Page({
   
   },
   showAnswer() {
-    if (this.data.activeAnswer == 'activeAnswer') {
-      this.setData({
-        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
-        activeAnswer: 'defaultAnswer',
-        correctoption: '',
-        multishowAny: true
-      })
-    } else {
-      this.setData({
-        answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/showAnswer (1).png',
-        activeAnswer: 'activeAnswer',
-        correctoption: 'activeoption',
-        multishowAny: false
-      })
-    }
-    // this.setData({
-    //   wrongAnswer: true,
-    //   correctAnswer: true
-    // })
+    this.setData({
+      wrongAnswer: true,
+      correctAnswer: true
+    })
 
   },
   showSenceAnswer() {
@@ -956,8 +942,6 @@ Page({
         dataType: "json",
         success: function (res) {
           let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
-          console.log(222222)
-          console.log(randerTitle)
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 6) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {

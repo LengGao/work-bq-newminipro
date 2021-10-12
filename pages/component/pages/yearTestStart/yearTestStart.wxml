@@ -84,7 +84,7 @@
             data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                 class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
-                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
+                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}"  wx:if="{{!correctAnswer || (correctAnswer && !vItem.color && ! vItem.err) }}">
                     {{vItem.option}}
                 </view>
                 <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->

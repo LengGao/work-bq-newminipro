@@ -573,11 +573,17 @@ button::after {
         padding-bottom: 48rpx;
         box-sizing: content-box;
     }
+    .wrapper-single-option--last{
+        padding-bottom: 160rpx !important;
+    }
 }
 /* 适配iphoneXR iphoneXSMax */
 @media screen and (device-width:414px) and (device-height:896px){
     .tabbottom {
       padding-bottom: 48rpx;
       box-sizing: content-box;
+    }
+    .wrapper-single-option--last{
+        padding-bottom: 160rpx !important;
     }
 }

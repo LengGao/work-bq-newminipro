@@ -417,6 +417,7 @@ Page({
         randerTitle: this.data.randerTitle //缓存改变后的渲染数据
       })
     }
+    console.log(this.data.randerTitle)
     if (this.data.ProblemType == 1 || this.data.ProblemType == 3) { // 单选题直接提交答案
       console.log('进入单选题模式')
       this.submitAnswer(option)
