@@ -711,9 +711,11 @@ Page({
             alltestID: alltestID, //所有题目id
           })
           //查找当前题目下标
-          that.findcurIndex(alltestID[0], alltestID, 0)
+          let index = alltestID.indexOf(+options.problem_id)
+          index = index >= 0 ? index : 0
+          that.findcurIndex(alltestID[index], alltestID, 0)
           //开始加载题目详情
-          that.initText(alltestID[0])
+          that.initText(alltestID[index])
         },
       })
     } else {
@@ -753,7 +755,8 @@ Page({
         let alltestID = data.map((i) => {
           return i.problem_id
         })
-        console.log(alltestID)
+        let index = alltestID.indexOf(+options.problem_id)
+        index = index >= 0 ? index : 0
 
         that.setData({
           all_current_no: res.list.length, //总题数
@@ -765,9 +768,9 @@ Page({
           multishowAny: false
         })
         console.log(that.data.showAny)
-        that.findcurIndex(alltestID[0], alltestID, 0)
+        that.findcurIndex(alltestID[index], alltestID, 0)
         //开始加载题目详情
-        that.initText(alltestID[0])
+        that.initText(alltestID[index])
 
 
       },

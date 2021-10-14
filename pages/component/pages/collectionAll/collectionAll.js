@@ -428,7 +428,7 @@ Page({
     let id = t.currentTarget.dataset.cid
     wx.navigateTo({
       // url: `../errorCardPir/errorCardPir?problem_id=${id}&type=${t.currentTarget.dataset.type}`
-      url: `../errorCardPir/errorCardPir?problem_course_id=${this.data.problem_course_id}&problem_chapter_id=${this.data.problem_chapter_id}&type=${t.currentTarget.dataset.type}`,
+      url: `../errorCardPir/errorCardPir?problem_id=${id}&problem_course_id=${this.data.problem_course_id}&problem_chapter_id=${this.data.problem_chapter_id}&type=${t.currentTarget.dataset.type}`,
     })
   },
   gobefor(e) {
