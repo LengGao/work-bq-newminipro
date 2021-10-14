@@ -102,6 +102,9 @@ Page({
           if(!res.info.list.short_problem){
             res.info.list.short_problem=[]
           }
+          if(!res.info.list.indefinite_problem){
+            res.info.list.indefinite_problem=[]
+          }
 
           that.setData({
             multipleNum: res.info.list.multiple_problem,
@@ -109,7 +112,8 @@ Page({
             judgmentNum: res.info.list.judge_problem,
             fill_problem: res.info.list.fill_problem,
             scenes_problem: res.info.list.scenes_problem,
-            short_problem: res.info.list.short_problem
+            short_problem: res.info.list.short_problem,
+            indefinite_problem: res.info.list.indefinite_problem
           })
           // console.log(that.data.multipleNum)
           // console.log(that.data.singleNum.length)

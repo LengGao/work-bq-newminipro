@@ -196,7 +196,7 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if(that.data.randerTitle.problem_type == 6){
+    if(that.data.randerTitle.problem_type == 7){
       let index = this.data.senceIndex - 1
       let cid = this.data.randerTitle.child[index].problem_id  //获取ID
       this.setData({
@@ -252,7 +252,7 @@ Page({
         }
       }
     }
-    if (that.data.randerTitle.problem_type == 2) {//多选题在此提交答案
+    if ([2,4].includes(that.data.randerTitle.problem_type)) {//多选题在此提交答案
       if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
@@ -262,7 +262,7 @@ Page({
         }
       }
     }
-    if (that.data.randerTitle.problem_type == 6) { //场景提交
+    if (that.data.randerTitle.problem_type == 7) { //场景提交
       if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
       } else {
         if(this.data.multiselect != ''){
@@ -299,7 +299,7 @@ Page({
     })
     let curID = that.data.curID
     console.log(that.data.randerTitle)
-    if(that.data.randerTitle.problem_type == 6){
+    if(that.data.randerTitle.problem_type == 7){
       let index = this.data.senceIndex - 1
       let cid = this.data.randerTitle.child[index].problem_id  //获取ID
       this.setData({
@@ -690,10 +690,11 @@ Page({
         let multiple_problem = list.multiple_problem;//多选
         let scenes_problem = list.scenes_problem;//场景
         let short_problem = list.short_problem;//简答
-        totalNum = single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
+        let indefinite_problem = list.indefinite_problem; //不定项
+        totalNum = indefinite_problem.length+single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
         //合并数组
         let alltestID = [];
-        alltestID = alltestID.concat(single_problem).concat(multiple_problem).concat(scenes_problem).concat(judge_problem).concat(fill_problem).concat(short_problem);
+        alltestID = alltestID.concat(single_problem,multiple_problem,judge_problem,indefinite_problem,fill_problem,short_problem,scenes_problem);
         that.setData({
           all_current_no: totalNum,
           self_determination_id: res.info.self_determination_id,
@@ -763,7 +764,7 @@ Page({
         //提交完答案，清空多选题答案数组,并查看是否已缓存，并改变其中的标识符（hasSubmit）
         if (res.data.code == 200) {
           console.log(randerTitle)
-          if (randerTitle.problem_type == 6) {
+          if (randerTitle.problem_type == 7) {
             console.log(curID)
             randerTitle.child[curID].hasSubmit = true
           }
@@ -774,7 +775,8 @@ Page({
             SceneValue:'',//场景模式下填空清空
             shortSceneMap:'',//场景模式下简答清空
             shortMap:'',//简答题清空
-            multiselecting:[]
+            multiselecting:[],
+            fillNewAnswer:[]
           })
           let curRander = randerTitle;
           let ID = curID;
@@ -848,7 +850,7 @@ Page({
         icon: 'none',
         duration: 2000
       })
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+      if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) {//多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
@@ -856,7 +858,7 @@ Page({
         }
       }
     } else {
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type == 2) {//多选题在此提交答案
+      if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) {//多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
@@ -897,7 +899,7 @@ Page({
           console.log(res, res.info.problem_type)
           let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
-          if (randerTitle.problem_type == 6) {
+          if (randerTitle.problem_type == 7) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {
               randerTitle.child.forEach((val, index) => {
                 val = app.testWxParse(that, val) //将解析后的赋值

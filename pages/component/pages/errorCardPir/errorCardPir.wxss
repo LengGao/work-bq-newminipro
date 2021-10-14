@@ -57,14 +57,14 @@ page {
 }
 .correct {
   background: rgba(255, 255, 255, 1);
-  border: 1rpx solid rgba(89, 210, 52, 1);
+  border: 1rpx solid #199FFF;
 }
 .correct2 {
   background: rgba(255, 255, 255, 1);
   border: 1rpx solid rgba(25, 159, 255, 1);
 }
-.correcttext view {
-  color: rgba(89, 210, 52, 1);
+.correcttext view{
+  color:#199FFF ;
 }
 .correcttext2 view {
   color: rgba(25, 159, 255, 1);
@@ -151,8 +151,8 @@ page {
   padding: 5rpx 5rpx;
   border: 1rpx solid rgba(221, 221, 221, 1);
   border-radius: 50%;
-  background: rgba(89, 210, 52, 1);
   margin-right: 24rpx;
+  background: rgba(25, 159, 255, 1);
   color: #fff;
 }
 .correctoption2 {

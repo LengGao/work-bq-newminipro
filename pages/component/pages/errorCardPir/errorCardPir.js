@@ -31,33 +31,33 @@ Page({
     judgmentNum: '0',
     formId: '',
     tabItems: [{
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
-        name: '上一题',
-        action: 'lastQU',
-        class: '',
-        id: 1,
-      },
-      // {
-      //   icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (1).png',
-      //   name: '答题卡',
-      //   action: 'cards',
-      //   class: '',
-      //   id: 2
-      // },
-      {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
-        name: '收藏',
-        action: 'likes',
-        class: '',
-        id: 3,
-      },
-      {
-        icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
-        name: '下一题',
-        action: 'nextQU',
-        class: '',
-        id: 4,
-      },
+      icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/leftsing.png',
+      name: '上一题',
+      action: 'lastQU',
+      class: '',
+      id: 1,
+    },
+    // {
+    //   icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (1).png',
+    //   name: '答题卡',
+    //   action: 'cards',
+    //   class: '',
+    //   id: 2
+    // },
+    {
+      icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/weishoucang.png',
+      name: '收藏',
+      action: 'likes',
+      class: '',
+      id: 3,
+    },
+    {
+      icon: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/cards (3).png',
+      name: '下一题',
+      action: 'nextQU',
+      class: '',
+      id: 4,
+    },
     ],
     ProblemType: '',
     answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
@@ -136,11 +136,11 @@ Page({
       correctAnswer: false,
       donotChangeAnswer: false,
     })
-    let multishowAny =true
-    if(this.data.showAny==false){
-      multishowAny=false
-    }else{
-      multishowAny=true
+    let multishowAny = true
+    if (this.data.showAny == false) {
+      multishowAny = false
+    } else {
+      multishowAny = true
     }
     this.setData({
       answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
@@ -154,7 +154,7 @@ Page({
     //首先获取上一题的ID
     let curindex = that.data.curIndexNumber - 1 // 当前下标
     console.log(curindex)
-    if (this.data.is_lock == 1) {} else {
+    if (this.data.is_lock == 1) { } else {
       this.common()
     }
     if (curindex < 1) {
@@ -281,20 +281,20 @@ Page({
     let that = this
     let curID = that.data.curID
     console.log(curID)
-    if (that.data.randerTitle.problem_type == 2) {
+    if ([2, 4].includes(that.data.randerTitle.problem_type)) {
       //多选题在此提交答案
       if (that.data.randerTitle.hasSubmit) {
         // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
-        if (multiselect == '') {} else {
+        if (multiselect == '') { } else {
           that.submitAnswer(multiselect, curID)
         }
       }
     }
-    if (that.data.randerTitle.problem_type == 6) {
+    if (that.data.randerTitle.problem_type == 7) {
       //场景提交
-      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {} else {
+      if (that.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { } else {
         if (this.data.multiselect != '') {
           this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
         } else if (this.data.SceneValue != '') {
@@ -307,14 +307,14 @@ Page({
     if (that.data.randerTitle.hasSubmit) {
       // 其他模式表明已提交过答案
     } else {
-      if (this.data.fillNewAnswer.length == 0) {} else {
+      if (this.data.fillNewAnswer.length == 0) { } else {
         let answer = ''
         this.data.fillNewAnswer.forEach((value) => {
           answer = answer + value + ','
         })
         that.submitAnswer(answer, curID)
       }
-      if (this.data.shortMap == '') {} else {
+      if (this.data.shortMap == '') { } else {
         let answer = this.data.shortMap
         that.submitAnswer(answer, curID)
       }
@@ -327,10 +327,10 @@ Page({
     this.setData({
       multiselecting: [],
     })
-    if(this.data.showAny==false){
-      multishowAny=false
-    }else{
-      multishowAny=true
+    if (this.data.showAny == false) {
+      multishowAny = false
+    } else {
+      multishowAny = true
     }
     this.setData({
       answerImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
@@ -338,7 +338,7 @@ Page({
       correctoption: '',
       multishowAny: multishowAny,
     })
-    if (this.data.is_lock == 1) {} else {
+    if (this.data.is_lock == 1) { } else {
       this.common()
     }
     // 开启缓存，并去重,传入当前数据，而非下一题数据
@@ -371,7 +371,7 @@ Page({
     let hasBeenLoad = this.data.randerTitle.child[index] //本地缓存
     if (hasBeenLoad.done != undefined && hasBeenLoad.done == true) {
       //已缓存
-    } else {}
+    } else { }
     // let result = hasBeenLoad.find((value) => value.problem_id == ID);
     // console.log(result)
   },
@@ -554,12 +554,12 @@ Page({
     })
     console.log(this.data.randerTitle.content)
   },
-    // 显示案例题下面的填空题的答案
-    showCompletionAnswer(){
-      this.setData({
-        multiSceneshowAny:!this.data.multiSceneshowAny
-      })
-    },
+  // 显示案例题下面的填空题的答案
+  showCompletionAnswer() {
+    this.setData({
+      multiSceneshowAny: !this.data.multiSceneshowAny
+    })
+  },
   showAnswer() {
     if (this.data.activeAnswer == 'activeAnswer') {
       this.setData({
@@ -699,10 +699,13 @@ Page({
         data: option,
         success: function (res) {
           console.log(res)
-          let list = res.list
-          let totalNum = res.list.length
-          // //合并数组
-          let alltestID = list.map(item=>item.problem_id)
+          let list = res.list || []
+          // 案例题id会重复，所以去重
+          let totalNum = Array.from(new Set(list.map(item => item.problem_id))).length
+
+          //合并数组
+          let alltestID = [];
+          alltestID = list.map(item => item.problem_id)
           that.setData({
             all_current_no: totalNum, //总题数
             alltestID: alltestID, //所有题目id
@@ -718,12 +721,12 @@ Page({
         chapterName: '收藏夹',
         navH: app.globalData.navHeight,
         dialogContent: '该章节收藏夹已到底了,是否退出',
-      //    nosubmit:0,
-      //  lettering: 'normalGo',
+        //    nosubmit:0,
+        //  lettering: 'normalGo',
         showAny: false
       })
       this.getFavoritesList(options)
-     
+
 
 
 
@@ -735,7 +738,7 @@ Page({
     let problem_course_id = wx.getStorageSync('problem_course_id')
     let option = {
       problem_course_id: problem_course_id.problem_course_id,
-      problem_chapter_id:parseInt (options.problem_chapter_id),
+      problem_chapter_id: parseInt(options.problem_chapter_id),
       page: 1,
       limit: 99999999
     }
@@ -745,31 +748,31 @@ Page({
       method: 'GET',
       data: option,
       success: function (res) {
-      console.log(res)
-      let data =res.list
-    let alltestID =  data.map((i)=>{
-        return i.problem_id
-      })
-      console.log(alltestID)
-      
-      that.setData({
-        all_current_no: res.list.length, //总题数
-        // challenge_id: res.challenge_id,
-        alltestID: alltestID, //所有题目id
-        nosubmit:0,
-        lettering: 'normalGo',
-        showAny: false,
-        multishowAny:false
-      })
-      console.log(that.data.showAny)
-      that.findcurIndex(alltestID[0], alltestID, 0)
-      //开始加载题目详情
-      that.initText(alltestID[0])
-      
+        console.log(res)
+        let data = res.list
+        let alltestID = data.map((i) => {
+          return i.problem_id
+        })
+        console.log(alltestID)
+
+        that.setData({
+          all_current_no: res.list.length, //总题数
+          // challenge_id: res.challenge_id,
+          alltestID: alltestID, //所有题目id
+          nosubmit: 0,
+          lettering: 'normalGo',
+          showAny: false,
+          multishowAny: false
+        })
+        console.log(that.data.showAny)
+        that.findcurIndex(alltestID[0], alltestID, 0)
+        //开始加载题目详情
+        that.initText(alltestID[0])
+
 
       },
-      fail: function (t) {},
-      complete: function () {},
+      fail: function (t) { },
+      complete: function () { },
     })
   },
 
@@ -827,7 +830,7 @@ Page({
         console.log(res)
         //提交完答案，清空多选题答案数组,并查看是否已缓存，并改变其中的标识符（hasSubmit）
         if (res.data.code == 200) {
-          if (that.data.randerTitle.problem_type == 6) {
+          if (that.data.randerTitle.problem_type == 7) {
             console.log(curID)
             that.data.randerTitle.child[curID].hasSubmit = true
           }
@@ -838,6 +841,7 @@ Page({
             SceneValue: '', //场景模式下填空清空
             shortSceneMap: '', //场景模式下简答清空
             shortMap: '', //简答题清空
+            fillNewAnswer: []
           })
           console.log(that.data.randerTitle)
           let curRander = that.data.randerTitle
@@ -864,23 +868,23 @@ Page({
     })
   },
   sceneCommon() {
-    if (
-      this.data.randerTitle.child[this.data.senceIndex - 1]
-      .problem_child_type == 2
-    ) {
-      //多选题在此提交答案
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
-        // 表明已提交过答案
-      } else {
-        if (this.data.multiselect != '') {
-          this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
-        } else if (this.data.SceneValue != '') {
-          this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
-        } else if (this.data.shortSceneMap != '') {
-          this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
-        }
+    // if (
+    //   [2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1]
+    //   .problem_child_type)
+    // ) {
+    //多选题在此提交答案
+    if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
+      // 表明已提交过答案
+    } else {
+      if (this.data.multiselect != '') {
+        this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
+      } else if (this.data.SceneValue != '') {
+        this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
+      } else if (this.data.shortSceneMap != '') {
+        this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
       }
     }
+    // }
   },
   bindsenceNext() {
     console.log(this.data.senceIndex, this.data.senceNum) // 点击下一题增加+1
@@ -920,8 +924,8 @@ Page({
         duration: 2000,
       })
       if (
-        this.data.randerTitle.child[this.data.senceIndex - 1]
-        .problem_child_type == 2
+        [2, 4].includes(this.data.randerTitle.child[this.data.senceIndex - 1]
+          .problem_child_type)
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -933,8 +937,8 @@ Page({
       }
     } else {
       if (
-        this.data.randerTitle.child[this.data.senceIndex - 1]
-        .problem_child_type == 2
+        [2, 4].includes(this.data.randerTitle.child[this.data.senceIndex - 1]
+          .problem_child_type)
       ) {
         //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) {
@@ -979,18 +983,18 @@ Page({
         method: 'GET',
         dataType: 'json',
         success: function (res) {
-          console.log(res, res.info.problem_type)
+          console.log(res)
           let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
           randerTitle.showAnswer = false
-         console.log('哈哈哈')
-          if(that.data.showAny==false){
+          console.log('哈哈哈')
+          if (that.data.showAny == false) {
             randerTitle.done = true
             // randerTitle.showAnswer = true
-          }else{
+          } else {
             randerTitle.done = false
           }
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
-          if (randerTitle.problem_type == 6) {
+          if (randerTitle.problem_type == 7) {
             if (
               randerTitle.child != undefined &&
               randerTitle.child.length > 0
@@ -1190,16 +1194,16 @@ Page({
     that.getAlltestNumber(options)
     // that.getErrorChapterlist(options)
   },
-  onReady: function () {},
-  onShow: function () {},
+  onReady: function () { },
+  onShow: function () { },
   onHide: function () {
     clearTimeout(t)
   },
   onUnload: function () {
     clearTimeout(t)
   },
-  onPullDownRefresh: function () {},
-  onReachBottom: function () {},
+  onPullDownRefresh: function () { },
+  onReachBottom: function () { },
   // 左右滑动事件
   touchStart(e) {
     this.setData({

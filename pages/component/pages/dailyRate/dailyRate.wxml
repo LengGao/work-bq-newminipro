@@ -7,12 +7,12 @@
             {{time}}
         </view>
     </view>
-    <view style="display:flex;align-items:center;justify-content:center;vertical-align:middle;background:#199FFF;width:120rpx;height:40rpx;background:rgba(25,159,255,1);border-radius:20rpx 0rpx 0rpx 20rpx;" bindtap='goshare'>
+    <!-- <view style="display:flex;align-items:center;justify-content:center;vertical-align:middle;background:#199FFF;width:120rpx;height:40rpx;background:rgba(25,159,255,1);border-radius:20rpx 0rpx 0rpx 20rpx;" bindtap='goshare'>
         <image style="width:26rpx;height:26rpx" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/daShare.png" />
         <view style="font-size:24rpx;font-family:PingFang SC;font-weight:500;color:#ffffff;margin-left:15rpx">
             分享
         </view>
-    </view>
+    </view> -->
 </view>
 <view style="width:266rpx;height:230rpx;margin-left:242rpx;margin-top:60rpx;">
   <view class="uprates">  <text class="rates">正确率</text> <text class="percentages">{{ rate }}%</text> </view>
