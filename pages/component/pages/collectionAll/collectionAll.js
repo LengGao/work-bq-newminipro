@@ -145,11 +145,11 @@ Page({
       method: 'GET',
       data: option,
       success: function (res) {
-        console.log(res.list)
+        console.log(res)
         let total = res.total
-        let collectTitle = app.errorWxParse(that, res.list, 'wrong')
+        let collectTitle = []
+        res.list.length && ( collectTitle = app.errorWxParse(that, res.list, 'wrong'))
         let pageNum = Math.ceil(total / 20)
-        console.log(pageNum)
         if (pageNum < 2) {
           that.setData({
             collectList: collectTitle,
