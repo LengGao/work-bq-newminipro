@@ -700,33 +700,11 @@ Page({
         success: function (res) {
           console.log(res)
           let list = res.list
-          let totalNum
-          let single_problem = list.single_problem || [] //单选
-          let fill_problem = list.fill_problem || [] //填空
-          let judge_problem = list.judge_problem || [] //判断
-          let multiple_problem = list.multiple_problem || [] //多选
-          let scenes_problem = list.scenes_problem || [] //场景
-          let short_problem = list.short_problem || [] //简答
-          totalNum =
-            single_problem.length +
-            multiple_problem.length +
-            scenes_problem.length +
-            judge_problem.length +
-            fill_problem.length +
-            short_problem.length
-          //合并数组
-          let alltestID = []
-          alltestID = alltestID
-            .concat(single_problem)
-            .concat(multiple_problem)
-            .concat(scenes_problem)
-            .concat(judge_problem)
-            .concat(fill_problem)
-            .concat(short_problem)
-          console.log(totalNum, alltestID)
+          let totalNum = res.list.length
+          // //合并数组
+          let alltestID = list.map(item=>item.problem_id)
           that.setData({
             all_current_no: totalNum, //总题数
-            // challenge_id: res.challenge_id,
             alltestID: alltestID, //所有题目id
           })
           //查找当前题目下标
@@ -1123,7 +1101,7 @@ Page({
     // console.log(beforePage);
     wx.navigateBack({
       success: function () {
-        beforePage.onLoad(number)
+        // beforePage.onLoad(number)
       },
     })
   },
@@ -1143,7 +1121,7 @@ Page({
         let courseId = that.data.courseId
         wx.navigateBack({
           success: function () {
-            beforePage.onLoad({
+            beforePage && beforePage.onLoad({
               courseId: courseId
             })
           },

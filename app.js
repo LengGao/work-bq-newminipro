@@ -43,7 +43,7 @@ App({
     // 新增school_id
     globalData: {
         organizationId:3,// 机构id
-        version:789,// 版本号
+        version:72,// 版本号
         userInfo: null,
         rdsession: "",
         acct_id: 1,
