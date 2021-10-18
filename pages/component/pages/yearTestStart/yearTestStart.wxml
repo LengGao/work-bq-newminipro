@@ -1,4 +1,10 @@
 <import src="../../../../wxParse/wxParse.wxml"></import>
+<wxs module="tools">
+  var indexOf = function (target,value){
+      return  target.indexOf(value)
+  }
+  module.exports.indexOf = indexOf
+</wxs>
 <view class='nav bg-white' style='height:{{navH}}px'>
     <view class='nav-title'>
         <text class="biaoti">{{ chapterName }}</text>
@@ -25,18 +31,18 @@
             <block wx:if='{{nosubmit}}'>
                 <!-- 表明是回顾状态下的展示 -->
                 <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
-                    class="wrapper-items {{ vItem.color ? 'correct':'' }} {{ vItem.err ? 'errorText':'' }} ">
-                    <view class="letter " wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">
+                    class="wrapper-items {{ vItem.color && randerTitle.option === vItem.option ? 'correct':'' }} {{ vItem.err && randerTitle.option === vItem.option ? 'errorText':'' }} ">
+                    <view class="letter " wx:if="{{ randerTitle.option !== vItem.option && !vItem.color &&  randerTitle.answer !== vItem.option  }}">
                         {{vItem.option}}
                     </view>
-                    <image wx:if="{{ vItem.color ? true: false }}" mode="widthFix"
+                    <image wx:if="{{ vItem.color ||  randerTitle.answer === vItem.option }}" mode="widthFix"
                         src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png"
                         style="width:44rpx;height:44rpx;  margin-right: 24rpx;" />
-                    <image wx:if="{{ vItem.err ? true : false }}" mode="widthFix"
+                    <image wx:if="{{ vItem.err && randerTitle.option === vItem.option }}" mode="widthFix"
                         src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png"
                         style="width:44rpx;height:44rpx;  margin-right: 24rpx;" />
                     <view
-                        class="rich_text_box test_rich {{ vItem.color ? 'correcttext':'' && vItem.err ? errorText: '' }}">
+                        class="rich_text_box test_rich {{ vItem.color && randerTitle.option === vItem.option ? 'correcttext':'' && vItem.err ? errorText: '' }}">
                         <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
                     </view>
                 </view>
@@ -83,16 +89,16 @@
             data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
             data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
-                class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
-                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}"  wx:if="{{!correctAnswer || (correctAnswer && !vItem.color && ! vItem.err) }}">
+                class="wrapper-items {{  vItem.haschose ? 'correct':''  }}">
+                <view class="letter  {{  vItem.haschose  ? 'correctoption':''  }}"  wx:if="{{!correctAnswer || (correctAnswer && !vItem.color && ! vItem.err  && tools.indexOf(randerTitle.answer,vItem.option) === -1) }}">
                     {{vItem.option}}
                 </view>
                 <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
-                <image wx:if="{{ correctAnswer && vItem.color ? true: false }}" mode="widthFix"
+                <image wx:if="{{ correctAnswer && (vItem.color || tools.indexOf(randerTitle.answer,vItem.option) !== -1)  ? true: false }}" mode="widthFix"
                     src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
-                <image wx:if="{{ wrongAnswer && vItem.err ? true : false }}" mode="widthFix"
+                <image wx:if="{{ wrongAnswer && vItem.err && vItem.haschose ? true : false }}" mode="widthFix"
                     src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
-                <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
+                <view class="rich_text_box test_rich  {{  vItem.haschose ? 'correcttext':''  }}">
                     <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
                 </view>
             </view>
@@ -189,16 +195,16 @@
             data-option="{{vItem.option}}" data-answer="{{randerTitle.answer}}" data-index="{{index}}"
             data-id="{{randerTitle.ProblemId}}">
             <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
-                class="wrapper-items {{  vItem.haschose == true ? 'correct':''  }}">
-                <view class="letter  {{  vItem.haschose == true ? 'correctoption':''  }}">
+                class="wrapper-items {{  vItem.haschose ? 'correct':''  }}">
+                <view class="letter  {{  vItem.haschose  ? 'correctoption':''  }}"  wx:if="{{!correctAnswer || (correctAnswer && !vItem.color && ! vItem.err  && tools.indexOf(randerTitle.answer,vItem.option) === -1) }}">
                     {{vItem.option}}
                 </view>
                 <!-- <view class="letter" wx:if="{{ vItem.color ? false: true &&  vItem.err ? false : true }}">{{vItem.option}}</view> -->
-                <image wx:if="{{ correctAnswer && vItem.color ? true: false }}" mode="widthFix"
+                <image wx:if="{{ correctAnswer && (vItem.color || tools.indexOf(randerTitle.answer,vItem.option) !== -1)  ? true: false }}" mode="widthFix"
                     src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/correct.png" class="topimages" />
-                <image wx:if="{{ wrongAnswer && vItem.err ? true : false }}" mode="widthFix"
+                <image wx:if="{{ wrongAnswer && vItem.err && vItem.haschose ? true : false }}" mode="widthFix"
                     src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/error.png" class="topimages" />
-                <view class="rich_text_box test_rich  {{  vItem.haschose == true ? 'correcttext':''  }}">
+                <view class="rich_text_box test_rich  {{  vItem.haschose ? 'correcttext':''  }}">
                     <template is="wxParse" data="{{wxParseData:vItem.contentCopy}}"></template>
                 </view>
             </view>

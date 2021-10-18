@@ -597,9 +597,6 @@ Page({
         this.data.randerTitle.child[this.data.senceIndex - 1].content[index].haschose = true
         this.data.randerTitle.child[this.data.senceIndex - 1].done = true
       }
-      this.setData({
-        multiselect: this.data.multiselect + option + ','
-      })
     }else{
       let indexs = multiselect.findIndex((val)=>{ val == option })
       if (this.data.randerTitle.content != undefined) {
@@ -636,13 +633,9 @@ Page({
         randerTitle: this.data.randerTitle
       })
     }
-    console.log(option,this.data.multiselect.includes(option),this.data.multiselect)
-     if(this.data.multiselect.includes(option)){//再次点击取消当前选项
-      this.data.multiselect.replace(option,'')
-      this.setData({
-        multiselect:this.data.multiselect
-      })
-     }
+    this.setData({
+      multiselect:multiselect.join(',')
+    })
   
   },
   showAnswer() {
