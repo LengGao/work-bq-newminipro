@@ -691,6 +691,7 @@ Page({
       let option = {
         problem_course_id: problem_course_id,
         problem_chapter_id: this.data.problem_chapter_id,
+        limit:9999
       }
       console.log(option)
       app.encryption({
@@ -742,7 +743,7 @@ Page({
       problem_course_id: problem_course_id.problem_course_id,
       problem_chapter_id: parseInt(options.problem_chapter_id),
       page: 1,
-      limit: 99999999
+      limit: 9999
     }
     console.log(option)
     app.encryption({
