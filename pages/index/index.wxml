@@ -132,7 +132,7 @@
             <image style="width:100%;height:100%" src="{{ myCourse.cover_img }}" />
         </view>
         <view class="myCourse-info">
-            <view class="myCourse-content-title">{{ myCourse.course_name}}</view>
+            <view class="myCourse-content-title {{ myCourse.is_regulatory && myCourse.regulatory_detect_status ?'marker':''}}">{{ myCourse.course_name}}</view>
             <view class="myCourse-content-cneter">
                 <text class="myCourse-time">{{myCourse.lesson_count }}课时</text>
                 <text class="myCourse-times">{{myCourse.user_count}}人已学习</text>

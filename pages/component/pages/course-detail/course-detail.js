@@ -383,7 +383,6 @@ Page({
   },
   // 设置播放的URL
   setPlayUrl(row) {
-    console.log(11222, row)
     const currentVideoResource = []
     if (row.ld_play_url) {
       currentVideoResource.push({
@@ -512,6 +511,8 @@ Page({
     let {
       currentTime
     } = e.detail
+     // 记录当前播放时间
+     this.currentPlayTime = currentTime
     this.data.videoplaying = true
     if (this.data.videoplaying && this.data.currentRate != 1.0) {
       this.videoContext.playbackRate(Number(this.data.currentRate))
@@ -532,7 +533,8 @@ Page({
         3: 3, // 视频3/1
         4: 2 // 视频2/1
       }
-      const targetTime = totalTime / timeMap[this.faceConifg.recordVideoState]
+      const timeMapValue =  timeMap[this.faceConifg.recordVideoState]
+      const targetTime =timeMapValue ? totalTime / timeMapValue : 1 
       // console.log(targetTime , currentTime)
       if (Math.abs(targetTime - currentTime) <= 0.1) {
         wx.navigateTo({
@@ -542,14 +544,11 @@ Page({
     }
     // 监管认证 去拍照，验证码
     if (this.isToFace) {
-      if (!this.lastFaceTime) {
+      if (!this.lastFaceTime || this.lastFaceTime > currentTime) {
         this.lastFaceTime = currentTime
       }
-      if(this.lastFaceTime > currentTime){
-        this.lastFaceTime = 0
-      }
-      if (this.lastFaceTime - currentTime <= -(1 * 60 * (this.faceConifg.minute || 5))) {
-        // if (this.lastFaceTime - currentTime <= -5){
+      if ( currentTime -  this.lastFaceTime >= 60 * (this.faceConifg.minute || 5) ) {
+      // if ( currentTime -  this.lastFaceTime >= 20 ) {
         this.lastFaceTime = currentTime
         if(this.faceConifg.videoOnHook == 1){
         // 验证码
@@ -564,8 +563,7 @@ Page({
         }
       }
     }
-    // 记录当前播放时间
-    this.currentPlayTime = currentTime
+   
   },
   // 开始播放
   onPlay() {
@@ -589,7 +587,7 @@ Page({
   // 停止发送
   stopSend() {
     this.endStudy()
-    this.studyHour(this.currentTime)
+    this.studyHour(this.currentPlayTime)
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
@@ -638,6 +636,9 @@ Page({
   },
   // 监管-统计接口
   studyHour(video_time) {
+    if (!this.isToFace) {
+      return
+    }
     app.encryption({
       url: api.video.studyHour,
       method: "GET",
@@ -646,7 +647,7 @@ Page({
         course_video_lesson_id: this.currentPlayId
       },
       success: (res) => {
-        console.log('记录',res)
+        console.log('记录',res,video_time)
       }
     });
   },
@@ -809,7 +810,6 @@ Page({
       method: "GET",
       data,
       success: (res) => {
-        console.log(11111, res)
         this.isToFace = res.status
         this.faceConifg = res
 

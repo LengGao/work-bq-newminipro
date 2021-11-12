@@ -15,5 +15,8 @@ page{
 .verification-code input{
   width: 200px;
   margin: 0 auto;
+  height: 40px;
+  line-height: 40px;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }

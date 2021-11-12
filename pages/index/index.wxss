@@ -707,3 +707,12 @@ width: 100%;
 .video-number{
     color: #a3a3a3;
 }
+.marker::before{
+ display: inline-block;
+ content: '';
+ width: 10rpx;
+ height: 10rpx;
+ background-color: #333;
+ border-radius: 50%;
+ vertical-align: middle;
+}
