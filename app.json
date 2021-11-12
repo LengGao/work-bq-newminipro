@@ -13,6 +13,8 @@
     {
       "root": "pages/component/",
       "pages": [
+        "pages/verificationCode/index",
+        "pages/face/index",
         "pages/timetable/timetable",
         "pages/yearTestScroll/yearTestScroll",
         "pages/Myclass/Myclass",

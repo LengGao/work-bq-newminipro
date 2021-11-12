@@ -7,7 +7,7 @@ import {
 } from '../../../../mp_ecard_sdk/main';
 Page({
   data: {
-    courseInfo:{},
+    courseInfo: {},
     course_type: '',
     uid: '',
     info_show: '',
@@ -80,10 +80,9 @@ Page({
     isPay: true,
     courseId: '',
     hideProgressMask: true,
-    currentPlayData: {},
     activeChapterIndex: 0,
     activeVideoIndex: 0,
-    initTime:0
+    initTime: 0
   },
   // 扫脸相关
   videoVerifyNode: [],
@@ -98,7 +97,9 @@ Page({
   startTime: 0,
   currentTime: 0,
   currentPlayId: "",
-  hideTimer:null,
+  currentPlayData: {},
+  hideTimer: null,
+  faceConifg:{},
   sumbitComment() {
     if (this.data.value2 == '') {
       wx.showToast({
@@ -305,6 +306,7 @@ Page({
       },
     })
   },
+
   // 获取课程视频目录
   getCourse() {
     let option = {
@@ -316,7 +318,7 @@ Page({
       data: option,
       success: (res) => {
         console.log(res)
-        if(res.course_type === 2){
+        if (res.course_type === 2) {
           // 全科班
           this.setData({
             chapterList: res.list,
@@ -338,19 +340,18 @@ Page({
             });
           }
         });
-        const currentPlayData = res.list[activeChapterIndex]?res.list[activeChapterIndex].lesson_list[activeVideoIndex] :{}
+        const currentPlayData = this.currentPlayData = res.list[activeChapterIndex] ? res.list[activeChapterIndex].lesson_list[activeVideoIndex] : {}
         this.setData({
           chapterList: res.list.map((item, index) => ({
             ...item,
             isShow: index === activeChapterIndex,
           })),
-          currentPlayData,
           activeChapterIndex,
           activeVideoIndex,
           course_type: res.course_type,
           isPay: true
         })
-        if(!res.list.length){
+        if (!res.list.length) {
           wx.showToast({
             title: '该课程无目录',
             icon: 'none'
@@ -382,6 +383,7 @@ Page({
   },
   // 设置播放的URL
   setPlayUrl(row) {
+    console.log(11222, row)
     const currentVideoResource = []
     if (row.ld_play_url) {
       currentVideoResource.push({
@@ -412,7 +414,6 @@ Page({
     wx.setNavigationBarTitle({
       title: row.title
     });
-
 
     this.setData({
       hideProgressMask: !!row.is_fast,
@@ -451,7 +452,7 @@ Page({
       success: (res) => {
         // 扫脸成功继续播放
         if (res.status === 2) {
-          this.prevVerifyTime =  this.nextVerifyTime
+          this.prevVerifyTime = this.nextVerifyTime
           this.setVerifyTime()
           this.videoContext.play()
         }
@@ -482,7 +483,7 @@ Page({
         }
       },
       complete: () => {
-          this.tokenLoading = false
+        this.tokenLoading = false
       }
     })
   },
@@ -503,7 +504,7 @@ Page({
   setPlaySeek(value) {
     this.videoContext.seek(value)
     this.setData({
-      initTime:value
+      initTime: value
     })
   },
   // 监听播放位置变化
@@ -520,11 +521,55 @@ Page({
       this.videoContext.pause();
       this.nextVerifyTime !== this.prevVerifyTime && this.getEidToken(this.nextVerifyTime)
     }
+    // 监管认证 去录视频
+    if (this.faceConifg.videoPlayRecord) {
+      const {
+        origin_duration: totalTime
+      } = this.currentPlayData
+      const timeMap = {
+        1: 0, // 视频开始
+        2: 4, // 视频4/1
+        3: 3, // 视频3/1
+        4: 2 // 视频2/1
+      }
+      const targetTime = totalTime / timeMap[this.faceConifg.recordVideoState]
+      // console.log(targetTime , currentTime)
+      if (Math.abs(targetTime - currentTime) <= 0.1) {
+        wx.navigateTo({
+          url: `../face/index?lesson_id=${this.currentPlayId}&type=3`
+        })
+      }
+    }
+    // 监管认证 去拍照，验证码
+    if (this.isToFace) {
+      if (!this.lastFaceTime) {
+        this.lastFaceTime = currentTime
+      }
+      if(this.lastFaceTime > currentTime){
+        this.lastFaceTime = 0
+      }
+      if (this.lastFaceTime - currentTime <= -(1 * 60 * (this.faceConifg.minute || 5))) {
+        // if (this.lastFaceTime - currentTime <= -5){
+        this.lastFaceTime = currentTime
+        if(this.faceConifg.videoOnHook == 1){
+        // 验证码
+          wx.navigateTo({
+            url: `../verificationCode/index?lesson_id=${this.currentPlayId}&video_time=${currentTime}`
+          })
+        }else{
+          // 扫脸拍照
+          wx.navigateTo({
+            url: `../face/index?lesson_id=${this.currentPlayId}&type=2&video_time=${currentTime}`
+          })
+        }
+      }
+    }
     // 记录当前播放时间
     this.currentPlayTime = currentTime
   },
   // 开始播放
   onPlay() {
+    this.startStudy()
     this.intervalSend()
   },
   // 暂停播放
@@ -543,6 +588,8 @@ Page({
   },
   // 停止发送
   stopSend() {
+    this.endStudy()
+    this.studyHour(this.currentTime)
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
@@ -569,6 +616,10 @@ Page({
   // 发送数据
   sendData() {
     this.currentTime = this.currentPlayTime;
+    if (!this.sendCount) {
+      this.sendCount = 0
+    }
+    this.sendCount++
     const data = {
       start: this.startTime,
       end: this.currentTime,
@@ -578,8 +629,26 @@ Page({
     // 时间差必须小于当前发送间隔时间的2.2倍且大于0，才视为有效数据
     if (times <= (this.time / 1000) * 2.2 && times > 0) {
       this.courseVideoRecord(data);
+      // 1分钟一次
+      if (this.sendCount % 6 === 0) {
+        this.studyHour(this.currentTime)
+      }
     }
     this.startTime = this.currentTime;
+  },
+  // 监管-统计接口
+  studyHour(video_time) {
+    app.encryption({
+      url: api.video.studyHour,
+      method: "GET",
+      data: {
+        video_time,
+        course_video_lesson_id: this.currentPlayId
+      },
+      success: (res) => {
+        console.log('记录',res)
+      }
+    });
   },
   // 统计接口
   courseVideoRecord(data) {
@@ -612,7 +681,7 @@ Page({
   handleVideoToggle(e) {
     const index = e.currentTarget.dataset.index;
     const vIndex = e.currentTarget.dataset.vindex;
-    const currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
+    const currentPlayData = this.currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
     this.setData({
       isPay: true
     })
@@ -638,7 +707,6 @@ Page({
     }
     this.stopSend()
     this.setData({
-      currentPlayData,
       activeChapterIndex: index,
       activeVideoIndex: vIndex,
     })
@@ -682,19 +750,19 @@ Page({
     this.setData({
       courseId: option.courseId || this.data.courseId,
     });
+    this.courseJgPlatformConfig(option.courseId || this.data.courseId)
     this.getCourse() //获取课程目录
     this.coursedetail() //获取课程介绍
     this.getcomment() //获取课程评论
-
   },
   onReady() {},
-  onShow: function () {},
+  onShow() {},
   onHide: function () {},
   onPullDownRefresh: function () {},
   onReachBottom: function () {},
   onShareAppMessage: function (res) {
     return {
-      title: this.data.currentPlayData.title,
+      title: this.currentPlayData.title,
       path: "pages/component/pages/course-detail/course-detail?courseId=" + this.data.courseId,
       // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
       success: function (t) {
@@ -704,6 +772,49 @@ Page({
         console.log("转发失败", t);
       }
     };
+  },
+  startStudy() {
+    if (!this.isToFace) {
+      return
+    }
+    const data = {
+      course_video_lesson_id: this.currentPlayId
+    }
+    app.encryption({
+      url: api.video.startStudy,
+      method: "GET",
+      data,
+    })
+  },
+  endStudy() {
+    if (!this.isToFace) {
+      return
+    }
+    const data = {
+      course_video_lesson_id: this.currentPlayId
+    }
+    app.encryption({
+      url: api.video.endStudy,
+      method: "GET",
+      data,
+    })
+  },
+  // 是否需要监管认证 0:不需要 1；照片 2：视频 3：验证码
+  courseJgPlatformConfig(course_id) {
+    const data = {
+      course_id
+    }
+    app.encryption({
+      url: api.video.courseJgPlatformConfig,
+      method: "GET",
+      data,
+      success: (res) => {
+        console.log(11111, res)
+        this.isToFace = res.status
+        this.faceConifg = res
+
+      }
+    })
   },
   closeControl() {
     this.setData({
@@ -730,16 +841,16 @@ Page({
     })
     this.timeOutHide()
   },
-    // 自动隐藏
-    timeOutHide(){
-      this.hideTimer && clearTimeout(this.hideTimer)
-       this.hideTimer = setTimeout(() => {
-        this.setData({
-          multiListShow: false,
-          rateShow: false,
-        })
-        }, 5000);
-      },
+  // 自动隐藏
+  timeOutHide() {
+    this.hideTimer && clearTimeout(this.hideTimer)
+    this.hideTimer = setTimeout(() => {
+      this.setData({
+        multiListShow: false,
+        rateShow: false,
+      })
+    }, 5000);
+  },
   switchRate(e) {
     let dataset = e.currentTarget.dataset
     let {
@@ -775,7 +886,7 @@ Page({
     }, () => {
       this.videoContext.seek(currentTime)
       this.setData({
-        initTime:currentTime
+        initTime: currentTime
       })
     })
   },

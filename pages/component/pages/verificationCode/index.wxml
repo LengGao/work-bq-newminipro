@@ -1,0 +1,6 @@
+<view class="page-body">
+  <view class="verification-code">
+  <image src="{{codeSrc}}"></image>
+  <input auto-focus placeholder="请输入验证码" bindinput="handleCodeInput" bindblur="submitVerificationCode"/>
+  </view>
+</view>

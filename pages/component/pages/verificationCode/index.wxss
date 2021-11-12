@@ -1,0 +1,19 @@
+page{
+  height: 100%;
+  background-color: #fff;
+}
+
+.verification-code{
+  padding-top: 100rpx;
+  text-align: center;
+}
+.verification-code image{
+  width: 140px;
+  height: 30px;
+  margin-bottom: 20px;
+}
+.verification-code input{
+  width: 200px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+}

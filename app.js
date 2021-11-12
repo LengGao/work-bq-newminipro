@@ -191,7 +191,7 @@ App({
                     e.success && e.success(n);
                 } else {
                     data = crypto.decrypt(n.data.data['param'], key, uuid)
-                    e.success && e.success(data);
+                    e.success && e.success({...data,code:n.data.code});
                 }
             },
             fail: function (n) {
