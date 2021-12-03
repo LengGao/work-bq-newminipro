@@ -3,5 +3,6 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "认证",
     "navigationBarTextStyle": "black",
+    "navigationStyle": "custom",
   "usingComponents": {}
 }

@@ -95,11 +95,14 @@ Page({
   time: 1000 * 10,
   timer: null,
   startTime: 0,
-  currentTime: 0,
   currentPlayId: "",
   currentPlayData: {},
   hideTimer: null,
-  faceConifg:{},
+  faceConifg: {},
+  isFristPlay: true,
+  faceLoading: false,
+  isOnload: true,
+  faceLoadingTimer: null,
   sumbitComment() {
     if (this.data.value2 == '') {
       wx.showToast({
@@ -413,20 +416,27 @@ Page({
     wx.setNavigationBarTitle({
       title: row.title
     });
-
+    this.startStudy()
+    this.courseVideoBehaviorRecord()
+    this.setRandomTime()
     this.setData({
       hideProgressMask: !!row.is_fast,
       currentDefinition: currentVideoResource[0].definitionFormat,
       currentResource: currentVideoResource[0].url,
       currentVideoResource
     }, () => {
-      this.courseVideoBehaviorRecord()
       setTimeout(() => {
         this.setPlaySeek(this.startTime)
+        this.isFristPlay = true
+        this.faceLoading = false
         // 设置扫脸相关参数
         this.videoVerifyNode = [...row.detect_time_point_data]
         this.prevVerifyTime = null
         this.setVerifyTime()
+        // strict：1 监管严格模式 不能拖拽进度
+        if (this.faceConifg.strict == 1) {
+          this.currentPlayTime = this.startTime
+        }
       }, 20);
     })
   },
@@ -506,13 +516,24 @@ Page({
       initTime: value
     })
   },
+
   // 监听播放位置变化
   onTimeUpdate(e) {
     let {
-      currentTime
+      currentTime,
+      duration
     } = e.detail
-     // 记录当前播放时间
-     this.currentPlayTime = currentTime
+    // strict：1 监管严格模式 不能拖拽进度
+    if (this.faceConifg.strict == 1) {
+      const ddif = Math.abs(currentTime - this.currentPlayTime)
+      // console.log(ddif)
+      if (ddif > 0.7 && this.currentPlayTime) {
+        this.setPlaySeek(this.currentPlayTime)
+        return
+      }
+    }
+    // 记录当前播放时间
+    this.currentPlayTime = currentTime
     this.data.videoplaying = true
     if (this.data.videoplaying && this.data.currentRate != 1.0) {
       this.videoContext.playbackRate(Number(this.data.currentRate))
@@ -524,51 +545,134 @@ Page({
     }
     // 监管认证 去录视频
     if (this.faceConifg.videoPlayRecord) {
-      const {
-        origin_duration: totalTime
-      } = this.currentPlayData
       const timeMap = {
         1: 0, // 视频开始
         2: 4, // 视频4/1
         3: 3, // 视频3/1
         4: 2 // 视频2/1
       }
-      const timeMapValue =  timeMap[this.faceConifg.recordVideoState]
-      const targetTime =timeMapValue ? totalTime / timeMapValue : 1 
-      // console.log(targetTime , currentTime)
-      if (Math.abs(targetTime - currentTime) <= 0.1) {
+      const timeMapValue = timeMap[this.faceConifg.recordVideoState]
+      const targetTime = timeMapValue ? Math.floor(duration / timeMapValue) : 3
+      // console.log(targetTime, currentTime)
+      const difference = Math.abs(currentTime - targetTime)
+      // console.log(difference)
+      if (difference <= 0.4 && !this.faceLoading) {
+        this.faceLoading = true
+        this.videoContext.pause();
         wx.navigateTo({
-          url: `../face/index?lesson_id=${this.currentPlayId}&type=3`
+          url: `../face/index?lesson_id=${this.currentPlayId}&type=3&recordVideoTime=${this.faceConifg.recordVideoTime}`
         })
       }
     }
     // 监管认证 去拍照，验证码
     if (this.isToFace) {
-      if (!this.lastFaceTime || this.lastFaceTime > currentTime) {
-        this.lastFaceTime = currentTime
+      // 开始就验证
+      if (this.faceConifg.videoStartFace === 1 && this.isFristPlay) {
+        this.isFristPlay = false
+        this.whetherNeedFirstFaceDetect((res)=>{
+          console.log('该视频是否第一次扫脸？',res)
+          if(res.status == 1){
+            this.toVerification(true)
+          }
+        })
+        
       }
-      if ( currentTime -  this.lastFaceTime >= 60 * (this.faceConifg.minute || 5) ) {
-      // if ( currentTime -  this.lastFaceTime >= 20 ) {
-        this.lastFaceTime = currentTime
-        if(this.faceConifg.videoOnHook == 1){
-        // 验证码
-          wx.navigateTo({
-            url: `../verificationCode/index?lesson_id=${this.currentPlayId}&video_time=${currentTime}`
-          })
-        }else{
-          // 扫脸拍照
-          wx.navigateTo({
-            url: `../face/index?lesson_id=${this.currentPlayId}&type=2&video_time=${currentTime}`
-          })
+      console.log(currentTime)
+      // 按时间点验证
+      this.verificationTime.forEach(time => {
+        const difference = Math.abs(currentTime - time)
+        if (difference <= 0.4) {
+          console.log(difference)
+          this.toVerification()
         }
-      }
+      })
     }
-   
+
+  },
+  toVerification(isFrist) {
+    // faceLoading 防止短时间重复
+    if (this.faceLoading) {
+      return
+    }
+    // 扫脸拍照
+    if (this.faceConifg.videoOnHook == 2 || isFrist) {
+      this.faceLoading = true
+      this.getFaceCompareConfig((res) => {
+        console.log('扫脸bizCode', res.bizCode,isFrist)
+        if (res.bizCode) {
+          this.videoContext.pause();
+          wx.navigateTo({
+            url: `../face/index?lesson_id=${this.currentPlayId}&type=2&video_time=${this.currentPlayTime}&strict=${this.faceConifg.strict}&bizCode=${res.bizCode}`
+          })
+        } else {
+          this.faceLoading = false
+        }
+      })
+    }
+    // 验证码
+    if (this.faceConifg.videoOnHook == 1 && !isFrist) {
+      this.faceLoading = true
+      this.getVerificationCode((res) => {
+        console.log('验证码bizCode', res.bizCode)
+        if (res.bizCode) {
+          this.videoContext.pause();
+          wx.navigateTo({
+            url: `../verificationCode/index?lesson_id=${this.currentPlayId}&video_time=${this.currentPlayTime}&strict=${this.faceConifg.strict}&bizCode=${res.bizCode}&codeSrc=${res.verificationImagePath}`
+          })
+        } else {
+          this.faceLoading = false
+        }
+      })
+    }
+  },
+  // 获取视频是否是第一次扫脸
+  whetherNeedFirstFaceDetect(success) {
+    app.encryption({
+      url: api.video.whetherNeedFirstFaceDetect,
+      method: "GET",
+      data: {
+        course_video_lesson_id: this.currentPlayId
+      },
+      success
+    });
+  },
+  // 扫脸 获取bizcode 
+  getFaceCompareConfig(success) {
+    app.encryption({
+      url: api.video.getFaceCompareConfig,
+      method: "GET",
+      data: {
+        course_video_lesson_id: this.currentPlayId
+      },
+      success
+    });
+  },
+  // 获取验证码
+  getVerificationCode(success) {
+    app.encryption({
+      url: api.video.getVerificationCode,
+      method: "GET",
+      data: {
+        course_video_lesson_id: this.currentPlayId
+      },
+      success
+    });
+  },
+  // 监管验证结束后重置loading 
+  resetFaceLoading() {
+    if (this.faceLoadingTimer || !this.faceLoading) {
+      return
+    }
+    this.faceLoadingTimer = setTimeout(() => {
+      this.faceLoading = false
+      clearTimeout(this.faceLoadingTimer)
+      this.faceLoadingTimer = null
+    }, 1500);
   },
   // 开始播放
   onPlay() {
-    this.startStudy()
     this.intervalSend()
+    this.resetFaceLoading()
   },
   // 暂停播放
   onPause() {
@@ -579,6 +683,10 @@ Page({
     this.stopSend()
     this.startTime = 0
     this.setPlaySeek(0)
+    // strict：1 监管严格模式 不能拖拽进度
+    if (this.faceConifg.strict == 1) {
+      this.currentPlayTime = 0
+    }
   },
   // 离开页面
   onUnload() {
@@ -587,7 +695,6 @@ Page({
   // 停止发送
   stopSend() {
     this.endStudy()
-    this.studyHour(this.currentPlayTime)
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
@@ -600,6 +707,11 @@ Page({
         chapterList: this.data.chapterList
       })
     }
+    if (this.superviseTimer) {
+      clearInterval(this.superviseTimer);
+      this.superviseTimer = null;
+      this.studyHour(this.currentPlayTime)
+    }
   },
   // 间隔发送
   intervalSend() {
@@ -610,29 +722,28 @@ Page({
     this.timer = setInterval(() => {
       this.sendData();
     }, this.time);
+    //监管认证发送视频时间 1分钟一次
+    if (this.superviseTimer) {
+      clearInterval(this.superviseTimer);
+      this.superviseTimer = null;
+    }
+    this.superviseTimer = setInterval(() => {
+      this.studyHour(this.currentPlayTime)
+    }, 1000 * 60);
   },
   // 发送数据
   sendData() {
-    this.currentTime = this.currentPlayTime;
-    if (!this.sendCount) {
-      this.sendCount = 0
-    }
-    this.sendCount++
     const data = {
       start: this.startTime,
-      end: this.currentTime,
+      end: this.currentPlayTime,
       course_video_lesson_id: this.currentPlayId,
     };
-    const times = this.currentTime - this.startTime;
+    const times = this.currentPlayTime - this.startTime;
     // 时间差必须小于当前发送间隔时间的2.2倍且大于0，才视为有效数据
     if (times <= (this.time / 1000) * 2.2 && times > 0) {
       this.courseVideoRecord(data);
-      // 1分钟一次
-      if (this.sendCount % 6 === 0) {
-        this.studyHour(this.currentTime)
-      }
     }
-    this.startTime = this.currentTime;
+    this.startTime = this.currentPlayTime;
   },
   // 监管-统计接口
   studyHour(video_time) {
@@ -647,19 +758,22 @@ Page({
         course_video_lesson_id: this.currentPlayId
       },
       success: (res) => {
-        console.log('记录',res,video_time)
+        console.log('记录', res, video_time)
       }
     });
   },
   // 统计接口
   courseVideoRecord(data) {
+    // faceError控制监管认证失败后，防止安卓返回触发
+    if(this.faceError){
+      return
+    }
+    console.log(data)
     app.encryption({
       url: api.video.courseVideoRecord,
       method: "GET",
       data,
-      success: (res) => {
-        // console.log(res)
-      }
+      success: (res) => {}
     });
   },
   // 章节展开
@@ -682,6 +796,10 @@ Page({
   handleVideoToggle(e) {
     const index = e.currentTarget.dataset.index;
     const vIndex = e.currentTarget.dataset.vindex;
+    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
+      return
+    }
+    this.stopSend()
     const currentPlayData = this.currentPlayData = this.data.chapterList[index].lesson_list[vIndex]
     this.setData({
       isPay: true
@@ -703,10 +821,7 @@ Page({
       })
       return
     }
-    if (this.data.activeChapterIndex === index && this.data.activeVideoIndex === vIndex) {
-      return
-    }
-    this.stopSend()
+
     this.setData({
       activeChapterIndex: index,
       activeVideoIndex: vIndex,
@@ -755,9 +870,31 @@ Page({
     this.getCourse() //获取课程目录
     this.coursedetail() //获取课程介绍
     this.getcomment() //获取课程评论
+    this.isOnload = true
   },
   onReady() {},
-  onShow() {},
+  onShow() {
+    // 监管验证需要的  验证失败就返回，不能继续看视频
+    if (!this.isOnload && this.faceConifg.strict == 1 && this.faceLoading) {
+      const faceSuccess = wx.getStorageSync('faceSuccess')
+      if (!faceSuccess) {
+        const data = {
+          start: this.currentPlayTime - 4 >= 0 ? this.currentPlayTime - 4 : 0,
+          end: this.currentPlayTime - 2 >= 0 ? this.currentPlayTime - 2 : 0,
+          course_video_lesson_id: this.currentPlayId,
+        };
+        console.log('监管验证失败，时间返回2秒，下次接着触发验证', data)
+        this.courseVideoRecord(data)
+        this.faceError = true
+        wx.navigateBack({
+          delta: 1,
+        })
+      }else{
+        this.videoContext.play();
+      }
+    }
+    this.isOnload = false
+  },
   onHide: function () {},
   onPullDownRefresh: function () {},
   onReachBottom: function () {},
@@ -773,6 +910,15 @@ Page({
         console.log("转发失败", t);
       }
     };
+  },
+  idCardAuthentication() {
+    if (!this.isToFace) {
+      return
+    }
+    app.encryption({
+      url: api.video.idCardAuthentication,
+      method: "GET",
+    })
   },
   startStudy() {
     if (!this.isToFace) {
@@ -800,6 +946,29 @@ Page({
       data,
     })
   },
+  toDecimal(x) {
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+      return;
+    }
+    f = Math.floor(x * 100) / 100;
+    return f;
+  },
+  setRandomTime() {
+    // triggerType ===0 随机时间
+    if (this.faceConifg.triggerType === 0) {
+      this.verificationTime = []
+      const {
+        triggerValue
+      } = this.faceConifg
+      const totalTime = Math.floor(this.currentPlayData.origin_duration)
+      for (let i = 1; i <= triggerValue; i++) {
+        this.verificationTime.push(totalTime * (i / triggerValue).toFixed(2))
+      }
+      console.log('随机时间点', this.verificationTime)
+    }
+
+  },
   // 是否需要监管认证 0:不需要 1；照片 2：视频 3：验证码
   courseJgPlatformConfig(course_id) {
     const data = {
@@ -810,9 +979,29 @@ Page({
       method: "GET",
       data,
       success: (res) => {
+        console.log(1111111, res)
         this.isToFace = res.status
         this.faceConifg = res
+        this.idCardAuthentication()
+        // 监管验证的时间点
+        this.verificationTime = []
 
+        // triggerType ===1 固定间隔时间
+        if (res.triggerType === 1) {
+          const count = res.triggerValue < 10 ? 50 : 20
+          for (let i = 1; i < count; i++) {
+            this.verificationTime.push(res.triggerValue * i * 60)
+          }
+        }
+        // triggerType === 2 递增间隔时间
+        if (res.triggerType === 2) {
+          let value = 0
+          for (let i = 1; i < 10; i++) {
+            value = res.triggerValue * i + value
+            this.verificationTime.push(value * 60)
+          }
+        }
+        console.log('固定时间点', this.verificationTime)
       }
     })
   },
@@ -878,15 +1067,14 @@ Page({
       url,
       def
     } = dataset
-    const currentTime = this.currentPlayTime
     this.setData({
       currentResource: url,
       currentDefinition: def,
       multiListShow: false,
     }, () => {
-      this.videoContext.seek(currentTime)
+      this.videoContext.seek(this.currentPlayTime)
       this.setData({
-        initTime: currentTime
+        initTime: this.currentPlayTime
       })
     })
   },

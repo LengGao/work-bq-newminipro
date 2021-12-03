@@ -20,13 +20,30 @@ Page({
     let chapterId = e.currentTarget.dataset.chapterid
     let courseId = this.data.courseId
     let chapterName = e.currentTarget.dataset.chaptername
+    const index = e.currentTarget.dataset.index
+    const { has_exam ,id } = this.data.history[index] || {}
+    if(has_exam == 1 && id){
+      wx.showModal({
+       title:'提示',
+       content:'当前试卷已完成考试',
+       confirmText:'查看解析',
+       confirmColor:'#199fff',
+       cancelText:'关闭',
+       success(e){
+          e.confirm &&  wx.navigateTo({
+            url: `../yearTestScroll/yearTestScroll?real_topic_log_id=${id}&chapterName=${chapterName}&course_id=${courseId}&type=4&exam_length=10`
+          })
+        }
+      })
+      return
+    }
     wx.navigateTo({
       url: `../determinationIntro/determinationIntro?chapterId=${chapterId}&courseId=${courseId}&chapterName=${chapterName}`
     })
   },
-  getyearTest(courseId) {
+  getyearTest() {
     let option = {
-      problem_course_id: courseId,
+      problem_course_id: this.data.courseId,
       chapter_type:'3'
     }, that = this
     app.encryption({
@@ -62,7 +79,6 @@ Page({
     this.setData({
       courseId: options.courseId
     })
-    this.getyearTest(options.courseId)//加载历年真题
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -74,7 +90,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getyearTest()//加载历年真题
   },
 
   /**

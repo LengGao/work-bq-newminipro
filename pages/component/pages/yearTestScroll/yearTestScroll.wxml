@@ -86,6 +86,15 @@
         <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem.length + judgmentNum.length + fill_problem.length }} </text>
     </view>
 </view>
+<view class="top-wrapper-pri" wx:if="{{ indefinite_problem.length }}">
+    <text class="top-wrapper-fenge"></text>
+    <text class="top-wrapper-title">不定项题</text>
+</view>
+<view class="wrapper-single-option" style="padding-bottom:110rpx">
+    <view wx:for="{{ indefinite_problem }}" wx:key="index" class=" {{ successOPtion }} {{ item.status == '1' ? 'right': item.status == '0' ? 'false':''}} " catchtap="gobefor"  data-index='{{ item.problem_id }}'>
+        <text > {{index+ 1 + singleNum.length + multipleNum.length + scenes_problem.length + judgmentNum.length + fill_problem.length + short_problem.length }} </text>
+    </view>
+</view>
 <view class="tabbottom">
     <!-- <view class="checkAllAn" >查看全部解析</view> -->
     <view class="goPri" bindtap='goToTest'>查看解析</view>

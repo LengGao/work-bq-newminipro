@@ -180,6 +180,8 @@ let apiurl = {
     getFaceCompareConfig: bq + '/JgPlatform/getFaceCompareConfig',
     getVerificationCode: bq + '/JgPlatform/getVerificationCode',
     submitVerificationCode: bq + '/JgPlatform/submitVerificationCode',
+    idCardAuthentication: bq + '/JgPlatform/idCardAuthentication',
+    whetherNeedFirstFaceDetect: bq + '/JgPlatform/whetherNeedFirstFaceDetect',
   },
   order: {
     video_kaituan: bq + "createpintuan",

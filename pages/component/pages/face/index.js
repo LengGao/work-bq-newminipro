@@ -8,21 +8,25 @@ Page({
   listener: null,
   type: 1,
   isStartRecord: false,
-  second: 15,
   onLoad({
     type,
     lesson_id,
-    video_time
+    video_time,
+    strict,
+    bizCode,
+    recordVideoTime
   }) {
     this.lesson_id = lesson_id
     this.video_time = video_time
     this.type = type
+    this.bizCode = bizCode
+    this.strict = strict
+    this.recordVideoTime = recordVideoTime
+    console.log('strict', strict)
     this.ctx = wx.createCameraContext()
     wx.initFaceDetect()
     this.faceStart()
-    if (type == 2) {
-      this.getFaceCompareConfig()
-    }
+    wx.removeStorageSync('faceSuccess')
   },
 
   onUnload() {
@@ -53,46 +57,58 @@ Page({
         uuid: uuid
       },
       filePath,
-      name:'img',
+      name: 'img',
       formData: {
         video_time: this.video_time,
         biz_code: this.bizCode,
         course_video_lesson_id: this.lesson_id
       },
       success: (res) => {
-        const data = res.data
+        const data = JSON.parse(res.data)
         console.log(data)
         this.setData({
-          faceText: data.code === 0 ? '人脸认证成功' : '人脸认证失败'
+          faceText: data.code == 0 ? '人脸认证成功' : '人脸认证失败'
         })
+        if (data.code != 0 && this.strict == 1) {
+          wx.showModal({
+            content: '人脸认证失败',
+            cancelText: "返回首页",
+            confirmText: '重新认证',
+            success: (res) => {
+              if (res.confirm) {
+                this.faceStart()
+                this.setData({
+                  faceText: '检测不到人脸'
+                })
+              } else if (res.cancel) {
+                wx.reLaunch({
+                  url: '/pages/index/index',
+                })
+              }
+            }
+          })
+        } else {
+          wx.setStorageSync('faceSuccess', 1)
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 1,
+            })
+          }, 1000);
+        }
+
       },
       complete: () => {
-        setTimeout(() => {
-          wx.navigateBack({
-            delta: 1,
-          })
-        }, 1000);
+
       }
     });
   },
-  // 获取bizcode 
-  getFaceCompareConfig() {
-    app.encryption({
-      url: api.video.getFaceCompareConfig,
-      method: "GET",
-      data: {
-        course_video_lesson_id: this.lesson_id
-      },
-      success: (res) => {
-        console.log(res)
-        this.bizCode = res.bizCode
-      }
-    });
-  },
+
   upload(filePath) {
     const uuid = wx.getStorageSync('user_info').uuid
     const token = wx.getStorageSync('user_info').token
-    wx.showLoading()
+    wx.showLoading({
+      title:'上传中'
+    })
     wx.uploadFile({
       url: api.video.submitRecordVideoUrl,
       filePath,
@@ -105,6 +121,7 @@ Page({
         'course_video_lesson_id': this.lesson_id
       },
       success() {
+        wx.setStorageSync('faceSuccess', 1)
         wx.navigateBack({
           delta: 1,
         })
@@ -152,7 +169,7 @@ Page({
     }
   },
   faceStart() {
-    this.second = 2
+    this.second = +this.recordVideoTime + 2
     this.faceStop()
     this.listener = this.ctx.onCameraFrame(this.throttle((frame) => {
       // console.log(frame.data instanceof ArrayBuffer, frame.width, frame.height)
@@ -181,7 +198,7 @@ Page({
               roll,
               yaw
             } = face.angleArray || {}
-            if (Math.abs(pitch) >= 0.4 || Math.abs(roll) >= 0.2 || Math.abs(yaw) >= 0.2) {
+            if ((Math.abs(pitch) >= 0.4 || Math.abs(roll) >= 0.2 || Math.abs(yaw) >= 0.2) && this.type == 2) {
               this.setData({
                 faceText: '请平视摄像头'
               })
@@ -189,12 +206,11 @@ Page({
               this.setData({
                 faceText: '请勿遮挡五官'
               })
-            } else if(face.detectRect.height>550){
+            } else if (face.detectRect.height > 550 && this.type == 2) {
               this.setData({
                 faceText: '将人脸放入圈内'
               })
-            }
-             else {
+            } else {
               if (this.type == 3) {
                 if (this.isStartRecord) {
                   return
@@ -202,7 +218,7 @@ Page({
                 this.isStartRecord = true
                 this.startRecord()
                 this.setData({
-                  faceText: `请保持${this.second}s`
+                  faceText: `请保持`
                 })
                 this.faceStop()
                 this.timer = setInterval(() => {
@@ -213,10 +229,10 @@ Page({
                     this.isStartRecord = false
                     return
                   }
-                  this.second--
                   this.setData({
                     faceText: `请保持${this.second}s`
                   })
+                  this.second--
                 }, 1000);
               } else {
                 !this.data.src && this.takePhoto()

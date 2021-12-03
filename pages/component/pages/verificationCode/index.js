@@ -6,33 +6,22 @@ Page({
   },
   onLoad({
     lesson_id,
-    video_time
+    video_time,
+    strict,
+    bizCode,
+    codeSrc
   }) {
+    this.strict = strict
+    console.log('strict',strict)
     this.lesson_id = lesson_id
+    this.bizCode = bizCode
     this.video_time = video_time
-    this.getVerificationCode()
+    this.setData({
+      codeSrc
+    })
+    wx.removeStorageSync('faceSuccess')
   },
-  // 获取验证码
-  getVerificationCode() {
-    app.encryption({
-      url: api.video.getVerificationCode,
-      method: "GET",
-      data: {
-        course_video_lesson_id: this.lesson_id
-      },
-      success: (res) => {
-        this.bizCode = res.bizCode
-        this.setData({
-          codeSrc: res.verificationImagePath
-        })
-        if(res.code !== 0){
-          wx.navigateBack({
-            delta: 1,
-          })
-        }
-      }
-    });
-  },
+ 
   // 校验验证码
   submitVerificationCode() {
     if (!this.inputValue || this.inputValue.length < 4) {
@@ -48,17 +37,30 @@ Page({
       data: {
         biz_code: this.bizCode,
         video_time: this.video_time,
+        course_video_lesson_id: this.lesson_id,
         verification_code: this.inputValue
       },
       success: (res) => {
-        wx.navigateBack({
-          delta: 1,
-        })
+        console.log(res)
+        if(res.code != 0 && this.strict == 1){
+          wx.showToast({
+            title: '验证码错误',
+            icon:'error'
+          })
+        }else{
+          wx.setStorageSync('faceSuccess', 1)
+          wx.navigateBack({
+            delta: 1,
+          })
+        }
       }
     });
   },
   handleCodeInput(e) {
     console.log(e.detail)
     this.inputValue = e.detail.value
+    if( this.inputValue.length === 4){
+      this.submitVerificationCode()
+    }
   },
 })

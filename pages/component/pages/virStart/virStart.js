@@ -688,14 +688,19 @@ Page({
         let short_problem = list.short_problem || [];//简答
         let indefinite_problem = list.indefinite_problem; //不定项
         totalNum = indefinite_problem.length+single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
+        // 获取用户答案
+        that.userAnswerMap = {}
         //合并数组
         let alltestID = [];
         alltestID = alltestID.concat(single_problem,multiple_problem,judge_problem,indefinite_problem,fill_problem,short_problem,scenes_problem);
-        alltestID = alltestID.map((item)=>item.problem_id)
+        alltestID = alltestID.map((item)=>{
+          that.userAnswerMap[item.problem_id] = item.answer
+          return item.problem_id
+        })
         that.setData({
           all_current_no: totalNum,
           exam_log_id: options.exam_log_id,
-          alltestID: alltestID
+          alltestID: alltestID,
         });
           //开始加载题目详情 
           that.wode(options.problemId, 'nosubmit')
@@ -937,12 +942,18 @@ Page({
         method: 'GET',
         dataType: "json",
         success: function (res) {
+          console.log(res)
           let randerTitle = app.testWxParse(that, res.info)//初始化并解析第一道题目,默认是从第一道题开始加载渲染
+         
           // 判断是否为场景题，如果为场景题则需要循环child并解析富文本
           if (randerTitle.problem_type == 7) {
             if (randerTitle.child != undefined && randerTitle.child.length > 0) {
               randerTitle.child.forEach((val, index) => {
                 val = app.testWxParse(that, val) //将解析后的赋值
+                // 回填用户答案
+                if(that.userAnswerMap && that.userAnswerMap[ID]){
+                  val.option = that.userAnswerMap[ID]
+                }
               });
             }
             that.setData({
@@ -953,6 +964,10 @@ Page({
               curID: randerTitle.child[0].problem_id
             })
             return
+          }
+          // 回填用户答案
+          if(that.userAnswerMap && that.userAnswerMap[ID]){
+            randerTitle.option = that.userAnswerMap[ID]
           }
           //判断结束
           that.setData({

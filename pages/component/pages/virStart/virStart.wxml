@@ -7,7 +7,8 @@
 </wxs>
 <view class='nav bg-white' style='height:{{navH}}px'>
     <view class='nav-title'>
-        <text class="biaoti">模拟考试</text>
+        <text class="biaoti" wx:if="{{nosubmit}}">题目解析</text>
+        <text class="biaoti" wx:else>模拟考试</text>
         <text id="gl1" bindtap="{{lettering}}"></text>
 
     </view>
@@ -32,7 +33,7 @@
                 <!-- 表明是回顾状态下的展示 -->
                 <view style="display:flex;align-items:center;margin-top:30rpx;flex-wrap:wrap"
                     class="wrapper-items {{ vItem.color && randerTitle.option === vItem.option ? 'correct':'' }} {{ vItem.err && randerTitle.option === vItem.option ? 'errorText':'' }} ">
-                    <view class="letter " wx:if="{{ randerTitle.option !== vItem.option && !vItem.color &&  randerTitle.answer !== vItem.option  }}">
+                    <view class="letter " wx:if="{{ !vItem.color &&  randerTitle.answer !== vItem.option  && !vItem.err}}">
                         {{vItem.option}}
                     </view>
                     <image wx:if="{{ vItem.color ||  randerTitle.answer === vItem.option }}" mode="widthFix"
