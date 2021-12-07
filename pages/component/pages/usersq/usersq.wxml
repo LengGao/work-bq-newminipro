@@ -13,9 +13,9 @@
             <icon type="success" size="60" ></icon>
             <view>微信授权成功</view>
             <view class="login_content_v">授权绑定你的手机号码</view>
-            <navigator url="/pages/userPhoneUpdate/userPhoneUpdate?userData={{userData}}&userDa={{userDa}}">
+            <!-- <navigator url="/pages/userPhoneUpdate/userPhoneUpdate?userData={{userData}}&userDa={{userDa}}">
               <view class="login_get_phone com_color">点击绑定其他手机号码</view>
-            </navigator>
+            </navigator> -->
         </view>
         <view class="login_btn_box">
             <button bindtap="cancelPhone">取消</button>
