@@ -853,6 +853,64 @@ Page({
       value2: e.detail.detail.value
     })
   },
+  getUserAuth(options,callback) {
+    // 如果不是分享进来的就不用判断是否授权
+    if(!options.isShare){
+      callback && callback()
+      return
+    }
+    wx.login({ // 判断是否授权，，没有则授权
+      success: (res) => {
+        let code = res.code
+        if (code) {
+          app.request({
+            url: api.user.newLogin,
+            data: {
+              code,
+              version: app.globalData.version
+            },
+            header: {
+              'organization-id': app.globalData.organizationId
+            },
+            method: 'POST',
+            success: (res) => {
+              const data = res.data.param || {}
+              // 错误码不为200去授权
+              if (200 != res.code) {
+                wx.setStorageSync("privateInfor", {
+                  openid: data.openid,
+                  session_key: data.session_key,
+                  unionid: data.unionid,
+                })
+                wx.reLaunch({
+                  url: `../usersq/usersq?courseId=${this.data.courseId}`,
+                })
+              } else {
+                wx.setStorageSync("user_info", {
+                  nickname: data.user_nicename,
+                  avatar_url: data.user_img,
+                  uid: data.uid,
+                  uuid: data.uuid,
+                  token: data.token,
+                  mobile: data.telphone,
+                  is_admin: data.is_admin,
+                  info_show: data.info_show
+                });
+                callback && callback()
+              }
+            },
+            fail: function (e) {
+              wx.showModal({
+                title: "警告",
+                content: e.msg,
+                showCancel: !1
+              });
+            },
+          })
+        }
+      }
+    })
+  },
   onLoad: function (option = {}) {
     console.log(option)
     this.videoContext = wx.createVideoContext('videoPlayer')
@@ -866,11 +924,13 @@ Page({
     this.setData({
       courseId: option.courseId || this.data.courseId,
     });
-    this.courseJgPlatformConfig(option.courseId || this.data.courseId)
-    this.getCourse() //获取课程目录
-    this.coursedetail() //获取课程介绍
-    this.getcomment() //获取课程评论
     this.isOnload = true
+    this.getUserAuth(option,()=>{
+      this.courseJgPlatformConfig(option.courseId || this.data.courseId)
+      this.getCourse() //获取课程目录
+      this.coursedetail() //获取课程介绍
+      this.getcomment() //获取课程评论
+    })
   },
   onReady() {},
   onShow() {
@@ -901,7 +961,7 @@ Page({
   onShareAppMessage: function (res) {
     return {
       title: this.currentPlayData.title,
-      path: "pages/component/pages/course-detail/course-detail?courseId=" + this.data.courseId,
+      path: `pages/component/pages/course-detail/course-detail?courseId=${this.data.courseId}&isShare=1`,
       // imageUrl: t.data.video.share_ico ? t.data.video.share_ico : this.data.video.pic_url,
       success: function (t) {
         console.log("转发成功", t);

@@ -27,6 +27,10 @@ Page({
       // 视频分享码用
         this.videoId = options.videoId
     }
+    if(options.courseId){
+      // 课程详情用
+        this.courseId = options.courseId
+    }
 
   },
   onReady: function () { },
@@ -152,6 +156,12 @@ Page({
           else if(this.videoId){
             wx.reLaunch({
               url: `../video-share/index?id=${this.videoId}`
+            });
+          }
+          // 课程详情页面
+          else if(this.courseId){
+            wx.reLaunch({
+              url: `../course-detail/course-detail?courseId=${this.courseId}&isShare=1`
             });
           }
           else{
