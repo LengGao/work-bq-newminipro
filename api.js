@@ -182,6 +182,8 @@ let apiurl = {
     submitVerificationCode: bq + '/JgPlatform/submitVerificationCode',
     idCardAuthentication: bq + '/JgPlatform/idCardAuthentication',
     whetherNeedFirstFaceDetect: bq + '/JgPlatform/whetherNeedFirstFaceDetect',
+    getSingleVideoInfo: bq + '/SingleVideo/getSingleVideoInfo',
+    singleVideoRecord: bq + '/SingleVideo/singleVideoRecord',
   },
   order: {
     video_kaituan: bq + "createpintuan",

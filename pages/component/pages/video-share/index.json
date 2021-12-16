@@ -1,0 +1,8 @@
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTitleText": "视频播放",
+  "navigationBarTextStyle": "black",
+  "disableScroll":true,
+  "usingComponents": {}
+}

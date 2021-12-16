@@ -200,6 +200,18 @@
           "pathName": "pages/component/pages/yearTestScroll/yearTestScroll",
           "query": "scene=arrange_id%3D5%26class_hour_id%3D5",
           "scene": null
+        },
+        {
+          "name": "pages/component/pages/video-share/index",
+          "pathName": "pages/component/pages/video-share/index",
+          "query": "id=5041",
+          "scene": null
+        },
+        {
+          "name": "微视频通过小程序码进入",
+          "pathName": "pages/component/pages/video-share/index",
+          "query": "scene=id%3D5042",
+          "scene": 1011
         }
       ]
     }

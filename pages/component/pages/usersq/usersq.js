@@ -9,9 +9,9 @@ Page({
     pid: 0,
     isphone: true,
     userData: '',
-    channelId: '',
-    live_class_id: '',
   },
+  channelId: '',
+  live_class_id: '',
   notAuthorized: function () {
     wx.navigateTo({
       url: "../../../../pages/index/index"
@@ -20,10 +20,12 @@ Page({
   onLoad: function (options) {
     if(options.live_class_id){
       // 公开课用
-      this.setData({
-        live_class_id: options.live_class_id,
-        channelId: options.channelId
-      })
+        this.live_class_id = options.live_class_id
+        this.channelId = options.channelId
+    }
+    if(options.videoId){
+      // 视频分享码用
+        this.videoId = options.videoId
     }
 
   },
@@ -137,15 +139,22 @@ Page({
           iv: e.detail.iv,
         },
         success:  (res)=> {
-          console.log(this.data.live_class_id)
           self.setData({
             isphone: !0
           });
-          if(this.data.live_class_id){
+          // 公开课页面
+          if(this.live_class_id){
             wx.reLaunch({
-              url: `../live-class-room/live-class-room?channelId=${this.data.channelId}&live_class_id=${this.data.live_class_id}`
+              url: `../live-class-room/live-class-room?channelId=${this.channelId}&live_class_id=${this.live_class_id}`
             });
-          }else{
+          }
+          // 视频分享码页面
+          else if(this.videoId){
+            wx.reLaunch({
+              url: `../video-share/index?id=${this.videoId}`
+            });
+          }
+          else{
             wx.reLaunch({
               url: '../../../../pages/index/index'
             });

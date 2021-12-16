@@ -13,6 +13,7 @@
     {
       "root": "pages/component/",
       "pages": [
+        "pages/video-share/index",
         "pages/verificationCode/index",
         "pages/face/index",
         "pages/timetable/timetable",

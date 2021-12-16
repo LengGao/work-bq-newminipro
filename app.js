@@ -38,12 +38,12 @@ App({
         })
         // 缓存
         wx.setStorageSync('school_id', 1);
-
+        console.log(66666666666)
     },
     // 新增school_id
     globalData: {
         organizationId: 3,// 机构id
-        version: 196,// 版本号
+        version: 798,// 版本号
         userInfo: null,
         rdsession: "",
         acct_id: 1,
