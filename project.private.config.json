@@ -210,7 +210,7 @@
         {
           "name": "微视频通过小程序码进入",
           "pathName": "pages/component/pages/video-share/index",
-          "query": "scene=id%3D5042",
+          "query": "scene=id%3D5140",
           "scene": 1011
         }
       ]

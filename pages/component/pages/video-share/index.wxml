@@ -17,4 +17,5 @@ initial-time="{{initTime}}"
         <cover-view class="panel-item {{activeSpeedValue === item.value?'actived':''}}" catchtap="handleSpeedChange" wx:for="{{speedArr}}"  wx:key="index" data-val="{{item.value}}" wx:if="{{isShowSpeed}}">{{item.name}}</cover-view>
         <cover-view class="panel-item {{activeQualityValue === item.value?'actived':''}}" wx:for="{{qualityArr}}" wx:key="index" catchtap="handleQualityChange" data-val="{{item.value}}"  wx:if="{{isShowQuality}}">{{item.name}}</cover-view>
     </cover-view>
+    <image class="logo" src="../../../../imgs/video-logo.png"></image>
 </video>

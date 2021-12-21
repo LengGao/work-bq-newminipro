@@ -39,3 +39,10 @@ page{
    .video-control-panel .panel-item.actived{
     color: #199fff;
     }
+    .logo{
+        position: absolute;
+        left: 20rpx;
+        top: 20rpx;
+        width: 170rpx;
+        height: 48rpx;
+    }

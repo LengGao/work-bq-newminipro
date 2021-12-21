@@ -147,7 +147,9 @@
                     </view>
                     <text class="personal-name">{{ myCourse.teacher_name }}</text>
                 </view>
-                <view class="buy-satatus buy-satatus--{{myCourse.is_buy === 1?'success':'warning'}}">{{myCourse.is_buy === 1?'已报读':'未报读'}}</view>
+                <view class="buy-satatus buy-satatus--success" wx:if="{{myCourse.is_buy === 1}}">已报读</view>
+                <view class="buy-satatus buy-satatus--success" wx:if="{{myCourse.is_buy === 2}}">已毕业</view>
+                <view class="buy-satatus buy-satatus--warning" wx:if="{{myCourse.is_buy === 0}}">未报读</view>
             </view>
         </view>
     </view>
