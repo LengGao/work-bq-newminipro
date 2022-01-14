@@ -104,21 +104,21 @@ Page({
     shortSceneMap: '',
     fillNewAnswer: [],
     isfullScreen: false, //答题选项是否布满
-    sceneShortMaskShow:false,//场景题简答遮罩层
+    sceneShortMaskShow: false, //场景题简答遮罩层
   },
   fullScreen(e) {
     //判断是否是第一次点击提示文字
-    let senceFullScreen  = wx.getStorageSync("senceFullScreen")
-   if(senceFullScreen){
-     
-   }else{
-    wx.showToast({
-      title: '点击灰色箭头可查看下方案例小题',
-      icon: 'none',
-      duration: 4000
-    })
-    wx.setStorageSync("senceFullScreen",true);
-   }
+    let senceFullScreen = wx.getStorageSync("senceFullScreen")
+    if (senceFullScreen) {
+
+    } else {
+      wx.showToast({
+        title: '点击灰色箭头可查看下方案例小题',
+        icon: 'none',
+        duration: 4000
+      })
+      wx.setStorageSync("senceFullScreen", true);
+    }
     let screenHeight = wx.getSystemInfoSync().windowHeight
     let answerScroll = screenHeight - app.globalData.navHeight - 150
     console.log(answerScroll)
@@ -301,7 +301,7 @@ Page({
     let that = this
     let curID = that.data.curID
     console.log(curID)
-    if ([2,4].includes(that.data.randerTitle.problem_type)) { //多选题在此提交答案
+    if ([2, 4].includes(that.data.randerTitle.problem_type)) { //多选题在此提交答案
       if (that.data.randerTitle.hasSubmit) { // 表明已提交过答案
       } else {
         let multiselect = that.data.multiselect
@@ -532,7 +532,7 @@ Page({
         multiselect: multiselect.toString() + ','
       })
     }
-      if (answer.includes(option)) {
+    if (answer.includes(option)) {
       console.log(option)
       color.color = true
       console.log(this.data.removeColorOption == option)
@@ -560,9 +560,9 @@ Page({
     console.log(this.data.randerTitle)
   },
   // 显示案例题下面的填空题的答案
-  showCompletionAnswer(){
+  showCompletionAnswer() {
     this.setData({
-      multiSceneshowAny:!this.data.multiSceneshowAny
+      multiSceneshowAny: !this.data.multiSceneshowAny
     })
   },
   showAnswer() {
@@ -620,7 +620,7 @@ Page({
     }
   },
   showSenceAnswer() {
- this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = false
+    this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer = false
     if (this.data.activeSenceAnswer == 'activeAnswer') {
       this.setData({
         answerSenceImg: 'https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/hideAnswer.png',
@@ -687,6 +687,7 @@ Page({
       dataType: "json",
       success: function (res) {
         console.log(res)
+        res.list = res.list || []
         let index = res.list.findIndex((value) => value.problem_id == that.data.answer_location)
         for (let i = 0; i <= index; i++) {
           if (res.list[i].problem_id == that.data.randerTitle.problem_id) {
@@ -762,10 +763,10 @@ Page({
         let scenes_problem = list.scenes_problem; //场景
         let short_problem = list.short_problem; //简答
         let indefinite_problem = list.indefinite_problem; //不定项
-        totalNum = indefinite_problem.length+single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
+        totalNum = indefinite_problem.length + single_problem.length + multiple_problem.length + scenes_problem.length + judge_problem.length + fill_problem.length + short_problem.length;
         //合并数组
         let alltestID = [];
-        alltestID = alltestID.concat(single_problem,multiple_problem,judge_problem,indefinite_problem,fill_problem,short_problem,scenes_problem);
+        alltestID = alltestID.concat(single_problem, multiple_problem, judge_problem, indefinite_problem, fill_problem, short_problem, scenes_problem);
         that.setData({
           all_current_no: totalNum,
           practice_id: res.practice_id,
@@ -845,8 +846,8 @@ Page({
             randerTitle: that.data.randerTitle,
             SceneValue: '', //场景模式下填空清空
             shortSceneMap: '', //场景模式下简答清空
-            shortMap: '' ,//简答题清空
-            fillNewAnswer:[]//填空题清空
+            shortMap: '', //简答题清空
+            fillNewAnswer: [] //填空题清空
           })
           console.log(that.data.randerTitle)
           let curRander = that.data.randerTitle;
@@ -865,22 +866,31 @@ Page({
             })
           }
 
+        }else {
+            wx.showModal({
+              title: '提示',
+              content:res.data.message,
+              showCancel:false,
+              success(){
+                that.goback()
+              }
+            })
         }
       }
     })
   },
   sceneCommon() {
     // if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
-      if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
-      } else {
-        if (this.data.multiselect != '') {
-          this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
-        } else if (this.data.SceneValue != '') {
-          this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
-        } else if (this.data.shortSceneMap != '') {
-          this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
-        }
+    if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
+    } else {
+      if (this.data.multiselect != '') {
+        this.submitAnswer(this.data.multiselect, this.data.senceIndex - 1)
+      } else if (this.data.SceneValue != '') {
+        this.submitAnswer(this.data.SceneValue, this.data.senceIndex - 1)
+      } else if (this.data.shortSceneMap != '') {
+        this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
       }
+    }
     // }else{
     //   this.submitAnswer(this.data.shortSceneMap, this.data.senceIndex - 1)
     // }
@@ -949,7 +959,7 @@ Page({
         icon: 'none',
         duration: 2000
       })
-      if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
+      if ([2, 4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
@@ -957,7 +967,7 @@ Page({
         }
       }
     } else {
-      if ([2,4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
+      if ([2, 4].includes(this.data.randerTitle.child[this.data.senceIndex - 1].problem_child_type)) { //多选题在此提交答案
         if (this.data.randerTitle.child[this.data.senceIndex - 1].hasSubmit) { // 表明已提交过答案
         } else {
           let multiselect = this.data.multiselect
@@ -1010,7 +1020,7 @@ Page({
         dataType: "json",
         success: function (res) {
 
-          console.log(res, res.info.problem_type)
+          console.log(res, res.info)
           let randerTitle = app.testWxParse(that, res.info) //初始化并解析第一道题目,默认是从第一道题开始加载渲染
           console.log(randerTitle)
           randerTitle.showAnswer = false
@@ -1132,65 +1142,83 @@ Page({
     });
   },
   goback() {
-    let that = this
-    wx.showModal({
-      title: '提示',
-      content: '你正在进行章节练习，是否保存当前做题记录？',
-      showCancel: true, //是否显示取消按钮
-      cancelText: "不保存", //默认是“取消”
-      cancelColor: '#333333', //取消文字的颜色
-      confirmText: "保存", //默认是“确定”
-      confirmColor: '#199FFF', //确定文字的颜色
-      success: function (res) {
-        let is_lock
-        if (res.cancel) {
-          is_lock = 0
-          wx.showLoading({
-            title: '正在清除进度...',
-          })
-          //点击取消,默认隐藏弹框
-        } else {
-          is_lock = 1
-          wx.showLoading({
-            title: '正在保存进度...',
-          })
-        }
-        let option = {
-          practice_id: that.data.practice_id,
-          is_lock: is_lock
-        }
-        console.log(is_lock)
-        console.log(option)
-        app.encryption({
-          url: api.test.archivePracticeData,
-          data: option,
-          method: 'POST',
-          dataType: "json",
-          success: function (res) {
-            console.log(res)
-            wx.showToast({
-              title: res.data.message,
-              icon: 'none',
-              duration: 2000
-            })
-            wx.hideLoading()
-            let pages = getCurrentPages(); // 当前页面
-            let beforePage = pages[pages.length - 2];
-            let courseId = that.data.courseId
-            wx.navigateBack({
-              success: function () {
-                beforePage.onLoad({
-                  courseId: courseId
-                });
-              }
-            });
-          },
-          fail: function (n) {
-            console.log('333333')
-          }
-        })
-      }
+    let option = {
+      practice_id: this.data.practice_id,
+      is_lock: 1
+    }
+    app.encryption({
+      url: api.test.archivePracticeData,
+      data: option,
+      method: 'POST',
     })
+    let pages = getCurrentPages(); // 当前页面
+    let beforePage = pages[pages.length - 2];
+    wx.navigateBack({
+      success :()=> {
+        beforePage.onLoad({
+          courseId: this.data.courseId
+        });
+      }
+    });
+    // let that = this
+    // wx.showModal({
+    //   title: '提示',
+    //   content: '你正在进行章节练习，是否保存当前做题记录？',
+    //   showCancel: true, //是否显示取消按钮
+    //   cancelText: "不保存", //默认是“取消”
+    //   cancelColor: '#333333', //取消文字的颜色
+    //   confirmText: "保存", //默认是“确定”
+    //   confirmColor: '#199FFF', //确定文字的颜色
+    //   success: function (res) {
+    //     let is_lock
+    //     if (res.cancel) {
+    //       is_lock = 0
+    //       wx.showLoading({
+    //         title: '正在清除进度...',
+    //       })
+    //       //点击取消,默认隐藏弹框
+    //     } else {
+    //       is_lock = 1
+    //       wx.showLoading({
+    //         title: '正在保存进度...',
+    //       })
+    //     }
+    //     let option = {
+    //       practice_id: that.data.practice_id,
+    //       is_lock: is_lock
+    //     }
+    //     console.log(is_lock)
+    //     console.log(option)
+    //     app.encryption({
+    //       url: api.test.archivePracticeData,
+    //       data: option,
+    //       method: 'POST',
+    //       dataType: "json",
+    //       success: function (res) {
+    //         console.log(res)
+    //         wx.showToast({
+    //           title: res.data.message,
+    //           icon: 'none',
+    //           duration: 2000
+    //         })
+    //         wx.hideLoading()
+    //         let pages = getCurrentPages(); // 当前页面
+    //         let beforePage = pages[pages.length - 2];
+    //         let courseId = that.data.courseId
+    //         wx.navigateBack({
+    //           success: function () {
+    //             beforePage.onLoad({
+    //               courseId: courseId
+    //             });
+    //           }
+    //         });
+    //       },
+    //       fail: function (n) {
+    //         console.log('333333')
+    //       }
+    //     })
+    //   }
+    // })
   },
   onLoad: function (options = {}) {
     this.setData({
@@ -1232,7 +1260,7 @@ Page({
   onShow: function () {},
   onHide: function () {
     clearTimeout(t);
-    if ([2,4].includes(this.data.randerTitle.problem_type)) {
+    if ([2, 4].includes(this.data.randerTitle.problem_type)) {
       this.setData({
         multiselecting: []
       })
@@ -1414,8 +1442,8 @@ Page({
       })
     }
   },
-  showSceneShortMask(){
-    if( this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer) {
+  showSceneShortMask() {
+    if (this.data.randerTitle.child[this.data.senceIndex - 1].showAnswer) {
       wx.showToast({
         title: '答案已出,当前题目无法作答',
         icon: 'none',
@@ -1423,11 +1451,11 @@ Page({
       })
       return
     }
-    if(this.data.sceneShortMaskShow==false && this.data.isfullScreen ==false){
+    if (this.data.sceneShortMaskShow == false && this.data.isfullScreen == false) {
       this.fullScreen()
     }
     this.setData({
-      sceneShortMaskShow:!this.data.sceneShortMaskShow
+      sceneShortMaskShow: !this.data.sceneShortMaskShow
     })
   },
   updateShortValue(event) {
@@ -1446,7 +1474,7 @@ Page({
   },
   updateShorScenetValue(event) {
     let value = event.detail.value
-   this.data.randerTitle.child[this.data.senceIndex - 1].shortMap = value
+    this.data.randerTitle.child[this.data.senceIndex - 1].shortMap = value
     // this.data.randerTitle.shortMap = value
     this.setData({
       shortSceneMap: value,

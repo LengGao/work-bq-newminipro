@@ -142,6 +142,9 @@ page {
     padding: 18rpx 20rpx;
     width: 100%;
 }
+.wrapper-items .wxParse-img{
+    width: 100% !important;
+}
 .correct{
     background:rgba(255,255,255,1);
     border:1rpx solid #199FFF;

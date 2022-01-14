@@ -43,7 +43,7 @@ App({
     // 新增school_id
     globalData: {
         organizationId: 3,// 机构id
-        version: 28,// 版本号
+        version: 1220,// 版本号
         userInfo: null,
         rdsession: "",
         acct_id: 1,
@@ -178,7 +178,7 @@ App({
                         fail: function () { }, //接口调用失败的回调函数  
                         complete: function () { } //接口调用结束的回调函数  
                     })
-                } else if (n.data.code == 1) {
+                } else if (n.data.code == 1 && e.url.indexOf('problem/submitAnswer') == -1) {
                     wx.showToast({
                         title: n.data.message ? n.data.message : "失败", //提示文字
                         duration: 2000, //显示时长
@@ -186,6 +186,7 @@ App({
                         icon: 'none', //图标，支持"success"、"loading"  
                     })
                 }
+             
                 let data
                 if (n.data.data.length != undefined && n.data.data.length == 0 && n.data.data) {
                     e.success && e.success(n);
