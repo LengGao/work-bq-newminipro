@@ -19,7 +19,7 @@
 </view>
 <view class="card">
     <!-- <navigator class="chapter-item" hoverClass="none" url="../test/test?id=1&chapter_id=1"> -->
-    <view wx:for="{{ reader }}" wx:key="index" class="wrapper-class" data-cid = '{{item.problem_chapter_id}}' data-total="{{item.total_problem}}" bindtap='gopri' data-hasdone='{{item.is_lock}}' data-name="{{ item.chapter_name }}">
+    <view wx:for="{{ reader }}" wx:key="index" class="wrapper-class" data-cid = '{{item.problem_chapter_id}}' data-total="{{item.total_problem}}" bindtap='gopri' data-hasdone='{{item.do_problem?1:0}}' data-name="{{ item.chapter_name }}">
         <image mode="widthFix" src="https://minproimg.oss-cn-hangzhou.aliyuncs.com/images/reader.png" style="width:26rpx;height:26rpx;margin-top:8rpx"/>
         <view class="card-items" class="wrapper-content">
             <text class="title-card">{{ item.chapter_name }}</text>

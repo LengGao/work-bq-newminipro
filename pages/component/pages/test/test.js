@@ -362,7 +362,12 @@ Page({
     //首先获取下一题的ID
     let curindex = that.data.curIndexNumber - 1; // 当前下标
     if (curindex + 1 > that.data.all_current_no - 1) {
-      this.goback()
+      // this.goback()
+      wx.showToast({
+        title: '已经是最后一道题了',
+        icon: 'none',
+        duration: 1000
+      })
       return
     }
     let curId = that.data.alltestID[curindex + 1]; // 获取下一题ID
@@ -774,7 +779,7 @@ Page({
           answer_location: res.answer_location
         });
         //开始渲染题目,首先检测缓存是否有当前题目ID，如果有则直接提取作，没有则请求接口获取题目详情
-        let text_location = res.answer_location; //上一次缓存的题目ID,如果没有缓存也代表第一道题
+        let text_location = res.answer_location || alltestID[0]; //上一次缓存的题目ID,如果没有缓存也代表第一道题
         //查找当前题目下标
         that.findcurIndex(text_location, alltestID, 0);
         //开始加载题目详情
@@ -1232,7 +1237,9 @@ Page({
     //先去请求所有题目的id，当点击下一题目的时候用id换题目,获取上次的记录答案
     let that = this
     console.log(options)
-    let redo = 0
+    let redo ;
+    // let redo = 1
+    // that.getAlltestNumber(options, redo)
     if (options.hasdone == 1) {
       wx.showModal({
         title: '提示',
