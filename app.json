@@ -27,7 +27,6 @@
         "pages/buyStatus/buyStatus",
         "pages/learnStatus/learnStatus",
         "pages/AllTestScore/AllTestScore",
-        "pages/personalInfor/personalInfor",
         "pages/collectionAll/collectionAll",
         "pages/switchScore/switchScore",
         "pages/switchUser/switchUser",
