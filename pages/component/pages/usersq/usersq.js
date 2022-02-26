@@ -17,20 +17,33 @@ Page({
       url: "../../../../pages/index/index"
     });
   },
+  odjToString(obj){
+    let arr = []
+    for(const k in obj){
+      arr.push(`${k}=${obj[k]}`)
+    }
+    return arr.join('&')
+  },
   onLoad: function (options) {
-    if(options.live_class_id){
-      // 公开课用
-        this.live_class_id = options.live_class_id
-        this.channelId = options.channelId
-    }
-    if(options.videoId){
-      // 视频分享码用
-        this.videoId = options.videoId
-    }
-    if(options.courseId){
-      // 课程详情用
-        this.courseId = options.courseId
-    }
+    this.options = options
+    // if(options.chapterName){
+    //   // 自主出题用
+    //     this.live_class_id = options.live_class_id
+    //     this.channelId = options.channelId
+    // }
+    // if(options.live_class_id){
+    //   // 公开课用
+    //     this.live_class_id = options.live_class_id
+    //     this.channelId = options.channelId
+    // }
+    // if(options.videoId){
+    //   // 视频分享码用
+    //     this.videoId = options.videoId
+    // }
+    // if(options.courseId){
+    //   // 课程详情用
+    //     this.courseId = options.courseId
+    // }
 
   },
   onReady: function () { },
@@ -146,22 +159,29 @@ Page({
           self.setData({
             isphone: !0
           });
+          const {live_class_id,videoId,courseId,chapterName} = this.options
           // 公开课页面
-          if(this.live_class_id){
+          if(live_class_id){
             wx.reLaunch({
-              url: `../live-class-room/live-class-room?channelId=${this.channelId}&live_class_id=${this.live_class_id}`
+              url: `../live-class-room/live-class-room?${this.odjToString(this.options)}`
             });
           }
           // 视频分享码页面
-          else if(this.videoId){
+          else if(videoId){
             wx.reLaunch({
-              url: `../video-share/index?id=${this.videoId}`
+              url: `../video-share/index?${this.odjToString(this.options)}`
+            });
+          }
+          // 自主出题试卷页面
+          else if(chapterName){
+            wx.reLaunch({
+              url: `../determinationIntro/determinationIntro?${this.odjToString(this.options)}`
             });
           }
           // 课程详情页面
-          else if(this.courseId){
+          else if(courseId){
             wx.reLaunch({
-              url: `../course-detail/course-detail?courseId=${this.courseId}&isShare=1`
+              url: `../course-detail/course-detail?${this.odjToString(this.options)}`
             });
           }
           else{

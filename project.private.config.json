@@ -212,6 +212,15 @@
           "pathName": "pages/component/pages/video-share/index",
           "query": "scene=id%3D5140",
           "scene": 1011
+        },
+        {
+          "name": "",
+          "pathName": "pages/component/pages/determinationIntro/determinationIntro",
+          "query": "chapterId=610&courseId=14&chapterName=test&isShare=1",
+          "scene": 1036,
+          "referrerInfo": {
+            "appId": "wx0eb278739baa3ca1"
+          }
         }
       ]
     }
